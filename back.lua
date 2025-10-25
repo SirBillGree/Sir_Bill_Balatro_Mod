@@ -120,29 +120,26 @@ args can contain:
 Triggers anaglyph and plasma's effects.
 If adding new decks, may need to add instances where trigger_effect is called
 
-CHANGE THE NAME CHECKS TO A CONFIGURATION
-- self.name == 'Anaglyph Deck' => self.effect.config.boss_reward == 'tag_double'
-- self.name == 'Plasma Deck'   => self.effect.config.normalize_chips
 - Change "back" configurations in game.lua (line 626)
 ]]--
 function Back:trigger_effect(args)
     if not args then return end
     
-    if self.name == 'Anaglyph Deck' and args.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
+    if self.effect.config.boss_reward and args.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
         G.E_MANAGER:add_event(Event({
             func = (function()
-                add_tag(Tag('tag_double'))
+                add_tag(Tag(self.effect.config.boss_reward)) -- Note: only tags work as rewards
                 play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                 play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
                 return true
             end)
         }))
     end
-    if self.name == 'Plasma Deck' and args.context == 'blind_amount' then
+    if self.effect.config.normalize_chips and args.context == 'blind_amount' then
         return 
     end
 
-    if self.name == 'Plasma Deck' and args.context == 'final_scoring_step' then
+    if self.effect.config.normalize_chips and args.context == 'final_scoring_step' then
         local tot = args.chips + args.mult
         args.chips = math.floor(tot/2)
         args.mult = math.floor(tot/2)
