@@ -636,11 +636,11 @@ function Game:init_item_prototypes()
         b_nebula=           {name = "Nebula Deck",      stake = 1, unlocked = false,order = 7, pos =  {x=3,y=0}, set = "Back", config = {voucher = 'v_telescope', consumable_slot = -1}, unlock_condition = {type = 'win_deck', deck = 'b_blue'}},
         b_ghost=            {name = "Ghost Deck",       stake = 1, unlocked = false,order = 8, pos =  {x=6,y=2}, set = "Back", config = {spectral_rate = 2, consumables = {'c_hex'}}, unlock_condition = {type = 'win_deck', deck = 'b_yellow'}},
         b_abandoned=        {name = "Abandoned Deck",   stake = 1, unlocked = false,order = 9, pos =  {x=3,y=3}, set = "Back", config = {remove_faces = true}, unlock_condition = {type = 'win_deck', deck = 'b_green'}},
-        b_checkered=        {name = "Checkered Deck",   stake = 1, unlocked = false,order = 10,pos =  {x=1,y=3}, set = "Back", config = {normalize_chips = true}, unlock_condition = {type = 'win_deck', deck = 'b_black'}},
+        b_checkered=        {name = "Checkered Deck",   stake = 1, unlocked = false,order = 10,pos =  {x=1,y=3}, set = "Back", config = {two_suits = true}, unlock_condition = {type = 'win_deck', deck = 'b_black'}},
         b_zodiac=           {name = "Zodiac Deck",      stake = 1, unlocked = false,order = 11, pos = {x=3,y=4}, set = "Back", config = {vouchers = {'v_tarot_merchant','v_planet_merchant', 'v_overstock_norm'}}, unlock_condition = {type = 'win_stake', stake = 2}},
         b_painted=          {name = "Painted Deck",     stake = 1, unlocked = false,order = 12, pos = {x=4,y=3}, set = "Back", config = {hand_size = 2, joker_slot = -1}, unlock_condition = {type = 'win_stake', stake=3}},
         b_anaglyph=         {name = "Anaglyph Deck",    stake = 1, unlocked = false,order = 13, pos = {x=2,y=4}, set = "Back", config = {boss_reward = 'tag_double'}, unlock_condition = {type = 'win_stake', stake = 4}},
-        b_plasma=           {name = "Plasma Deck",      stake = 1, unlocked = false,order = 14, pos = {x=4,y=2}, set = "Back", config = {ante_scaling = 2}, unlock_condition = {type = 'win_stake', stake=5}},
+        b_plasma=           {name = "Plasma Deck",      stake = 1, unlocked = false,order = 14, pos = {x=4,y=2}, set = "Back", config = {ante_scaling = 2, normalize_chips = true}, unlock_condition = {type = 'win_stake', stake=5}},
         b_erratic=          {name = "Erratic Deck",     stake = 1, unlocked = false,order = 15, pos = {x=2,y=3}, set = "Back", config = {randomize_rank_suit = true}, unlock_condition = {type = 'win_stake', stake=7}},
     
         b_challenge=        {name = "Challenge Deck",   stake = 1, unlocked = true,order = 16, pos = {x=0,y=4}, set = "Back", config = {}, omit = true}, 
@@ -2344,8 +2344,17 @@ function Game:start_run(args)
             card_protos = {}
             for k, v in pairs(self.P_CARDS) do
                 local _ = nil
-                -- Randomizes for erratic desk
+                -- Randomizes for erratic deck
                 if self.GAME.starting_params.erratic_suits_and_ranks then _, k = pseudorandom_element(G.P_CARDS, pseudoseed('erratic')) end
+                -- 4=>2 suits for checkered deck
+                if self.GAME.starting_params.four_to_two_suits then 
+                    if k.base.suit == 'Clubs' then 
+                        k:change_suit('Spades')
+                    end
+                    if k.base.suit == 'Diamonds' then 
+                        k:change_suit('Hearts')
+                    end
+                end
                 local _r, _s = string.sub(k, 3, 3), string.sub(k, 1, 1)
                 local keep, _e, _d, _g = true, nil, nil, nil
                 if _de then

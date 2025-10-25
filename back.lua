@@ -255,26 +255,11 @@ function Back:apply_to_run()
         end
     end
 
-    --[[
-        - self.name == 'Checkered Deck' => self.effect.config.two_suits
-        - Move implementation to game.lua (line 2435) AFTER erratic_suits_and_ranks
-        - Change "back" configurations in game.lua (line 626)
-    ]]
-    if self.name == 'Checkered Deck' then
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                for k, v in pairs(G.playing_cards) do
-                    if v.base.suit == 'Clubs' then 
-                        v:change_suit('Spades')
-                    end
-                    if v.base.suit == 'Diamonds' then 
-                        v:change_suit('Hearts')
-                    end
-                end
-            return true
-            end
-        }))
+    -- Changed implementation for checkered deck
+    if self.effect.config.two_suits then
+        G.GAME.starting_params.four_to_two_suits = true
     end
+
     if self.effect.config.randomize_rank_suit then
         G.GAME.starting_params.erratic_suits_and_ranks = true
     end
