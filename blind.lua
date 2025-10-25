@@ -75,6 +75,7 @@ function Blind:set_text()
     end
 end
 
+-- Called when player enters the blind
 function Blind:set_blind(blind, reset, silent)
     if not reset then
         self.config.blind = blind or {}
@@ -461,6 +462,7 @@ function Blind:draw()
     add_to_drawhash(self)
 end
 
+-- When the player plays a hand
 function Blind:press_play()
     if self.disabled then return end
     if self.name == "The Hook" then

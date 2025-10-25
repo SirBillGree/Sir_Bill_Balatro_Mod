@@ -213,6 +213,7 @@ function Game:start_up()
     boot_timer('splash prep', 'end',1)
 end
 
+-- Defines all objects (cards, vochers, tags, stakes, etc...) with configs
 function Game:init_item_prototypes()
     --Initialize all prototypes for units/items
     self.P_SEALS = {
@@ -361,6 +362,7 @@ function Game:init_item_prototypes()
     self.v_undiscovered = {unlocked = false, max = 1, name = "Locked", pos = {x=8,y=2}, set = "Voucher", cost_mult = 1.0,config = {}}
     self.booster_undiscovered = {unlocked = false, max = 1, name = "Locked", pos = {x=0,y=5}, set = "Booster", cost_mult = 1.0,config = {}}
 
+    -- Jokers, Backs, Enhancements, editions, booster-packs 
     self.P_CENTERS = {
         c_base={max = 500, freq = 1, line = 'base', name = "Default Base", pos = {x=1,y=0}, set = "Default", label = 'Base Card', effect = "Base", cost_mult = 1.0, config = {}},
 
@@ -819,6 +821,7 @@ function Game:init_item_prototypes()
             if v.set and v.set ~= 'Joker' and not v.skip_pool and not v.omit then table.insert(self.P_CENTER_POOLS[v.set], v) end
             if v.set == 'Tarot' or v.set == 'Planet' then table.insert(self.P_CENTER_POOLS['Tarot_Planet'], v) end
             if v.consumeable then table.insert(self.P_CENTER_POOLS['Consumeables'], v) end
+            -- Fill rarity table based off rarity index in joker config 
             if v.rarity and v.set == 'Joker' and not v.demo then table.insert(self.P_JOKER_RARITY_POOLS[v.rarity], v) end
         end
     end
@@ -2305,6 +2308,7 @@ function Game:start_run(args)
         end)
     }))
 
+    -- If loading existing game:
     if saveTable then 
         local cardAreas = saveTable.cardAreas
         for k, v in pairs(cardAreas) do
@@ -2324,6 +2328,7 @@ function Game:start_run(args)
             v:hard_set_cards()
         end
         table.sort(G.playing_cards, function (a, b) return a.playing_card > b.playing_card end )
+    -- If making a new game
     else
         local card_protos = nil
         local _de = nil
@@ -2339,6 +2344,7 @@ function Game:start_run(args)
             card_protos = {}
             for k, v in pairs(self.P_CARDS) do
                 local _ = nil
+                -- Randomizes for erratic desk
                 if self.GAME.starting_params.erratic_suits_and_ranks then _, k = pseudorandom_element(G.P_CARDS, pseudoseed('erratic')) end
                 local _r, _s = string.sub(k, 3, 3), string.sub(k, 1, 1)
                 local keep, _e, _d, _g = true, nil, nil, nil

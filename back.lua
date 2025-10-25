@@ -2,6 +2,8 @@
 Back = Object:extend()
 
 --Class Methods
+
+--Creation
 function Back:init(selected_back)
     if not selected_back then selected_back = G.P_CENTERS.b_red end
     self.name = selected_back.name or 'Red Deck'
@@ -9,7 +11,7 @@ function Back:init(selected_back)
     self.effect = {
         center = selected_back,
         text_UI = '',
-        config = copy_table(selected_back.config)
+        config = copy_table(selected_back.config) -- game.lua (line 628)
     }
     self.loc_name = localize{type = 'name_text', set = 'Back', key = self.effect.center.key}
 
@@ -23,6 +25,7 @@ function Back:get_name()
     if self.effect.center.unlocked then return self.loc_name else return localize('k_locked') end
 end
 
+-- UI for deck selection
 function Back:generate_UI(other, ui_scale, min_dims, challenge)
     min_dims = min_dims or 0.7
     ui_scale = ui_scale or 0.9
@@ -33,6 +36,7 @@ function Back:generate_UI(other, ui_scale, min_dims, challenge)
 
     local loc_args, loc_nodes = nil, {}
 
+    -- If not unlocked, tell them how to unlock it
     if not back_config.unlocked then
         if not back_config.unlock_condition then 
             localize{type = 'descriptions', key = 'demo_locked', set = "Other", nodes = loc_nodes, vars = loc_args}
@@ -51,6 +55,7 @@ function Back:generate_UI(other, ui_scale, min_dims, challenge)
             loc_args = {other_name, colours = {get_stake_col(back_config.unlock_condition.stake)}}
             localize{type = 'descriptions', key = 'deck_locked_stake', set = "Other", nodes = loc_nodes, vars = loc_args}
         end
+    -- If unlocked, define effects (like the plant merchant description) and print description
     else
         if name_to_check == 'Blue Deck' then loc_args = {effect_config.hands}
         elseif name_to_check == 'Red Deck' then loc_args = {effect_config.discards}
@@ -80,6 +85,7 @@ function Back:generate_UI(other, ui_scale, min_dims, challenge)
     }}
 end
 
+-- Changes demo deck when selecting decks in deck selection menu
 function Back:change_to(new_back)
     if not new_back then new_back = G.P_CENTERS.b_red end
     self.name = new_back.name or 'Red Deck'
@@ -105,6 +111,20 @@ function Back:save()
     return backTable
 end
 
+--[[
+args can contain:
+- args.context
+- args.chips
+- args.mult
+
+Triggers anaglyph and plasma's effects.
+If adding new decks, may need to add instances where trigger_effect is called
+
+CHANGE THE NAME CHECKS TO A CONFIGURATION
+- self.name == 'Anaglyph Deck' => self.effect.config.boss_reward == 'tag_double'
+- self.name == 'Plasma Deck'   => self.effect.config.normalize_chips
+- Change "back" configurations in game.lua (line 626)
+]]--
 function Back:trigger_effect(args)
     if not args then return end
     
@@ -171,6 +191,7 @@ function Back:trigger_effect(args)
     end
 end
 
+-- Modifies base deck with params
 function Back:apply_to_run()
 
     if self.effect.config.voucher then
@@ -236,6 +257,12 @@ function Back:apply_to_run()
             Card.apply_to_run(nil, G.P_CENTERS[v])
         end
     end
+
+    --[[
+        - self.name == 'Checkered Deck' => self.effect.config.two_suits
+        - Move implementation to game.lua (line 2435) AFTER erratic_suits_and_ranks
+        - Change "back" configurations in game.lua (line 626)
+    ]]
     if self.name == 'Checkered Deck' then
         G.E_MANAGER:add_event(Event({
             func = function()
