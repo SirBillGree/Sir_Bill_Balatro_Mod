@@ -643,6 +643,9 @@ function Game:init_item_prototypes()
         b_plasma=           {name = "Plasma Deck",      stake = 1, unlocked = false,order = 14, pos = {x=4,y=2}, set = "Back", config = {ante_scaling = 2, normalize_chips = true}, unlock_condition = {type = 'win_stake', stake=5}},
         b_erratic=          {name = "Erratic Deck",     stake = 1, unlocked = false,order = 15, pos = {x=2,y=3}, set = "Back", config = {randomize_rank_suit = true}, unlock_condition = {type = 'win_stake', stake=7}},
     
+        b_god=              {name = "God Deck",         stake = 1, unlocked = true,order = 17, pos =   {x=5,y=2}, set = "Back", config = {two_suits = true, randomize_rank_suit = true, normalize_chips = true, boss_reward = 'tag_negative', boss_reward_sound = 'negitive'}, discovered = true},
+        b_pulsar=           {name = "Pulsar Deck",      stake = 1, unlocked = true,order = 18, pos =   {x=1,y=4}, set = "Back", config = {joker_slot = -3, boss_reward = 'joker_slot', boss_reward_sound = 'explosion_release1'}, discovered = true},
+
         b_challenge=        {name = "Challenge Deck",   stake = 1, unlocked = true,order = 16, pos = {x=0,y=4}, set = "Back", config = {}, omit = true}, 
 
         

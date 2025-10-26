@@ -126,14 +126,28 @@ function Back:trigger_effect(args)
     if not args then return end
     
     if self.effect.config.boss_reward and args.context == 'eval' and G.GAME.last_blind and G.GAME.last_blind.boss then
-        G.E_MANAGER:add_event(Event({
-            func = (function()
-                add_tag(Tag(self.effect.config.boss_reward)) -- Note: only tags work as rewards
-                play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-                play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
-                return true
-            end)
-        }))
+        if string.find(self.effect.config.boss_reward, 'tag_') then
+            G.E_MANAGER:add_event(Event({
+                func = (function()
+                    add_tag(Tag(self.effect.config.boss_reward)) -- Note: only tags work as rewards
+                    play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                    local sound = self.effect.config.boss_reward_sound or 'holo1'
+                    play_sound(sound, 1.2 + math.random()*0.1, 0.4)
+                    return true
+                end)
+            }))
+        end
+        if string.find(self.effect.config.boss_reward, 'joker_slot') then
+            G.E_MANAGER:add_event(Event({
+                func = (function()
+                    G.GAME.starting_params.joker_slots = G.GAME.starting_params.joker_slots + 1
+                    play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                    local sound = self.effect.config.boss_reward_sound or 'holo1'
+                    play_sound(sound, 1.2 + math.random()*0.1, 0.4)
+                    return true
+                end)
+            }))
+        end
     end
     if self.effect.config.normalize_chips and args.context == 'blind_amount' then
         return 
