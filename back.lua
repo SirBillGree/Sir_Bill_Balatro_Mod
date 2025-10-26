@@ -140,7 +140,7 @@ function Back:trigger_effect(args)
         if string.find(self.effect.config.boss_reward, 'joker_slot') then
             G.E_MANAGER:add_event(Event({
                 func = (function()
-                    G.GAME.starting_params.joker_slots = G.GAME.starting_params.joker_slots + 1
+                    G.jokers.config.card_limit = G.jokers.config.card_limit + 1
                     play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                     local sound = self.effect.config.boss_reward_sound or 'holo1'
                     play_sound(sound, 1.2 + math.random()*0.1, 0.4)
