@@ -2346,15 +2346,6 @@ function Game:start_run(args)
                 local _ = nil
                 -- Randomizes for erratic deck
                 if self.GAME.starting_params.erratic_suits_and_ranks then _, k = pseudorandom_element(G.P_CARDS, pseudoseed('erratic')) end
-                -- 4=>2 suits for checkered deck
-                if self.GAME.starting_params.four_to_two_suits then 
-                    if k.suit == 'Clubs' then 
-                        k:change_suit('Spades')
-                    end
-                    if k.suit == 'Diamonds' then 
-                        k:change_suit('Hearts')
-                    end
-                end
                 local _r, _s = string.sub(k, 3, 3), string.sub(k, 1, 1)
                 local keep, _e, _d, _g = true, nil, nil, nil
                 if _de then
