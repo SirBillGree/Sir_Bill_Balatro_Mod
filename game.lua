@@ -2348,10 +2348,10 @@ function Game:start_run(args)
                 if self.GAME.starting_params.erratic_suits_and_ranks then _, k = pseudorandom_element(G.P_CARDS, pseudoseed('erratic')) end
                 -- 4=>2 suits for checkered deck
                 if self.GAME.starting_params.four_to_two_suits then 
-                    if k.base.suit == 'Clubs' then 
+                    if k.suit == 'Clubs' then 
                         k:change_suit('Spades')
                     end
-                    if k.base.suit == 'Diamonds' then 
+                    if k.suit == 'Diamonds' then 
                         k:change_suit('Hearts')
                     end
                 end
