@@ -141,6 +141,7 @@ function Back:trigger_effect(args)
             G.E_MANAGER:add_event(Event({
                 func = (function()
                     G.jokers.config.card_limit = G.jokers.config.card_limit + 1
+                    play_area_status_text("+1 Joker Slot!")
                     play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
                     local sound = self.effect.config.boss_reward_sound or 'holo1'
                     play_sound(sound, 1.2 + math.random()*0.1, 0.4)

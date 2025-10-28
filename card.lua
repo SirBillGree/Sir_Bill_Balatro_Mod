@@ -561,6 +561,7 @@ function Card:change_suit(new_suit)
     G.GAME.blind:debuff_card(self)
 end
 
+-- Joker add_to_deck effects like +1 hands size
 function Card:add_to_deck(from_debuff)
     if not self.config.center.discovered then
         discover_card(self.config.center)
@@ -642,6 +643,7 @@ function Card:add_to_deck(from_debuff)
     end
 end
 
+-- Joker remove_from_deck effects like reverting probablities
 function Card:remove_from_deck(from_debuff)
     if self.added_to_deck then
         self.added_to_deck = false
@@ -729,6 +731,7 @@ function Card:generate_UIBox_ability_table()
                     nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,
                     bonus_chips = (self.ability.bonus + (self.ability.perma_bonus or 0)) > 0 and (self.ability.bonus + (self.ability.perma_bonus or 0)) or nil,
                 }
+    -- Passing Text params for joker display like the the current multiplier
     elseif self.ability.set == 'Joker' then -- all remaining jokers
         if self.ability.name == 'Joker' then loc_vars = {self.ability.mult}
         elseif self.ability.name == 'Jolly Joker' or self.ability.name == 'Zany Joker' or
@@ -918,6 +921,8 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Yorick' then loc_vars = {self.ability.extra.xmult, self.ability.extra.discards, self.ability.yorick_discards, self.ability.x_mult}
         elseif self.ability.name == 'Chicot' then
         elseif self.ability.name == 'Perkeo' then loc_vars = {self.ability.extra}
+
+        -- POWERS THREE Implementaion Needed
         end
     end
     local badges = {}
@@ -3172,6 +3177,22 @@ function Card:calculate_joker(context)
                         card = self
                     }
                 end
+                -- MOD START
+                if self.ability.name == 'Powers Three' and
+                    context.other_card:get_id() == 3 then
+                        results = {card = self}
+                        if pseudorandom('Powers Three') < G.GAME.probabilities.normal/self.ability.extra.prob_chips then
+                            results.chips = self.ability.extra.chips
+                        end
+                        if pseudorandom('Powers Three') < G.GAME.probabilities.normal/self.ability.extra.prob_mult then
+                            results.mult = self.ability.extra.mult
+                        end
+                        if pseudorandom('Powers Three') < G.GAME.probabilities.normal/self.ability.extra.prob_Xmult then
+                            results.Xmult = self.ability.extra.Xmult --sus
+                        end
+                    return results
+                end
+                -- MOD END
                 if self.ability.name == 'Business Card' and
                     context.other_card:is_face() and
                     pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra then
