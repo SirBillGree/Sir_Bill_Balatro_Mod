@@ -3180,7 +3180,12 @@ function Card:calculate_joker(context)
                 -- MOD START
                 if self.ability.name == 'Powers Three' and
                     context.other_card:get_id() == 3 then
-                        results = {card = self}
+                        local results = {
+                            chips = 0,
+                            mult = 0,
+                            Xmult = 1,
+                            card = self
+                        }
                         if pseudorandom('Powers Three') < G.GAME.probabilities.normal/self.ability.extra.prob_chips then
                             results.chips = self.ability.extra.chips
                         end

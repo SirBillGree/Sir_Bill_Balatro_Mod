@@ -60,6 +60,36 @@ G.CHALLENGES = {
         }
     },]]--
     {
+        name = 'Test',
+        id = 'test',
+        rules = {
+            custom = {
+            },
+            modifiers = {
+            }
+        },
+        jokers = {
+            {id = 'j_pow3'},
+            {id = 'j_oops'},
+        },
+        consumeables = {
+        },
+        vouchers = {
+        },
+        deck = {
+            cards = {{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},},
+            type = 'Challenge Deck'
+        },
+        restrictions = {
+            banned_cards = {
+            },
+            banned_tags = {
+            },
+            banned_other = {
+            }
+        }
+    },
+    {
         name = 'The Omelette',
         id = 'c_omelette_1',
         rules = {
@@ -732,34 +762,6 @@ G.CHALLENGES = {
                 {id = 'bl_final_acorn', type = 'blind'},
                 {id = 'bl_final_heart', type = 'blind'},
                 {id = 'bl_final_leaf', type = 'blind'}
-            }
-        }
-    },
-        {
-        name = 'Test',
-        id = 'test',
-        rules = {
-            custom = {
-            },
-            modifiers = {
-            }
-        },
-        jokers = {
-            {id = 'j_pow3'}
-        },
-        consumeables = {
-        },
-        vouchers = {
-        },
-        deck = {
-            type = 'Challenge Deck'
-        },
-        restrictions = {
-            banned_cards = {
-            },
-            banned_tags = {
-            },
-            banned_other = {
             }
         }
     },
