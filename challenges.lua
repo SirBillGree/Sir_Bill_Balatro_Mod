@@ -71,6 +71,9 @@ G.CHALLENGES = {
         jokers = {
             {id = 'j_pow3'},
             {id = 'j_oops'},
+            {id = 'j_oops'},
+            {id = 'j_oops'},
+            {id = 'j_oops'},
         },
         consumeables = {
         },

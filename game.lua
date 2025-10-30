@@ -528,7 +528,7 @@ function Game:init_item_prototypes()
         j_perkeo=           {order = 150,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 4, cost = 20, name = "Perkeo", pos = {x=7,y=8}, soul_pos = {x=7, y=9}, set = "Joker", effect = "", config = {}, unlock_condition = {type = '', extra = '', hidden = true}},
 
 -- Mod Jokers
-        j_pow3=             {order = 151,  unlocked = true,  discovered = true,  blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 6, name = "Powers Three", pos = {x=9,y=9}, set = "Joker", effect = "pow3", cost_mult = 1.0, config = {extra = {chips = 27, prob_chips = 3, mult = 9, prob_mult = 9, Xmult = 3, prob_Xmult = 27}}},
+        j_pow3=             {order = 151,  unlocked = true,  discovered = true,  blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 6, name = "Powers Three", pos = {x=9,y=9}, set = "Joker", effect = "pow3", cost_mult = 1.0, config = {extra = {chips = 27, prob_chips = 3, mult = 9, prob_mult = 9, Xmult = 3, prob_Xmult = 27}}},
 
         --All Consumeables
 
