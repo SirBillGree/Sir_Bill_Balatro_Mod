@@ -3205,9 +3205,9 @@ function Card:calculate_joker(context)
                         self.ability.played_suits = self.ability.extra.suit_count
                         self.ability.mult = self.ability.mult + self.ability.extra.mult_add
                         return {
-                            delay = 0.2,
-                            message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
-                            colour = G.C.RED
+                            extra = {focus = self, message = localize('k_upgrade_ex')},
+                            card = self,
+                            colour = G.C.MULT
                         }
                     else
                         self.ability.played_suits = self.ability.played_suits - 1
@@ -3976,6 +3976,14 @@ function Card:calculate_joker(context)
                                 colour = G.C.MULT
                             }
                         end
+-- Mod Start
+                        if self.ability.effect == 'suit snowball' then
+                            return {
+                                message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
+                                mult_mod = self.ability.mult
+                            }
+                        end
+-- Mod end
                         if self.ability.name == 'Bull' and (G.GAME.dollars + (G.GAME.dollar_buffer or 0)) > 0 then
                             return {
                                 message = localize{type='variable',key='a_chips',vars={self.ability.extra*math.max(0,(G.GAME.dollars + (G.GAME.dollar_buffer or 0))) }},
