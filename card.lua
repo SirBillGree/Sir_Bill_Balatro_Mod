@@ -331,6 +331,11 @@ function Card:set_ability(center, initial, delay_sprites)
         self.ability.burnt_hand = 0
         self.ability.loyalty_remaining = self.ability.extra.every
     end
+-- mod
+    if self.ability.effect == 'suit snowball' then
+        self.ability.played_suits = self.ability.extra.suit_count
+    end
+-- mod end
 
     self.base_cost = center.cost or 1
 
@@ -922,7 +927,8 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Chicot' then
         elseif self.ability.name == 'Perkeo' then loc_vars = {self.ability.extra}
 
-        -- POWERS THREE Implementaion Needed
+        -- POWERS THREE           Implementaion Needed
+        -- KNIGHT OF <SUIT>       Implementaion Needed
         end
     end
     local badges = {}
@@ -3191,6 +3197,22 @@ function Card:calculate_joker(context)
                             results.x_mult = self.ability.extra.Xmult
                         end
                     return results
+                end
+                if self.ability.effect == 'suit snowball' and not context.blueprint and
+                    context.other_card:is_suit(self.ability.extra.suit) then
+                        if self.ability.played_suits <= 1 then
+                            self.ability.played_suits = self.ability.extra.suit_count
+                            self.ability.mult = self.ability.mult + self.ability.extra.mult_add
+                            return {
+                                delay = 0.2,
+                                message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
+                                colour = G.C.RED
+                            }
+                        end
+                        else
+                            self.ability.played_suits = self.ability.played_suits - 1
+                        end
+                        return
                 end
                 -- MOD END
                 if self.ability.name == 'Business Card' and
