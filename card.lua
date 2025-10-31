@@ -274,6 +274,7 @@ function Card:set_ability(center, initial, delay_sprites)
         self.ability.bonus = self.ability.bonus - old_center.config.bonus
     end
     
+    -- ability definition
     self.ability = {
         name = center.name,
         effect = center.effect,
@@ -3200,19 +3201,18 @@ function Card:calculate_joker(context)
                 end
                 if self.ability.effect == 'suit snowball' and not context.blueprint and
                     context.other_card:is_suit(self.ability.extra.suit) then
-                        if self.ability.played_suits <= 1 then
-                            self.ability.played_suits = self.ability.extra.suit_count
-                            self.ability.mult = self.ability.mult + self.ability.extra.mult_add
-                            return {
-                                delay = 0.2,
-                                message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
-                                colour = G.C.RED
-                            }
-                        end
-                        else
-                            self.ability.played_suits = self.ability.played_suits - 1
-                        end
-                        return
+                    if self.ability.played_suits <= 1 then
+                        self.ability.played_suits = self.ability.extra.suit_count
+                        self.ability.mult = self.ability.mult + self.ability.extra.mult_add
+                        return {
+                            delay = 0.2,
+                            message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
+                            colour = G.C.RED
+                        }
+                    else
+                        self.ability.played_suits = self.ability.played_suits - 1
+                    end
+                    return
                 end
                 -- MOD END
                 if self.ability.name == 'Business Card' and
