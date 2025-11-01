@@ -3989,7 +3989,7 @@ function Card:calculate_joker(context)
                             }
                         end
                         if self.ability.name == 'Surgeon' then
-                            local surgeon_Xmult = G.GAME.current_round.current_hand.chips % 10
+                            local surgeon_Xmult = context.hand_chips % 10
                             return {
                                 message = localize{type='variable',key='a_xmult',vars={surgeon_Xmult}},
                                 Xmult_mod = surgeon_Xmult
