@@ -279,6 +279,7 @@ function Card:set_ability(center, initial, delay_sprites)
         name = center.name,
         effect = center.effect,
         set = center.set,
+        rarity = center.rarity or nil,
         mult = center.config.mult or 0,
         h_mult = center.config.h_mult or 0,
         h_x_mult = center.config.h_x_mult or 0,
@@ -385,7 +386,7 @@ function Card:set_cost()
     end
     if (self.ability.set == 'Planet' or (self.ability.set == 'Booster' and self.ability.name:find('Celestial'))) and #find_joker('Astronomer') > 0 then self.cost = 0 end
     -- mod
-    if (self.ability.set == 'Joker' and self.ability.rarity == 1) and #find_joker('Pawn Shop') then self.cost = 1 end
+    if self.ability.set == 'Joker' and self.ability.rarity == 1 and (#find_joker('Pawn Shop') > 0) then self.cost = 1 end
     -- mod end
     if self.ability.rental then self.cost = 1 end
     self.sell_cost = math.max(1, math.floor(self.cost/2)) + (self.ability.extra_value or 0)

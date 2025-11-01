@@ -902,7 +902,7 @@ G.FUNCS.evaluate_play = function(e)
             end
 
             --calculate the joker effects
-            local effects = eval_card(_card, {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true})
+            local effects = eval_card(_card, {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true, hand_chips = hand_chips})
 
             --Any Joker effects
             if effects.jokers then 
