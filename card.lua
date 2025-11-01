@@ -384,6 +384,9 @@ function Card:set_cost()
         self.cost = self.cost + 3
     end
     if (self.ability.set == 'Planet' or (self.ability.set == 'Booster' and self.ability.name:find('Celestial'))) and #find_joker('Astronomer') > 0 then self.cost = 0 end
+    -- mod
+    if (self.ability.set == 'Joker' and self.ability.rarity == 1) and #find_joker('Pawn Shop') then self.cost = 1 end
+    -- mod end
     if self.ability.rental then self.cost = 1 end
     self.sell_cost = math.max(1, math.floor(self.cost/2)) + (self.ability.extra_value or 0)
     if self.area and self.ability.couponed and (self.area == G.shop_jokers or self.area == G.shop_booster) then self.cost = 0 end
@@ -620,7 +623,7 @@ function Card:add_to_deck(from_debuff)
         if self.ability.name == 'To the Moon' then
             G.GAME.interest_amount = G.GAME.interest_amount + self.ability.extra
         end
-        if self.ability.name == 'Astronomer' then 
+        if self.ability.effect == "Price Change" then -- Modified "Astronomer"
             G.E_MANAGER:add_event(Event({func = function()
                 for k, v in pairs(G.I.CARD) do
                     if v.set_cost then v:set_cost() end
@@ -678,7 +681,7 @@ function Card:remove_from_deck(from_debuff)
         if self.ability.name == 'To the Moon' then
             G.GAME.interest_amount = G.GAME.interest_amount - self.ability.extra
         end
-        if self.ability.name == 'Astronomer' then 
+        if self.ability.effect == "Price Change" then -- modifed "Astronomer"
             G.E_MANAGER:add_event(Event({func = function()
                 for k, v in pairs(G.I.CARD) do
                     if v.set_cost then v:set_cost() end
@@ -826,7 +829,7 @@ function Card:generate_UIBox_ability_table()
                 }}
             } or nil
         elseif self.ability.name == 'Cartomancer' then
-        elseif self.ability.name == 'Astronomer' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Astronomer' then loc_vars = {self.ability.extra} -- Might be unnessary
         
         elseif self.ability.name == 'Golden Ticket' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Mr. Bones' then
@@ -930,6 +933,8 @@ function Card:generate_UIBox_ability_table()
 
         -- POWERS THREE           Implementaion Needed
         -- KNIGHT OF <SUIT>       Implementaion Needed
+        -- Pawnshop 
+        -- surgeon
         end
     end
     local badges = {}
@@ -3981,6 +3986,13 @@ function Card:calculate_joker(context)
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
                                 mult_mod = self.ability.mult
+                            }
+                        end
+                        if self.ability.name == 'Surgeon' then
+                            local surgeon_Xmult = G.GAME.current_round.current_hand.chips % 10
+                            return {
+                                message = localize{type='variable',key='a_xmult',vars={surgeon_Xmult}},
+                                Xmult_mod = surgeon_Xmult
                             }
                         end
 -- Mod end
