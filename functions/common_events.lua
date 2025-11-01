@@ -1967,6 +1967,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
     
         if _type == 'Joker' then 
             local rarity = _rarity or pseudorandom('rarity'..G.GAME.round_resets.ante..(_append or '')) 
+            if (#find_joker('Connoisseur') > 0) then rarity = 0.8 end  -- mod
             rarity = (_legendary and 4) or (rarity > 0.95 and 3) or (rarity > 0.7 and 2) or 1
             _starting_pool, _pool_key = G.P_JOKER_RARITY_POOLS[rarity], 'Joker'..rarity..((not _legendary and _append) or '')
         else _starting_pool, _pool_key = G.P_CENTER_POOLS[_type], _type..(_append or '')

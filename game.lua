@@ -534,9 +534,10 @@ function Game:init_item_prototypes()
         j_d_knight=         {order = 153,  unlocked = true,  discovered = true,  blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 5, name = "Knight of Diamonds", pos = {x=9,y=9}, set = "Joker", effect = "suit snowball", cost_mult = 1.0, config = {extra={mult_add = 1, suit_count=2, suit="Diamonds"}}},
         j_c_knight=         {order = 154,  unlocked = true,  discovered = true,  blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 5, name = "Knight of Clubs", pos = {x=9,y=9}, set = "Joker", effect = "suit snowball", cost_mult = 1.0, config = {extra={mult_add = 1, suit_count=2, suit="Clubs"}}},
         j_s_knight=         {order = 155,  unlocked = true,  discovered = true,  blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 5, name = "Knight of Spades", pos = {x=9,y=9}, set = "Joker", effect = "suit snowball", cost_mult = 1.0, config = {extra={mult_add = 1, suit_count=2, suit="Spades"}}},
-        -- Testing
         j_pawnshop=         {order = 156,  unlocked = true,  discovered = true,  blueprint_compat = false, perishable_compat= true, eternal_compat = true, rarity = 2, cost = 10, name = "Pawn Shop", pos = {x=9,y=9}, set = "Joker", effect = "Price Change", cost_mult = 1.0, config = {}}, -- see card.lua line 388
         j_surgeon=          {order = 157,  unlocked = true,  discovered = true,  blueprint_compat = true, perishable_compat= true, eternal_compat = true, rarity = 3, cost = 7, name = "Surgeon", pos = {x=9,y=9}, set = "Joker", effect = "", cost_mult = 1.0, config = {}},
+        -- Testing
+        j_connoisseur=      {order = 158,  unlocked = true,  discovered = true,  blueprint_compat = false, perishable_compat= true, eternal_compat = true, rarity = 3, cost = 12, name = "Connoisseur", pos = {x=9,y=9}, set = "Joker", effect = "x rarity only", cost_mult = 1.0, config = {rarity = 2}},
 
 
 
