@@ -3229,7 +3229,7 @@ function Card:calculate_joker(context)
                     return
                 end
                 if self.ability.name == 'Seven Sale' and
-                    context.other_card:get_id() == 3 then
+                    context.other_card:get_id() == 7 then
                     self.ability.played_sevens = self.ability.played_sevens + 1
                 end
                 -- MOD END
@@ -4010,7 +4010,36 @@ function Card:calculate_joker(context)
                         end
                         if self.ability.name == 'Seven Sale' and self.ability.played_sevens > 0 then
                             -- spawn tag
+                            local valid_tags
+                            if self.ability.played_sevens == 5 then
+                                add_tag(Tag('Negative Tag'))
+                                valid_tags = {'Uncommon Tag', 'Rare Tag'}
+                                add_tag(Tag(pseudorandom("Tag", 1, 2)))
+                            elseif self.ability.played_sevens == 4 then
+                                valid_tags = {'Polychrome Tag','Holographic Tag'}
+                                add_tag(Tag(pseudorandom("Tag", 1, 2)))
+                                valid_tags = {'Uncommon Tag', 'Rare Tag'}
+                                add_tag(Tag(pseudorandom("Tag", 1, 2)))
+                            elseif self.ability.played_sevens == 3 then
+                                valid_tags = {'Holographic Tag', 'Foil Tag'}
+                                add_tag(Tag(pseudorandom("Tag", 1, 2)))
+                                valid_tags = {'Uncommon Tag', 'Rare Tag'}
+                                add_tag(Tag(pseudorandom("Tag", 1, 2)))
+                            elseif self.ability.played_sevens == 2 then
+                                if pseudorandom("Tag", 1, 2) == 2 then
+                                    add_tag(Tag('Foil Tag'))
+                                end
+                                if pseudorandom("Tag", 1, 4) == 1 then
+                                    add_tag(Tag('Rare Tag'))
+                                else
+                                    add_tag(Tag('Uncommon Tag'))
+                                end
+                            else
+                                add_tag(Tag('Uncommon Tag'))
+                            end
                             -- destroy self
+                            self.remove(self)
+
                         end
 -- Mod end
                         if self.ability.name == 'Bull' and (G.GAME.dollars + (G.GAME.dollar_buffer or 0)) > 0 then
