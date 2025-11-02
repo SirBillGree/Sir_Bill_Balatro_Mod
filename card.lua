@@ -337,6 +337,9 @@ function Card:set_ability(center, initial, delay_sprites)
     if self.ability.effect == 'suit snowball' then
         self.ability.played_suits = self.ability.extra.suit_count
     end
+    if self.ability.name == 'Seven Sale' then
+        self.ability.played_sevens = 0
+    end
 -- mod end
 
     self.base_cost = center.cost or 1
@@ -933,6 +936,7 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Perkeo' then loc_vars = {self.ability.extra}
 
         -- POWERS THREE           Implementaion Needed
+        elseif self.ability.name == 'Powers Three' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.chips, self.ability.extra.prob_chips, self.ability.extra.mult, self.ability.extra.prob_mult, self.ability.extra.Xmult, self.ability.extra.prob_Xmult}
         -- KNIGHT OF <SUIT>       Implementaion Needed
         -- Pawnshop 
         -- surgeon
@@ -3193,16 +3197,16 @@ function Card:calculate_joker(context)
                 -- MOD START
                 if self.ability.name == 'Powers Three' and
                     context.other_card:get_id() == 3 then
-                        local results = {card = self}
-                        if pseudorandom('Powers Three') < G.GAME.probabilities.normal/self.ability.extra.prob_chips then
-                            results.chips = self.ability.extra.chips
-                        end
-                        if pseudorandom('Powers Three') < G.GAME.probabilities.normal/self.ability.extra.prob_mult then
-                            results.mult = self.ability.extra.mult
-                        end
-                        if pseudorandom('Powers Three') < G.GAME.probabilities.normal/self.ability.extra.prob_Xmult then
-                            results.x_mult = self.ability.extra.Xmult
-                        end
+                    local results = {card = self}
+                    if pseudorandom('Powers Three') < G.GAME.probabilities.normal/self.ability.extra.prob_chips then
+                        results.chips = self.ability.extra.chips
+                    end
+                    if pseudorandom('Powers Three') < G.GAME.probabilities.normal/self.ability.extra.prob_mult then
+                        results.mult = self.ability.extra.mult
+                    end
+                    if pseudorandom('Powers Three') < G.GAME.probabilities.normal/self.ability.extra.prob_Xmult then
+                        results.x_mult = self.ability.extra.Xmult
+                    end
                     return results
                 end
                 if self.ability.effect == 'suit snowball' and not context.blueprint and
@@ -3219,6 +3223,10 @@ function Card:calculate_joker(context)
                         self.ability.played_suits = self.ability.played_suits - 1
                     end
                     return
+                end
+                if self.ability.name == 'Seven Sale' and
+                    context.other_card:get_id() == 3 then
+                    self.ability.played_sevens = self.ability.played_sevens + 1
                 end
                 -- MOD END
                 if self.ability.name == 'Business Card' and
@@ -3995,6 +4003,10 @@ function Card:calculate_joker(context)
                                 message = localize{type='variable',key='a_xmult',vars={surgeon_Xmult}},
                                 Xmult_mod = surgeon_Xmult
                             }
+                        end
+                        if self.ability.name == 'Seven Sale' and self.ability.played_sevens > 0 then
+                            -- spawn tag
+                            -- destroy self
                         end
 -- Mod end
                         if self.ability.name == 'Bull' and (G.GAME.dollars + (G.GAME.dollar_buffer or 0)) > 0 then

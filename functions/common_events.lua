@@ -2446,6 +2446,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
 
     if _c.set == 'Other' then
         localize{type = 'other', key = _c.key, nodes = desc_nodes, vars = specific_vars or _c.vars}
+    -- Unlock Conditions render params
     elseif card_type == 'Locked' then
         if _c.wip then localize{type = 'other', key = 'wip_locked', set = 'Other', nodes = desc_nodes, vars = loc_vars}
         elseif _c.demo and specific_vars then localize{type = 'other', key = 'demo_shop_locked', nodes = desc_nodes, vars = loc_vars}  

@@ -432,7 +432,18 @@ return {
             },
         },
         Joker={
-            j_8_ball={
+        -- Mod
+            j_pow3={  -- args: {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.chips, self.ability.extra.prob_chips, self.ability.extra.mult, self.ability.extra.prob_mult, self.ability.extra.Xmult, self.ability.extra.prob_Xmult}
+                name="Powers Three",
+                text={
+                    "Played {C:attention}3{}s have a",
+                    "{C:green}#1# in #3#{} chance for {C:chips}+#2#{}",
+                    "{C:green}#1# in #5#{} chance for {C:mult}+#4#{}",
+                    "{C:green}#1# in #7#{} chance for {X:mult,C:white}X#6#{}",
+                },
+            },
+        -- Mod End
+            j_8_ball={  -- args: {''..(G.GAME and G.GAME.probabilities.normal or 1),self.ability.extra}
                 name="8 Ball",
                 text={
                     "{C:green}#1# in #2#{} chance for each",
