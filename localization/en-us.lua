@@ -433,13 +433,45 @@ return {
         },
         Joker={
         -- Mod
-            j_pow3={  -- args: {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.chips, self.ability.extra.prob_chips, self.ability.extra.mult, self.ability.extra.prob_mult, self.ability.extra.Xmult, self.ability.extra.prob_Xmult}
+            j_pow3={
                 name="Powers Three",
                 text={
                     "Played {C:attention}3{}s have a",
-                    "{C:green}#1# in #3#{} chance for {C:chips}+#2#{}",
-                    "{C:green}#1# in #5#{} chance for {C:mult}+#4#{}",
-                    "{C:green}#1# in #7#{} chance for {X:mult,C:white}X#6#{}",
+                    "{C:green}#1# in #3#{} chance for {C:chips}+#2#{} chips",
+                    "{C:green}#1# in #5#{} chance for {C:mult}+#4#{} Mult",
+                    "{C:green}#1# in #7#{} chance for {X:mult,C:white}X#6#{} Mult",
+                },
+            }, 
+            j_h_knight={ -- args: {mult_add, current_mult, suit_count, number_played_until_level_up, suit}
+                name="Knight of Hearts",
+                text={
+                    "This Joker gains {C:mult} +#1# {} Mult",
+                    "every #3# [#4#]{} times a {C:hearts}#5#{} card is played",
+                    "{C:inactive}(Currently {C:mult} +#2# {C:inactive} Mult)",
+                },
+            },
+            j_d_knight={ -- args: see j_h_knight
+                name="Knight of Diamonds",
+                text={
+                    "This Joker gains {C:mult} +#1# {} Mult",
+                    "every #3# [#4#]{} times a {C:diamonds}#5#{} card is played",
+                    "{C:inactive}(Currently {C:mult} +#2# {C:inactive} Mult)",
+                },
+            },
+            j_s_knight={ -- args: see j_h_knight
+                name="Knight of Spades",
+                text={
+                    "This Joker gains {C:mult} +#1# {} Mult",
+                    "every #3# [#4#]{} times a {C:spades}#5#{} card is played",
+                    "{C:inactive}(Currently {C:mult} +#2# {C:inactive} Mult)",
+                },
+            },
+            j_c_knight={ -- args: see j_h_knight
+                name="Knight of Clubs",
+                text={
+                    "This Joker gains {C:mult} +#1# {} Mult",
+                    "every #3# [#4#]{} times a {C:clubs}#5#{} card is played",
+                    "{C:inactive}(Currently {C:mult} +#2# {C:inactive} Mult)",
                 },
             },
         -- Mod End

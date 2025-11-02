@@ -935,9 +935,9 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Chicot' then
         elseif self.ability.name == 'Perkeo' then loc_vars = {self.ability.extra}
 
-        -- POWERS THREE           Implementaion Needed
+        -- Mod
         elseif self.ability.name == 'Powers Three' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.chips, self.ability.extra.prob_chips, self.ability.extra.mult, self.ability.extra.prob_mult, self.ability.extra.Xmult, self.ability.extra.prob_Xmult}
-        -- KNIGHT OF <SUIT>       Implementaion Needed
+        elseif self.ability.effect == "suit snowball" then loc_vars = {self.ability.extra.mult_add, self.ability.mult, self.ability.extra.suit_count, self.ability.played_suits, localize(self.ability.extra.suit, 'suits_singular')}
         -- Pawnshop 
         -- surgeon
         end
