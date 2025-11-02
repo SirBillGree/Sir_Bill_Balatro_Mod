@@ -4011,30 +4011,43 @@ function Card:calculate_joker(context)
                         if self.ability.name == 'Seven Sale' and self.ability.played_sevens > 0 then
                             -- spawn tag
                             local valid_tags
+                            local tag_selection = {}
                             if self.ability.played_sevens == 5 then
-                                add_tag(Tag('Negative Tag'))
+                                table.insert(tag_selection, 'Negative Tag')
                                 valid_tags = {'Uncommon Tag', 'Rare Tag'}
-                                add_tag(Tag(valid_tags[pseudorandom("Tag", 1, 2)]))
+                                table.insert(tag_selection, valid_tags[pseudorandom("Tag", 1, 2)])
                             elseif self.ability.played_sevens == 4 then
                                 valid_tags = {'Polychrome Tag','Holographic Tag'}
-                                add_tag(Tag(valid_tags[pseudorandom("Tag", 1, 2)]))
+                                table.insert(tag_selection, valid_tags[pseudorandom("Tag", 1, 2)])
                                 valid_tags = {'Uncommon Tag', 'Rare Tag'}
-                                add_tag(Tag(valid_tags[pseudorandom("Tag", 1, 2)]))
+                                table.insert(tag_selection, valid_tags[pseudorandom("Tag", 1, 2)])
                             elseif self.ability.played_sevens == 3 then
                                 valid_tags = {'Holographic Tag', 'Foil Tag'}
-                                add_tag(Tag(valid_tags[pseudorandom("Tag", 1, 2)]))
+                                table.insert(tag_selection, valid_tags[pseudorandom("Tag", 1, 2)])
                                 if pseudorandom("Tag", 1, 4) == 1 then
-                                    add_tag(Tag('Rare Tag'))
+                                    table.insert(tag_selection,'Rare Tag')
                                 else
-                                    add_tag(Tag('Uncommon Tag'))
+                                    table.insert(tag_selection,'Uncommon Tag')
                                 end
                             elseif self.ability.played_sevens == 2 then
                                 if pseudorandom("Tag", 1, 2) == 2 then
-                                    add_tag(Tag('Foil Tag'))
+                                    table.insert(tag_selection,'Foil Tag')
                                 end
-                                add_tag(Tag('Uncommon Tag'))
+                                table.insert(tag_selection,'Uncommon Tag')
                             else
-                                add_tag(Tag('Uncommon Tag'))
+                                table.insert(tag_selection,'Uncommon Tag')
+                            end
+
+                            for i= 1,#tag_selection,1 do
+                                G.E_MANAGER:add_event(Event({
+                                    func = (function()
+                                        add_tag(Tag(tag_selection[i])) -- Note: only tags work as rewards
+                                        play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                                        local sound = self.effect.config.boss_reward_sound or 'holo1'
+                                        play_sound(sound, 1.2 + math.random()*0.1, 0.4)
+                                        return true
+                                    end)
+                                }))
                             end
                             -- destroy self
                             self.remove(self)
