@@ -4014,26 +4014,25 @@ function Card:calculate_joker(context)
                             if self.ability.played_sevens == 5 then
                                 add_tag(Tag('Negative Tag'))
                                 valid_tags = {'Uncommon Tag', 'Rare Tag'}
-                                add_tag(Tag(pseudorandom("Tag", 1, 2)))
+                                add_tag(Tag(valid_tags[pseudorandom("Tag", 1, 2)]))
                             elseif self.ability.played_sevens == 4 then
                                 valid_tags = {'Polychrome Tag','Holographic Tag'}
-                                add_tag(Tag(pseudorandom("Tag", 1, 2)))
+                                add_tag(Tag(valid_tags[pseudorandom("Tag", 1, 2)]))
                                 valid_tags = {'Uncommon Tag', 'Rare Tag'}
-                                add_tag(Tag(pseudorandom("Tag", 1, 2)))
+                                add_tag(Tag(valid_tags[pseudorandom("Tag", 1, 2)]))
                             elseif self.ability.played_sevens == 3 then
                                 valid_tags = {'Holographic Tag', 'Foil Tag'}
-                                add_tag(Tag(pseudorandom("Tag", 1, 2)))
-                                valid_tags = {'Uncommon Tag', 'Rare Tag'}
-                                add_tag(Tag(pseudorandom("Tag", 1, 2)))
-                            elseif self.ability.played_sevens == 2 then
-                                if pseudorandom("Tag", 1, 2) == 2 then
-                                    add_tag(Tag('Foil Tag'))
-                                end
+                                add_tag(Tag(valid_tags[pseudorandom("Tag", 1, 2)]))
                                 if pseudorandom("Tag", 1, 4) == 1 then
                                     add_tag(Tag('Rare Tag'))
                                 else
                                     add_tag(Tag('Uncommon Tag'))
                                 end
+                            elseif self.ability.played_sevens == 2 then
+                                if pseudorandom("Tag", 1, 2) == 2 then
+                                    add_tag(Tag('Foil Tag'))
+                                end
+                                add_tag(Tag('Uncommon Tag'))
                             else
                                 add_tag(Tag('Uncommon Tag'))
                             end
