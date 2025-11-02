@@ -447,7 +447,7 @@ return {
                 text={
                     "This Joker gains {C:mult} +#1# {} Mult",
                     "every #3# [#4#]{} times a {C:hearts}#5#{} card is played",
-                    "{C:inactive}(Currently {C:mult} +#2# {C:inactive} Mult)",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)",
                 },
             },
             j_d_knight={ -- args: see j_h_knight
@@ -455,7 +455,7 @@ return {
                 text={
                     "This Joker gains {C:mult} +#1# {} Mult",
                     "every #3# [#4#]{} times a {C:diamonds}#5#{} card is played",
-                    "{C:inactive}(Currently {C:mult} +#2# {C:inactive} Mult)",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)",
                 },
             },
             j_s_knight={ -- args: see j_h_knight
@@ -463,7 +463,7 @@ return {
                 text={
                     "This Joker gains {C:mult} +#1# {} Mult",
                     "every #3# [#4#]{} times a {C:spades}#5#{} card is played",
-                    "{C:inactive}(Currently {C:mult} +#2# {C:inactive} Mult)",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)",
                 },
             },
             j_c_knight={ -- args: see j_h_knight
@@ -471,7 +471,29 @@ return {
                 text={
                     "This Joker gains {C:mult} +#1# {} Mult",
                     "every #3# [#4#]{} times a {C:clubs}#5#{} card is played",
-                    "{C:inactive}(Currently {C:mult} +#2# {C:inactive} Mult)",
+                    "{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)",
+                },
+            },
+            j_pawnshop={ -- args: none
+                name="Pawn Shop",
+                text={
+                    "{C:blue}Common{} Jokers",
+                    "buy and sell for {C:money}$1{}",
+                },
+            },
+            j_surgeon={ -- args: none
+                name="Surgeon",
+                text={
+                    "{X:mult,C:white}XA{} Mult where A is the",
+                    "least significant digit of current hand's {C:chips}chips{}",
+                    "(example: 4,259 --> {X:mult,C:white}X9{})"
+                },
+            },
+            j_connoisseur={ -- args: none
+                name="Connoisseur",
+                text={
+                    "Only {C:green}Uncommon{} Jokers show up in",
+                    "Shops, Packs and through Judgement.",
                 },
             },
         -- Mod End

@@ -389,7 +389,10 @@ function Card:set_cost()
     end
     if (self.ability.set == 'Planet' or (self.ability.set == 'Booster' and self.ability.name:find('Celestial'))) and #find_joker('Astronomer') > 0 then self.cost = 0 end
     -- mod
-    if self.ability.set == 'Joker' and self.ability.rarity == 1 and (#find_joker('Pawn Shop') > 0) then self.cost = 1 end
+    if self.ability.set == 'Joker' and self.ability.rarity == 1 and (#find_joker('Pawn Shop') > 0) then 
+        self.cost = 1 
+        self.sell_cost = 1
+    end
     -- mod end
     if self.ability.rental then self.cost = 1 end
     self.sell_cost = math.max(1, math.floor(self.cost/2)) + (self.ability.extra_value or 0)
@@ -938,8 +941,9 @@ function Card:generate_UIBox_ability_table()
         -- Mod
         elseif self.ability.name == 'Powers Three' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.chips, self.ability.extra.prob_chips, self.ability.extra.mult, self.ability.extra.prob_mult, self.ability.extra.Xmult, self.ability.extra.prob_Xmult}
         elseif self.ability.effect == "suit snowball" then loc_vars = {self.ability.extra.mult_add, self.ability.mult, self.ability.extra.suit_count, self.ability.played_suits, localize(self.ability.extra.suit, 'suits_singular')}
-        -- Pawnshop 
-        -- surgeon
+        -- elseif self.ability.name == "Pawn Shop" then 
+        -- elseif self.ability.name == "Surgeon" then
+        -- elseif self.ability.name == "Connoisseur" then
         end
     end
     local badges = {}
