@@ -944,6 +944,7 @@ function Card:generate_UIBox_ability_table()
         -- elseif self.ability.name == "Pawn Shop" then 
         -- elseif self.ability.name == "Surgeon" then
         -- elseif self.ability.name == "Connoisseur" then
+        -- elseif self.ability.name == "Seven Sale" then
         end
     end
     local badges = {}
@@ -4013,7 +4014,7 @@ function Card:calculate_joker(context)
                             local valid_tags
                             local tag_selection = {}
                             if self.ability.played_sevens == 5 then
-                                table.insert(tag_selection, 'Negative Tag')
+                                table.insert(tag_selection, 'tag_negative')
                                 valid_tags = {'tag_uncommon', 'tag_rare'}
                                 table.insert(tag_selection, valid_tags[pseudorandom("Tag", 1, 2)])
                             elseif self.ability.played_sevens == 4 then
@@ -4050,8 +4051,13 @@ function Card:calculate_joker(context)
                                 }))
                             end
                             -- destroy self
-                            self.remove(self)
-
+                            G.E_MANAGER:add_event(Event({
+                                func = (function()
+                                    self.remove(self)
+                                    play_sound("explosion1", 1.2 + math.random()*0.1, 0.4)
+                                    return true
+                                end)
+                            }))
                         end
 -- Mod end
                         if self.ability.name == 'Bull' and (G.GAME.dollars + (G.GAME.dollar_buffer or 0)) > 0 then

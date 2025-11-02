@@ -496,6 +496,14 @@ return {
                     "Shops, Packs and through Judgement.",
                 },
             },
+            j_seven_tag={ -- args: none
+                name="Seven Sale",
+                text={
+                    "When {C:attention}7{}s are played, destory this",
+                    "joker and give up to 2 {C:attention}tags{}.",
+                    "The more {C:attention}7{}s played the better the tags."
+                },
+            },
         -- Mod End
             j_8_ball={  -- args: {''..(G.GAME and G.GAME.probabilities.normal or 1),self.ability.extra}
                 name="8 Ball",
