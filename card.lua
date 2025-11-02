@@ -4014,28 +4014,28 @@ function Card:calculate_joker(context)
                             local tag_selection = {}
                             if self.ability.played_sevens == 5 then
                                 table.insert(tag_selection, 'Negative Tag')
-                                valid_tags = {'Uncommon Tag', 'Rare Tag'}
+                                valid_tags = {'tag_uncommon', 'tag_rare'}
                                 table.insert(tag_selection, valid_tags[pseudorandom("Tag", 1, 2)])
                             elseif self.ability.played_sevens == 4 then
-                                valid_tags = {'Polychrome Tag','Holographic Tag'}
+                                valid_tags = {'tag_polychrome','tag_holo'}
                                 table.insert(tag_selection, valid_tags[pseudorandom("Tag", 1, 2)])
-                                valid_tags = {'Uncommon Tag', 'Rare Tag'}
+                                valid_tags = {'tag_uncommon', 'tag_rare'}
                                 table.insert(tag_selection, valid_tags[pseudorandom("Tag", 1, 2)])
                             elseif self.ability.played_sevens == 3 then
-                                valid_tags = {'Holographic Tag', 'Foil Tag'}
+                                valid_tags = {'tag_holo', 'tag_foil'}
                                 table.insert(tag_selection, valid_tags[pseudorandom("Tag", 1, 2)])
                                 if pseudorandom("Tag", 1, 4) == 1 then
-                                    table.insert(tag_selection,'Rare Tag')
+                                    table.insert(tag_selection,'tag_rare')
                                 else
-                                    table.insert(tag_selection,'Uncommon Tag')
+                                    table.insert(tag_selection,'tag_uncommon')
                                 end
                             elseif self.ability.played_sevens == 2 then
                                 if pseudorandom("Tag", 1, 2) == 2 then
-                                    table.insert(tag_selection,'Foil Tag')
+                                    table.insert(tag_selection,'tag_foil')
                                 end
-                                table.insert(tag_selection,'Uncommon Tag')
+                                table.insert(tag_selection,'tag_uncommon')
                             else
-                                table.insert(tag_selection,'Uncommon Tag')
+                                table.insert(tag_selection,'tag_uncommon')
                             end
 
                             for i= 1,#tag_selection,1 do
@@ -4043,7 +4043,7 @@ function Card:calculate_joker(context)
                                     func = (function()
                                         add_tag(Tag(tag_selection[i])) -- Note: only tags work as rewards
                                         play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-                                        local sound = self.effect.config.boss_reward_sound or 'holo1'
+                                        local sound = 'holo1'
                                         play_sound(sound, 1.2 + math.random()*0.1, 0.4)
                                         return true
                                     end)
