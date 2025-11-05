@@ -1152,9 +1152,12 @@ function Card:use_consumeable(area, copier)
                     local suit_prefix = string.sub(card.base.suit,1,1)..'_'
                     --local rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
                     -- mod of ^
-                    local rank_suffix = card.base.id+self.ability.config.rank_change
-                    if rank_suffix > 14 then rank_suffix = 2
-                    elseif rank_suffix < 2 then rank_suffix = 14 end
+                    local rank_suffix
+                    if self.ability.rank_change == "up" then
+                        rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
+                    else 
+                        rank_suffix = card.base.id == 2 and 14 or math.max(card.base.id+1, 2)
+                    end
                     -- mod end
                     if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
                     elseif rank_suffix == 10 then rank_suffix = 'T'
