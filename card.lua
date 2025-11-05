@@ -4039,6 +4039,16 @@ function Card:calculate_joker(context)
                                 table.insert(tag_selection,'tag_uncommon')
                             end
 
+                            -- destroy self
+                            G.E_MANAGER:add_event(Event({
+                                func = (function()
+                                    self.remove(self)
+                                    play_sound("explosion1", 1.2 + math.random()*0.1, 0.4)
+                                    return true
+                                end)
+                            }))
+                            
+                            -- give tags
                             for i= 1,#tag_selection,1 do
                                 G.E_MANAGER:add_event(Event({
                                     func = (function()
@@ -4050,14 +4060,6 @@ function Card:calculate_joker(context)
                                     end)
                                 }))
                             end
-                            -- destroy self
-                            G.E_MANAGER:add_event(Event({
-                                func = (function()
-                                    self.remove(self)
-                                    play_sound("explosion1", 1.2 + math.random()*0.1, 0.4)
-                                    return true
-                                end)
-                            }))
                         end
 -- Mod end
                         if self.ability.name == 'Bull' and (G.GAME.dollars + (G.GAME.dollar_buffer or 0)) > 0 then
