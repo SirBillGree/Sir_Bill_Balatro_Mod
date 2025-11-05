@@ -430,6 +430,56 @@ return {
                     "as any suit",
                 },
             },
+            -- mod
+            m_crystal={
+                name="Crystal Card",
+                text={
+                    "temp",
+                },
+            },
+            m_marked={
+                name="Marked Card",
+                text={
+                    "temp",
+                },
+            },
+            m_resil={
+                name="Resilient Card",
+                text={
+                    "temp",
+                },
+            },
+            m_flame={
+                name="Flame Card",
+                text={
+                    "temp",
+                },
+            },
+            m_catalyst={
+                name="Catalyst Card",
+                text={
+                    "temp",
+                },
+            },
+            m_brutal={
+                name="Brutal Card",
+                text={
+                    "temp",
+                },
+            },
+            m_blank={
+                name="Blank Card",
+                text={
+                    "temp",
+                },
+            },
+            m_mirror={
+                name="Mirror Card",
+                text={
+                    "temp",
+                },
+            },
+            -- mod end
         },
         Joker={
         -- Mod
@@ -3042,6 +3092,140 @@ return {
                     "to {V:1}#2#{}",
                 },
             },
+            --mod
+            c_athlete={
+                name="An Athlete",
+                text={
+                    "temp",
+                },
+            },
+            c_life={
+                name="Life",
+                text={
+                    "temp",
+                },
+            },
+            c_angel={
+                name="An Angel",
+                text={
+                    "temp",
+                },
+            },
+            c_peasant={
+                name="A peasant",
+                text={
+                    "temp",
+                },
+            },
+            c_vanity={
+                name="Vanity",
+                text={
+                    "temp",
+                },
+            },
+            c_jester={
+                name="A Jester",
+                text={
+                    "temp",
+                },
+            },
+            c_mercy={
+                name="A Mercy",
+                text={
+                    "temp",
+                },
+            },
+            c_non_believer={
+                name="A Non-Believer",
+                text={
+                    "temp",
+                },
+            },
+            c_tennent={
+                name="A Tennent",
+                text={
+                    "temp",
+                },
+            },
+            c_critic={
+                name="A Critic",
+                text={
+                    "temp",
+                },
+            },
+            c_verdict={
+                name="A Verdict",
+                text={
+                    "temp",
+                },
+            },
+            c_tyrant={
+                name="A Tyrant",
+                text={
+                    "temp",
+                },
+            },
+            c_cheater={
+                name="A Cheater",
+                text={
+                    "temp",
+                },
+            },
+            c_scientist={
+                name="A Scientist",
+                text={
+                    "temp",
+                },
+            },
+            c_night={
+                name="Night",
+                text={
+                    "temp",
+                },
+            },
+            c_dust={
+                name="Dust",
+                text={
+                    "temp",
+                },
+            },
+            c_weakness={
+                name="Weakness",
+                text={
+                    "temp",
+                },
+            },
+            c_day={
+                name="Day",
+                text={
+                    "temp",
+                },
+            },
+            c_impulse={
+                name="An Impulse",
+                text={
+                    "temp",
+                },
+            },
+            c_mountain={
+                name="A Mountain",
+                text={
+                    "temp",
+                },
+            },
+            c_roulette={
+                name="A Roulette",
+                text={
+                    "temp",
+                },
+            },
+            c_void={
+                name="Void",
+                text={
+                    "temp",
+                },
+            },
+            --end mod
         },
         Voucher={
             v_antimatter={
