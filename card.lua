@@ -1145,11 +1145,11 @@ function Card:use_consumeable(area, copier)
                     end
                     return true end }))
             end  
-        elseif self.ability.mod_conv == 'shift_rank' then -- modified from self.ability.name == "Strength"
+        elseif self.ability.mod_conv == 'shift rank' then -- modified from self.ability.name == "Strength"
             for i=1, #G.hand.highlighted do
                 G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
                     local card = G.hand.highlighted[i]
-                    local suit_prefix = string.sub(card.base.suit, self.ability.config.rank_change, self.ability.config.rank_change)..'_' -- was (.suit,1,1)
+                    local suit_prefix = string.sub(card.base.suit,1,1)..'_'
                     --local rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
                     -- mod of ^
                     local rank_suffix = card.base.id+self.ability.config.rank_change
