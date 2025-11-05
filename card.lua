@@ -1145,12 +1145,17 @@ function Card:use_consumeable(area, copier)
                     end
                     return true end }))
             end  
-        elseif self.ability.name == 'Strength' then
+        elseif self.ability.mod_conv == 'shift_rank' then -- modified from self.ability.name == "Strength"
             for i=1, #G.hand.highlighted do
                 G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
                     local card = G.hand.highlighted[i]
-                    local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
-                    local rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
+                    local suit_prefix = string.sub(card.base.suit, self.ability.config.rank_change, self.ability.config.rank_change)..'_' -- was (.suit,1,1)
+                    --local rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
+                    -- mod of ^
+                    local rank_suffix = card.base.id+self.ability.config.rank_change
+                    if rank_suffix > 14 then rank_suffix = 2
+                    elseif rank_suffix < 2 then rank_suffix = 14 end
+                    -- mod end
                     if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
                     elseif rank_suffix == 10 then rank_suffix = 'T'
                     elseif rank_suffix == 11 then rank_suffix = 'J'
@@ -1177,6 +1182,24 @@ function Card:use_consumeable(area, copier)
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
         delay(0.5)
     end
+    -- mod
+    if self.ability.name == 'A Tennent' then
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('timpani')
+            used_tarot:juice_up(0.3, 0.5)
+            ease_dollars(20-G.GAME.dollars, true)
+            return true end }))
+        delay(0.6)
+    end
+    if self.ability.name == 'An Impulse' then
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('timpani')
+            used_tarot:juice_up(0.3, 0.5)
+            ease_dollars(#G.hand.cards*self.ability.config.extra, true)
+            return true end }))
+        delay(0.6)
+    end
+    -- end mod
     if self.ability.name == 'Black Hole' then
         update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
@@ -4047,7 +4070,7 @@ function Card:calculate_joker(context)
                                     return true
                                 end)
                             }))
-                            
+
                             -- give tags
                             for i= 1,#tag_selection,1 do
                                 G.E_MANAGER:add_event(Event({
