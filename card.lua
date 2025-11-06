@@ -1165,17 +1165,17 @@ function Card:use_consumeable(area, copier)
                     return true end }))
             end  
         -- mod
-        if self.ability.name == 'Life' then
+        elseif self.ability.name == 'Life' then
             local x = G.hand.highlighted[1]
             local y = G.hand.highlighted[-1]
             for i=1, #G.hand.highlighted do
                 G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
                     local child = x
                     if pseudorandom("genes", 1, 2) == 1 then
-                        child.change_rank(y.base.rank)
+                        child.change_suit(y.base.suit)
                     end
                     if pseudorandom("genes", 1, 2) == 1 then
-                        child.change_suit(y.base.suit)
+                        child.change_rank(y.base.rank)
                     end
                     if pseudorandom("genes", 1, 2) == 1 then
                         child.set_ability(y.ability)
@@ -1189,7 +1189,7 @@ function Card:use_consumeable(area, copier)
 
                     copy_card(child, G.hand.highlighted[i])
                     return true end }))
-            end  
+            end
         -- mod end
         elseif self.ability.name == "Strength" or self.ability.name == "Weakness" then -- modified
             for i=1, #G.hand.highlighted do
@@ -1198,7 +1198,7 @@ function Card:use_consumeable(area, copier)
                     local suit_prefix = string.sub(card.base.suit,1,1)..'_'
                     -- mod 
                     local rank_suffix
-                    if self.ability.rank_change == "up" then
+                    if self.ability.extra.rank_change == "up" then
                         rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
                     else 
                         rank_suffix = card.base.id == 2 and 14 or math.max(card.base.id-1, 2)
