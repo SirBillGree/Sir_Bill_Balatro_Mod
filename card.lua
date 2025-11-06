@@ -1184,24 +1184,6 @@ function Card:use_consumeable(area, copier)
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
         delay(0.5)
     end
-    -- mod
-    if self.ability.name == 'A Tennent' then
-        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            play_sound('timpani')
-            used_tarot:juice_up(0.3, 0.5)
-            ease_dollars(20-G.GAME.dollars, true)
-            return true end }))
-        delay(0.6)
-    end
-    if self.ability.name == 'An Impulse' then
-        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            play_sound('timpani')
-            used_tarot:juice_up(0.3, 0.5)
-            ease_dollars(#G.hand.cards*self.ability.config.extra, true)
-            return true end }))
-        delay(0.6)
-    end
-    -- end mod
     if self.ability.name == 'Black Hole' then
         update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
@@ -1434,6 +1416,24 @@ function Card:use_consumeable(area, copier)
             return true end }))
         delay(0.6)
     end
+    -- mod
+    if self.ability.name == 'A Tennent' then
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('timpani')
+            used_tarot:juice_up(0.3, 0.5)
+            ease_dollars(20-G.GAME.dollars, true)
+            return true end }))
+        delay(0.6)
+    end
+    if self.ability.name == 'An Impulse' then
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('timpani')
+            used_tarot:juice_up(0.3, 0.5)
+            ease_dollars(#G.hand.cards*self.ability.config.extra, true)
+            return true end }))
+        delay(0.6)
+    end
+    -- end mod
     if self.ability.name == 'The Hermit' then
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
@@ -1579,7 +1579,8 @@ function Card:can_use_consumeable(any_state, skip_check)
         then  return false end
     if G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT or any_state then
 
-        if self.ability.name == 'The Hermit' or self.ability.consumeable.hand_type or self.ability.name == 'Temperance' or self.ability.name == 'Black Hole' then
+        if self.ability.name == 'The Hermit' or self.ability.consumeable.hand_type or self.ability.name == 'Temperance' or self.ability.name == 'Black Hole'
+        or self.ability.name == 'A Tennent' then
             return true
         end
         if self.ability.name == 'The Wheel of Fortune' then 
@@ -1621,7 +1622,8 @@ function Card:can_use_consumeable(any_state, skip_check)
             end
             if (self.ability.name == 'Familiar' or self.ability.name == 'Grim' or
                 self.ability.name == 'Incantation' or self.ability.name == 'Immolate' or
-                self.ability.name == 'Sigil' or self.ability.name == 'Ouija')
+                self.ability.name == 'Sigil' or self.ability.name == 'Ouija' or
+                self.ability.name == 'An Impulse')
                 and #G.hand.cards > 1 then
                 return true
             end
