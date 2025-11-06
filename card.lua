@@ -577,6 +577,25 @@ function Card:change_suit(new_suit)
     G.GAME.blind:debuff_card(self)
 end
 
+-- mod
+function Card:change_rank(new_rank)
+    local new_code = (self.base.suit == 'Diamonds' and 'D_') or
+    (self.base.suit == 'Spades' and 'S_') or
+    (self.base.suit == 'Clubs' and 'C_') or
+    (self.base.suit == 'Hearts' and 'H_')
+    local new_rank = (self.base.value == 'Ace' and 'A') or
+    (self.base.value == 'King' and 'K') or
+    (self.base.value == 'Queen' and 'Q') or
+    (self.base.value == 'Jack' and 'J') or
+    (self.base.value == '10' and 'T') or
+    (self.base.value)
+    local new_card = G.P_CARDS[new_code..new_rank]
+
+    self:set_base(new_card)
+    G.GAME.blind:debuff_card(self)
+end
+-- end mod
+
 -- Joker add_to_deck effects like +1 hands size
 function Card:add_to_deck(from_debuff)
     if not self.config.center.discovered then
@@ -1137,7 +1156,7 @@ function Card:use_consumeable(area, copier)
         delay(0.2)
         if self.ability.name == 'Death' then
             local rightmost = G.hand.highlighted[1]
-            for i=1, #G.hand.highlighted do if G.hand.highlighted[i].T.x > rightmost.T.x then rightmost = G.hand.highlighted[i] end end
+            -- for i=1, #G.hand.highlighted do if G.hand.highlighted[i].T.x > rightmost.T.x then rightmost = G.hand.highlighted[i] end end
             for i=1, #G.hand.highlighted do
                 G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
                     if G.hand.highlighted[i] ~= rightmost then
@@ -1145,6 +1164,33 @@ function Card:use_consumeable(area, copier)
                     end
                     return true end }))
             end  
+        -- mod
+        if self.ability.name == 'Life' then
+            local x = G.hand.highlighted[1]
+            local y = G.hand.highlighted[-1]
+            for i=1, #G.hand.highlighted do
+                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                    local child = x
+                    if pseudorandom("genes", 1, 2) == 1 then
+                        child.change_rank(y.base.rank)
+                    end
+                    if pseudorandom("genes", 1, 2) == 1 then
+                        child.change_suit(y.base.suit)
+                    end
+                    if pseudorandom("genes", 1, 2) == 1 then
+                        child.set_ability(y.ability)
+                    end
+                    if pseudorandom("genes", 1, 2) == 1 then
+                        child.set_edition(y.edition, true, true)
+                    end
+                    if pseudorandom("genes", 1, 2) == 1 then
+                        child.set_seal(y.seal)
+                    end
+
+                    copy_card(child, G.hand.highlighted[i])
+                    return true end }))
+            end  
+        -- mod end
         elseif self.ability.name == "Strength" or self.ability.name == "Weakness" then -- modified
             for i=1, #G.hand.highlighted do
                 G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()

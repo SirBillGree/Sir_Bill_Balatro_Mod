@@ -577,12 +577,12 @@ function Game:init_item_prototypes()
         c_cheater=          {order = 29,    discovered = false, cost = 3, consumeable = true, name = "A Cheater", pos = {x=6,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_lovers', config = {mod_conv = 'm_marked', max_highlighted = 1}}, --works
         c_athlete=          {order = 30,    discovered = false, cost = 3, consumeable = true, name = "An Athlete", pos = {x=7,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_chariot', config = {mod_conv = 'm_resil', max_highlighted = 1}}, --works
         c_tyrant=           {order = 31,    discovered = false, cost = 3, consumeable = true, name = "A Tyrant", pos = {x=8,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_justice', config = {mod_conv = 'm_brutal', max_highlighted = 1}}, --works
-        c_tennent=          {order = 32,    discovered = false, cost = 3, consumeable = true, name = "A Tennent", pos = {x=9,y=0}, set = "Tarot", effect = "Set money", cost_mult = 1.0, invert = 'c_hermit', config = {extra = 20}},                               --need test
+        c_tennent=          {order = 32,    discovered = false, cost = 3, consumeable = true, name = "A Tennent", pos = {x=9,y=0}, set = "Tarot", effect = "Set money", cost_mult = 1.0, invert = 'c_hermit', config = {extra = 20}},                               --works
         c_roulette=         {order = 33,    discovered = false, cost = 3, consumeable = true, name = "A Roulette", pos = {x=0,y=1}, set = "Tarot", effect = "Roulette", cost_mult = 1.0, invert = 'c_wheel_of_fortune', config = {extra = 4}},
         c_weakness=         {order = 34,    discovered = false, cost = 3, consumeable = true, name = "Weakness", pos = {x=1,y=1}, set = "Tarot", effect = "Rank Change", cost_mult = 1.0, invert = 'c_strength', config = {mod_conv = 'shift rank', rank_change="down", max_highlighted = 3}}, --works
         c_mercy=            {order = 35,    discovered = false, cost = 3, consumeable = true, name = "A Mercy", pos = {x=2,y=1}, set = "Tarot", effect = "Card Creation", cost_mult = 1.0, invert = 'c_hanged_man', config = {remove_card = true, max_highlighted = 2}},
         c_life=             {order = 36,    discovered = false, cost = 3, consumeable = true, name = "Life", pos = {x=3,y=1}, set = "Tarot", effect = "Card Conversion", cost_mult = 1.0, invert = 'c_death', config = {mod_conv = 'card', max_highlighted = 2, min_highlighted = 2}},
-        c_impulse=          {order = 37,    discovered = false, cost = 3, consumeable = true, name = "An Impulse", pos = {x=4,y=1}, set = "Tarot", effect = "Hand Payout", cost_mult = 1.0, invert = 'c_temperance', config = {extra = 2}},                         --need test
+        c_impulse=          {order = 37,    discovered = false, cost = 3, consumeable = true, name = "An Impulse", pos = {x=4,y=1}, set = "Tarot", effect = "Hand Payout", cost_mult = 1.0, invert = 'c_temperance', config = {extra = 2}},                         --works
         c_angel=            {order = 38,    discovered = false, cost = 3, consumeable = true, name = "An Angel", pos = {x=5,y=1}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_devil', config = {mod_conv = 'm_flame', max_highlighted = 1}}, --works
         c_mountain=         {order = 39,    discovered = false, cost = 3, consumeable = true, name = "A Mountain", pos = {x=6,y=1}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_tower', config = {mod_conv = 'm_crystal', max_highlighted = 1}}, --works
         c_dust=             {order = 40,    discovered = false, cost = 3, consumeable = true, name = "Dust", pos = {x=7,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_star', config = {suit_conv = 'Diamonds', max_highlighted = 5}}, --works (temp)
@@ -686,7 +686,7 @@ function Game:init_item_prototypes()
         b_challenge=        {name = "Challenge Deck",   stake = 1, unlocked = true,order = 16, pos = {x=0,y=4}, set = "Back", config = {}, omit = true}, 
 
         
-        --All enhanced card types here
+        --All enhanced card types here (internally, playing cards are either "Base" or "Enhanced")
         m_bonus =   {max = 500, order = 2, name = "Bonus", set = "Enhanced", pos = {x=1,y=1}, effect = "Bonus Card", label = "Bonus Card", config = {bonus=30}},
         m_mult =    {max = 500, order = 3, name = "Mult", set = "Enhanced", pos = {x=2,y=1}, effect = "Mult Card", label = "Mult Card", config = {mult = 4}},
         m_wild =    {max = 500, order = 4, name = "Wild Card", set = "Enhanced", pos = {x=3,y=1}, effect = "Wild Card", label = "Wild Card", config = {}},
