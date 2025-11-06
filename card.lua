@@ -1429,7 +1429,7 @@ function Card:use_consumeable(area, copier)
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             used_tarot:juice_up(0.3, 0.5)
-            ease_dollars(#G.hand.cards*self.ability.config.extra, true)
+            ease_dollars(#G.hand.cards*self.ability.extra, true)
             return true end }))
         delay(0.6)
     end
