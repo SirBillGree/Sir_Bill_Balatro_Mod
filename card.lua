@@ -1198,7 +1198,7 @@ function Card:use_consumeable(area, copier)
                     local suit_prefix = string.sub(card.base.suit,1,1)..'_'
                     -- mod 
                     local rank_suffix
-                    if self.ability.extra.rank_change == "up" then
+                    if self.ability.extra == 1 then
                         rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
                     else 
                         rank_suffix = card.base.id == 2 and 14 or math.max(card.base.id-1, 2)
@@ -1467,7 +1467,7 @@ function Card:use_consumeable(area, copier)
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             used_tarot:juice_up(0.3, 0.5)
-            ease_dollars(20-G.GAME.dollars, true)
+            ease_dollars(self.ability.extra-G.GAME.dollars, true)
             return true end }))
         delay(0.6)
     end
