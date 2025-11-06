@@ -78,6 +78,7 @@ G.CHALLENGES = {
             {id = "c_tennent"},
             {id = "c_strength"},
             {id = "c_weakness"},
+            {id = "c_life"},
         },
         vouchers = {
         },
