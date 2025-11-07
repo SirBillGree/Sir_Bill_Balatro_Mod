@@ -80,6 +80,7 @@ G.CHALLENGES = {
             {id = "c_weakness"},
             {id = "c_life"},
             {id = "c_roulette"},
+            {id = "c_mercy"},
         },
         vouchers = {
         },

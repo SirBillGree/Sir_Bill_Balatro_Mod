@@ -1244,6 +1244,30 @@ function Card:use_consumeable(area, copier)
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function() G.hand:unhighlight_all(); return true end }))
         delay(0.5)
     end
+    -- mod
+    if self.ability.name == 'A Mercy' then
+        --create 2 random cards and add to deck
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                local _first_dissolve = nil
+                local new_cards = {}
+                for i = 1, self.ability.extra do
+                    G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                    local _card = get_current_pool("Enhanced", nil,nil,nil)
+                    _card:add_to_deck()
+                    G.deck.config.card_limit = G.deck.config.card_limit + 1
+                    table.insert(G.playing_cards, _card)
+                    G.hand:emplace(_card)
+                    _card:start_materialize(nil, _first_dissolve)
+                    _first_dissolve = true
+                    new_cards[#new_cards+1] = _card
+                end
+                playing_card_joker_effects(new_cards)
+                return true
+            end
+        })) 
+    end
+    -- mod end
     if self.ability.name == 'Black Hole' then
         update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
@@ -1697,7 +1721,7 @@ function Card:can_use_consumeable(any_state, skip_check)
             if (self.ability.name == 'Familiar' or self.ability.name == 'Grim' or
                 self.ability.name == 'Incantation' or self.ability.name == 'Immolate' or
                 self.ability.name == 'Sigil' or self.ability.name == 'Ouija' or
-                self.ability.name == 'An Impulse')
+                self.ability.name == 'An Impulse' or self.ability.name == 'A Mercy')
                 and #G.hand.cards > 1 then
                 return true
             end
