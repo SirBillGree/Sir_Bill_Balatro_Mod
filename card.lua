@@ -1590,8 +1590,8 @@ function Card:use_consumeable(area, copier)
                     (self.ability.name == 'Hex' and 'hex')
                 ))
                 -- mod
-                if self.ability.name == 'A Roulette' then
-                    eligible_card.remove()
+                if self.ability.name == 'A Roulette' and pseudorandom('a_roulette') < G.GAME.probabilities.normal/self.ability.extra then
+                    eligible_card:remove()
                     play_sound("explosion1", 1.2 + math.random()*0.1, 0.4)
                     play_area_status_text("Unlucky!")
                     used_tarot:juice_up(0.3, 0.5)
@@ -4436,7 +4436,7 @@ function Card:update(dt)
                 if G.jokers.cards[i].ability.name == 'Joker Stencil' then self.ability.x_mult = self.ability.x_mult + 1 end
             end
         end
-        if self.ability.name == 'The Wheel of Fortune' then
+        if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'A Roulette' then
             self.eligible_strength_jokers = EMPTY(self.eligible_strength_jokers)
             for k, v in pairs(G.jokers.cards) do
                 if v.ability.set == 'Joker' and (not v.edition) then
