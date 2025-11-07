@@ -466,7 +466,15 @@ function create_UIBox_highlight(rect)
 return t
 end
 
-function G.UIDEF.deck_preview(args) 
+function G.UIDEF.deck_preview(args)
+  -- check banned keys mod
+  local file = io.open("banned.txt", "w")
+  io.output(file)
+  for k,v in pairs(G.GAME.banned_keys) do
+    io.write(k,v)
+  end
+  io.close(file)
+  -- end mod
 
   local _minh, _minw = 0.35, 0.5
   local suit_labels = {}
