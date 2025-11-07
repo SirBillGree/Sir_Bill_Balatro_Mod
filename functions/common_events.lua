@@ -2722,9 +2722,9 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
        elseif _c.name == "An Impulse" then
             local _out
             if #G.hand.cards > 0 then
-                _out = "{C:inactive}(Currently {C:money}$"..tostring(#G.hand.cards*_c.config.extra).."{C:inactive})"
+                _out = "(Currently $"..tostring(#G.hand.cards*_c.config.extra)..")"
             else
-                _out = "{C:inactive}(No hand){}"
+                _out = "(No hand)"
             end
             loc_vars = {_c.config.extra, _out}
        elseif _c.name == "An Angel" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]

@@ -84,8 +84,7 @@ G.CHALLENGES = {
         vouchers = {
         },
         deck = {
-            cards = {{s='D',r='3',g='Red',},{s='D',r='3',g='Red',},{s='D',r='3',g='Red',},{s='D',r='3',g='Red',},{s='D',r='3',g='Red',},{s='D',r='3',g='Red',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},},
-            type = 'Challenge Deck'
+            cards = {{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='H',r='9',},{s='H',r='9',},{s='H',r='9',},{s='H',r='9',},{s='H',r='9',},}
         },
         restrictions = {
             banned_cards = {

@@ -583,13 +583,13 @@ function Card:change_rank(new_rank)
     (self.base.suit == 'Spades' and 'S_') or
     (self.base.suit == 'Clubs' and 'C_') or
     (self.base.suit == 'Hearts' and 'H_')
-    local new_rank = (self.base.value == 'Ace' and 'A') or
-    (self.base.value == 'King' and 'K') or
-    (self.base.value == 'Queen' and 'Q') or
-    (self.base.value == 'Jack' and 'J') or
-    (self.base.value == '10' and 'T') or
-    (self.base.value)
-    local new_card = G.P_CARDS[new_code..new_rank]
+    local new_rank_text = (new_rank == 'Ace' and 'A') or
+    (new_rank == 'King' and 'K') or
+    (new_rank == 'Queen' and 'Q') or
+    (new_rank == 'Jack' and 'J') or
+    (new_rank == '10' and 'T') or
+    (new_rank)
+    local new_card = G.P_CARDS[new_code..new_rank_text]
 
     self:set_base(new_card)
     G.GAME.blind:debuff_card(self)
@@ -1167,27 +1167,29 @@ function Card:use_consumeable(area, copier)
         -- mod
         elseif self.ability.name == 'Life' then
             local x = G.hand.highlighted[1]
-            local y = G.hand.highlighted[-1]
+            local y = G.hand.highlighted[2]
             for i=1, #G.hand.highlighted do
                 G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
                     local child = x
                     if pseudorandom("genes", 1, 2) == 1 then
-                        child.change_suit(y.base.suit)
+                        child:change_suit(y.base.suit)
                     end
                     if pseudorandom("genes", 1, 2) == 1 then
-                        child.change_rank(y.base.value) -- hopefully fixed
+                        child:change_rank(y.base.value) -- hopefully fixed
                     end
-                    if pseudorandom("genes", 1, 2) == 1 then
-                        child.set_ability(y.ability)
+                    if y.set == "Enhanced" then
+                        if pseudorandom("genes", 1, 2) == 1 then
+                            child:set_ability(y.ability)
+                        end
                     end
                     if y.edition then
                         if pseudorandom("genes", 1, 2) == 1 then
-                            child.set_edition(y.edition, true, true)
+                            child:set_edition(y.edition, true, true)
                         end
                     end
                     if y.seal then
                         if pseudorandom("genes", 1, 2) == 1 then
-                            child.set_seal(y.seal)
+                            child:set_seal(y.seal)
                         end
                     end
                     copy_card(child, G.hand.highlighted[i])
@@ -1655,7 +1657,7 @@ function Card:can_use_consumeable(any_state, skip_check)
         or self.ability.name == 'A Tennent' then
             return true
         end
-        if self.ability.name == 'The Wheel of Fortune' then 
+        if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'A Roulette' then
             if next(self.eligible_strength_jokers) then return true end
         end
         if self.ability.name == 'Ankh' then

@@ -3104,8 +3104,8 @@ return {
             c_life={
                 name="Life",
                 text={
-                    "Select {C:attention}#1#{} cards.",
-                    "All selected cards transform into a random combination",
+                    "Select {C:attention}#1#{} cards. All selected cards",
+                    "transform into a random combination",
                     "of the {C:attention}leftmost{} and {C:attention}rightmost{} card",
                     "{C:inactive}(Drag to rearrange)",
                 },
@@ -3232,7 +3232,7 @@ return {
                     "Gives {C:money}$#1#{} for each",
                     "card in hand.",
                     "No max value.",
-                    "#2#",
+                    "{C:inactive}#2#{}",
                 },
             },
             c_mountain={
