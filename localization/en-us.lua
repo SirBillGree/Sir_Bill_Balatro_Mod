@@ -3096,19 +3096,26 @@ return {
             c_athlete={
                 name="An Athlete",
                 text={
-                    "temp",
+                    "Enhances {C:attention}#1#{}",
+                    "selected cards to",
+                    "{C:attention}#2#s",
                 },
             },
             c_life={
                 name="Life",
                 text={
-                    "temp",
+                    "Select {C:attention}#1#{} cards.",
+                    "All selected cards transform into a random combination",
+                    "of the {C:attention}leftmost{} and {C:attention}rightmost{} card",
+                    "{C:inactive}(Drag to rearrange)",
                 },
             },
             c_angel={
                 name="An Angel",
                 text={
-                    "temp",
+                    "Enhances {C:attention}#1#{}",
+                    "selected cards to",
+                    "{C:attention}#2#s",
                 },
             },
             c_peasant={
@@ -3120,7 +3127,9 @@ return {
             c_vanity={
                 name="Vanity",
                 text={
-                    "temp",
+                    "Enhances {C:attention}#1#{}",
+                    "selected cards to",
+                    "{C:attention}#2#s",
                 },
             },
             c_jester={
@@ -3138,13 +3147,15 @@ return {
             c_non_believer={
                 name="A Non-Believer",
                 text={
-                    "temp",
+                    "Enhances {C:attention}#1#{}",
+                    "selected cards to",
+                    "{C:attention}#2#s",
                 },
             },
             c_tennent={
                 name="A Tennent",
                 text={
-                    "temp",
+                    "Set money to {C:money}$#1#{}",
                 },
             },
             c_critic={
@@ -3162,67 +3173,91 @@ return {
             c_tyrant={
                 name="A Tyrant",
                 text={
-                    "temp",
+                    "Enhances {C:attention}#1#{}",
+                    "selected cards to",
+                    "{C:attention}#2#s",
                 },
             },
             c_cheater={
                 name="A Cheater",
                 text={
-                    "temp",
+                    "Enhances {C:attention}#1#{}",
+                    "selected cards to",
+                    "{C:attention}#2#s",
                 },
             },
             c_scientist={
                 name="A Scientist",
                 text={
-                    "temp",
+                    "Enhances {C:attention}#1#{}",
+                    "selected cards to",
+                    "{C:attention}#2#s",
                 },
             },
             c_night={
                 name="Night",
                 text={
-                    "temp",
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#{}",
                 },
             },
             c_dust={
                 name="Dust",
                 text={
-                    "temp",
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#{}",
                 },
             },
             c_weakness={
                 name="Weakness",
                 text={
-                    "temp",
+                    "Decrases rank of",
+                    "up to {C:attention}#1#{} selected",
+                    "cards by {C:attention}1",
                 },
             },
             c_day={
                 name="Day",
                 text={
-                    "temp",
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#{}",
                 },
             },
             c_impulse={
                 name="An Impulse",
                 text={
-                    "temp",
+                    "Gives {C:money}$#1#{} for each",
+                    "card in hand.",
+                    "No max value.",
+                    "#2#",
                 },
             },
             c_mountain={
                 name="A Mountain",
                 text={
-                    "temp",
+                    "Enhances {C:attention}#1#{}",
+                    "selected cards to",
+                    "{C:attention}#2#s",
                 },
             },
             c_roulette={
                 name="A Roulette",
                 text={
-                    "temp",
+                    "Add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{}, or",
+                    "{C:dark_edition}Polychrome{} edition",
+                    "to a random {C:attention}Joker.",
+                    "{C:green}#1# in #2#{} chance to destory it instead.",
                 },
             },
             c_void={
                 name="Void",
                 text={
-                    "temp",
+                    "Converts up to",
+                    "{C:attention}#1#{} selected cards",
+                    "to {V:1}#2#{}",
                 },
             },
             --end mod

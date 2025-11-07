@@ -1175,7 +1175,7 @@ function Card:use_consumeable(area, copier)
                         child.change_suit(y.base.suit)
                     end
                     if pseudorandom("genes", 1, 2) == 1 then
-                        child.change_rank(y.base.rank)
+                        child.change_rank(y.base.value) -- hopefully fixed
                     end
                     if pseudorandom("genes", 1, 2) == 1 then
                         child.set_ability(y.ability)
@@ -1186,24 +1186,32 @@ function Card:use_consumeable(area, copier)
                     if pseudorandom("genes", 1, 2) == 1 then
                         child.set_seal(y.seal)
                     end
-
                     copy_card(child, G.hand.highlighted[i])
                     return true end }))
             end
-        -- mod end
-        elseif self.ability.name == "Strength" or self.ability.name == "Weakness" then -- modified
+        elseif self.ability.name == "Weakness" then
             for i=1, #G.hand.highlighted do
                 G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
                     local card = G.hand.highlighted[i]
                     local suit_prefix = string.sub(card.base.suit,1,1)..'_'
-                    -- mod 
-                    local rank_suffix
-                    if self.ability.extra == 1 then
-                        rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
-                    else 
-                        rank_suffix = card.base.id == 2 and 14 or math.max(card.base.id-1, 2)
+                    local rank_suffix = card.base.id == 2 and 14 or math.max(card.base.id-1, 2)
+                    if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
+                    elseif rank_suffix == 10 then rank_suffix = 'T'
+                    elseif rank_suffix == 11 then rank_suffix = 'J'
+                    elseif rank_suffix == 12 then rank_suffix = 'Q'
+                    elseif rank_suffix == 13 then rank_suffix = 'K'
+                    elseif rank_suffix == 14 then rank_suffix = 'A'
                     end
-                    -- mod end
+                    card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
+                return true end }))
+            end  
+        -- mod end
+        elseif self.ability.name == 'Strength' then
+            for i=1, #G.hand.highlighted do
+                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                    local card = G.hand.highlighted[i]
+                    local suit_prefix = string.sub(card.base.suit, 1, 1)..'_'
+                    local rank_suffix = card.base.id == 14 and 2 or math.min(card.base.id+1, 14)
                     if rank_suffix < 10 then rank_suffix = tostring(rank_suffix)
                     elseif rank_suffix == 10 then rank_suffix = 'T'
                     elseif rank_suffix == 11 then rank_suffix = 'J'
@@ -1562,17 +1570,28 @@ function Card:use_consumeable(area, copier)
             return true end }))
         delay(0.6)
     end
-    if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' then
+    if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'A Roulette' or self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' then
         local temp_pool =   (self.ability.name == 'The Wheel of Fortune' and self.eligible_strength_jokers) or 
+                            (self.ability.name == 'A Roulette' and self.eligible_strength_jokers) or
                             ((self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex') and self.eligible_editionless_jokers) or {}
-        if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' or pseudorandom('wheel_of_fortune') < G.GAME.probabilities.normal/self.ability.extra then 
+        if self.ability.name == 'Ectoplasm' or self.ability.name == 'A Roulette' or self.ability.name == 'Hex' or pseudorandom('wheel_of_fortune') < G.GAME.probabilities.normal/self.ability.extra then 
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
                 local over = false
                 local eligible_card = pseudorandom_element(temp_pool, pseudoseed(
                     (self.ability.name == 'The Wheel of Fortune' and 'wheel_of_fortune') or 
+                    (self.ability.name == 'A Roulette' and 'a_roulette') or
                     (self.ability.name == 'Ectoplasm' and 'ectoplasm') or
                     (self.ability.name == 'Hex' and 'hex')
                 ))
+                -- mod
+                if self.ability.name == 'A Roulette' then
+                    eligible_card.remove()
+                    play_sound("explosion1", 1.2 + math.random()*0.1, 0.4)
+                    play_area_status_text("Unlucky!")
+                    used_tarot:juice_up(0.3, 0.5)
+                    return true
+                end
+                -- mod end
                 local edition = nil
                 if self.ability.name == 'Ectoplasm' then
                     edition = {negative = true}
@@ -1580,9 +1599,12 @@ function Card:use_consumeable(area, copier)
                     edition = {polychrome = true}
                 elseif self.ability.name == 'The Wheel of Fortune' then
                     edition = poll_edition('wheel_of_fortune', nil, true, true)
+                elseif self.ability.name == 'A Roulette' then
+                    edition = poll_edition('a_roulette', nil, true, true)
                 end
                 eligible_card:set_edition(edition, true)
-                if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' then check_for_unlock({type = 'have_edition'}) end
+                -- if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' then check_for_unlock({type = 'have_edition'}) end
+                check_for_unlock({type = 'have_edition'}) -- why did he check this ^^^
                 if self.ability.name == 'Hex' then 
                     local _first_dissolve = nil
                     for k, v in pairs(G.jokers.cards) do

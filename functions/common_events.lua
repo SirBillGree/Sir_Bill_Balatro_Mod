@@ -2704,6 +2704,37 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
        elseif _c.name == "The Sun" then loc_vars = {_c.config.max_highlighted, localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
        elseif _c.name == "Judgement" then
        elseif _c.name == "The World" then loc_vars = {_c.config.max_highlighted, localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
+       -- mod
+       elseif _c.name == "A Jester" then end -- unfinished
+       elseif _c.name == "A Scientist" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
+       elseif _c.name == "A Critic" then loc_vars = {_c.config.planets} -- unfinished
+       elseif _c.name == "Vanity" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
+       elseif _c.name == "A Peasant" then loc_vars = {_c.config.tarots} -- unfinished
+       elseif _c.name == "A Non-Believer" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
+       elseif _c.name == "A Cheater" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
+       elseif _c.name == "An Athlete" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
+       elseif _c.name == "A Tyrant" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
+       elseif _c.name == "A Tennent" then loc_vars = {_c.config.extra}
+       elseif _c.name == "A Roulette" then loc_vars = {G.GAME.probabilities.normal, _c.config.extra};  info_queue[#info_queue+1] = G.P_CENTERS.e_foil; info_queue[#info_queue+1] = G.P_CENTERS.e_holo; info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome; -- unfinished
+       elseif _c.name == "Weakness" then loc_vars = {_c.config.max_highlighted}
+       elseif _c.name == "A Mercy" then loc_vars = {_c.config.max_highlighted} -- unfinished
+       elseif _c.name == "Life" then loc_vars = {_c.config.max_highlighted}
+       elseif _c.name == "An Impulse" then
+            local _out
+            if #G.hand.cards > 0 then
+                _out = "{C:inactive}(Currently {C:money}$"..tostring(#G.hand.cards*_c.config.extra).."{C:inactive})"
+            else
+                _out = "{C:inactive}(No hand){}"
+            end
+            loc_vars = {_c.config.extra, _out}
+       elseif _c.name == "An Angel" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
+       elseif _c.name == "A Mountain" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
+       elseif _c.name == "Dust" then loc_vars = {_c.config.max_highlighted,  localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
+       elseif _c.name == "Night" then loc_vars = {_c.config.max_highlighted, localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
+       elseif _c.name == "Day" then loc_vars = {_c.config.max_highlighted, localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
+       elseif _c.name == "Verdict" then -- unfinished
+       elseif _c.name == "Void" then loc_vars = {_c.config.max_highlighted, localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
+       -- end mod
        end
        localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
    end
