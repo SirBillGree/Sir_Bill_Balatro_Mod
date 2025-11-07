@@ -1253,7 +1253,7 @@ function Card:use_consumeable(area, copier)
                 local new_cards = {}
                 for i = 1, self.ability.extra do
                     G.playing_card = (G.playing_card and G.playing_card + 1) or 1
-                    local _card = get_current_pool("Enhanced", nil,nil,nil)
+                    local _card = create_card((pseudorandom(pseudoseed('stdset'..G.GAME.round_resets.ante)) > 0.6) and "Enhanced" or "Base", G.pack_cards, nil, nil, nil, true, nil, 'sta')
                     _card:add_to_deck()
                     G.deck.config.card_limit = G.deck.config.card_limit + 1
                     table.insert(G.playing_cards, _card)
