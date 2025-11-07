@@ -79,11 +79,12 @@ G.CHALLENGES = {
             {id = "c_strength"},
             {id = "c_weakness"},
             {id = "c_life"},
+            {id = "c_roulette"},
         },
         vouchers = {
         },
         deck = {
-            cards = {{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},},
+            cards = {{s='D',r='3',g='Red',},{s='D',r='3',g='Red',},{s='D',r='3',g='Red',},{s='D',r='3',g='Red',},{s='D',r='3',g='Red',},{s='D',r='3',g='Red',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},{s='D',r='3',},},
             type = 'Challenge Deck'
         },
         restrictions = {

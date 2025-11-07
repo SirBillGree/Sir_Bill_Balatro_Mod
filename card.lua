@@ -1180,11 +1180,15 @@ function Card:use_consumeable(area, copier)
                     if pseudorandom("genes", 1, 2) == 1 then
                         child.set_ability(y.ability)
                     end
-                    if pseudorandom("genes", 1, 2) == 1 then
-                        child.set_edition(y.edition, true, true)
+                    if y.edition then
+                        if pseudorandom("genes", 1, 2) == 1 then
+                            child.set_edition(y.edition, true, true)
+                        end
                     end
-                    if pseudorandom("genes", 1, 2) == 1 then
-                        child.set_seal(y.seal)
+                    if y.seal then
+                        if pseudorandom("genes", 1, 2) == 1 then
+                            child.set_seal(y.seal)
+                        end
                     end
                     copy_card(child, G.hand.highlighted[i])
                     return true end }))
