@@ -1986,7 +1986,7 @@ function get_current_pool(_type, _rarity, _legendary, _append, force_showman)
                 (not v.min_ante or v.min_ante <= G.GAME.round_resets.ante) then
                     add = true
                 end
-            elseif not (G.GAME.used_jokers[v.key] and not next(find_joker("Showman"))) and
+            elseif not (G.GAME.used_jokers[v.key] and not (next(find_joker("Showman")) or force_showman)) and
                 (v.unlocked ~= false or v.rarity == 4) then
                 if v.set == 'Voucher' then
                     if not G.GAME.used_vouchers[v.key] then 
