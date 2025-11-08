@@ -3141,7 +3141,8 @@ return {
             c_mercy={
                 name="A Mercy",
                 text={
-                    "temp",
+                    "Puts #1# random cards",
+                    "into your hand",
                 },
             },
             c_non_believer={

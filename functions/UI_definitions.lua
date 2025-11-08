@@ -471,7 +471,7 @@ function G.UIDEF.deck_preview(args)
   local file = io.open("banned.txt", "w")
   io.output(file)
   for k,v in pairs(G.GAME.banned_keys) do
-    io.write(k,v)
+    io.write(k,"\n")
   end
   io.close(file)
   -- end mod

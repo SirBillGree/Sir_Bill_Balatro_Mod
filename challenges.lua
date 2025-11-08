@@ -81,6 +81,7 @@ G.CHALLENGES = {
             {id = "c_life"},
             {id = "c_roulette"},
             {id = "c_mercy"},
+            {id = "c_critic"}
         },
         vouchers = {
         },
@@ -109,6 +110,48 @@ G.CHALLENGES = {
                 {id = "c_sun"},
                 {id = "c_judgement"},
                 {id = "c_world"},
+            },
+            banned_tags = {
+            },
+            banned_other = {
+            }
+        }
+    },
+    {
+        name = 'Test2',
+        id = 'test',
+        rules = {
+            custom = {
+            },
+            modifiers = {
+            }
+        },
+        jokers = {
+            {id = 'j_pow3'},
+            {id = 'j_pawnshop'},
+            {id = 'j_d_knight'},
+        },
+        consumeables = {
+            {id = "c_critic"}, -- first should work
+            {id = "c_critic"}, -- second shouldn't
+        },
+        vouchers = {
+        },
+        deck = {
+            cards = {{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='H',r='9',},{s='H',r='9',},{s='H',r='9',},{s='H',r='9',},{s='H',r='9',},}
+        },
+        restrictions = {
+            banned_cards = { -- all planets except mercury and pluto 
+                {id = "c_venus"},
+                {id = "c_earth"},
+                {id = "c_mars"},
+                {id = "c_jupiter"},
+                {id = "c_saturn"},
+                {id = "c_uranus"},
+                {id = "c_neptune"},
+                {id = "c_planet_x"},
+                {id = "c_eris"},
+                {id = "c_ceres"},
             },
             banned_tags = {
             },

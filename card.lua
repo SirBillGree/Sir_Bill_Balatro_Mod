@@ -1267,6 +1267,16 @@ function Card:use_consumeable(area, copier)
             end
         })) 
     end
+    if self.ability.name == "A Critic" then
+        local _planet = 'c_pluto'
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('timpani')
+            play_area_status_text(tostring(G.P_CENTERS[_planet].name).." Removed!")
+            used_tarot:juice_up(0.3, 0.5)
+            return true end }))
+        delay(0.6)
+        G.GAME.banned_keys[_planet] = true
+    end
     -- mod end
     if self.ability.name == 'Black Hole' then
         update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize('k_all_hands'),chips = '...', mult = '...', level=''})
@@ -1681,6 +1691,37 @@ function Card:can_use_consumeable(any_state, skip_check)
         or self.ability.name == 'A Tennent' then
             return true
         end
+        -- mod
+        if self.ability.effect == "Set Removal" then
+            local remaining = G.P_CENTERS
+            local cnt = 0
+            for k,v in pairs(G.GAME.banned_keys) do
+                remaining[k] = nil
+            end
+            if self.ability.name == 'A Critic' then
+                for k,v in remaining do
+                    if v.set == "Planet" then
+                        cnt = cnt+1
+                        if cnt > 1 then return true end
+                    end
+                end
+            elseif self.ability.name == "A Peasant" then
+                for k,v in remaining do
+                    if v.set == "Tarot" then
+                        cnt = cnt+1
+                        if cnt > 1 then return true end
+                    end
+                end
+            elseif self.ability.name == 'Verdict' then
+                for k,v in remaining do
+                    if v.set == "Joker" then
+                        cnt = cnt+1
+                        if cnt > 1 then return true end
+                    end
+                end
+            end
+        end
+        -- mod end
         if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'A Roulette' then
             if next(self.eligible_strength_jokers) then return true end
         end
