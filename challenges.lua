@@ -74,14 +74,9 @@ G.CHALLENGES = {
             {id = 'j_d_knight'},
         },
         consumeables = {
-            {id = "c_impulse"},
-            {id = "c_tennent"},
-            {id = "c_strength"},
-            {id = "c_weakness"},
-            {id = "c_life"},
-            {id = "c_roulette"},
-            {id = "c_mercy"},
-            {id = "c_critic"}
+            {id = "c_critic"},
+            {id = "c_verdict"},
+            {id = "c_peasant"},
         },
         vouchers = {
         },

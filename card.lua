@@ -1267,15 +1267,16 @@ function Card:use_consumeable(area, copier)
             end
         })) 
     end
-    if self.ability.name == "A Critic" then
-        local _planet = 'c_pluto'
-        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            play_sound('timpani')
-            play_area_status_text(tostring(G.P_CENTERS[_planet].name).." Removed!")
-            used_tarot:juice_up(0.3, 0.5)
-            return true end }))
-        delay(0.6)
-        G.GAME.banned_keys[_planet] = true
+    if self.ability.name == "A Critic" or self.ability.name == "A Peasant" or self.ability.name == "Verdict" then
+        self:open()
+        -- local _planet = 'c_pluto'
+        -- G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+        --     play_sound('timpani')
+        --     play_area_status_text(tostring(G.P_CENTERS[_planet].name).." Removed!")
+        --     used_tarot:juice_up(0.3, 0.5)
+        --     return true end }))
+        -- delay(0.6)
+        -- G.GAME.banned_keys[_planet] = true
     end
     -- mod end
     if self.ability.name == 'Black Hole' then
@@ -1872,7 +1873,7 @@ function Card:calculate_dollar_bonus()
 end
 
 function Card:open()
-    if self.ability.set == "Booster" then
+    if self.ability.set == "Booster" or self.ability.effect == "Set Removal" then
         stop_use()
         G.STATE_COMPLETE = false 
         self.opening = true
@@ -1882,10 +1883,10 @@ function Card:open()
         end
         self.states.hover.can = false
 
-        if self.ability.name:find('Arcana') then 
+        if self.ability.name:find('Arcana') or self.ability.name == "A Peasant" then -- mod
             G.STATE = G.STATES.TAROT_PACK
             G.GAME.pack_size = self.ability.extra
-        elseif self.ability.name:find('Celestial') then
+        elseif self.ability.name:find('Celestial') or self.ability.name == "A Critic" then -- mod
             G.STATE = G.STATES.PLANET_PACK
             G.GAME.pack_size = self.ability.extra
         elseif self.ability.name:find('Spectral') then
@@ -1894,12 +1895,13 @@ function Card:open()
         elseif self.ability.name:find('Standard') then
             G.STATE = G.STATES.STANDARD_PACK
             G.GAME.pack_size = self.ability.extra
-        elseif self.ability.name:find('Buffoon') then
+        elseif self.ability.name:find('Buffoon') or self.ability.name == "Verdict" then -- mod
             G.STATE = G.STATES.BUFFOON_PACK
             G.GAME.pack_size = self.ability.extra
         end
 
-        G.GAME.pack_choices = self.config.center.config.choose or 1
+        --G.GAME.pack_choices = self.config.center.config.choose or 1
+        G.GAME.pack_choices = self.ability.config.choose or 1
 
         if self.cost > 0 then 
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
@@ -1920,14 +1922,16 @@ function Card:open()
                 
                 for i = 1, _size do
                     local card = nil
-                    if self.ability.name:find('Arcana') then 
-                        if G.GAME.used_vouchers.v_omen_globe and pseudorandom('omen_globe') > 0.8 then
+                    if self.ability.name:find('Arcana') then -- mod
+                        if G.GAME.used_vouchers.v_omen_globe and pseudorandom('omen_globe') > 0.8 then --mod
                             card = create_card("Spectral", G.pack_cards, nil, nil, true, true, nil, 'ar2')
                         else
                             card = create_card("Tarot", G.pack_cards, nil, nil, true, true, nil, 'ar1')
                         end
+                    elseif self.ability.name ~= "A Peasant" then
+                        card = create_card("Tarot", G.pack_cards, nil, nil, true, false, nil, 'pea')
                     elseif self.ability.name:find('Celestial') then
-                        if G.GAME.used_vouchers.v_telescope and i == 1 then
+                        if G.GAME.used_vouchers.v_telescope and i == 1  then
                             local _planet, _hand, _tally = nil, nil, 0
                             for k, v in ipairs(G.handlist) do
                                 if G.GAME.hands[v].visible and G.GAME.hands[v].played > _tally then
@@ -1946,6 +1950,8 @@ function Card:open()
                         else
                             card = create_card("Planet", G.pack_cards, nil, nil, true, true, nil, 'pl1')
                         end
+                    elseif self.ability.name == "A Critic" then
+                        card = create_card("Planet", G.pack_cards, nil, nil, true, false, nil, 'cri')
                     elseif self.ability.name:find('Spectral') then
                         card = create_card("Spectral", G.pack_cards, nil, nil, true, true, nil, 'spe')
                     elseif self.ability.name:find('Standard') then
@@ -1965,7 +1971,12 @@ function Card:open()
                         end
                     elseif self.ability.name:find('Buffoon') then
                         card = create_card("Joker", G.pack_cards, nil, nil, true, true, nil, 'buf')
-
+                    elseif self.ability.name == "Verdict" then
+                        if (pseudorandom(pseudoseed("verdict")) > 0.5) then -- set to 0.997 later
+                            card = create_card("Joker", G.pack_cards, true, nil, true, false, nil, 'ver')
+                        else
+                            card = create_card("Joker", G.pack_cards, nil, nil, true, false, nil, 'ver')
+                        end
                     end
                     card.T.x = self.T.x
                     card.T.y = self.T.y

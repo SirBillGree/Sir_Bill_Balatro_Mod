@@ -570,9 +570,9 @@ function Game:init_item_prototypes()
         --inverted Tarots Mod (need to update configs!!!)
         c_jester=           {order = 23,    discovered = false, cost = 3, consumeable = true, name = "A Jester", pos = {x=0,y=0}, set = "Tarot", effect = "Flip Tarot", cost_mult = 1.0, invert = 'c_fool', config = {}},
         c_scientist=        {order = 24,    discovered = false, cost = 3, consumeable = true, name = "A Scientist", pos = {x=1,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_magician', config = {mod_conv = 'm_catalyst', max_highlighted = 2}},   --works
-        c_critic=           {order = 25,    discovered = false, cost = 3, consumeable = true, name = "A Critic", pos = {x=2,y=0}, set = "Tarot", effect = "Set Removal", cost_mult = 1.0, invert = 'c_high_priestess', config = {planets = 1}},
+        c_critic=           {order = 25,    discovered = false, cost = 3, consumeable = true, name = "A Critic", pos = {x=2,y=0}, set = "Tarot", effect = "Set Removal", cost_mult = 1.0, invert = 'c_high_priestess', config = {extra = 3, choose = 1}},
         c_vanity=           {order = 26,    discovered = false, cost = 3, consumeable = true, name = "Vanity", pos = {x=3,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_empress', config = {mod_conv = 'm_mirror', max_highlighted = 1}},   --works
-        c_peasant=          {order = 27,    discovered = false, cost = 3, consumeable = true, name = "A Peasant", pos = {x=4,y=0}, set = "Tarot", effect = "Set Removal", cost_mult = 1.0, invert = 'c_emperor', config = {tarots = 1}},
+        c_peasant=          {order = 27,    discovered = false, cost = 3, consumeable = true, name = "A Peasant", pos = {x=4,y=0}, set = "Tarot", effect = "Set Removal", cost_mult = 1.0, invert = 'c_emperor', config = {extra = 5, choose = 1}},
         c_non_believer=     {order = 28,    discovered = false, cost = 3, consumeable = true, name = "A Non-Believer", pos = {x=5,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_heirophant', config = {mod_conv = 'm_blank', max_highlighted = 2}}, --works
         c_cheater=          {order = 29,    discovered = false, cost = 3, consumeable = true, name = "A Cheater", pos = {x=6,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_lovers', config = {mod_conv = 'm_marked', max_highlighted = 1}}, --works
         c_athlete=          {order = 30,    discovered = false, cost = 3, consumeable = true, name = "An Athlete", pos = {x=7,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_chariot', config = {mod_conv = 'm_resil', max_highlighted = 1}}, --works
@@ -588,7 +588,7 @@ function Game:init_item_prototypes()
         c_dust=             {order = 40,    discovered = false, cost = 3, consumeable = true, name = "Dust", pos = {x=7,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_star', config = {suit_conv = 'Diamonds', max_highlighted = 5}}, --works (temp)
         c_night=            {order = 41,    discovered = false, cost = 3, consumeable = true, name = "Night", pos = {x=8,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_moon', config = {suit_conv = 'Clubs', max_highlighted = 5}}, --works (temp)
         c_day=              {order = 42,    discovered = false, cost = 3, consumeable = true, name = "Day", pos = {x=9,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_sun', config = {suit_conv = 'Hearts', max_highlighted = 5}}, --works (temp)
-        c_verdict=          {order = 43,    discovered = false, cost = 3, consumeable = true, name = "Verdict", pos = {x=0,y=2}, set = "Tarot", effect = "Set Removal", cost_mult = 1.0, invert = 'c_judgement', config = {jokers = 5}},
+        c_verdict=          {order = 43,    discovered = false, cost = 3, consumeable = true, name = "Verdict", pos = {x=0,y=2}, set = "Tarot", effect = "Set Removal", cost_mult = 1.0, invert = 'c_judgement', config = {extra = 5, choose = 3}},
         c_void=             {order = 44,    discovered = false, cost = 3, consumeable = true, name = "Void", pos = {x=1,y=2}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_world', config = {suit_conv = 'Spades', max_highlighted = 5}}, --works (temp)
 
 
@@ -2608,6 +2608,7 @@ function Game:update(dt)
             end
         end
 
+        -- changes layout in response to state change
         if self.STATE == self.STATES.SHOP then 
             self:update_shop(dt)
         end
