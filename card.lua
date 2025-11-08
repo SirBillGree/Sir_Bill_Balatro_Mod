@@ -1699,21 +1699,21 @@ function Card:can_use_consumeable(any_state, skip_check)
                 remaining[k] = nil
             end
             if self.ability.name == 'A Critic' then
-                for k,v in remaining do
+                for k,v in pairs(remaining) do
                     if v.set == "Planet" then
                         cnt = cnt+1
                         if cnt > 1 then return true end
                     end
                 end
             elseif self.ability.name == "A Peasant" then
-                for k,v in remaining do
+                for k,v in pairs(remaining) do
                     if v.set == "Tarot" then
                         cnt = cnt+1
                         if cnt > 1 then return true end
                     end
                 end
             elseif self.ability.name == 'Verdict' then
-                for k,v in remaining do
+                for k,v in pairs(remaining) do
                     if v.set == "Joker" then
                         cnt = cnt+1
                         if cnt > 1 then return true end

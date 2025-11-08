@@ -1960,7 +1960,8 @@ function get_pack(_key, _type)
     return center
 end
 
-function get_current_pool(_type, _rarity, _legendary, _append)
+function get_current_pool(_type, _rarity, _legendary, _append, force_showman)
+        force_showman = force_showman or false
         --create the pool
         G.ARGS.TEMP_POOL = EMPTY(G.ARGS.TEMP_POOL)
         local _pool, _starting_pool, _pool_key, _pool_size = G.ARGS.TEMP_POOL, nil, '', 0
@@ -2038,16 +2039,18 @@ function get_current_pool(_type, _rarity, _legendary, _append)
 
         --if pool is empty
         if _pool_size == 0 then
-            _pool = EMPTY(G.ARGS.TEMP_POOL)
-            if _type == 'Tarot' or _type == 'Tarot_Planet' then _pool[#_pool + 1] = "c_strength"
-            elseif _type == 'Planet' then _pool[#_pool + 1] = "c_pluto"
-            elseif _type == 'Spectral' then _pool[#_pool + 1] = "c_incantation"
-            elseif _type == 'Joker' then _pool[#_pool + 1] = "j_joker"
-            elseif _type == 'Demo' then _pool[#_pool + 1] = "j_joker"
-            elseif _type == 'Voucher' then _pool[#_pool + 1] = "v_blank"
-            elseif _type == 'Tag' then _pool[#_pool + 1] = "tag_handy"
-            else _pool[#_pool + 1] = "j_joker"
-            end
+            -- try again and force showman
+            return get_current_pool(_type, _rarity, _legendary, _append, true)
+            -- _pool = EMPTY(G.ARGS.TEMP_POOL)
+            -- if _type == 'Tarot' or _type == 'Tarot_Planet' then _pool[#_pool + 1] = "c_strength"
+            -- elseif _type == 'Planet' then _pool[#_pool + 1] = "c_pluto"
+            -- elseif _type == 'Spectral' then _pool[#_pool + 1] = "c_incantation"
+            -- elseif _type == 'Joker' then _pool[#_pool + 1] = "j_joker"
+            -- elseif _type == 'Demo' then _pool[#_pool + 1] = "j_joker"
+            -- elseif _type == 'Voucher' then _pool[#_pool + 1] = "v_blank"
+            -- elseif _type == 'Tag' then _pool[#_pool + 1] = "tag_handy"
+            -- else _pool[#_pool + 1] = "j_joker"
+            -- end
         end
 
         return _pool, _pool_key..(not _legendary and G.GAME.round_resets.ante or '')
