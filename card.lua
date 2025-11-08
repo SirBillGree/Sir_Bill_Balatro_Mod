@@ -1700,7 +1700,7 @@ function Card:can_use_consumeable(any_state, skip_check)
             end
             if self.ability.name == 'A Critic' then
                 for k,v in pairs(remaining) do
-                    if v.set == "Planet" then
+                    if v.set == "Planet" and (not v.config.softlock or G.GAME.hands[v.config.hand_type].played > 0) then
                         cnt = cnt+1
                         if cnt > 1 then return true end
                     end

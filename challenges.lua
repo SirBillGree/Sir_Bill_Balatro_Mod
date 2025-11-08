@@ -149,9 +149,9 @@ G.CHALLENGES = {
                 {id = "c_saturn"},
                 {id = "c_uranus"},
                 {id = "c_neptune"},
-                {id = "c_planet_x"},
-                {id = "c_eris"},
-                {id = "c_ceres"},
+                -- {id = "c_planet_x"},
+                -- {id = "c_eris"},
+                -- {id = "c_ceres"},
             },
             banned_tags = {
             },
