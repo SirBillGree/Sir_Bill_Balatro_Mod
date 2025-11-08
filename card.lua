@@ -1900,15 +1900,16 @@ function Card:open()
             G.GAME.pack_size = self.ability.extra
         end
 
-        --G.GAME.pack_choices = self.config.center.config.choose or 1
-        G.GAME.pack_choices = self.ability.config.choose or 1
+        G.GAME.pack_choices = self.config.center.config.choose or 1
 
         if self.cost > 0 then 
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
                 inc_career_stat('c_shop_dollars_spent', self.cost)
                 self:juice_up()
             return true end }))
-            ease_dollars(-self.cost) 
+            if self.ability.set == "Booster" then
+                ease_dollars(-self.cost) 
+            end
        else
            delay(0.2)
        end
@@ -1922,13 +1923,13 @@ function Card:open()
                 
                 for i = 1, _size do
                     local card = nil
-                    if self.ability.name:find('Arcana') then -- mod
-                        if G.GAME.used_vouchers.v_omen_globe and pseudorandom('omen_globe') > 0.8 then --mod
+                    if self.ability.name:find('Arcana') then
+                        if G.GAME.used_vouchers.v_omen_globe and pseudorandom('omen_globe') > 0.8 then
                             card = create_card("Spectral", G.pack_cards, nil, nil, true, true, nil, 'ar2')
                         else
                             card = create_card("Tarot", G.pack_cards, nil, nil, true, true, nil, 'ar1')
                         end
-                    elseif self.ability.name ~= "A Peasant" then
+                    elseif self.ability.name == "A Peasant" then
                         card = create_card("Tarot", G.pack_cards, nil, nil, true, false, nil, 'pea')
                     elseif self.ability.name:find('Celestial') then
                         if G.GAME.used_vouchers.v_telescope and i == 1  then
@@ -1986,6 +1987,7 @@ function Card:open()
                 return true
             end}))
 
+            -- Code that put selected cards into your hand
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 1.3*math.sqrt(G.SETTINGS.GAMESPEED), blockable = false, blocking = false, func = function()
                 if G.pack_cards then 
                     if G.pack_cards and G.pack_cards.VT.y < G.ROOM.T.h then 
@@ -1997,6 +1999,7 @@ function Card:open()
                 end
             end}))
 
+            -- trigger jokers
             for i = 1, #G.jokers.cards do
                 G.jokers.cards[i]:calculate_joker({open_booster = true, card = self})
             end

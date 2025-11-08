@@ -2251,7 +2251,7 @@ end
       G.GAME.round_scores.cards_purchased.amt = G.GAME.round_scores.cards_purchased.amt + 1
       e.config.ref_table:redeem()
     end
-    if card.ability.set == 'Booster' then
+    if card.ability.set == 'Booster' or card.ability.effect == "Set Removal" then
       G.CONTROLLER.locks.use = false
       G.TAROT_INTERRUPT = nil
     else
