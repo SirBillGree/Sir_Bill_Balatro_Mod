@@ -2717,13 +2717,17 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
        elseif _c.name == "A Tennent" then loc_vars = {_c.config.extra}
        elseif _c.name == "A Roulette" then loc_vars = {G.GAME.probabilities.normal, _c.config.extra};  info_queue[#info_queue+1] = G.P_CENTERS.e_foil; info_queue[#info_queue+1] = G.P_CENTERS.e_holo; info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome; -- unfinished
        elseif _c.name == "Weakness" then loc_vars = {_c.config.max_highlighted}
-       elseif _c.name == "A Mercy" then loc_vars = {_c.config.extra} -- unfinished
+       elseif _c.name == "A Mercy" then loc_vars = {_c.config.extra}
        elseif _c.name == "Life" then loc_vars = {_c.config.max_highlighted}
        elseif _c.name == "An Impulse" then
             local _out
-            if #G.hand.cards > 0 then
-                _out = "(Currently $"..tostring(#G.hand.cards*_c.config.extra)..")"
-            else
+            if G.hand then
+                if #G.hand.cards > 0 then  
+                    _out = "(Currently $"..tostring(#G.hand.cards*_c.config.extra)..")"
+                else
+                    _out = "(No hand)"
+                end
+            else 
                 _out = "(No hand)"
             end
             loc_vars = {_c.config.extra, _out}

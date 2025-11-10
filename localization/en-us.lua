@@ -3141,7 +3141,8 @@ return {
             c_mercy={
                 name="A Mercy",
                 text={
-                    "temp",
+                    "Creates {C:attention}#1#{} ",
+                    "random cards",
                 },
             },
             c_non_believer={
@@ -3167,7 +3168,8 @@ return {
             c_verdict={
                 name="A Verdict",
                 text={
-                    "temp",
+                    "Removes and destroys your {C:attention}leftmost{} joker.",
+                    "It will not show up in shops, packs, etc.",
                 },
             },
             c_tyrant={

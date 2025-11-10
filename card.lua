@@ -273,10 +273,13 @@ function Card:set_ability(center, initial, delay_sprites)
     if self.ability and old_center and old_center.config.bonus then
         self.ability.bonus = self.ability.bonus - old_center.config.bonus
     end
+
+    local key,val = pairs(center)
     
     -- ability definition
     self.ability = {
         name = center.name,
+        key = key,
         effect = center.effect,
         set = center.set,
         rarity = center.rarity or nil,
@@ -1517,6 +1520,16 @@ function Card:use_consumeable(area, copier)
             return true end }))
         delay(0.6)
     end
+    if self.ability.name == 'Verdict' then
+        G.GAME.banned_keys[G.jokers.card[1].ability.key] = true
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.7, func = function()
+            G.jokers.card[1]:remove()
+            play_sound("crumple2", 1.2 + math.random()*0.1, 0.4)
+            play_area_status_text("Banned!")
+            used_tarot:juice_up(0.3, 0.5)
+            return true end }))
+        delay(0.6)
+    end
     -- end mod
     if self.ability.name == 'The Hermit' then
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
@@ -1684,6 +1697,11 @@ function Card:can_use_consumeable(any_state, skip_check)
         if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'A Roulette' then
             if next(self.eligible_strength_jokers) then return true end
         end
+        -- mod
+        if self.ability.name == 'Verdict' then
+            if G.GAME.banned_keys[G.jokers.card[1].ability.key] ~= true then return true end
+        end
+        -- mod end
         if self.ability.name == 'Ankh' then
             --if there is at least one joker
             for k, v in pairs(G.jokers.cards) do
