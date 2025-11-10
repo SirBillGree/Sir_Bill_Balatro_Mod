@@ -1526,6 +1526,9 @@ function Card:use_consumeable(area, copier)
         delay(0.6)
     end
     if self.ability.name == 'Verdict' then
+        for i = 1,(#G.jokers.cards) do
+            PrintLog(tostring(G.jokers.cards[i].ability.key))
+        end
         -- for k, v in pairs(G.jokers.cards) do
         G.GAME.banned_keys[G.jokers.cards[1].ability.key] = true
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.7, func = function()
