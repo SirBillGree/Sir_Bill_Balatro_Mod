@@ -1537,7 +1537,9 @@ function Card:use_consumeable(area, copier)
         local tags = {}
         -- convert rarity and edition into tags
         tags[1]=(rarity == 2 and 'tag_uncommon') or (rarity == 3 and 'tag_rare') or (rarity == 4 and 'tag_ethereal') or nil
-        tags[2]=(edition.holo == true and 'tag_holo') or (edition.polychrome == true and 'tag_polychrome') or (edition.foil == true and 'tag_foil') or (edition.negative == true and 'tag_negitive') or nil
+        if edition then
+            tags[2]=(edition.type == 'holo' and 'tag_holo') or (edition.type == 'polychrome' and 'tag_polychrome') or (edition.type == "foil" and 'tag_foil') or (edition.negative == true and 'tag_negitive') or nil
+        end
         -- if given a common, base edition joker
         if (tags[1] == nil) and (tags[2] == nil) then
             tags[1] = 'tag_top_up'
@@ -1548,7 +1550,7 @@ function Card:use_consumeable(area, copier)
                     func = (function()
                         add_tag(Tag(tags[i]))
                         play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
-                        local sound = self.effect.config.boss_reward_sound or 'holo1'
+                        local sound = 'holo1'
                         play_sound(sound, 1.2 + math.random()*0.1, 0.4)
                         return true
                     end)
