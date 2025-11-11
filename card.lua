@@ -1538,13 +1538,13 @@ function Card:use_consumeable(area, copier)
         -- convert rarity and edition into tags
         tags[1]=(rarity == 2 and 'tag_uncommon') or (rarity == 3 and 'tag_rare') or (rarity == 4 and 'tag_ethereal') or nil
         if edition then
-            tags[2]=(edition.type == 'holo' and 'tag_holo') or (edition.type == 'polychrome' and 'tag_polychrome') or (edition.type == "foil" and 'tag_foil') or (edition.negative == true and 'tag_negitive') or nil
+            tags[2]=(edition.type == 'holo' and 'tag_holo') or (edition.type == 'polychrome' and 'tag_polychrome') or (edition.type == "foil" and 'tag_foil') or (edition.negative == true and 'tag_negitive')
         end
         -- if given a common, base edition joker
-        if (tags[1] == nil) and (tags[2] == nil) then
+        if (#tags == 1) and (tags[1] == nil) then
             tags[1] = 'tag_top_up'
         end
-        for i=1,2 do
+        for i=1,#tags do
             if tags[i] ~= nil then
                 G.E_MANAGER:add_event(Event({
                     func = (function()
