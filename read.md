@@ -1,5 +1,8 @@
 
-This branch, the main branch, is a completely umodified version of the game. All modifications are stored in the branches.
+This branch, the main branch, is a completely umodified version of the game. All modifications are stored in the branches. 
+
+This code belongs to LocalThunk, and neither they nor I (SIR_BILL) concent to using this code for anything other than modifying an existing copy of Balatro. 
+- Remind me to add the proper copyright data later.
 
 The primary purpose of this repo is not getting the mod for yourself, it is for development and experimentation. That being said, any branch labeled (STABLE) is a viable build of the game. You will need to do the following to actually play the actual build:
 
