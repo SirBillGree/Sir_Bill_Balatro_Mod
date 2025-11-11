@@ -588,7 +588,7 @@ function Game:init_item_prototypes()
         c_dust=             {order = 40,    discovered = false, cost = 3, consumeable = true, name = "Dust", pos = {x=7,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_star', config = {suit_conv = 'Diamonds', max_highlighted = 5}}, --works (temp)
         c_night=            {order = 41,    discovered = false, cost = 3, consumeable = true, name = "Night", pos = {x=8,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_moon', config = {suit_conv = 'Clubs', max_highlighted = 5}}, --works (temp)
         c_day=              {order = 42,    discovered = false, cost = 3, consumeable = true, name = "Day", pos = {x=9,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_sun', config = {suit_conv = 'Hearts', max_highlighted = 5}}, --works (temp)
-        c_verdict=          {order = 43,    discovered = false, cost = 3, consumeable = true, name = "Verdict", pos = {x=0,y=2}, set = "Tarot", effect = "Set Removal", cost_mult = 1.0, invert = 'c_judgement', config = {jokers = 2}},
+        c_verdict=          {order = 43,    discovered = false, cost = 3, consumeable = true, name = "Verdict", pos = {x=0,y=2}, set = "Tarot", effect = "Joker to tags", cost_mult = 1.0, invert = 'c_judgement', config = {}},
         c_void=             {order = 44,    discovered = false, cost = 3, consumeable = true, name = "Void", pos = {x=1,y=2}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_world', config = {suit_conv = 'Spades', max_highlighted = 5}}, --works (temp)
 
 

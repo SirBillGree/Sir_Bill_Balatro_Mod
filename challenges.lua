@@ -69,18 +69,16 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_pow3'},
-            {id = 'j_pawnshop'},
+            {id = 'j_pow3', edition = 'negative'},
+            {id = 'j_pawnshop', edition = 'foil'},
             {id = 'j_d_knight'},
+            {id = "j_joker"},
         },
         consumeables = {
-            {id = "c_impulse"},
-            {id = "c_tennent"},
-            {id = "c_strength"},
-            {id = "c_weakness"},
-            {id = "c_life"},
-            {id = "c_roulette"},
-            {id = "c_mercy"},
+            {id = "c_verdict"},
+            {id = "c_verdict"},
+            {id = "c_verdict"},
+            {id = "c_verdict"},
         },
         vouchers = {
         },

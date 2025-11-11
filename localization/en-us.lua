@@ -3168,8 +3168,8 @@ return {
             c_verdict={
                 name="A Verdict",
                 text={
-                    "Removes and destroys your {C:attention}leftmost{} joker.",
-                    "It will not show up in shops, packs, etc.",
+                    "Recycles your {C:attention}leftmost{}",
+                    "joker into {C:attention}tags{}",
                 },
             },
             c_tyrant={

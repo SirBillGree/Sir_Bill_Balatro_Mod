@@ -1526,17 +1526,35 @@ function Card:use_consumeable(area, copier)
         delay(0.6)
     end
     if self.ability.name == 'Verdict' then
-        for i = 1,(#G.jokers.cards) do
-            PrintLog(tostring(G.jokers.cards[i].ability.key))
-        end
-        -- for k, v in pairs(G.jokers.cards) do
-        G.GAME.banned_keys[G.jokers.cards[1].ability.key] = true
+        local rarity = G.jokers.cards[1].ability.rarity
+        local edition = G.jokers.cards[1].edition
+        -- delete joker
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.7, func = function()
-            G.jokers.cards[1]:remove()
             play_sound("crumple2", 1.2 + math.random()*0.1, 0.4)
-            play_area_status_text(G.jokers.cards[1].ability.name.." Banned!")
+            G.jokers.cards[1]:remove()
             used_tarot:juice_up(0.3, 0.5)
             return true end }))
+        local tags = {}
+        -- convert rarity and edition into tags
+        tags[1]=(rarity == 2 and 'tag_uncommon') or (rarity == 3 and 'tag_rare') or (rarity == 4 and 'tag_ethereal') or nil
+        tags[2]=(edition.holo == true and 'tag_holo') or (edition.polychrome == true and 'tag_polychrome') or (edition.foil == true and 'tag_foil') or (edition.negative == true and 'tag_negitive') or nil
+        -- if given a common, base edition joker
+        if (tags[1] == nil) and (tags[2] == nil) then
+            tags[1] = 'tag_top_up'
+        end
+        for i=1,2 do
+            if tags[i] ~= nil then
+                G.E_MANAGER:add_event(Event({
+                    func = (function()
+                        add_tag(Tag(tags[i]))
+                        play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                        local sound = self.effect.config.boss_reward_sound or 'holo1'
+                        play_sound(sound, 1.2 + math.random()*0.1, 0.4)
+                        return true
+                    end)
+                    }))
+            end
+        end
         delay(0.6)
     end
     -- end mod
@@ -1706,12 +1724,7 @@ function Card:can_use_consumeable(any_state, skip_check)
         if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'A Roulette' then
             if next(self.eligible_strength_jokers) then return true end
         end
-        -- mod
-        if self.ability.name == 'Verdict' then
-            if G.GAME.banned_keys[G.jokers.cards[1].ability.key] ~= true then return true end
-        end
-        -- mod end
-        if self.ability.name == 'Ankh' then
+        if self.ability.name == 'Ankh' or self.ability.name == 'Verdict' then
             --if there is at least one joker
             for k, v in pairs(G.jokers.cards) do
                 if v.ability.set == 'Joker' and G.jokers.config.card_limit > 1 then 
