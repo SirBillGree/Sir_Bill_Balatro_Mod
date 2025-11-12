@@ -1563,12 +1563,21 @@ function Card:use_consumeable(area, copier)
         local _tag = get_next_tag_key("peasant")
         local tag = Tag(_tag)
         add_tag(tag)
-        tag:apply_to_run("immediate")
+        tag:apply_to_run("tag_add")
+        if tag then tag:apply_to_run("immediate") end
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             used_tarot:juice_up(0.3, 0.5)
             return true end }))
         delay(0.6)
+    end
+    if self.ability.name == "A Critic" then
+        G.STATE_COMPLETE = true
+        -- create copy of current pack
+        local pack = create_card('pack', G.play, nil,nil,false,nil,G.GAME.current_pack,nil)
+        delay(0.1) --to make sure it's back to previous state
+        -- open pack
+        pack:open()
     end
     -- end mod
     if self.ability.name == 'The Hermit' then
@@ -1734,6 +1743,13 @@ function Card:can_use_consumeable(any_state, skip_check)
         or self.ability.name == 'A Tennent' or self.ability.name == 'A Peasant' then
             return true
         end
+        -- mod
+        if self.ability.name == "A Critic" then
+            -- if in pack
+            if (G.STATE == G.STATES.TAROT_PACK) or (G.STATE == G.STATES.BUFFOON_PACK) or (G.STATE == G.STATES.PLANET_PACK) 
+                or (G.STATE == G.STATES.SPECTRAL_PACK) or (G.STATE == G.STATES.STANDARD_PACK) then return true end
+        end
+        -- mod end
         if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'A Roulette' then
             if next(self.eligible_strength_jokers) then return true end
         end
@@ -1912,6 +1928,7 @@ function Card:open()
         end
 
         G.GAME.pack_choices = self.config.center.config.choose or 1
+        G.GAME.current_pack = self.config.center.key
 
         if self.cost > 0 then 
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
