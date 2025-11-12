@@ -1574,9 +1574,13 @@ function Card:use_consumeable(area, copier)
     if self.ability.name == "A Critic" then
         G.STATE_COMPLETE = true
         -- create copy of current pack
-        local pack = create_card('pack', G.play, nil,nil,false,nil,G.GAME.current_pack,nil)
-        delay(0.1) --to make sure it's back to previous state
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('timpani')
+            used_tarot:juice_up(0.3, 0.5)
+            return true end }))
+        delay(0.5) --to make sure it's back to previous state
         -- open pack
+        local pack = create_card('pack', G.play, nil,nil,false,nil,G.GAME.current_pack,nil)
         pack:open()
     end
     -- end mod
