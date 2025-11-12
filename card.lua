@@ -1538,11 +1538,11 @@ function Card:use_consumeable(area, copier)
         -- convert rarity and edition into tags
         tags[1]=(rarity == 2 and 'tag_uncommon') or (rarity == 3 and 'tag_rare') or (rarity == 4 and 'tag_ethereal') or nil
         if edition then
-            tags[2]=(edition.type == 'holo' and 'tag_holo') or (edition.type == 'polychrome' and 'tag_polychrome') or (edition.type == "foil" and 'tag_foil') or (edition.negative == true and 'tag_negitive')
+            tags[2]=(edition.type == 'holo' and 'tag_holo') or (edition.type == 'polychrome' and 'tag_polychrome') or (edition.type == "foil" and 'tag_foil') or (edition.type == "negative" and 'tag_negative')
         end
         -- if given a common, base edition joker
-        if (#tags == 1) and (tags[1] == nil) then
-            tags[1] = 'tag_top_up'
+        if #tags == 0 then
+            play_area_status_text("Salvaged Nothing")
         end
         for i=1,#tags do
             if tags[i] ~= nil then
@@ -1557,6 +1557,17 @@ function Card:use_consumeable(area, copier)
                     }))
             end
         end
+        delay(0.6)
+    end
+    if self.ability.name == "A Peasant" then
+        local _tag = get_next_tag_key("peasant")
+        local tag = Tag(_tag)
+        add_tag(tag)
+        tag:apply_to_run("immediate")
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('timpani')
+            used_tarot:juice_up(0.3, 0.5)
+            return true end }))
         delay(0.6)
     end
     -- end mod
@@ -1720,7 +1731,7 @@ function Card:can_use_consumeable(any_state, skip_check)
     if G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT or any_state then
 
         if self.ability.name == 'The Hermit' or self.ability.consumeable.hand_type or self.ability.name == 'Temperance' or self.ability.name == 'Black Hole'
-        or self.ability.name == 'A Tennent' then
+        or self.ability.name == 'A Tennent' or self.ability.name == 'A Peasant' then
             return true
         end
         if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'A Roulette' then

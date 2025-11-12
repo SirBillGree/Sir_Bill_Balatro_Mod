@@ -3121,7 +3121,7 @@ return {
             c_peasant={
                 name="A peasant",
                 text={
-                    "temp",
+                    "Creates 1 random {C:attention}tag{}",
                 },
             },
             c_vanity={
