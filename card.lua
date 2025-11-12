@@ -1572,16 +1572,17 @@ function Card:use_consumeable(area, copier)
         delay(0.6)
     end
     if self.ability.name == "A Critic" then
-        G.STATE_COMPLETE = true
-        -- create copy of current pack
+        -- reset the number you can take
+        G.GAME.pack_choices = G.GAME.original_choices
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            -- remove
+            for k, v in pairs(G.pack_cards.cards) do v:remove() end
+            -- restart
+            Gen_cards_in_pack(self.T.x, self.T.y)
             play_sound('timpani')
             used_tarot:juice_up(0.3, 0.5)
             return true end }))
-        delay(0.5) --to make sure it's back to previous state
-        -- open pack
-        local pack = create_card('pack', G.play, nil,nil,false,nil,G.GAME.current_pack,nil)
-        pack:open()
+        delay(0.5) 
     end
     -- end mod
     if self.ability.name == 'The Hermit' then
@@ -1749,7 +1750,7 @@ function Card:can_use_consumeable(any_state, skip_check)
         end
         -- mod
         if self.ability.name == "A Critic" then
-            -- if in pack
+            -- if currently in pack
             if (G.STATE == G.STATES.TAROT_PACK) or (G.STATE == G.STATES.BUFFOON_PACK) or (G.STATE == G.STATES.PLANET_PACK) 
                 or (G.STATE == G.STATES.SPECTRAL_PACK) or (G.STATE == G.STATES.STANDARD_PACK) then return true end
         end
@@ -1903,6 +1904,80 @@ function Card:calculate_dollar_bonus()
     end
 end
 
+-- mod
+function Gen_cards_in_pack(x, y)
+    local pack_cards = {}
+    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 1.3*math.sqrt(G.SETTINGS.GAMESPEED), blockable = false, blocking = false, func = function()
+        for i = 1, G.GAME.pack_size do
+            local card = nil
+            if G.STATE == G.STATES.TAROT_PACK then 
+                if G.GAME.used_vouchers.v_omen_globe and pseudorandom('omen_globe') > 0.8 then
+                    card = create_card("Spectral", G.pack_cards, nil, nil, true, true, nil, 'ar2')
+                else
+                    card = create_card("Tarot", G.pack_cards, nil, nil, true, true, nil, 'ar1')
+                end
+            elseif G.STATE == G.STATES.PLANET_PACK then
+                if G.GAME.used_vouchers.v_telescope and i == 1 then
+                    local _planet, _hand, _tally = nil, nil, 0
+                    for k, v in ipairs(G.handlist) do
+                        if G.GAME.hands[v].visible and G.GAME.hands[v].played > _tally then
+                            _hand = v
+                            _tally = G.GAME.hands[v].played
+                        end
+                    end
+                    if _hand then
+                        for k, v in pairs(G.P_CENTER_POOLS.Planet) do
+                            if v.config.hand_type == _hand then
+                                _planet = v.key
+                            end
+                        end
+                    end
+                    card = create_card("Planet", G.pack_cards, nil, nil, true, true, _planet, 'pl1')
+                else
+                    card = create_card("Planet", G.pack_cards, nil, nil, true, true, nil, 'pl1')
+                end
+            elseif G.STATE == G.STATES.SPECTRAL_PACK then
+                card = create_card("Spectral", G.pack_cards, nil, nil, true, true, nil, 'spe')
+            elseif G.STATE == G.STATES.STANDARD_PACK then
+                card = create_card((pseudorandom(pseudoseed('stdset'..G.GAME.round_resets.ante)) > 0.6) and "Enhanced" or "Base", G.pack_cards, nil, nil, nil, true, nil, 'sta')
+                local edition_rate = 2
+                local edition = poll_edition('standard_edition'..G.GAME.round_resets.ante, edition_rate, true)
+                card:set_edition(edition)
+                local seal_rate = 10
+                local seal_poll = pseudorandom(pseudoseed('stdseal'..G.GAME.round_resets.ante))
+                if seal_poll > 1 - 0.02*seal_rate then
+                    local seal_type = pseudorandom(pseudoseed('stdsealtype'..G.GAME.round_resets.ante))
+                    if seal_type > 0.75 then card:set_seal('Red')
+                    elseif seal_type > 0.5 then card:set_seal('Blue')
+                    elseif seal_type > 0.25 then card:set_seal('Gold')
+                    else card:set_seal('Purple')
+                    end
+                end
+            elseif G.STATE == G.STATES.BUFFOON_PACK then
+                card = create_card("Joker", G.pack_cards, nil, nil, true, true, nil, 'buf')
+
+            end
+            card.T.x = x
+            card.T.y = y
+            card:start_materialize({G.C.WHITE, G.C.WHITE}, nil, 1.5*G.SETTINGS.GAMESPEED)
+            pack_cards[i] = card
+        end
+        return true
+    end}))
+
+    G.E_MANAGER:add_event(Event({trigger = 'after', delay = 1.3*math.sqrt(G.SETTINGS.GAMESPEED), blockable = false, blocking = false, func = function()
+        if G.pack_cards then 
+            if G.pack_cards and G.pack_cards.VT.y < G.ROOM.T.h then 
+            for k, v in ipairs(pack_cards) do
+                G.pack_cards:emplace(v)
+            end
+            return true
+            end
+        end
+    end}))
+end
+-- mod end
+
 function Card:open()
     if self.ability.set == "Booster" then
         stop_use()
@@ -1932,7 +2007,10 @@ function Card:open()
         end
 
         G.GAME.pack_choices = self.config.center.config.choose or 1
-        G.GAME.current_pack = self.config.center.key
+
+        -- mod
+        G.GAME.original_choices = G.GAME.pack_choices
+        -- mod end
 
         if self.cost > 0 then 
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
