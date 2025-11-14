@@ -1592,18 +1592,18 @@ function Card:use_consumeable(area, copier)
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() self.to_flip[i]:flip();play_sound('card1', percent);self.to_flip[i]:juice_up(0.3, 0.3);return true end }))
         end
         -- change cards
-            for i=1,#G.consumeables.cards do
-                if G.consumeables.cards[i].ability.invert then
-                    G.consumeables.cards[i] = create_card(G.consumeables.cards[i].ability.set,G.consumeables,nil,nil,true,false,self.to_flip[i].ability.invert,"none")
+        for i=1,#G.consumeables.cards do
+            if G.consumeables.cards[i].ability.invert then
+                G.consumeables.cards[i]:set_ability(G.P_CENTERS[self.to_flip[i].ability.invert])
+            end
+        end
+        if G.pack_cards then
+            for i=1,#G.pack_cards.cards do
+                if G.pack_cards.cards[i].ability.invert then
+                    G.pack_cards.cards[i]:set_ability(G.P_CENTERS[self.to_flip[i].ability.invert])
                 end
             end
-            if G.pack_cards.cards then
-                for i=1,#G.pack_cards.cards do
-                    if G.pack_cards.cards[i].ability.invert then
-                        G.pack_cards.cards[i] = create_card(G.consumeables.cards[i].ability.set,G.pack_cards,nil,nil,true,false,self.to_flip[i].ability.invert,"none")
-                    end
-                end
-            end
+        end
 
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
@@ -1796,7 +1796,7 @@ function Card:can_use_consumeable(any_state, skip_check)
                 end
             elseif G.pack_cards.cards then
                 for i=1,#G.pack_cards.cards do
-                    if G.pack_cards.cards[i].ability.invert then self.to_flip[#self.to_flip+1] = G.consumeables.cards[i] end
+                    if G.pack_cards.cards[i].ability.invert then self.to_flip[#self.to_flip+1] = G.pack_cards.cards[i] end
                 end
             end
             if #self.to_flip > 0 then return true end
