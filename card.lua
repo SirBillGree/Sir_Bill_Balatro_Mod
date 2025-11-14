@@ -1571,12 +1571,18 @@ function Card:use_consumeable(area, copier)
             return true end }))
         delay(0.6)
     end
+    --[[
+    Known issues:
+     - Doesn't delete all the cards (keeps half or so)
+     - If in a pack & last selection, pack will close and cards will spill onto board
+    ]]
     if self.ability.name == "A Critic" then
         -- reset the number you can take
         G.GAME.pack_choices = G.GAME.original_choices
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             -- remove
-            for k, v in pairs(G.pack_cards.cards) do v:remove() end
+            for k, v in pairs(G.pack_cards.cards) do v:remove() end -- only deleting half of them
+            G.pack_cards.cards = {}
             -- restart
             Gen_cards_in_pack(self.T.x, self.T.y)
             play_sound('timpani')

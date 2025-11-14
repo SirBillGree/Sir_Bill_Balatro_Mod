@@ -2275,6 +2275,11 @@ end
                       G.booster_pack.alignment.offset.y = G.booster_pack.alignment.offset.py
                       G.booster_pack.alignment.offset.py = nil
                     end
+                    -- mod
+                    if card.ability.name == "A Critic" then
+                      G.GAME.pack_choices = G.GAME.pack_choices + 1
+                    end
+                    -- mod end
                     G.GAME.pack_choices = G.GAME.pack_choices - 1
                   else
                       G.CONTROLLER.interrupt.focus = true

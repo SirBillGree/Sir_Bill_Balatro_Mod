@@ -3162,7 +3162,8 @@ return {
             c_critic={
                 name="A Critic",
                 text={
-                    "temp",
+                    "Re-roll the cards",
+                    "in any {C:attention}booster-pack{}",
                 },
             },
             c_verdict={
