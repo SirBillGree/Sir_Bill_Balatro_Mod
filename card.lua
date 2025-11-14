@@ -284,7 +284,7 @@ function Card:set_ability(center, initial, delay_sprites)
     -- ability definition
     self.ability = {
         name = center.name,
-        key = key or "j_cavendish", --mod
+        invert = center.invert or nil,
         effect = center.effect,
         set = center.set,
         rarity = center.rarity or nil,
@@ -1588,8 +1588,8 @@ function Card:use_consumeable(area, copier)
     if self.ability.name == "A Jester" then
         -- show cards flip to back
         for i=1, #self.to_flip do
-            local percent = 1.15 - (i-0.999)/(#G.hand.highlighted-0.998)*0.3
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() self.to_flip[i]:flip();play_sound('card1', percent);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+            local percent = 1.15 - (i-0.999)/(#self.to_flip-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() self.to_flip[i]:flip();play_sound('card1', percent);self.to_flip[i]:juice_up(0.3, 0.3);return true end }))
         end
         -- change card
         for i=1, #self.to_flip do
@@ -1607,7 +1607,7 @@ function Card:use_consumeable(area, copier)
         -- show cards flip to front
         for i=1, #self.to_flip do
             local percent = 0.85 + (i-0.999)/(self.to_flip-0.998)*0.3
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() self.to_flip[i]:flip();play_sound('tarot2', percent, 0.6);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() self.to_flip[i]:flip();play_sound('tarot2', percent, 0.6);self.to_flip[i]:juice_up(0.3, 0.3);return true end }))
         end
     end
     -- end mod
