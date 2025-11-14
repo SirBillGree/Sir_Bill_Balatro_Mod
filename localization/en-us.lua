@@ -3135,7 +3135,7 @@ return {
             c_jester={
                 name="A Jester",
                 text={
-                    "temp",
+                    "{C:attention}Inverts{} all tarots on screen",
                 },
             },
             c_mercy={

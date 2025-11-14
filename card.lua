@@ -1594,13 +1594,13 @@ function Card:use_consumeable(area, copier)
         -- change cards
         for i=1,#G.consumeables.cards do
             if G.consumeables.cards[i].ability.invert then
-                G.consumeables.cards[i]:set_ability(G.P_CENTERS[self.to_flip[i].ability.invert])
+                G.consumeables.cards[i]:set_ability(G.P_CENTERS[G.consumeables.cards[i].ability.invert])
             end
         end
         if G.pack_cards then
             for i=1,#G.pack_cards.cards do
                 if G.pack_cards.cards[i].ability.invert then
-                    G.pack_cards.cards[i]:set_ability(G.P_CENTERS[self.to_flip[i].ability.invert])
+                    G.pack_cards.cards[i]:set_ability(G.P_CENTERS[G.consumeables.cards[i].ability.invert])
                 end
             end
         end
