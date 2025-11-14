@@ -1593,7 +1593,7 @@ function Card:use_consumeable(area, copier)
         end
         -- change card
         for i=1, #self.to_flip do
-            local inv_card = create_card(self.to_flip[i].ability.set,nil,nil,nil,true,false,self.to_flip[i].ability.invert) -- I expect issues
+            local inv_card = create_card(self.to_flip[i].ability.set,G.consumeables,nil,nil,true,false,self.to_flip[i].ability.invert,"none") -- I expect issues
             copy_card(inv_card, self.to_flip[i])
             inv_card:remove()
         end
