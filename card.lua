@@ -284,7 +284,7 @@ function Card:set_ability(center, initial, delay_sprites)
     -- ability definition
     self.ability = {
         name = center.name,
-        key = key or "j_cavendish",
+        key = key or "j_cavendish", --mod
         effect = center.effect,
         set = center.set,
         rarity = center.rarity or nil,
@@ -1571,17 +1571,12 @@ function Card:use_consumeable(area, copier)
             return true end }))
         delay(0.6)
     end
-    --[[
-    Known issues:
-     - Doesn't delete all the cards (keeps half or so)
-     - If in a pack & last selection, pack will close and cards will spill onto board
-    ]]
     if self.ability.name == "A Critic" then
         -- reset the number you can take
         G.GAME.pack_choices = G.GAME.original_choices
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            -- remove
-            for k, v in pairs(G.pack_cards.cards) do v:remove() end -- only deleting half of them
+            -- remove (one of these two lines may be redundant)
+            for k, v in pairs(G.pack_cards.cards) do v:remove() end 
             G.pack_cards.cards = {}
             -- restart
             Gen_cards_in_pack(self.T.x, self.T.y)
@@ -1589,6 +1584,31 @@ function Card:use_consumeable(area, copier)
             used_tarot:juice_up(0.3, 0.5)
             return true end }))
         delay(0.5) 
+    end
+    if self.ability.name == "A Jester" then
+        -- show cards flip to back
+        for i=1, #self.to_flip do
+            local percent = 1.15 - (i-0.999)/(#G.hand.highlighted-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() self.to_flip[i]:flip();play_sound('card1', percent);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+        end
+        -- change card
+        for i=1, #self.to_flip do
+            local inv_card = create_card(nil,nil,nil,nil,true,false,self.to_flip[i].ability.invert) -- I expect issues
+            copy_card(inv_card, self.to_flip[i])
+            inv_card:remove()
+        end
+
+        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
+            play_sound('timpani')
+            used_tarot:juice_up(0.3, 0.5)
+            return true end }))
+        delay(0.6)
+
+        -- show cards flip to front
+        for i=1, #self.to_flip do
+            local percent = 0.85 + (i-0.999)/(self.to_flip-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() self.to_flip[i]:flip();play_sound('tarot2', percent, 0.6);G.hand.highlighted[i]:juice_up(0.3, 0.3);return true end }))
+        end
     end
     -- end mod
     if self.ability.name == 'The Hermit' then
@@ -1759,6 +1779,20 @@ function Card:can_use_consumeable(any_state, skip_check)
             -- if currently in pack
             if (G.STATE == G.STATES.TAROT_PACK) or (G.STATE == G.STATES.BUFFOON_PACK) or (G.STATE == G.STATES.PLANET_PACK) 
                 or (G.STATE == G.STATES.SPECTRAL_PACK) or (G.STATE == G.STATES.STANDARD_PACK) then return true end
+        end
+        if self.ability.name == "A Jester" then
+            -- go through all (valid) card areas and check if there are any flippable cards
+            self.to_flip = {}
+            if G.consumeables.cards then
+                for i=1,#G.consumeables.cards do
+                    if G.consumeables.cards[i].ability.invert then self.to_flip[#self.to_flip+1] = G.consumeables.cards[i] end
+                end
+            elseif G.pack_cards.cards then
+                for i=1,#G.pack_cards.cards do
+                    if G.pack_cards.cards[i].ability.invert then self.to_flip[#self.to_flip+1] = G.consumeables.cards[i] end
+                end
+            end
+            if #self.to_flip > 0 then return true end
         end
         -- mod end
         if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'A Roulette' then
