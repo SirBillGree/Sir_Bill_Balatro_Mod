@@ -284,7 +284,7 @@ function Card:set_ability(center, initial, delay_sprites)
     -- ability definition
     self.ability = {
         name = center.name,
-        key = key or "j_cavendish", --mod
+        invert = center.invert or nil,
         effect = center.effect,
         set = center.set,
         rarity = center.rarity or nil,
