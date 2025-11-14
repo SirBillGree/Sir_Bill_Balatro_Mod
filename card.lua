@@ -1591,12 +1591,19 @@ function Card:use_consumeable(area, copier)
             local percent = 1.15 - (i-0.999)/(#self.to_flip-0.998)*0.3
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() self.to_flip[i]:flip();play_sound('card1', percent);self.to_flip[i]:juice_up(0.3, 0.3);return true end }))
         end
-        -- change card
-        for i=1, #self.to_flip do
-            local inv_card = create_card(self.to_flip[i].ability.set,G.consumeables,nil,nil,true,false,self.to_flip[i].ability.invert,"none") -- I expect issues
-            copy_card(inv_card, self.to_flip[i])
-            inv_card:remove()
-        end
+        -- change cards
+            for i=1,#G.consumeables.cards do
+                if G.consumeables.cards[i].ability.invert then
+                    G.consumeables.cards[i] = create_card(G.consumeables.cards[i].ability.set,G.consumeables,nil,nil,true,false,self.to_flip[i].ability.invert,"none")
+                end
+            end
+            if G.pack_cards.cards then
+                for i=1,#G.pack_cards.cards do
+                    if G.pack_cards.cards[i].ability.invert then
+                        G.pack_cards.cards[i] = create_card(G.consumeables.cards[i].ability.set,G.pack_cards,nil,nil,true,false,self.to_flip[i].ability.invert,"none")
+                    end
+                end
+            end
 
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
@@ -1606,7 +1613,7 @@ function Card:use_consumeable(area, copier)
 
         -- show cards flip to front
         for i=1, #self.to_flip do
-            local percent = 0.85 + (i-0.999)/(self.to_flip-0.998)*0.3
+            local percent = 0.85 + (i-0.999)/(#self.to_flip-0.998)*0.3
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() self.to_flip[i]:flip();play_sound('tarot2', percent, 0.6);self.to_flip[i]:juice_up(0.3, 0.3);return true end }))
         end
     end
