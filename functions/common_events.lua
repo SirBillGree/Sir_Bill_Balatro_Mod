@@ -1342,12 +1342,12 @@ function check_for_unlock(args)
             if args.type == 'play_all_hearts' then
                 local played = true
                 for k, v in ipairs(G.deck.cards) do
-                    if not v.ability.extra.no_rank_suit and v.base.suit == 'Hearts' then 
+                    if not v.blank_front and v.base.suit == 'Hearts' then 
                         played = false
                     end
                 end
                 for k, v in ipairs(G.hand.cards) do
-                    if not v.ability.extra.no_rank_suit and v.base.suit == 'Hearts' then 
+                    if not v.blank_front and v.base.suit == 'Hearts' then 
                         played = false
                     end
                 end
@@ -2274,7 +2274,7 @@ function reset_idol_card()
     G.GAME.current_round.idol_card.suit = 'Spades'
     local valid_idol_cards = {}
     for k, v in ipairs(G.playing_cards) do
-        if not v.ability.extra.no_rank_suit then
+        if not v.blank_front then
             valid_idol_cards[#valid_idol_cards+1] = v
         end
     end
@@ -2290,7 +2290,7 @@ function reset_mail_rank()
     G.GAME.current_round.mail_card.rank = 'Ace'
     local valid_mail_cards = {}
     for k, v in ipairs(G.playing_cards) do
-        if not v.ability.extra.no_rank_suit then
+        if not v.blank_front then
             valid_mail_cards[#valid_mail_cards+1] = v
         end
     end
@@ -2314,7 +2314,7 @@ function reset_castle_card()
     G.GAME.current_round.castle_card.suit = 'Spades'
     local valid_castle_cards = {}
     for k, v in ipairs(G.playing_cards) do
-        if not v.ability.extra.no_rank_suit then
+        if not v.blank_front then
             valid_castle_cards[#valid_castle_cards+1] = v
         end
     end
@@ -2598,7 +2598,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         elseif _c.effect == 'Lucky Card' then loc_vars = {G.GAME.probabilities.normal, _c.config.mult, 5, _c.config.p_dollars, 15}
         end
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
-        if not _c.ability.extra.no_rank_suit and ((specific_vars and specific_vars.bonus_chips) or _c.config.bonus) then
+        if not _c.blank_front and ((specific_vars and specific_vars.bonus_chips) or _c.config.bonus) then
             localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {((specific_vars and specific_vars.bonus_chips) or _c.config.bonus)}}
         end
     elseif _c.set == 'Booster' then 
