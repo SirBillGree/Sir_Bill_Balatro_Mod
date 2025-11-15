@@ -315,6 +315,12 @@ function Card:set_ability(center, initial, delay_sprites)
         self.ability.consumeable = center.config
     end
 
+    -- mod
+    if self.ability.name == "Muscle Card" then
+        self.ability.remaining_recovery = 0
+    end
+    -- end mod
+
     if self.ability.name == 'Gold Card' and self.seal == 'Gold' and self.playing_card then 
         check_for_unlock({type = 'double_gold'})
     end
