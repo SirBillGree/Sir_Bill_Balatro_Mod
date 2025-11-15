@@ -574,8 +574,8 @@ function Game:init_item_prototypes()
         c_vanity=           {order = 26,    discovered = false, cost = 3, consumeable = true, name = "Vanity", pos = {x=3,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_empress', config = {mod_conv = 'm_mirror', max_highlighted = 1}},   --works
         c_peasant=          {order = 27,    discovered = false, cost = 3, consumeable = true, name = "A Peasant", pos = {x=4,y=0}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, invert = 'c_emperor', config = {tags = 1}},
         c_non_believer=     {order = 28,    discovered = false, cost = 3, consumeable = true, name = "A Non-Believer", pos = {x=5,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_heirophant', config = {mod_conv = 'm_blank', max_highlighted = 2}}, --works
-        c_cheater=          {order = 29,    discovered = false, cost = 3, consumeable = true, name = "A Cheater", pos = {x=6,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_lovers', config = {mod_conv = 'm_marked', max_highlighted = 1}}, --works
-        c_athlete=          {order = 30,    discovered = false, cost = 3, consumeable = true, name = "An Athlete", pos = {x=7,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_chariot', config = {mod_conv = 'm_resil', max_highlighted = 1}}, --works
+        c_cheater=          {order = 29,    discovered = false, cost = 3, consumeable = true, name = "A Cheater", pos = {x=6,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_lovers', config = {mod_conv = 'm_poison', max_highlighted = 1}}, --works
+        c_athlete=          {order = 30,    discovered = false, cost = 3, consumeable = true, name = "An Athlete", pos = {x=7,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_chariot', config = {mod_conv = 'm_muscle', max_highlighted = 2}}, --works
         c_tyrant=           {order = 31,    discovered = false, cost = 3, consumeable = true, name = "A Tyrant", pos = {x=8,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_justice', config = {mod_conv = 'm_brutal', max_highlighted = 1}}, --works
         c_tennent=          {order = 32,    discovered = false, cost = 3, consumeable = true, name = "A Tennent", pos = {x=9,y=0}, set = "Tarot", effect = "Set money", cost_mult = 1.0, invert = 'c_hermit', config = {extra = 20}},                               --works
         c_roulette=         {order = 33,    discovered = false, cost = 3, consumeable = true, name = "A Roulette", pos = {x=0,y=1}, set = "Tarot", effect = "Roulette", cost_mult = 1.0, invert = 'c_wheel_of_fortune', config = {extra = 4}},                      --works
@@ -696,14 +696,14 @@ function Game:init_item_prototypes()
         m_gold =    {max = 500, order = 8, name = "Gold Card", set = "Enhanced", pos = {x=6,y=0}, effect = "Gold Card", label = "Gold Card", config = {h_dollars = 3}},
         m_lucky =   {max = 500, order = 9, name = "Lucky Card", set = "Enhanced", pos = {x=4,y=1}, effect = "Lucky Card", label = "Lucky Card", config = {mult=20, p_dollars = 20}},
         --modded enhancements
-        m_crystal = {max = 500, order = 10, name = "Crystal Card", set = "Enhanced", pos = {x=0,y=1}, effect = "Crystal Card", label = "Crystal Card", config = {}},
-        m_marked =  {max = 500, order = 11, name = "Marked Card", set = "Enhanced", pos = {x=0,y=4}, effect = "Marked Card", label = "Marked Card", config = {}},
-        m_resil =   {max = 500, order = 12, name = "Resilient Card", set = "Enhanced", pos = {x=4,y=0}, effect = "Resilient Card", label = "Resilient Card", config = {}},
+        m_crystal = {max = 500, order = 10, name = "Crystal Card", set = "Enhanced", pos = {x=0,y=1}, effect = "Crystal Card", label = "Crystal Card", blank_front = true, config = {}},
+        m_poison =  {max = 500, order = 11, name = "Poison Card", set = "Enhanced", pos = {x=6,y=2}, effect = "Poison Card", label = "Poison Card", config = {goal = 0.9}},
+        m_muscle =  {max = 500, order = 12, name = "Muscle Card", set = "Enhanced", pos = {x=3,y=0}, effect = "Muscle Card", label = "Muscle Card", config = {mult = 20}},
         m_flame =   {max = 500, order = 13, name = "Flame Card", set = "Enhanced", pos = {x=4,y=3}, effect = "Flame Card", label = "Flame Card", config = {mult_add = 1}},
         m_brutal =  {max = 500, order = 14, name = "Brutal Card", set = "Enhanced", pos = {x=0,y=4}, effect = "Brutal Card", label = "Brutal Card", config = {x_mult = 4, x_mult_chance = 4, bankrupt_chance = 16}},
         m_catalyst= {max = 500, order = 15, name = "Catalyst Card", set = "Enhanced", pos = {x=4,y=2}, effect = "Catalyst Card", label = "Catalyst Card", config = {x_mult_add = 1}},
-        m_blank =   {max = 500, order = 16, name = "Blank Card", set = "Enhanced", pos = {x=1,y=0}, effect = "Blank Card", label = "Blank Card", config = {}},
-        m_mirror =  {max = 500, order = 17, name = "Mirror Card", set = "Enhanced", pos = {x=6,y=1}, effect = "Mirror Card", label = "Mirror Card", config = {}},
+        m_blank =   {max = 500, order = 16, name = "Blank Card", set = "Enhanced", pos = {x=1,y=0}, effect = "Blank Card", label = "Blank Card", blank_front = true, config = {}},
+        m_mirror =  {max = 500, order = 17, name = "Mirror Card", set = "Enhanced", pos = {x=6,y=1}, effect = "Mirror Card", label = "Mirror Card", blank_front = true, config = {}},
 
 
 

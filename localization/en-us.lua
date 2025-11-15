@@ -437,14 +437,14 @@ return {
                     "temp",
                 },
             },
-            m_marked={
-                name="Marked Card",
+            m_poison={
+                name="Poison Card",
                 text={
                     "temp",
                 },
             },
-            m_resil={
-                name="Resilient Card",
+            m_muscle={
+                name="Muscle Card",
                 text={
                     "temp",
                 },

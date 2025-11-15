@@ -777,6 +777,12 @@ G.FUNCS.evaluate_play = function(e)
                     end
                 end
             end
+            -- mod
+            -- debuff muscle cards
+            if scoring_hand[i].ability.effect == "Muscle Card" then
+                scoring_hand[i]:set_debuff(true)
+            end
+            -- mod end
         end
 
         delay(0.3)

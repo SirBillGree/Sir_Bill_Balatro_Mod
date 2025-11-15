@@ -75,15 +75,16 @@ G.CHALLENGES = {
             {id = "j_joker"},
         },
         consumeables = {
-            {id = "c_verdict"},
-            {id = "c_verdict"},
-            {id = "c_verdict"},
-            {id = "c_verdict"},
+            {id = "c_athlete"},
+            {id = "c_athlete"},
+            {id = "c_athlete"},
+            {id = "c_athlete"},
         },
         vouchers = {
         },
         deck = {
-            cards = {{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='D',r='3',g='Red',e='m_glass',},{s='H',r='9',},{s='H',r='9',},{s='H',r='9',},{s='H',r='9',},{s='H',r='9',},}
+            cards = {{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},},
+            deck = "b_challenge",
         },
         restrictions = {
             banned_cards = {
