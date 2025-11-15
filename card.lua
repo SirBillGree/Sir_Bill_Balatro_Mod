@@ -1586,7 +1586,7 @@ function Card:use_consumeable(area, copier)
         delay(0.5) 
     end
     if self.ability.name == "A Jester" then 
-        local to_flip
+        local to_flip = {}
         -- count cards
         for i=1,#G.consumeables.cards do
             if G.consumeables.cards[i].ability.invert then
@@ -1628,7 +1628,7 @@ function Card:use_consumeable(area, copier)
         -- show cards flip to front
         for i=1, #to_flip do
             local percent = 0.85 + (i-0.999)/(#to_flip-0.998)*0.3
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() to_flip[i]:flip();play_sound('tarot2', percent, 0.6);self.to_flip[i]:juice_up(0.3, 0.3);return true end }))
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() to_flip[i]:flip();play_sound('tarot2', percent, 0.6);to_flip[i]:juice_up(0.3, 0.3);return true end }))
         end
     end
     -- end mod
