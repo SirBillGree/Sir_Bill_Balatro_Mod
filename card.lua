@@ -1585,11 +1585,25 @@ function Card:use_consumeable(area, copier)
             return true end }))
         delay(0.5) 
     end
-    if self.ability.name == "A Jester" then
+    if self.ability.name == "A Jester" then 
+        local to_flip
+        -- count cards
+        for i=1,#G.consumeables.cards do
+            if G.consumeables.cards[i].ability.invert then
+                to_flip[#to_flip+1] = G.consumeables.cards[i]
+            end
+        end
+        if G.pack_cards then
+            for i=1,#G.pack_cards.cards do
+                if G.pack_cards.cards[i].ability.invert then
+                    to_flip[#to_flip+1] = G.pack_cards.cards[i]
+                end
+            end
+        end
         -- show cards flip to back
-        for i=1, #self.to_flip do
-            local percent = 1.15 - (i-0.999)/(#self.to_flip-0.998)*0.3
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() self.to_flip[i]:flip();play_sound('card1', percent);self.to_flip[i]:juice_up(0.3, 0.3);return true end }))
+        for i=1, #to_flip do
+            local percent = 1.15 - (i-0.999)/(#to_flip-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() to_flip[i]:flip();play_sound('card1', percent);to_flip[i]:juice_up(0.3, 0.3);return true end }))
         end
         -- change cards
         for i=1,#G.consumeables.cards do
@@ -1600,7 +1614,7 @@ function Card:use_consumeable(area, copier)
         if G.pack_cards then
             for i=1,#G.pack_cards.cards do
                 if G.pack_cards.cards[i].ability.invert then
-                    G.pack_cards.cards[i]:set_ability(G.P_CENTERS[G.consumeables.cards[i].ability.invert])
+                    G.pack_cards.cards[i]:set_ability(G.P_CENTERS[G.pack_cards.cards[i].ability.invert])
                 end
             end
         end
@@ -1612,9 +1626,9 @@ function Card:use_consumeable(area, copier)
         delay(0.6)
 
         -- show cards flip to front
-        for i=1, #self.to_flip do
-            local percent = 0.85 + (i-0.999)/(#self.to_flip-0.998)*0.3
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() self.to_flip[i]:flip();play_sound('tarot2', percent, 0.6);self.to_flip[i]:juice_up(0.3, 0.3);return true end }))
+        for i=1, #to_flip do
+            local percent = 0.85 + (i-0.999)/(#to_flip-0.998)*0.3
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() to_flip[i]:flip();play_sound('tarot2', percent, 0.6);self.to_flip[i]:juice_up(0.3, 0.3);return true end }))
         end
     end
     -- end mod
@@ -1789,17 +1803,15 @@ function Card:can_use_consumeable(any_state, skip_check)
         end
         if self.ability.name == "A Jester" then
             -- go through all (valid) card areas and check if there are any flippable cards
-            self.to_flip = {}
             if G.consumeables.cards then
                 for i=1,#G.consumeables.cards do
-                    if G.consumeables.cards[i].ability.invert then self.to_flip[#self.to_flip+1] = G.consumeables.cards[i] end
+                    if G.consumeables.cards[i].ability.invert then return true end
                 end
             elseif G.pack_cards.cards then
                 for i=1,#G.pack_cards.cards do
-                    if G.pack_cards.cards[i].ability.invert then self.to_flip[#self.to_flip+1] = G.pack_cards.cards[i] end
+                    if G.pack_cards.cards[i].ability.invert then return true end
                 end
             end
-            if #self.to_flip > 0 then return true end
         end
         -- mod end
         if self.ability.name == 'The Wheel of Fortune' or self.ability.name == 'A Roulette' then
