@@ -2599,7 +2599,10 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         -- mod
         elseif _c.effect == 'Crystal Card' then
         elseif _c.effect == 'Poison Card' then
-        elseif _c.effect == 'Muscle Card' then
+        elseif _c.effect == 'Muscle Card' then 
+            loc_vars = {_c.config.mult, _c.config.ability.extra.build_rate}
+            if _c.ability.tired == false then table.insert(loc_vars, "Charged")
+            else table.insert(loc_vars, "Tired") end
         elseif _c.effect == 'Flame Card' then
         elseif _c.effect == 'Brutal Card' then
         elseif _c.effect == 'Catalyst Card' then

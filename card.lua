@@ -1059,6 +1059,8 @@ function Card:get_chip_mult()
         if self.ability.tired == false then
             self.ability.tired = true
             return self.ability.mult
+        else
+            return 0
         end
     -- mod end
     else  
