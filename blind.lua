@@ -624,14 +624,6 @@ function Blind:stay_flipped(area, card)
 end
 
 function Blind:debuff_card(card, from_blind)
-    -- mod
-    if card.ability.name == "Muscle Card" then
-        if card.ability.remaining_recovery > 0 then 
-            card.ability.remaining_recovery = card.ability.remaining_recovery - 1
-            return
-        end
-    end
-    -- end mod
     if self.debuff and not self.disabled and card.area ~= G.jokers then
         if self.debuff.suit and card:is_suit(self.debuff.suit, true) then
             card:set_debuff(true)

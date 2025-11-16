@@ -391,6 +391,11 @@ G.FUNCS.discard_cards_from_highlighted = function(e, hook)
         update_hand_text({immediate = true, nopulse = true, delay = 0}, {mult = 0, chips = 0, level = '', handname = ''})
         table.sort(G.hand.highlighted, function(a,b) return a.T.x < b.T.x end)
         inc_career_stat('c_cards_discarded', highlighted_count)
+        -- mod
+        for j = 1, #G.hand.highlighted do
+            G.hand.highlighted[j]:calculate_discard_effects()
+        end
+        -- mod end
         for j = 1, #G.jokers.cards do
             G.jokers.cards[j]:calculate_joker({pre_discard = true, full_hand = G.hand.highlighted, hook = hook})
         end
@@ -777,20 +782,6 @@ G.FUNCS.evaluate_play = function(e)
                     end
                 end
             end
-            -- mod
-            -- debuff muscle cards
-            if scoring_hand[i].ability.effect == "Muscle Card" then
-                scoring_hand[i].ability.remaining_recovery = scoring_hand[i].ability.extra_value
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.3,
-                    func = function()
-                        scoring_hand[i]:set_debuff(true)
-                    return true
-                    end
-                }))
-            end
-            -- mod end
         end
 
         delay(0.3)

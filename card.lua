@@ -317,7 +317,7 @@ function Card:set_ability(center, initial, delay_sprites)
 
     -- mod
     if self.ability.name == "Muscle Card" then
-        self.ability.remaining_recovery = 0
+        self.ability.tired = false
     end
     -- end mod
 
@@ -1054,6 +1054,13 @@ function Card:get_chip_mult()
         else
             return 0
         end
+    -- mod
+    elseif self.ability.effect == "Muscle Card" then 
+        if self.ability.tired == false then
+            self.ability.tired = true
+            return self.ability.mult
+        end
+    -- mod end
     else  
         return self.ability.mult
     end
@@ -1816,6 +1823,7 @@ function Card:can_use_consumeable(any_state, skip_check)
                 for i=1,#G.consumeables.cards do
                     if G.consumeables.cards[i].ability.invert then return true end
                 end
+            end
             if G.pack_cards then
                 for i=1,#G.pack_cards.cards do
                     if G.pack_cards.cards[i].ability.invert then return true end
@@ -2659,6 +2667,15 @@ function Card:calculate_perishable()
         end
     end
 end
+
+-- mod
+function Card:calculate_discard_effects()
+    if self.ability.name == "Muscle Card" then 
+        self.ability.tired = false 
+        self.ability.mult = self.ability.mult + self.ability.extra.build_rate
+    end
+end
+-- mod end
 
 function Card:calculate_joker(context)
     if self.debuff then return nil end

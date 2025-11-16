@@ -2596,6 +2596,16 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         elseif _c.effect == 'Stone Card' then loc_vars = {((specific_vars and specific_vars.bonus_chips) or _c.config.bonus)}
         elseif _c.effect == 'Gold Card' then loc_vars = {_c.config.h_dollars}
         elseif _c.effect == 'Lucky Card' then loc_vars = {G.GAME.probabilities.normal, _c.config.mult, 5, _c.config.p_dollars, 15}
+        -- mod
+        elseif _c.effect == 'Crystal Card' then
+        elseif _c.effect == 'Poison Card' then
+        elseif _c.effect == 'Muscle Card' then
+        elseif _c.effect == 'Flame Card' then
+        elseif _c.effect == 'Brutal Card' then
+        elseif _c.effect == 'Catalyst Card' then
+        elseif _c.effect == 'Blank Card' then
+        elseif _c.effect == 'Mirror Card' then
+        --mod end
         end
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
         if not _c.blank_front and ((specific_vars and specific_vars.bonus_chips) or _c.config.bonus) then
@@ -2727,7 +2737,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
                 else
                     _out = "(No hand)"
                 end
-            else 
+            else
                 _out = "(No hand)"
             end
             loc_vars = {_c.config.extra, _out}
