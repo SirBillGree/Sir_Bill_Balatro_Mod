@@ -698,7 +698,7 @@ function Game:init_item_prototypes()
         --modded enhancements
         m_crystal = {max = 500, order = 10, name = "Crystal Card", set = "Enhanced", pos = {x=0,y=1}, effect = "Crystal Card", label = "Crystal Card", blank_front = true, config = {}},
         m_poison =  {max = 500, order = 11, name = "Poison Card", set = "Enhanced", pos = {x=6,y=2}, effect = "Poison Card", label = "Poison Card", config = {extra={goal = 0.9}}},
-        m_muscle =  {max = 500, order = 12, name = "Muscle Card", set = "Enhanced", pos = {x=3,y=0}, effect = "Muscle Card", label = "Muscle Card", config = {mult=20, extra={build_rate=5}}},
+        m_muscle =  {max = 500, order = 12, name = "Muscle Card", set = "Enhanced", pos = {x=3,y=0}, effect = "Muscle Card", label = "Muscle Card", config = {mult=20, extra={build_rate=5, tired=false}}},
         m_flame =   {max = 500, order = 13, name = "Flame Card", set = "Enhanced", pos = {x=4,y=3}, effect = "Flame Card", label = "Flame Card", config = {extra={mult_add = 1}}},
         m_brutal =  {max = 500, order = 14, name = "Brutal Card", set = "Enhanced", pos = {x=0,y=4}, effect = "Brutal Card", label = "Brutal Card", config = {Xmult = 4, extra = {x_mult_chance = 4, bankrupt_chance = 16}}},
         m_catalyst= {max = 500, order = 15, name = "Catalyst Card", set = "Enhanced", pos = {x=4,y=2}, effect = "Catalyst Card", label = "Catalyst Card", config = {extra={x_mult_add = 1}}},

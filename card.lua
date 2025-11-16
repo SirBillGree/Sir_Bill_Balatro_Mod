@@ -317,7 +317,7 @@ function Card:set_ability(center, initial, delay_sprites)
 
     -- mod
     if self.ability.name == "Muscle Card" then
-        self.ability.tired = false
+        self.ability.extra.tired = false
     end
     -- end mod
 
@@ -1056,8 +1056,8 @@ function Card:get_chip_mult()
         end
     -- mod
     elseif self.ability.effect == "Muscle Card" then 
-        if self.ability.tired == false then
-            self.ability.tired = true
+        if self.ability.extra.tired == false then
+            self.ability.extra.tired = true
             return self.ability.mult
         else
             return 0
@@ -2673,7 +2673,7 @@ end
 -- mod
 function Card:calculate_discard_effects()
     if self.ability.name == "Muscle Card" then 
-        self.ability.tired = false 
+        self.ability.extra.tired = false
         self.ability.mult = self.ability.mult + self.ability.extra.build_rate
     end
 end
