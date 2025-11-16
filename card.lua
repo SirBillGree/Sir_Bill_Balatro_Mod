@@ -1570,10 +1570,10 @@ function Card:use_consumeable(area, copier)
     end
     if self.ability.name == "A Peasant" then
         local _tag = get_next_tag_key("peasant")
-        local tag = Tag(_tag)
+        local tag = Tag(_tag, false, "Small")
         add_tag(tag)
+        tag:apply_to_run("immediate")
         tag:apply_to_run("tag_add")
-        if tag then tag:apply_to_run("immediate") end
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
             play_sound('timpani')
             used_tarot:juice_up(0.3, 0.5)
@@ -1816,7 +1816,7 @@ function Card:can_use_consumeable(any_state, skip_check)
                 for i=1,#G.consumeables.cards do
                     if G.consumeables.cards[i].ability.invert then return true end
                 end
-            elseif G.pack_cards.cards then
+            if G.pack_cards then
                 for i=1,#G.pack_cards.cards do
                     if G.pack_cards.cards[i].ability.invert then return true end
                 end

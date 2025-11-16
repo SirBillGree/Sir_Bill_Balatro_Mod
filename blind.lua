@@ -628,7 +628,7 @@ function Blind:debuff_card(card, from_blind)
     if card.ability.name == "Muscle Card" then
         if card.ability.remaining_recovery > 0 then 
             card.ability.remaining_recovery = card.ability.remaining_recovery - 1
-            card:set_debuff(true)
+            return
         end
     end
     -- end mod

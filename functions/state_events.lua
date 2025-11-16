@@ -780,7 +780,7 @@ G.FUNCS.evaluate_play = function(e)
             -- mod
             -- debuff muscle cards
             if scoring_hand[i].ability.effect == "Muscle Card" then
-                scoring_hand[i].ability.remaining_recovery = scoring_hand[i].ability.extra.recovery
+                scoring_hand[i].ability.remaining_recovery = scoring_hand[i].ability.extra_value
                 G.E_MANAGER:add_event(Event({
                     trigger = 'after',
                     delay = 0.3,
