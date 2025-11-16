@@ -315,12 +315,6 @@ function Card:set_ability(center, initial, delay_sprites)
         self.ability.consumeable = center.config
     end
 
-    -- mod
-    if self.ability.name == "Muscle Card" then
-        self.ability.extra.tired = false
-    end
-    -- end mod
-
     if self.ability.name == 'Gold Card' and self.seal == 'Gold' and self.playing_card then 
         check_for_unlock({type = 'double_gold'})
     end
@@ -983,6 +977,13 @@ function Card:generate_UIBox_ability_table()
         -- elseif self.ability.name == "Seven Sale" then
         end
     end
+    -- mod (muscle card too dynamic for common_events)
+    if self.ability.effect == 'Muscle Card' then 
+        loc_vars = {self.ability.config.mult, self.ability.config.extra.build_rate}
+        if self.ability.config.extra.tired == false then table.insert(loc_vars, "Charged")
+        else table.insert(loc_vars, "Tired") end
+    end 
+    -- mod end
     local badges = {}
     if (card_type ~= 'Locked' and card_type ~= 'Undiscovered' and card_type ~= 'Default') or self.debuff then
         badges.card_type = card_type
@@ -1058,6 +1059,7 @@ function Card:get_chip_mult()
     elseif self.ability.effect == "Muscle Card" then 
         if self.ability.extra.tired == false then
             self.ability.extra.tired = true
+            self:generate_UIBox_ability_table()
             return self.ability.mult
         else
             return 0
@@ -2675,6 +2677,7 @@ function Card:calculate_discard_effects()
     if self.ability.name == "Muscle Card" then 
         self.ability.extra.tired = false
         self.ability.mult = self.ability.mult + self.ability.extra.build_rate
+        self:generate_UIBox_ability_table()
     end
 end
 -- mod end
