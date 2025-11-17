@@ -438,7 +438,7 @@ return {
                 },
             },
             m_poison={
-                name="Poison Card",
+                name="Air Card",
                 text={
                     "temp",
                 },
@@ -448,7 +448,16 @@ return {
                 text={
                     "No {C:mult}Mult{} if discarged",
                     "Discard to recharge",
-                    "{C:attention}#1#{}",
+                    "{C:green}CHARGED{}",
+                },
+            },
+            m_weakened={
+                name="Muscle Card",
+                text={
+                    "{C:inactive}+0 Mult{}",
+                    "No {C:mult}Mult{} if discarged",
+                    "Discard to recharge",
+                    "{C:red}DISCHARGED{}",
                 },
             },
             m_flame={

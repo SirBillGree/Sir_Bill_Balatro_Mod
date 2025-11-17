@@ -1052,8 +1052,7 @@ function Card:get_chip_mult()
     -- mod
     elseif self.ability.effect == "Muscle Card" then 
         if self.ability.extra.tired == false then
-            self.ability.extra.tired = true
-            self:generate_UIBox_ability_table()
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() self:set_ability(G.P_CENTERS['m_weakened']);return true end }))
             return self.ability.mult
         else
             return 0
@@ -2669,9 +2668,7 @@ end
 -- mod
 function Card:calculate_discard_effects()
     if self.ability.name == "Muscle Card" then 
-        self.ability.extra.tired = false
-        self.ability.mult = self.ability.mult + self.ability.extra.build_rate
-        self:generate_UIBox_ability_table()
+        G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() self:set_ability(G.P_CENTERS['m_muscle']);return true end }))
     end
 end
 -- mod end

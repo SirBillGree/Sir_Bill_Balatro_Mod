@@ -2603,10 +2603,9 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         elseif _c.effect == 'Lucky Card' then loc_vars = {G.GAME.probabilities.normal, _c.config.mult, 5, _c.config.p_dollars, 15}
         -- mod
         elseif _c.effect == 'Crystal Card' then
-        elseif _c.effect == 'Poison Card' then
-        elseif _c.effect == 'Muscle Card' then
-            if _c.tired == false then table.insert(loc_vars, "Charged")
-            else table.insert(loc_vars, "Tired") end
+        elseif _c.effect == 'Air Card' then
+        -- elseif _c.effect == 'Muscle Card' then
+        -- elseif _c.effect == 'Wrakened Muscle Card' then
         elseif _c.effect == 'Flame Card' then
         elseif _c.effect == 'Brutal Card' then
         elseif _c.effect == 'Catalyst Card' then
