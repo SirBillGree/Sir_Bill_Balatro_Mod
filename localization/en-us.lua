@@ -405,7 +405,7 @@ return {
             m_mult={
                 name="Mult Card",
                 text={
-                    "{C:mult}+#1#{} Mult",
+                    --"{C:mult}+#1#{} Mult",
                 },
             },
             m_steel={
@@ -2024,6 +2024,13 @@ return {
                     "{C:chips}+#1#{} chips",
                 },
             },
+            -- mod
+            card_mult={
+                text={
+                    "{C:mult}+#1#{} mult",
+                },
+            },
+            -- mod end
             card_extra_chips={
                 text={
                     "{C:chips}+#1#{} extra chips",
