@@ -1079,6 +1079,8 @@ G.FUNCS.evaluate_play = function(e)
         end
     end
 
+    G.GAME.current_round.current_hand.catalyst_triggers = 0 --mod
+
     G.E_MANAGER:add_event(Event({
         trigger = 'immediate',
         func = (function()     

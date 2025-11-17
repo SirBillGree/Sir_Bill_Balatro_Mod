@@ -301,6 +301,9 @@ function Card:set_ability(center, initial, delay_sprites)
         x_mult = center.config.Xmult or 1,
         h_size = center.config.h_size or 0,
         d_size = center.config.d_size or 0,
+        -- mod
+        mult_add = center.config.mult_add or 0,
+        -- mod end
         extra = copy_table(center.config.extra) or nil,
         extra_value = 0,
         type = center.config.type or '',
@@ -1057,6 +1060,9 @@ function Card:get_chip_mult()
         else
             return 0
         end
+    elseif self.ability.mult_add > 0 then --flaming card
+        self.ability.mult = self.ability.mult + self.ability.mult_add
+        return self.ability.mult
     -- mod end
     else  
         return self.ability.mult
@@ -1066,7 +1072,17 @@ end
 function Card:get_chip_x_mult(context)
     if self.debuff then return 0 end
     if self.ability.set == 'Joker' then return 0 end
-    if self.ability.x_mult <= 1 then return 0 end
+    if self.ability.name == "Catalyst Card" then
+        G.GAME.current_round.current_hand.catalyst_triggers = G.GAME.current_round.current_hand.catalyst_triggers + 1
+        -- check if this card is the last catalyst card
+        for i=#G.play.cards,1,-1 do
+            if G.play.cards[i].ability.name == "Catalyst Card" then
+                if G.play.cards[i].unique_val == self.unique_val then
+                    return G.GAME.current_round.current_hand.catalyst_triggers
+                else break end
+            else break end
+        end
+    elseif self.ability.x_mult <= 1 then return 0 end
     return self.ability.x_mult
 end
 

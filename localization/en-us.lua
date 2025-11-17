@@ -463,7 +463,7 @@ return {
             m_flame={
                 name="Flame Card",
                 text={
-                    "temp",
+                    "Gains {C:mult}+#1#{} Mult when played",
                 },
             },
             m_catalyst={
