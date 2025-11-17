@@ -446,10 +446,9 @@ return {
             m_muscle={
                 name="Muscle Card",
                 text={
-                    "{C:mult}+#1#{} Mult if charged",
+                    "No {C:mult}Mult{} if discarged",
                     "Discard to recharge",
-                    "gains {C:mult}+#2#{} Mult on recharge",
-                    "{C:attention}#3#{}",
+                    "{C:attention}#1#{}",
                 },
             },
             m_flame={

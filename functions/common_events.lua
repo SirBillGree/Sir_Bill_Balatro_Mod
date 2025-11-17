@@ -2589,7 +2589,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         if specific_vars and _c.name ~= 'Stone Card' and specific_vars.nominal_chips then
             localize{type = 'other', key = 'card_chips', nodes = desc_nodes, vars = {specific_vars.nominal_chips}}
         end
-        if _c.effect == 'Mult Card' then loc_vars = {_c.config.mult}
+        if _c.effect == 'Mult Card' then --loc_vars = {_c.config.mult}
         elseif _c.effect == 'Wild Card' then
         elseif _c.effect == 'Glass Card' then loc_vars = {_c.config.Xmult, G.GAME.probabilities.normal, _c.config.extra}
         elseif _c.effect == 'Steel Card' then loc_vars = {_c.config.h_x_mult}
@@ -2599,6 +2599,10 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         -- mod
         elseif _c.effect == 'Crystal Card' then
         elseif _c.effect == 'Poison Card' then
+        elseif _c.effect == 'Muscle Card' then
+            if _c.extra.tired == false then table.insert(loc_vars, "Charged")
+            else table.insert(loc_vars, "Tired") end
+        end 
         elseif _c.effect == 'Flame Card' then
         elseif _c.effect == 'Brutal Card' then
         elseif _c.effect == 'Catalyst Card' then
