@@ -2586,14 +2586,14 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {specific_vars.bonus_chips}}
         end
     elseif _c.set == 'Enhanced' then 
-        if specific_vars and _c.name ~= 'Stone Card' and specific_vars.nominal_chips then
-            localize{type = 'other', key = 'card_chips', nodes = desc_nodes, vars = {specific_vars.nominal_chips}}
-        end
         -- mod
-        if specific_vars.mult then
+        if specific_vars and specific_vars.mult then
             localize{type = 'other', key = 'card_mult', nodes = desc_nodes, vars = {specific_vars.mult}}
         end
         -- mod end
+        if specific_vars and _c.name ~= 'Stone Card' and specific_vars.nominal_chips then
+            localize{type = 'other', key = 'card_chips', nodes = desc_nodes, vars = {specific_vars.nominal_chips}}
+        end
         if _c.effect == 'Mult Card' then --loc_vars = {_c.config.mult}
         elseif _c.effect == 'Wild Card' then
         elseif _c.effect == 'Glass Card' then loc_vars = {_c.config.Xmult, G.GAME.probabilities.normal, _c.config.extra}
@@ -2617,7 +2617,10 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         if not _c.blank_front and ((specific_vars and specific_vars.bonus_chips) or _c.config.bonus) then
             localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {((specific_vars and specific_vars.bonus_chips) or _c.config.bonus)}}
         end
-    elseif _c.set == 'Booster' then 
+        if not _c.blank_front and not _c.effect ~= "Lucky Card" and ((specific_vars and specific_vars.mult) or _c.config.mult) then
+            localize{type = 'other', key = 'card_mult', nodes = desc_nodes, vars = {((specific_vars and specific_vars.card_mult) or _c.config.mult)}}
+        end
+    elseif _c.set == 'Booster' then
         local desc_override = 'p_arcana_normal'
         if _c.name == 'Arcana Pack' then desc_override = 'p_arcana_normal'; loc_vars = {_c.config.choose, _c.config.extra}
         elseif _c.name == 'Jumbo Arcana Pack' then desc_override = 'p_arcana_jumbo'; loc_vars = {_c.config.choose, _c.config.extra}

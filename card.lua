@@ -1054,12 +1054,8 @@ function Card:get_chip_mult()
         end
     -- mod
     elseif self.ability.effect == "Muscle Card" then 
-        if self.ability.extra.tired == false then
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() self:set_ability(G.P_CENTERS['m_weakened']);return true end }))
-            return self.ability.mult
-        else
-            return 0
-        end
+        G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() self:set_ability(G.P_CENTERS['m_weakened']);return true end }))
+        return self.ability.mult
     elseif self.ability.mult_add > 0 then --flaming card
         self.ability.mult = self.ability.mult + self.ability.mult_add
         return self.ability.mult
