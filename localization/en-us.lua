@@ -437,7 +437,7 @@ return {
                     "temp",
                 },
             },
-            m_poison={
+            m_air={
                 name="Air Card",
                 text={
                     "temp",
@@ -469,25 +469,32 @@ return {
             m_catalyst={
                 name="Catalyst Card",
                 text={
-                    "temp",
+                    "{X:mult,C:white} +X1 {} Mult for every previous",
+                    "Catalyst card in hand",
+                    "{C:red}Only last card triggers{}",
                 },
             },
             m_brutal={
                 name="Brutal Card",
                 text={
-                    "temp",
+                    "{C:green}#1# in 4{} chance",
+                    "for {X:mult,C:white} +X#2# {} Mult",
+                    "{C:green}#1# in 16{} chance",
+                    "to win lose all your money",
                 },
             },
             m_blank={
                 name="Blank Card",
                 text={
                     "temp",
+                    "no rank or suit",
                 },
             },
             m_mirror={
                 name="Mirror Card",
                 text={
                     "temp",
+                    "no rank or suit",
                 },
             },
             -- mod end

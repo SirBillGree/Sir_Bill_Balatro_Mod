@@ -1068,6 +1068,7 @@ end
 function Card:get_chip_x_mult(context)
     if self.debuff then return 0 end
     if self.ability.set == 'Joker' then return 0 end
+    -- mod
     if self.ability.name == "Catalyst Card" then
         G.GAME.current_round.current_hand.catalyst_triggers = G.GAME.current_round.current_hand.catalyst_triggers + 1
         -- check if this card is the last catalyst card
@@ -1078,6 +1079,10 @@ function Card:get_chip_x_mult(context)
                 else break end
             else break end
         end
+    elseif self.ability.name == "Brutal Card" then
+        if pseudorandom('brutal_x_mult') < G.GAME.probabilities.normal/4 then
+            return self.ability.mult end
+    -- mod end
     elseif self.ability.x_mult <= 1 then return 0 end
     return self.ability.x_mult
 end
@@ -1091,6 +1096,7 @@ function Card:get_chip_h_x_mult()
     if self.debuff then return 0 end
     return self.ability.h_x_mult
 end
+
 
 function Card:get_edition()
     if self.debuff then return end
@@ -1160,7 +1166,14 @@ function Card:get_p_dollars()
             ret = ret + self.ability.p_dollars
         end
     end
-    if ret > 0 then 
+    -- mod
+    if self.ability.effect == "Brutal Card" then 
+        if pseudorandom('brutal_bankrupt') < G.GAME.probabilities.normal/16 then
+            ret = ret - G.GAME.current_round.dollars
+        end
+    end
+    -- mod end
+    if ret ~= 0 then 
         G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + ret
         G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
     end

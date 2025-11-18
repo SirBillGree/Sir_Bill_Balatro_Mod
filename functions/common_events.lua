@@ -2605,11 +2605,11 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         elseif _c.effect == 'Crystal Card' then
         elseif _c.effect == 'Air Card' then
         -- elseif _c.effect == 'Muscle Card' then
-        -- elseif _c.effect == 'Wrakened Muscle Card' then
+        -- elseif _c.effect == 'Weakened Muscle Card' then
         elseif _c.effect == 'Flame Card' then loc_vars = {_c.config.mult_add}
-        elseif _c.effect == 'Brutal Card' then
-        elseif _c.effect == 'Catalyst Card' then
-        elseif _c.effect == 'Blank Card' then
+        elseif _c.effect == 'Brutal Card' then loc_vars = {G.GAME.probabilities.normal, _c.config.Xmult}
+        --elseif _c.effect == 'Catalyst Card' then 
+        elseif _c.effect == 'Blank Card' then loc_cars = {_c.config.Xmult}
         elseif _c.effect == 'Mirror Card' then
         --mod end
         end
