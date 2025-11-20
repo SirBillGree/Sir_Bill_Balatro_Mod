@@ -434,36 +434,51 @@ return {
             m_crystal={
                 name="Crystal Card",
                 text={
-                    "temp",
+                    "Triggers random joker when scored",
+                    "no rank or suit",
                 },
             },
             m_air={
                 name="Air Card",
                 text={
-                    "temp",
+                    "Triggers random played card",
+                    "while this card",
+                    "stays in hand",
+                },
+            },
+            -- muscle
+            m_muscle_tarot_description={
+                name="Muscle Card",
+                text={
+                    "{C:mult}+#1#{} Mult",
+                    "No {C:mult}Mult{} if discarged",
+                    "Discharges after being played",
+                    "Discard to recharge",
+                    "{C:green}STARTS CHARGED{}",
                 },
             },
             m_muscle={
                 name="Muscle Card",
                 text={
+                    "{C:mult}+#1#{} Mult",
                     "No {C:mult}Mult{} if discarged",
-                    "Discard to recharge",
                     "{C:green}CHARGED{}",
                 },
             },
             m_weakened={
                 name="Muscle Card",
                 text={
-                    "{C:inactive}+0 Mult{}",
-                    "No {C:mult}Mult{} if discarged",
+                    "{C:inactive}+0 Mult (discarged){}",
                     "Discard to recharge",
                     "{C:red}DISCHARGED{}",
                 },
             },
+            --
             m_flame={
                 name="Flame Card",
                 text={
-                    "Gains {C:mult}+#1#{} Mult when played",
+                    "{C:mult}+#1#{} Mult",
+                    "Gains {C:mult}+#2#{} Mult when scored",
                 },
             },
             m_catalyst={
@@ -486,15 +501,16 @@ return {
             m_blank={
                 name="Blank Card",
                 text={
-                    "temp",
-                    "no rank or suit",
+                    "Random rank and suit",
+                    "selected when played",
+                    "{X:mult,C:white} X#1# {} Mult if scored",
                 },
             },
             m_mirror={
                 name="Mirror Card",
                 text={
-                    "temp",
-                    "no rank or suit",
+                    "Copies rank, suit, and enhancement",
+                    "of the card to the left",
                 },
             },
             -- mod end

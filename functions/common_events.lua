@@ -2589,12 +2589,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         if specific_vars and _c.name ~= 'Stone Card' and specific_vars.nominal_chips then
             localize{type = 'other', key = 'card_chips', nodes = desc_nodes, vars = {specific_vars.nominal_chips}}
         end
-        -- mod
-        if not _c.blank_front and not _c.effect ~= "Lucky Card" and ((specific_vars and specific_vars.mult) or _c.config.mult) then
-            localize{type = 'other', key = 'card_mult', nodes = desc_nodes, vars = {((specific_vars and specific_vars.card_mult) or _c.config.mult)}}
-        end
-        -- mod end
-        if _c.effect == 'Mult Card' then --loc_vars = {_c.config.mult}
+        if _c.effect == 'Mult Card' then loc_vars = {_c.config.mult}
         elseif _c.effect == 'Wild Card' then
         elseif _c.effect == 'Glass Card' then loc_vars = {_c.config.Xmult, G.GAME.probabilities.normal, _c.config.extra}
         elseif _c.effect == 'Steel Card' then loc_vars = {_c.config.h_x_mult}
@@ -2602,15 +2597,15 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         elseif _c.effect == 'Gold Card' then loc_vars = {_c.config.h_dollars}
         elseif _c.effect == 'Lucky Card' then loc_vars = {G.GAME.probabilities.normal, _c.config.mult, 5, _c.config.p_dollars, 15}
         -- mod
-        elseif _c.effect == 'Crystal Card' then
-        elseif _c.effect == 'Air Card' then
-        -- elseif _c.effect == 'Muscle Card' then
+        --elseif _c.effect == 'Crystal Card' then
+        --elseif _c.effect == 'Air Card' then
+        elseif _c.effect == 'Muscle Card' then loc_vars = {_c.config.mult}
         -- elseif _c.effect == 'Weakened Muscle Card' then
-        elseif _c.effect == 'Flame Card' then loc_vars = {_c.config.mult_add}
+        elseif _c.effect == 'Flame Card' then loc_vars = {((specific_vars and specific_vars.mult) or 0), _c.config.mult_add}
         elseif _c.effect == 'Brutal Card' then loc_vars = {G.GAME.probabilities.normal, _c.config.Xmult}
         --elseif _c.effect == 'Catalyst Card' then 
         elseif _c.effect == 'Blank Card' then loc_vars = {_c.config.Xmult}
-        elseif _c.effect == 'Mirror Card' then
+        --elseif _c.effect == 'Mirror Card' then
         --mod end
         end
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
@@ -2728,7 +2723,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
        elseif _c.name == "A Peasant" then
        elseif _c.name == "A Non-Believer" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
        elseif _c.name == "A Cheater" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
-       elseif _c.name == "An Athlete" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
+       elseif _c.name == "An Athlete" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = "m_muscle_tarot_description"}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
        elseif _c.name == "A Tyrant" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
        elseif _c.name == "A Tennent" then loc_vars = {_c.config.extra}
        elseif _c.name == "A Roulette" then loc_vars = {G.GAME.probabilities.normal, _c.config.extra};  info_queue[#info_queue+1] = G.P_CENTERS.e_foil; info_queue[#info_queue+1] = G.P_CENTERS.e_holo; info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome;

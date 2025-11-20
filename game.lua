@@ -698,10 +698,10 @@ function Game:init_item_prototypes()
         --modded enhancements
         m_crystal = {max = 500, order = 10, name = "Crystal Card", set = "Enhanced", pos = {x=0,y=1}, effect = "Crystal Card", label = "Crystal Card", blank_front = true, config = {}},
         m_air =     {max = 500, order = 11, name = "Air Card", set = "Enhanced", pos = {x=6,y=2}, effect = "Air Card", label = "Air Card", config = {}},
-        m_muscle =  {max = 500, order = 12, name = "Muscle Card", set = "Enhanced", pos = {x=3,y=0}, effect = "Muscle Card", label = "Muscle Card", config = {mult=20}}, -- testing
-        m_flame =   {max = 500, order = 13, name = "Flame Card", set = "Enhanced", pos = {x=4,y=3}, effect = "Flame Card", label = "Flame Card", config = {mult_add = 1}},  --testing
-        m_brutal =  {max = 500, order = 14, name = "Brutal Card", set = "Enhanced", pos = {x=0,y=4}, effect = "Brutal Card", label = "Brutal Card", config = {Xmult = 4}}, --testing
-        m_catalyst= {max = 500, order = 15, name = "Catalyst Card", set = "Enhanced", pos = {x=4,y=2}, effect = "Catalyst Card", label = "Catalyst Card", config = {}},  -- testing
+        m_muscle =  {max = 500, order = 12, name = "Muscle Card", set = "Enhanced", pos = {x=3,y=0}, effect = "Muscle Card", label = "Muscle Card", config = {mult=20}}, --Works
+        m_flame =   {max = 500, order = 13, name = "Flame Card", set = "Enhanced", pos = {x=4,y=3}, effect = "Flame Card", label = "Flame Card", config = {mult_add = 1, mult=0}},  --Works
+        m_brutal =  {max = 500, order = 14, name = "Brutal Card", set = "Enhanced", pos = {x=0,y=4}, effect = "Brutal Card", label = "Brutal Card", config = {Xmult = 4}}, --testing (yet to trigger money loss)
+        m_catalyst= {max = 500, order = 15, name = "Catalyst Card", set = "Enhanced", pos = {x=4,y=2}, effect = "Catalyst Card", label = "Catalyst Card", config = {}},  --Works
         m_blank =   {max = 500, order = 16, name = "Blank Card", set = "Enhanced", pos = {x=1,y=0}, effect = "Blank Card", label = "Blank Card", blank_front = true, config = {Xmult = 3}},
         m_mirror =  {max = 500, order = 17, name = "Mirror Card", set = "Enhanced", pos = {x=6,y=1}, effect = "Mirror Card", label = "Mirror Card", blank_front = true, config = {}},
 

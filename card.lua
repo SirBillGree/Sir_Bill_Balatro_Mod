@@ -776,10 +776,11 @@ function Card:generate_UIBox_ability_table()
     elseif self.debuff then
         loc_vars = { debuffed = true, playing_card = not not self.base.colour, value = self.base.value, suit = self.base.suit, colour = self.base.colour }
     elseif card_type == 'Default' or card_type == 'Enhanced' then
+        -- passed to card
         loc_vars = { playing_card = not not self.base.colour, value = self.base.value, suit = self.base.suit, colour = self.base.colour,
                     nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,
                     bonus_chips = (self.ability.bonus + (self.ability.perma_bonus or 0)) > 0 and (self.ability.bonus + (self.ability.perma_bonus or 0)) or nil,
-                    mult = (self.ability.mult > 0 and self.ability.mult) or nil, -- mod
+                    mult = self.ability.mult,
                 }
     -- Passing Text params for joker display like the the current multiplier
     elseif self.ability.set == 'Joker' then -- all remaining jokers
