@@ -1181,6 +1181,14 @@ function Card:get_p_dollars()
     return ret
 end
 
+function Card:trigger_crystal_card(context)
+    if self.debuff then return nil end
+    if self.ability.effect == "Crystal Card" and context.cardarea == G.play then
+        local rand_joker = pseudorandom_element(G.jokers.cards, pseudoseed("Crystal"))
+        return rand_joker
+    else return nil end
+end
+
 function Card:use_consumeable(area, copier)
     stop_use()
     if not copier then set_consumeable_usage(self) end

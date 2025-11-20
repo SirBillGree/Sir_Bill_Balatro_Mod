@@ -689,15 +689,25 @@ G.FUNCS.evaluate_play = function(e)
                 end
                 for j=1,#reps do
                     percent = percent + percent_delta
+                    local eval = nil
                     if reps[j] ~= 1 then
                         card_eval_status_text((reps[j].jokers or reps[j].seals).card, 'jokers', nil, nil, nil, (reps[j].jokers or reps[j].seals))
                     end
                     
                     --calculate the hand effects
                     local effects = {eval_card(scoring_hand[i], {cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hand = text})}
+                    -- mod (crystal card)
+                    if effects.crystal_joker then
+                        eval = eval_card(effects.crystal_joker,{cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, edition = true})
+                        if eval then 
+                            eval.card = effects.crystal_joker
+                            table.insert(effects, eval)
+                        end
+                    end
+                    -- mod end
                     for k=1, #G.jokers.cards do
                         --calculate the joker individual card effects
-                        local eval = G.jokers.cards[k]:calculate_joker({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], individual = true})
+                        eval = G.jokers.cards[k]:calculate_joker({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], individual = true})
                         if eval then 
                             table.insert(effects, eval)
                         end
@@ -948,6 +958,7 @@ G.FUNCS.evaluate_play = function(e)
             end
         end
 
+        -- add final total to chip count
         local nu_chip, nu_mult = G.GAME.selected_back:trigger_effect{context = 'final_scoring_step', chips = hand_chips, mult = mult}
         mult = mod_mult(nu_mult or mult)
         hand_chips = mod_chips(nu_chip or hand_chips)

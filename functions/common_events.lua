@@ -590,6 +590,13 @@ function eval_card(card, context)
     end
     
     if context.cardarea == G.play then
+        -- mod
+        local crystal = card:trigger_crystal_card()
+        if crystal then
+            ret.crystal_joker = crystal
+        end
+        -- mod end
+
         local chips = card:get_chip_bonus()
         if chips > 0 then 
             ret.chips = chips
@@ -606,7 +613,7 @@ function eval_card(card, context)
         end
 
         local p_dollars = card:get_p_dollars()
-        if p_dollars > 0 then 
+        if p_dollars ~= 0 then 
             ret.p_dollars = p_dollars
         end
 
