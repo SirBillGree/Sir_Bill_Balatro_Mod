@@ -2585,15 +2585,15 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         if specific_vars.bonus_chips then
             localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {specific_vars.bonus_chips}}
         end
-    elseif _c.set == 'Enhanced' then 
-        -- mod
-        if specific_vars and specific_vars.mult then
-            localize{type = 'other', key = 'card_mult', nodes = desc_nodes, vars = {specific_vars.mult}}
-        end
-        -- mod end
+    elseif _c.set == 'Enhanced' then
         if specific_vars and _c.name ~= 'Stone Card' and specific_vars.nominal_chips then
             localize{type = 'other', key = 'card_chips', nodes = desc_nodes, vars = {specific_vars.nominal_chips}}
         end
+        -- mod
+        if not _c.blank_front and not _c.effect ~= "Lucky Card" and ((specific_vars and specific_vars.mult) or _c.config.mult) then
+            localize{type = 'other', key = 'card_mult', nodes = desc_nodes, vars = {((specific_vars and specific_vars.card_mult) or _c.config.mult)}}
+        end
+        -- mod end
         if _c.effect == 'Mult Card' then --loc_vars = {_c.config.mult}
         elseif _c.effect == 'Wild Card' then
         elseif _c.effect == 'Glass Card' then loc_vars = {_c.config.Xmult, G.GAME.probabilities.normal, _c.config.extra}
@@ -2609,16 +2609,13 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         elseif _c.effect == 'Flame Card' then loc_vars = {_c.config.mult_add}
         elseif _c.effect == 'Brutal Card' then loc_vars = {G.GAME.probabilities.normal, _c.config.Xmult}
         --elseif _c.effect == 'Catalyst Card' then 
-        elseif _c.effect == 'Blank Card' then loc_cars = {_c.config.Xmult}
+        elseif _c.effect == 'Blank Card' then loc_vars = {_c.config.Xmult}
         elseif _c.effect == 'Mirror Card' then
         --mod end
         end
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
         if not _c.blank_front and ((specific_vars and specific_vars.bonus_chips) or _c.config.bonus) then
             localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {((specific_vars and specific_vars.bonus_chips) or _c.config.bonus)}}
-        end
-        if not _c.blank_front and not _c.effect ~= "Lucky Card" and ((specific_vars and specific_vars.mult) or _c.config.mult) then
-            localize{type = 'other', key = 'card_mult', nodes = desc_nodes, vars = {((specific_vars and specific_vars.card_mult) or _c.config.mult)}}
         end
     elseif _c.set == 'Booster' then
         local desc_override = 'p_arcana_normal'

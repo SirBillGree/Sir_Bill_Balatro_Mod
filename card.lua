@@ -1077,7 +1077,7 @@ function Card:get_chip_x_mult(context)
                 if G.play.cards[i].unique_val == self.unique_val then
                     return G.GAME.current_round.current_hand.catalyst_triggers
                 else break end
-            else break end
+            else end
         end
     elseif self.ability.name == "Brutal Card" then
         if pseudorandom('brutal_x_mult') < G.GAME.probabilities.normal/4 then
