@@ -690,7 +690,13 @@ G.FUNCS.evaluate_play = function(e)
                         end
                     end
                 end
-                percent, percent_delta, mult, hand_chips = score_card(reps, percent, percent_delta, scoring_hand, mult, hand_chips)
+                for j=1,#reps do
+                    percent = percent + percent_delta
+                    if reps[j] ~= 1 then
+                        card_eval_status_text((reps[j].jokers or reps[j].seals).card, 'jokers', nil, nil, nil, (reps[j].jokers or reps[j].seals))
+                    end
+                    percent, percent_delta, mult, hand_chips = score_card(percent, percent_delta, scoring_hand, i, mult, hand_chips, text, poker_hands)
+                end
             end
         end
         --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
@@ -793,75 +799,11 @@ G.FUNCS.evaluate_play = function(e)
         percent = percent + percent_delta
         for i=1, #G.jokers.cards + #G.consumeables.cards do
             local _card = G.jokers.cards[i] or G.consumeables.cards[i - #G.jokers.cards]
-            --calculate the joker edition effects
-            local edition_effects = eval_card(_card, {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, edition = true})
-            if edition_effects.jokers then
-                edition_effects.jokers.edition = true
-                if edition_effects.jokers.chip_mod then
-                    hand_chips = mod_chips(hand_chips + edition_effects.jokers.chip_mod)
-                    update_hand_text({delay = 0}, {chips = hand_chips})
-                    card_eval_status_text(_card, 'jokers', nil, percent, nil, {
-                        message = localize{type='variable',key='a_chips',vars={edition_effects.jokers.chip_mod}},
-                        chip_mod =  edition_effects.jokers.chip_mod,
-                        colour =  G.C.EDITION,
-                        edition = true})
-                end
-                if edition_effects.jokers.mult_mod then
-                    mult = mod_mult(mult + edition_effects.jokers.mult_mod)
-                    update_hand_text({delay = 0}, {mult = mult})
-                    card_eval_status_text(_card, 'jokers', nil, percent, nil, {
-                        message = localize{type='variable',key='a_mult',vars={edition_effects.jokers.mult_mod}},
-                        mult_mod =  edition_effects.jokers.mult_mod,
-                        colour = G.C.DARK_EDITION,
-                        edition = true})
-                end
-                percent = percent+percent_delta
-            end
-
-            --calculate the joker effects
-            local effects = eval_card(_card, {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true, hand_chips = hand_chips})
-
-            --Any Joker effects
-            if effects.jokers then 
-                local extras = {mult = false, hand_chips = false}
-                if effects.jokers.mult_mod then mult = mod_mult(mult + effects.jokers.mult_mod);extras.mult = true end
-                if effects.jokers.chip_mod then hand_chips = mod_chips(hand_chips + effects.jokers.chip_mod);extras.hand_chips = true end
-                if effects.jokers.Xmult_mod then mult = mod_mult(mult*effects.jokers.Xmult_mod);extras.mult = true  end
-                update_hand_text({delay = 0}, {chips = extras.hand_chips and hand_chips, mult = extras.mult and mult})
-                card_eval_status_text(_card, 'jokers', nil, percent, nil, effects.jokers)
-                percent = percent+percent_delta
-            end
-
-            --Joker on Joker effects
-            for _, v in ipairs(G.jokers.cards) do
-                local effect = v:calculate_joker{full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_joker = _card}
-                if effect then
-                    local extras = {mult = false, hand_chips = false}
-                    if effect.mult_mod then mult = mod_mult(mult + effect.mult_mod);extras.mult = true end
-                    if effect.chip_mod then hand_chips = mod_chips(hand_chips + effect.chip_mod);extras.hand_chips = true end
-                    if effect.Xmult_mod then mult = mod_mult(mult*effect.Xmult_mod);extras.mult = true  end
-                    if extras.mult or extras.hand_chips then update_hand_text({delay = 0}, {chips = extras.hand_chips and hand_chips, mult = extras.mult and mult}) end
-                    if extras.mult or extras.hand_chips then card_eval_status_text(v, 'jokers', nil, percent, nil, effect) end
-                    percent = percent+percent_delta
-                end
-            end
-
-            if edition_effects.jokers then
-                if edition_effects.jokers.x_mult_mod then
-                    mult = mod_mult(mult*edition_effects.jokers.x_mult_mod)
-                    update_hand_text({delay = 0}, {mult = mult})
-                    card_eval_status_text(_card, 'jokers', nil, percent, nil, {
-                        message = localize{type='variable',key='a_xmult',vars={edition_effects.jokers.x_mult_mod}},
-                        x_mult_mod =  edition_effects.jokers.x_mult_mod,
-                        colour =  G.C.EDITION,
-                        edition = true})
-                end
-                percent = percent+percent_delta
-            end
+            percent, percent_delta, mult, hand_chips = score_joker(_card, hand_chips, mult, percent, percent_delta, scoring_hand, poker_hands, text)
         end
 
         --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
-        --Joker Effects
+        --Final scoring
         --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
         local nu_chip, nu_mult = G.GAME.selected_back:trigger_effect{context = 'final_scoring_step', chips = hand_chips, mult = mult}
         mult = mod_mult(nu_mult or mult)
