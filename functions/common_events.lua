@@ -588,12 +588,7 @@ function score_card(percent, percent_delta, scoring_hand, i, mult, hand_chips, t
     local effects = {eval_card(scoring_hand[i], {cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hand = text})}
     -- mod (crystal card)
     if effects.other_card then
-        eval = eval_card(effects.other_card,{cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, edition = true})
-        if eval then 
-            eval = eval.jokers
-            eval.card = effects.other_card
-            table.insert(effects, eval)
-        end
+        percent, percent_delta, mult, hand_chips = score_joker(effects.other_card, hand_chips, mult, percent, percent_delta, scoring_hand, poker_hands, text)
     end
     -- mod end
     for k=1, #G.jokers.cards do
