@@ -703,6 +703,7 @@ G.FUNCS.evaluate_play = function(e)
                     if effects.other_card then
                         eval = eval_card(effects.other_card,{cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, edition = true})
                         if eval then 
+                            eval = eval.jokers
                             eval.card = effects.other_card
                             table.insert(effects, eval)
                         end
@@ -963,7 +964,9 @@ G.FUNCS.evaluate_play = function(e)
             end
         end
 
-        -- add final total to chip count
+        --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+        --Joker Effects
+        --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
         local nu_chip, nu_mult = G.GAME.selected_back:trigger_effect{context = 'final_scoring_step', chips = hand_chips, mult = mult}
         mult = mod_mult(nu_mult or mult)
         hand_chips = mod_chips(nu_chip or hand_chips)

@@ -591,7 +591,7 @@ function eval_card(card, context)
     
     if context.cardarea == G.play then
         -- mod
-        local other_card = card:get_other_card()
+        local other_card = card:get_other_card(context)
         if other_card then
             ret.other_card = other_card
         end

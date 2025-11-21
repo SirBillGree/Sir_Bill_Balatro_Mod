@@ -1183,9 +1183,9 @@ end
 
 function Card:get_other_card(context)
     if self.debuff then return nil end
-    if self.ability.effect == "Crystal Card" and context.cardarea == G.play then
+    if self.ability.effect == "Crystal Card" and context.cardarea == G.play and #G.jokers.cards ~= 0 then
         return pseudorandom_element(G.jokers.cards, pseudoseed("Crystal"))
-    elseif self.ability.effect == "Air Card" and context.cardarea == G.hand then
+    elseif self.ability.effect == "Air Card" and context.cardarea == G.hand and #G.play.cards ~= 0 then
         return pseudorandom_element(G.play.cards, pseudoseed("Air"))
     else return nil end
 end
