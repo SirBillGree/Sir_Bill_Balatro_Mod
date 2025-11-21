@@ -1181,11 +1181,12 @@ function Card:get_p_dollars()
     return ret
 end
 
-function Card:trigger_crystal_card(context)
+function Card:get_other_card(context)
     if self.debuff then return nil end
     if self.ability.effect == "Crystal Card" and context.cardarea == G.play then
-        local rand_joker = pseudorandom_element(G.jokers.cards, pseudoseed("Crystal"))
-        return rand_joker
+        return pseudorandom_element(G.jokers.cards, pseudoseed("Crystal"))
+    elseif self.ability.effect == "Air Card" and context.cardarea == G.hand then
+        return pseudorandom_element(G.play.cards, pseudoseed("Air"))
     else return nil end
 end
 

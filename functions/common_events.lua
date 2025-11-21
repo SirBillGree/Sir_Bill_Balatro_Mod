@@ -591,9 +591,9 @@ function eval_card(card, context)
     
     if context.cardarea == G.play then
         -- mod
-        local crystal = card:trigger_crystal_card()
-        if crystal then
-            ret.crystal_joker = crystal
+        local other_card = card:get_other_card()
+        if other_card then
+            ret.other_card = other_card
         end
         -- mod end
 
@@ -2593,7 +2593,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {specific_vars.bonus_chips}}
         end
     elseif _c.set == 'Enhanced' then
-        if specific_vars and _c.name ~= 'Stone Card' and specific_vars.nominal_chips then
+        if specific_vars and _c.blank_front and specific_vars.nominal_chips then
             localize{type = 'other', key = 'card_chips', nodes = desc_nodes, vars = {specific_vars.nominal_chips}}
         end
         if _c.effect == 'Mult Card' then loc_vars = {_c.config.mult}

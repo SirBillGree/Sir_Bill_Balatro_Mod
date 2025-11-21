@@ -650,6 +650,9 @@ G.FUNCS.evaluate_play = function(e)
         mult, hand_chips, modded = G.GAME.blind:modify_hand(G.play.cards, poker_hands, text, mult, hand_chips)
         mult, hand_chips = mod_mult(mult), mod_chips(hand_chips)
         if modded then update_hand_text({sound = 'chips2', modded = modded}, {chips = hand_chips, mult = mult}) end
+        --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+        --Score Hand
+        --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
         for i=1, #scoring_hand do
             --add cards played to list
             if not scoring_hand[i].blank_front then 
@@ -697,10 +700,10 @@ G.FUNCS.evaluate_play = function(e)
                     --calculate the hand effects
                     local effects = {eval_card(scoring_hand[i], {cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hand = text})}
                     -- mod (crystal card)
-                    if effects.crystal_joker then
-                        eval = eval_card(effects.crystal_joker,{cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, edition = true})
+                    if effects.other_card then
+                        eval = eval_card(effects.other_card,{cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, edition = true})
                         if eval then 
-                            eval.card = effects.crystal_joker
+                            eval.card = effects.other_card
                             table.insert(effects, eval)
                         end
                     end
@@ -793,7 +796,9 @@ G.FUNCS.evaluate_play = function(e)
                 end
             end
         end
-
+        --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+        --In-Hand Effects
+        --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
         delay(0.3)
         local mod_percent = false
             for i=1, #G.hand.cards do

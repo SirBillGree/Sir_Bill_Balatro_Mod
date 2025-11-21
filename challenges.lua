@@ -83,7 +83,7 @@ G.CHALLENGES = {
         vouchers = {
         },
         deck = {
-            cards = {{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},},
+            cards = {{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_muscle',},{s='D',r='3',g='Red',e='m_crystal',},{s='D',r='3',g='Red',e='m_crystal',},{s='D',r='3',g='Red',e='m_crystal',},{s='D',r='3',g='Red',e='m_crystal',},{s='D',r='3',g='Red',e='m_crystal',},{s='D',r='3',g='Red',e='m_crystal',},{s='D',r='3',g='Red',e='m_crystal',},{s='D',r='3',g='Red',e='m_crystal',}},
             deck = "b_challenge",
         },
         restrictions = {

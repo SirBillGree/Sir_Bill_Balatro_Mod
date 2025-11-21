@@ -495,7 +495,7 @@ return {
                     "{C:green}#1# in 4{} chance",
                     "for {X:mult,C:white} +X#2# {} Mult",
                     "{C:green}#1# in 16{} chance",
-                    "to win lose all your money",
+                    "lose all your money",
                 },
             },
             m_blank={
