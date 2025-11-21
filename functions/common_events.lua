@@ -577,6 +577,123 @@ function update_hand_text(config, vals)
     end}))
 end
 
+-- mod
+--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+-- Scoring Functions
+--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+
+function score_card(reps, percent, percent_delta, scoring_hand, mult, hand_chips)
+    for j=1,#reps do
+        percent = percent + percent_delta
+        local eval = nil
+        if reps[j] ~= 1 then
+            card_eval_status_text((reps[j].jokers or reps[j].seals).card, 'jokers', nil, nil, nil, (reps[j].jokers or reps[j].seals))
+        end
+        
+        --calculate the hand effects
+        local effects = {eval_card(scoring_hand[i], {cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hand = text})}
+        -- mod (crystal card)
+        if effects.other_card then
+            eval = eval_card(effects.other_card,{cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, edition = true})
+            if eval then 
+                eval = eval.jokers
+                eval.card = effects.other_card
+                table.insert(effects, eval)
+            end
+        end
+        -- mod end
+        for k=1, #G.jokers.cards do
+            --calculate the joker individual card effects
+            eval = G.jokers.cards[k]:calculate_joker({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], individual = true})
+            if eval then 
+                table.insert(effects, eval)
+            end
+        end
+        scoring_hand[i].lucky_trigger = nil
+
+        for ii = 1, #effects do
+            --If chips added, do chip add event and add the chips to the total
+            if effects[ii].chips then 
+                if effects[ii].card then juice_card(effects[ii].card) end
+                hand_chips = mod_chips(hand_chips + effects[ii].chips)
+                update_hand_text({delay = 0}, {chips = hand_chips})
+                card_eval_status_text(scoring_hand[i], 'chips', effects[ii].chips, percent)
+            end
+
+            --If mult added, do mult add event and add the mult to the total
+            if effects[ii].mult then 
+                if effects[ii].card then juice_card(effects[ii].card) end
+                mult = mod_mult(mult + effects[ii].mult)
+                update_hand_text({delay = 0}, {mult = mult})
+                card_eval_status_text(scoring_hand[i], 'mult', effects[ii].mult, percent)
+            end
+
+            --If play dollars added, add dollars to total
+            if effects[ii].p_dollars then 
+                if effects[ii].card then juice_card(effects[ii].card) end
+                ease_dollars(effects[ii].p_dollars)
+                card_eval_status_text(scoring_hand[i], 'dollars', effects[ii].p_dollars, percent)
+            end
+
+            --If dollars added, add dollars to total
+            if effects[ii].dollars then 
+                if effects[ii].card then juice_card(effects[ii].card) end
+                ease_dollars(effects[ii].dollars)
+                card_eval_status_text(scoring_hand[i], 'dollars', effects[ii].dollars, percent)
+            end
+
+            --Any extra effects
+            if effects[ii].extra then 
+                if effects[ii].card then juice_card(effects[ii].card) end
+                local extras = {mult = false, hand_chips = false}
+                if effects[ii].extra.mult_mod then mult =mod_mult( mult + effects[ii].extra.mult_mod);extras.mult = true end
+                if effects[ii].extra.chip_mod then hand_chips = mod_chips(hand_chips + effects[ii].extra.chip_mod);extras.hand_chips = true end
+                if effects[ii].extra.swap then 
+                    local old_mult = mult
+                    mult = mod_mult(hand_chips)
+                    hand_chips = mod_chips(old_mult)
+                    extras.hand_chips = true; extras.mult = true
+                end
+                if effects[ii].extra.func then effects[ii].extra.func() end
+                update_hand_text({delay = 0}, {chips = extras.hand_chips and hand_chips, mult = extras.mult and mult})
+                card_eval_status_text(scoring_hand[i], 'extra', nil, percent, nil, effects[ii].extra)
+            end
+
+            --If x_mult added, do mult add event and mult the mult to the total
+            if effects[ii].x_mult then 
+                if effects[ii].card then juice_card(effects[ii].card) end
+                mult = mod_mult(mult*effects[ii].x_mult)
+                update_hand_text({delay = 0}, {mult = mult})
+                card_eval_status_text(scoring_hand[i], 'x_mult', effects[ii].x_mult, percent)
+            end
+
+            --calculate the card edition effects
+            if effects[ii].edition then
+                hand_chips = mod_chips(hand_chips + (effects[ii].edition.chip_mod or 0))
+                mult = mult + (effects[ii].edition.mult_mod or 0)
+                mult = mod_mult(mult*(effects[ii].edition.x_mult_mod or 1))
+                update_hand_text({delay = 0}, {
+                    chips = effects[ii].edition.chip_mod and hand_chips or nil,
+                    mult = (effects[ii].edition.mult_mod or effects[ii].edition.x_mult_mod) and mult or nil,
+                })
+                card_eval_status_text(scoring_hand[i], 'extra', nil, percent, nil, {
+                    message = (effects[ii].edition.chip_mod and localize{type='variable',key='a_chips',vars={effects[ii].edition.chip_mod}}) or
+                            (effects[ii].edition.mult_mod and localize{type='variable',key='a_mult',vars={effects[ii].edition.mult_mod}}) or
+                            (effects[ii].edition.x_mult_mod and localize{type='variable',key='a_xmult',vars={effects[ii].edition.x_mult_mod}}),
+                    chip_mod =  effects[ii].edition.chip_mod,
+                    mult_mod =  effects[ii].edition.mult_mod,
+                    x_mult_mod =  effects[ii].edition.x_mult_mod,
+                    colour = G.C.DARK_EDITION,
+                    edition = true})
+            end
+        end
+    end
+    return percent, percent_delta, mult, hand_chips
+end
+
+
+-- mod end
+
 function eval_card(card, context)
     context = context or {}
     local ret = {}
