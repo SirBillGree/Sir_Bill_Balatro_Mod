@@ -4532,6 +4532,10 @@ return {
             },
         },
         v_dictionary={
+            -- mod
+            a_crystal="Refract",
+            a_air="Updraft",
+            -- mod end
             a_chips="+#1#",
             a_chips_minus="-#1#",
             a_hands="+#1# Hands",

@@ -599,7 +599,8 @@ function score_card(percent, percent_delta, scoring_hand, i, mult, hand_chips, t
         --If crystal triggered, trigger joker
         -- mod (crystal card)
         if effects[ii].other_card then
-            percent, percent_delta, mult, hand_chips = score_joker(effects.other_card, hand_chips, mult, percent, percent_delta, scoring_hand, poker_hands, text)
+            card_eval_status_text(scoring_hand[i], 'crystal', 1, percent)
+            percent, percent_delta, mult, hand_chips = score_joker(effects[ii].other_card, hand_chips, mult, percent, percent_delta, scoring_hand, poker_hands, text)
         end
         -- mod end
 
@@ -804,6 +805,13 @@ function eval_card(card, context)
     end
 
     if context.cardarea == G.hand then
+        -- mod
+        local other_card = card:get_other_card(context)
+        if other_card then
+            ret.other_card = other_card
+        end
+        -- mod end
+
         local h_mult = card:get_chip_h_mult()
         if h_mult > 0 then 
             ret.h_mult = h_mult
@@ -994,6 +1002,18 @@ function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
         colour = G.C.RED
         config.scale = 0.6
         text = localize('k_debuffed')
+    -- mod (crystal+air cards)
+    elseif eval_type == 'crystal' then 
+        sound = 'whoosh1'
+        colour = G.C.PURPLE
+        text = localize{type='variable',key='a_crystal'}
+        delay = 0.6
+    elseif eval_type == 'air' then
+        sound = 'whoosh1'
+        colour = G.C.JOKER_GREY
+        text = localize{type='variable',key='a_air'}
+        delay = 0.6
+    -- mod end
     elseif eval_type == 'chips' then 
         sound = 'chips1'
         amt = amt

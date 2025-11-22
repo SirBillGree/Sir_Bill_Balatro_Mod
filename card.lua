@@ -1186,7 +1186,9 @@ function Card:get_other_card(context)
     if self.ability.effect == "Crystal Card" and context.cardarea == G.play and #G.jokers.cards ~= 0 then
         return pseudorandom_element(G.jokers.cards, pseudoseed("Crystal"))
     elseif self.ability.effect == "Air Card" and context.cardarea == G.hand and #G.play.cards ~= 0 then
-        return pseudorandom_element(G.play.cards, pseudoseed("Air"))
+        local indexes = {}
+        for i=1,#G.play.cards do table.insert(indexes,i) end
+        return pseudorandom_element(indexes, pseudoseed("Air"))
     else return nil end
 end
 

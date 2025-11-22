@@ -763,6 +763,14 @@ G.FUNCS.evaluate_play = function(e)
                         end
                         
                         --If hold mult added, do hold mult add event and add the mult to the total
+
+                        --If air card triggered, trigger playing card
+                        -- mod (air card)
+                        if effects[ii].other_card then
+                            card_eval_status_text(G.hand.cards[i], 'air', 1, percent)
+                            percent, percent_delta, mult, hand_chips = score_card(percent, percent_delta, scoring_hand, effects[ii].other_card, mult, hand_chips, text, poker_hands)
+                        end
+                        -- mod end
                         
                         --If dollars added, add dollars to total
                         if effects[ii].dollars then 
