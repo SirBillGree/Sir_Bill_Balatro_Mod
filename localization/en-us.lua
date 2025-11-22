@@ -493,7 +493,7 @@ return {
                 name="Brutal Card",
                 text={
                     "{C:green}#1# in 4{} chance",
-                    "for {X:mult,C:white} +X#2# {} Mult",
+                    "for {X:mult,C:white} X#2# {} Mult",
                     "{C:green}#1# in 16{} chance",
                     "lose all your money",
                 },
@@ -4535,6 +4535,7 @@ return {
             -- mod
             a_crystal="Refract",
             a_air="Updraft",
+            a_bankrupt="BANKRUPT!",
             -- mod end
             a_chips="+#1#",
             a_chips_minus="-#1#",

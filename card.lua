@@ -1082,7 +1082,7 @@ function Card:get_chip_x_mult(context)
         end
     elseif self.ability.name == "Brutal Card" then
         if pseudorandom('brutal_x_mult') < G.GAME.probabilities.normal/4 then
-            return self.ability.mult end
+            return self.ability.x_mult end
     -- mod end
     elseif self.ability.x_mult <= 1 then return 0 end
     return self.ability.x_mult
@@ -1167,13 +1167,6 @@ function Card:get_p_dollars()
             ret = ret + self.ability.p_dollars
         end
     end
-    -- mod
-    if self.ability.effect == "Brutal Card" then 
-        if pseudorandom('brutal_bankrupt') < G.GAME.probabilities.normal/16 then
-            ret = ret - G.GAME.current_round.dollars
-        end
-    end
-    -- mod end
     if ret ~= 0 then 
         G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + ret
         G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
@@ -1181,6 +1174,7 @@ function Card:get_p_dollars()
     return ret
 end
 
+-- mod
 function Card:get_other_card(context)
     if self.debuff then return nil end
     if self.ability.effect == "Crystal Card" and context.cardarea == G.play and #G.jokers.cards ~= 0 then
@@ -1191,6 +1185,16 @@ function Card:get_other_card(context)
         return pseudorandom_element(indexes, pseudoseed("Air"))
     else return nil end
 end
+
+function Card:attempt_bankrupt(context)
+    if self.debuff then return nil end
+    if self.ability.effect == "Brutal Card" then 
+        if pseudorandom('brutal_bankrupt') < G.GAME.probabilities.normal/16 then
+            return true
+        end
+    else return nil end
+end
+-- mod end
 
 function Card:use_consumeable(area, copier)
     stop_use()

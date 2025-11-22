@@ -599,6 +599,7 @@ function score_card(percent, percent_delta, scoring_hand, i, mult, hand_chips, t
         --If crystal triggered, trigger joker
         -- mod (crystal card)
         if effects[ii].other_card then
+            if effects[ii].card then juice_card(effects[ii].card) end
             card_eval_status_text(scoring_hand[i], 'crystal', 1, percent)
             percent, percent_delta, mult, hand_chips = score_joker(effects[ii].other_card, hand_chips, mult, percent, percent_delta, scoring_hand, poker_hands, text)
         end
@@ -618,6 +619,13 @@ function score_card(percent, percent_delta, scoring_hand, i, mult, hand_chips, t
             mult = mod_mult(mult + effects[ii].mult)
             update_hand_text({delay = 0}, {mult = mult})
             card_eval_status_text(scoring_hand[i], 'mult', effects[ii].mult, percent)
+        end
+
+        -- if brutal trigger, set money to zero
+        if effects[ii].bankrupt then 
+            if effects[ii].card then juice_card(effects[ii].card) end
+            ease_dollars(-G.GAME.dollars)
+            card_eval_status_text(scoring_hand[i], 'bankrupt', 1, percent)
         end
 
         --If play dollars added, add dollars to total
@@ -770,6 +778,11 @@ function eval_card(card, context)
         local other_card = card:get_other_card(context)
         if other_card then
             ret.other_card = other_card
+        end
+
+        local is_bankrupt = card:attempt_bankrupt(context)
+        if is_bankrupt then
+            ret.bankrupt = true
         end
         -- mod end
 
@@ -1002,7 +1015,7 @@ function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
         colour = G.C.RED
         config.scale = 0.6
         text = localize('k_debuffed')
-    -- mod (crystal+air cards)
+    -- mod (crystal+air+brutal cards)
     elseif eval_type == 'crystal' then 
         sound = 'whoosh1'
         colour = G.C.PURPLE
@@ -1012,6 +1025,11 @@ function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
         sound = 'whoosh1'
         colour = G.C.JOKER_GREY
         text = localize{type='variable',key='a_air'}
+        delay = 0.6
+    elseif eval_type == 'bankrupt' then
+        sound = 'glass3'
+        colour = G.C.RED
+        text = localize{type='variable',key='a_bankrupt'}
         delay = 0.6
     -- mod end
     elseif eval_type == 'chips' then 
@@ -2627,8 +2645,8 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         elseif card_type == 'Undiscovered' then 
             full_UI_table.name = localize{type = 'name', set = 'Other', key = 'undiscovered_'..(string.lower(_c.set)), name_nodes = {}}
         elseif specific_vars and (card_type == 'Default' or card_type == 'Enhanced') then
-            if (_c.name == 'Stone Card') then full_UI_table.name = true end
-            if (specific_vars.playing_card and (_c.name ~= 'Stone Card')) then
+            if _c.blank_front then full_UI_table.name = true end
+            if (specific_vars.playing_card and (not _c.blank_front)) then
                 full_UI_table.name = {}
                 localize{type = 'other', key = 'playing_card', set = 'Other', nodes = full_UI_table.name, vars = {localize(specific_vars.value, 'ranks'), localize(specific_vars.suit, 'suits_plural'), colours = {specific_vars.colour}}}
                 full_UI_table.name = full_UI_table.name[1]

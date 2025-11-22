@@ -500,7 +500,7 @@ function Game:init_item_prototypes()
         j_blueprint=        {order = 123,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 10,name = "Blueprint", pos = {x=0,y=3}, set = "Joker", effect = "Copycat", cost_mult = 1.0, config = {},unlock_condition = {type = 'win_custom'}},
         j_wee=              {order = 124,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 3, cost = 8, name = "Wee Joker", pos = {x=0,y=0}, set = "Joker", effect = "", config = {extra = {chips = 0, chip_mod = 8}}, unlock_condition = {type = 'win', n_rounds = 18}},
         j_merry_andy=       {order = 125,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Merry Andy", pos = {x=8,y=0}, set = "Joker", effect = "", cost_mult = 1.0, config = {d_size = 3, h_size = -1}, unlock_condition = {type = 'win', n_rounds = 12}},
-        j_oops=             {order = 126,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 4, name = "Oops! All 6s", pos = {x=5,y=6}, set = "Joker", effect = "", config = {}, unlock_condition = {type = 'chip_score', chips = 10000}},
+        oopsj_=             {order = 126,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 4, name = "Oops! All 6s", pos = {x=5,y=6}, set = "Joker", effect = "", config = {}, unlock_condition = {type = 'chip_score', chips = 10000}},
         j_idol=             {order = 127,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "The Idol", pos = {x=6,y=7}, set = "Joker", effect = "", config = {extra = 2}, unlock_condition = {type = 'chip_score', chips = 1000000}},
         j_seeing_double=    {order = 128,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Seeing Double", pos = {x=4,y=4}, set = "Joker", effect = "X1.5 Mult club 7", cost_mult = 1.0, config = {extra = 2},unlock_condition = {type = 'hand_contents', extra = 'four 7 of Clubs'}},
         j_matador=          {order = 129,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Matador", pos = {x=4,y=5}, set = "Joker", effect = "", config = {extra = 8}, unlock_condition = {type = 'round_win'}},
@@ -696,8 +696,8 @@ function Game:init_item_prototypes()
         m_gold =    {max = 500, order = 8, name = "Gold Card", set = "Enhanced", pos = {x=6,y=0}, effect = "Gold Card", label = "Gold Card", config = {h_dollars = 3}},
         m_lucky =   {max = 500, order = 9, name = "Lucky Card", set = "Enhanced", pos = {x=4,y=1}, effect = "Lucky Card", label = "Lucky Card", config = {mult=20, p_dollars = 20}},
         --modded enhancements
-        m_crystal = {max = 500, order = 10, name = "Crystal Card", set = "Enhanced", pos = {x=0,y=1}, effect = "Crystal Card", label = "Crystal Card", blank_front = true, config = {}}, --testing
-        m_air =     {max = 500, order = 11, name = "Air Card", set = "Enhanced", pos = {x=0,y=3}, effect = "Air Card", label = "Air Card", config = {}},
+        m_crystal = {max = 500, order = 10, name = "Crystal Card", set = "Enhanced", pos = {x=0,y=1}, effect = "Crystal Card", label = "Crystal Card", blank_front = true, config = {}}, --works
+        m_air =     {max = 500, order = 11, name = "Air Card", set = "Enhanced", pos = {x=0,y=3}, effect = "Air Card", label = "Air Card", config = {}},  --works
         m_muscle =  {max = 500, order = 12, name = "Muscle Card", set = "Enhanced", pos = {x=3,y=0}, effect = "Muscle Card", label = "Muscle Card", config = {mult=20}}, --Works
         m_flame =   {max = 500, order = 13, name = "Flame Card", set = "Enhanced", pos = {x=4,y=3}, effect = "Flame Card", label = "Flame Card", config = {mult_add = 1, mult=0}},  --Works
         m_brutal =  {max = 500, order = 14, name = "Brutal Card", set = "Enhanced", pos = {x=0,y=4}, effect = "Brutal Card", label = "Brutal Card", config = {Xmult = 4}}, --testing (yet to trigger money loss)
@@ -705,7 +705,7 @@ function Game:init_item_prototypes()
         m_blank =   {max = 500, order = 16, name = "Blank Card", set = "Enhanced", pos = {x=1,y=0}, effect = "Blank Card", label = "Blank Card", blank_front = true, config = {Xmult = 3}},
         m_mirror =  {max = 500, order = 17, name = "Mirror Card", set = "Enhanced", pos = {x=6,y=1}, effect = "Mirror Card", label = "Mirror Card", blank_front = true, config = {}},
 
-        m_weakened= {max = 500, order = 12, name = "Muscle Card", set = "Enhanced", pos = {x=4,y=0}, effect = "Weakened Muscle Card", label = "Weakened Muscle Card", config = {}},
+        m_weakened= {max = 500, order = 12, name = "Muscle Card", set = "Enhanced", pos = {x=4,y=0}, effect = "Weakened Muscle Card", label = "Weakened Muscle Card", config = {}}, -- works
 
 
         --editions
