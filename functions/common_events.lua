@@ -586,11 +586,6 @@ function score_card(percent, percent_delta, scoring_hand, i, mult, hand_chips, t
     local eval = nil
     --calculate the hand effects
     local effects = {eval_card(scoring_hand[i], {cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hand = text})}
-    -- mod (crystal card)
-    if effects.other_card then
-        percent, percent_delta, mult, hand_chips = score_joker(effects.other_card, hand_chips, mult, percent, percent_delta, scoring_hand, poker_hands, text)
-    end
-    -- mod end
     for k=1, #G.jokers.cards do
         --calculate the joker individual card effects
         eval = G.jokers.cards[k]:calculate_joker({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], individual = true})
@@ -601,6 +596,13 @@ function score_card(percent, percent_delta, scoring_hand, i, mult, hand_chips, t
     scoring_hand[i].lucky_trigger = nil
 
     for ii = 1, #effects do
+        --If crystal triggered, trigger joker
+        -- mod (crystal card)
+        if effects[ii].other_card then
+            percent, percent_delta, mult, hand_chips = score_joker(effects.other_card, hand_chips, mult, percent, percent_delta, scoring_hand, poker_hands, text)
+        end
+        -- mod end
+
         --If chips added, do chip add event and add the chips to the total
         if effects[ii].chips then 
             if effects[ii].card then juice_card(effects[ii].card) end
