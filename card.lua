@@ -312,6 +312,12 @@ function Card:set_ability(center, initial, delay_sprites)
         perma_bonus = self.ability and self.ability.perma_bonus or 0,
     }
 
+    -- mod
+    if center.config.mask then
+        self.children.mask = Card:init(0, 0, W, H, nil, "blank_mirror", nil)
+    else self.children.mask = nil end -- delete mask if converted from mirror card to other card type
+    -- mod
+
     self.ability.bonus = (self.ability.bonus or 0) + (center.config.bonus or 0)
 
     if center.consumeable then 
@@ -1193,6 +1199,34 @@ function Card:attempt_bankrupt(context)
             return true
         end
     else return nil end
+end
+
+function Card:update_mask(mirrored_card)
+    if not self.children.mask then return end
+    if mirrored_card == nil then
+        self.children.mask:remove()
+        self.children.mask = Card:init(0, 0, G.CARD_W, G.CARD_H, nil, "blank_mirror", nil)
+    else
+        copy_card(self.children.mask, mirrored_card, nil, nil, true)
+    end
+    self.children.mask:set_edition(self.edition,true,true)
+    self.children.mask:set_seal(self.seal,true,true)
+    self.children.ability.perma_bonus = self.children.ability.perma_bonus + self.ability.perma_bonus
+end
+
+function Card:get_mask(context)
+    if self.debuff then return nil end
+    if not self.children.mask then return nil end
+    if context.cardarea == G.play then
+        for i=1,#G.play.cards do
+            if G.play.cards[i].unique_val == self.unique_val then self:update_mask(G.play.cards[i-1]) end
+        end
+    elseif context.cardarea == G.hand then
+        for i=1,#G.hand.cards do
+            if G.hand.cards[i].unique_val == self.unique_val then self:update_mask(G.hand.cards[i-1]) end
+        end
+    end
+    return self.children.mask
 end
 -- mod end
 

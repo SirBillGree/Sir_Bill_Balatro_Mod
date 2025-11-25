@@ -765,6 +765,9 @@ function eval_card(card, context)
     context = context or {}
     local ret = {}
 
+    local mask = card:get_mask(context)
+    if mask then card = mask end
+
     if context.repetition_only then
         local seals = card:calculate_seal(context)
         if seals then
