@@ -753,7 +753,7 @@ function Game:init_item_prototypes()
         soul={pos = {x=0,y=1}},
         undiscovered_joker={pos = {x=5,y=3}},
         undiscovered_tarot={pos = {x=6,y=3}},
-        blank_mirror={pos={x=6,y=1}},
+        blank_mirror={max = 500, order = 2, name = "Bonus", set = "base", pos = {x=6,y=1}, effect = "blank", label = "blank", config = {}},
     }
 
     self.P_CENTER_POOLS = {
