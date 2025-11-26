@@ -309,6 +309,7 @@ function Card:set_ability(center, initial, delay_sprites)
         d_size = center.config.d_size or 0,
         -- mod
         mult_add = center.config.mult_add or 0,
+        has_reflection = center.config.reflection or false,
         blank_front = center.config.blank_front or false,
         -- mod end
         extra = copy_table(center.config.extra) or nil,
@@ -318,12 +319,6 @@ function Card:set_ability(center, initial, delay_sprites)
         forced_selection = self.ability and self.ability.forced_selection or nil,
         perma_bonus = self.ability and self.ability.perma_bonus or 0,
     }
-
-    -- mod
-    if center.config.reflection then
-        self:set_reflection() -- sets to blank_mirror mask
-    else self.children.reflection = nil end -- delete mask if converted from mirror card to other card type
-    -- mod
 
     self.ability.bonus = (self.ability.bonus or 0) + (center.config.bonus or 0)
 
@@ -1208,20 +1203,23 @@ function Card:attempt_bankrupt(context)
     else return nil end
 end
 
-function Card:set_reflection()
-    if self.ability.effect == "Mirror Card" then 
-        self.children.reflection = Card(self.T.x, self.T.y, self.T.w, self.T.h, nil, G.P_CENTERS['c_base'], nil)
-        self.children.reflection.ability.blank_front = true
-    end
-end
-
 function Card:update_reflection(mirrored_card)
-    if not self.children.reflection then return end
+    if not self.ability.has_reflection then return end
     if mirrored_card == nil then
-        self.children.reflection = Card(self.T.x, self.T.y, self.T.w, self.T.h, nil, G.P_CENTERS['c_base'], nil)
-        self.children.reflection.ability.blank_front = true
+        mirrored_card = Card(self.T.x, self.T.y, self.T.w, self.T.h, nil, G.P_CENTERS['c_base'], nil)
+        mirrored_card.ability.blank_front = true
+        if not self.children.reflection then
+            self.children.reflection = mirrored_card
+        else
+            copy_card(mirrored_card, self.children.reflection, nil, nil, true)
+            mirrored_card:remove()
+        end
     else
-        copy_card(mirrored_card, self.children.reflection, nil, nil, true)
+        if not self.children.reflection then
+            self.children.reflection = mirrored_card
+        else
+            copy_card(mirrored_card, self.children.reflection, nil, nil, true)
+        end
     end
     self.children.reflection:set_edition(self.edition,true,true)
     self.children.reflection:set_seal(self.seal,true,true)
@@ -1230,7 +1228,7 @@ end
 
 function Card:get_reflection(context)
     if self.debuff then return nil end
-    if not self.children.reflection then return nil end
+    if not self.ability.has_reflection then return nil end
     if context.cardarea == G.play then
         for i=1,#G.play.cards do
             if G.play.cards[i].unique_val == self.unique_val then self:update_reflection(G.play.cards[i-1]) end
@@ -4985,11 +4983,6 @@ function Card:draw(layer)
                 if self.children.front then 
                     self.children.front:draw_shader('vortex')
                 end
-                -- mod
-                if self.children.reflection then 
-                    self.children.reflection:draw_shader('vortex')
-                end
-                -- mod end
             end
 
             love.graphics.setShader()
@@ -5001,10 +4994,10 @@ function Card:draw(layer)
                     self.children.front:draw_shader('negative', nil, self.ARGS.send_to_shader)
                 end
             elseif not self.greyed then
-                -- mod (mask should be under center)
-                if self.children.reflection then
-                    self.children.reflection:draw_shader('dissolve')
-                end
+                -- mod
+                -- if self.ability.has_reflection then
+                --     self:update_reflection()
+                -- end
                 -- mod end
                 self.children.center:draw_shader('dissolve')
                 --If the card has a front, draw that next
@@ -5139,6 +5132,12 @@ function Card:draw(layer)
             else
                 self.children.back:draw_shader('dissolve')
             end
+
+            -- mod
+            if self.children.reflection then
+                self.children.reflection:remove()
+            end
+            -- mod end
 
             if self.sticker and G.shared_stickers[self.sticker] then
                 G.shared_stickers[self.sticker].role.draw_major = self
