@@ -868,7 +868,7 @@ end
 G.FUNCS.change_collab = function(args)
   G.SETTINGS.CUSTOM_DECK.Collabs[args.cycle_config.curr_suit] = G.COLLABS.options[args.cycle_config.curr_suit][args.to_key] or 'default'
   for k, v in pairs(G.I.CARD) do
-    if v.config and v.config.card and v.children.front and not v.blank_front then 
+    if v.config and v.config.card and v.children.front and not v.ability.blank_front then 
       v:set_sprites(nil, v.config.card)
     end
   end
@@ -1760,7 +1760,7 @@ G.FUNCS.refresh_contrast_mode = function()
   G.C.SUITS.Spades = new_colour_proto.Spades
   G.C.SUITS.Clubs = new_colour_proto.Clubs
   for k, v in pairs(G.I.CARD) do
-    if v.config and v.config.card and v.children.front and v.blank_front then 
+    if v.config and v.config.card and v.children.front and v.ability.blank_front then 
       v:set_sprites(nil, v.config.card)
     end
   end

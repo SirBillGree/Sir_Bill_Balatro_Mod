@@ -42,9 +42,6 @@ function Card:init(X, Y, W, H, card, center, params)
     self.zoom = true
     self:set_ability(center, true)
     self:set_base(card, true)
-    -- mod
-    self.blank_front = center.blank_front or false
-    -- mod end
 
     self.discard_pos = {
         r = 3.6*(math.random()-0.5),
@@ -162,6 +159,15 @@ function Card:set_sprites(_center, _front)
             self.children.front:set_role({major = self, role_type = 'Glued', draw_major = self})
         end
     end
+    -- mod
+    if self.children.mask then
+        self.children.mask.states.hover = self.states.hover
+        self.children.mask.states.click = self.states.click
+        self.children.mask.states.drag = self.states.drag
+        self.children.mask.states.collide.can = false
+        self.children.mask:set_role({major = self, role_type = 'Glued', draw_major = self})
+    end
+    -- mod end
     if _center then 
         if _center.set then
             if self.children.center then
@@ -303,6 +309,7 @@ function Card:set_ability(center, initial, delay_sprites)
         d_size = center.config.d_size or 0,
         -- mod
         mult_add = center.config.mult_add or 0,
+        blank_front = center.config.blank_front or false,
         -- mod end
         extra = copy_table(center.config.extra) or nil,
         extra_value = 0,
@@ -314,8 +321,7 @@ function Card:set_ability(center, initial, delay_sprites)
 
     -- mod
     if center.config.mask then
-        self.children.mask = 'init' -- defines mask
-        self:update_mask(nil) -- sets to blank_mirror mask
+        self:set_mask() -- sets to blank_mirror mask
     else self.children.mask = nil end -- delete mask if converted from mirror card to other card type
     -- mod
 
@@ -1019,12 +1025,12 @@ end
 function Card:get_nominal(mod)
     local mult = 1
     if mod == 'suit' then mult = 1000 end
-    if self.blank_front then mult = -1000 end
+    if self.ability.blank_front then mult = -1000 end
     return self.base.nominal + self.base.suit_nominal*mult + (self.base.suit_nominal_original or 0)*0.0001*mult + self.base.face_nominal + 0.000001*self.unique_val
 end
 
 function Card:get_id()
-    if self.blank_front and not self.vampired then
+    if self.ability.blank_front and not self.vampired then
         return -math.random(100, 1000000)
     end
     return self.base.id
@@ -1044,7 +1050,7 @@ end
 
 function Card:get_chip_bonus()
     if self.debuff then return 0 end
-    if self.blank_front then
+    if self.ability.blank_front then
         return self.ability.bonus + (self.ability.perma_bonus or 0)
     end
     return self.base.nominal + self.ability.bonus + (self.ability.perma_bonus or 0)
@@ -1202,17 +1208,24 @@ function Card:attempt_bankrupt(context)
     else return nil end
 end
 
+function Card:set_mask()
+    if self.ability.effect == "Mirror Card" then 
+        self.children.mask = Card(self.T.x, self.T.y, self.T.w, self.T.h, G.P_CENTERS['c_base'], nil)
+        self.children.mask.ability.blank_front = true
+    end
+end
+
 function Card:update_mask(mirrored_card)
     if not self.children.mask then return end
     if mirrored_card == nil then
-        self.children.mask = Card(0, 0, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['c_base'], nil)
-        self.children.mask.blank_front = true
+        self.children.mask = Card(self.T.x, self.T.y, self.T.w, self.T.h, G.P_CENTERS['c_base'], nil)
+        self.children.mask.ability.blank_front = true
     else
         copy_card(self.children.mask, mirrored_card, nil, nil, true)
     end
     self.children.mask:set_edition(self.edition,true,true)
     self.children.mask:set_seal(self.seal,true,true)
-    self.children.ability.perma_bonus = self.children.ability.perma_bonus + self.ability.perma_bonus
+    self.children.mask.ability.perma_bonus = self.children.ability.perma_bonus + self.ability.mask.perma_bonus
 end
 
 function Card:get_mask(context)
@@ -3817,7 +3830,7 @@ function Card:calculate_joker(context)
                         local temp_Mult, temp_ID = 15, 15
                         local raised_card = nil
                         for i=1, #G.hand.cards do
-                            if temp_ID >= G.hand.cards[i].base.id and not G.hand.cards[i].blank_front then temp_Mult = G.hand.cards[i].base.nominal; temp_ID = G.hand.cards[i].base.id; raised_card = G.hand.cards[i] end
+                            if temp_ID >= G.hand.cards[i].base.id and not G.hand.cards[i].ability.blank_front then temp_Mult = G.hand.cards[i].base.nominal; temp_ID = G.hand.cards[i].base.id; raised_card = G.hand.cards[i] end
                         end
                         if raised_card == context.other_card then 
                             if context.other_card.debuff then
@@ -4626,7 +4639,7 @@ function Card:calculate_joker(context)
 
 function Card:is_suit(suit, bypass_debuff, flush_calc)
     if flush_calc then
-        if self.blank_front then
+        if self.ability.blank_front then
             return false
         end
         if self.ability.name == "Wild Card" and not self.debuff then
@@ -4638,7 +4651,7 @@ function Card:is_suit(suit, bypass_debuff, flush_calc)
         return self.base.suit == suit
     else
         if self.debuff and not bypass_debuff then return end
-        if self.blank_front then
+        if self.ability.blank_front then
             return false
         end
         if self.ability.name == "Wild Card" then
@@ -4823,6 +4836,7 @@ function Card:hard_set_T(X, Y, W, H)
     local h = (H or self.T.h)
     Moveable.hard_set_T(self,x, y, w, h)
     if self.children.front then self.children.front:hard_set_T(x, y, w, h) end
+    if self.children.mask then self.children.mask:hard_set_T(x, y, nil,nil) end
     self.children.back:hard_set_T(x, y, w, h)
     self.children.center:hard_set_T(x, y, w, h)
 end
@@ -4978,13 +4992,13 @@ function Card:draw(layer)
             --Draw the main part of the card
             if (self.edition and self.edition.negative) or (self.ability.name == 'Antimatter' and (self.config.center.discovered or self.bypass_discovery_center)) then
                 self.children.center:draw_shader('negative', nil, self.ARGS.send_to_shader)
-                if self.children.front and not self.blank_front then
+                if self.children.front and not self.ability.blank_front then
                     self.children.front:draw_shader('negative', nil, self.ARGS.send_to_shader)
                 end
             elseif not self.greyed then
                 self.children.center:draw_shader('dissolve')
                 --If the card has a front, draw that next
-                if self.children.front and not self.blank_front then
+                if self.children.front and not self.ability.blank_front then
                     self.children.front:draw_shader('dissolve')
                 end
             end
@@ -5014,19 +5028,19 @@ function Card:draw(layer)
                 end
                 if self.edition and self.edition.holo then
                     self.children.center:draw_shader('holo', nil, self.ARGS.send_to_shader)
-                    if self.children.front and not self.blank_front then
+                    if self.children.front and not self.ability.blank_front then
                         self.children.front:draw_shader('holo', nil, self.ARGS.send_to_shader)
                     end
                 end
                 if self.edition and self.edition.foil then
                     self.children.center:draw_shader('foil', nil, self.ARGS.send_to_shader)
-                    if self.children.front and not self.blank_front then
+                    if self.children.front and not self.ability.blank_front then
                         self.children.front:draw_shader('foil', nil, self.ARGS.send_to_shader)
                     end
                 end
                 if self.edition and self.edition.polychrome then
                     self.children.center:draw_shader('polychrome', nil, self.ARGS.send_to_shader)
-                    if self.children.front and not self.blank_front then
+                    if self.children.front and not self.ability.blank_front then
                         self.children.front:draw_shader('polychrome', nil, self.ARGS.send_to_shader)
                     end
                 end
@@ -5088,13 +5102,13 @@ function Card:draw(layer)
                 end
                 if self.debuff then
                     self.children.center:draw_shader('debuff', nil, self.ARGS.send_to_shader)
-                    if self.children.front and not self.blank_front then
+                    if self.children.front and not self.ability.blank_front then
                         self.children.front:draw_shader('debuff', nil, self.ARGS.send_to_shader)
                     end
                 end
                 if self.greyed then
                     self.children.center:draw_shader('played', nil, self.ARGS.send_to_shader)
-                    if self.children.front and not self.blank_front then
+                    if self.children.front and not self.ability.blank_front then
                         self.children.front:draw_shader('played', nil, self.ARGS.send_to_shader)
                     end
                 end
@@ -5215,6 +5229,7 @@ function Card:save()
         bypass_discovery_center = self.bypass_discovery_center,
         bypass_discovery_ui = self.bypass_discovery_ui,
         bypass_lock = self.bypass_lock,
+        blank_front = self.blank_front
     }
     return cardTable
 end
@@ -5279,6 +5294,7 @@ function Card:load(cardTable, other_card)
     self.pinned = cardTable.pinned
     self.edition = cardTable.edition
     self.seal = cardTable.seal
+    self.ability.blank_front = cardTable.ability.blank_front
 
     remove_all(self.children)
     self.children = {}

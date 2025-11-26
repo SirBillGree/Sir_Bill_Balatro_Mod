@@ -588,7 +588,7 @@ G.FUNCS.evaluate_play = function(e)
         if next(find_joker('Splash')) then
             scoring_hand[i] = G.play.cards[i]
         else
-            if G.play.cards[i].blank_front then
+            if G.play.cards[i].ability.blank_front then
                 local inside = false
                 for j=1, #scoring_hand do
                     if scoring_hand[j] == G.play.cards[i] then
@@ -655,7 +655,7 @@ G.FUNCS.evaluate_play = function(e)
         --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
         for i=1, #scoring_hand do
             --add cards played to list
-            if not scoring_hand[i].blank_front then 
+            if not scoring_hand[i].ability.blank_front then 
                 G.GAME.cards_played[scoring_hand[i].base.value].total = G.GAME.cards_played[scoring_hand[i].base.value].total + 1
                 G.GAME.cards_played[scoring_hand[i].base.value].suits[scoring_hand[i].base.suit] = true 
             end

@@ -3292,7 +3292,7 @@ function G.UIDEF.view_deck(unplayed_only)
   local wheel_flipped = 0
 
   for k, v in ipairs(G.playing_cards) do
-    if not v.blank_front and (not unplayed_only or ((v.area and v.area == G.deck) or v.ability.wheel_flipped)) then 
+    if not v.ability.blank_front and (not unplayed_only or ((v.area and v.area == G.deck) or v.ability.wheel_flipped)) then 
       if v.ability.wheel_flipped and unplayed_only then wheel_flipped = wheel_flipped + 1 end
       --For the suits
       suit_tallies[v.base.suit] = (suit_tallies[v.base.suit] or 0) + 1
