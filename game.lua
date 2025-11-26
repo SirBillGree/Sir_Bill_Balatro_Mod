@@ -703,7 +703,7 @@ function Game:init_item_prototypes()
         m_brutal =  {max = 500, order = 14, name = "Brutal Card", set = "Enhanced", pos = {x=0,y=4}, effect = "Brutal Card", label = "Brutal Card", config = {Xmult = 4}}, --testing (yet to trigger money loss)
         m_catalyst= {max = 500, order = 15, name = "Catalyst Card", set = "Enhanced", pos = {x=4,y=2}, effect = "Catalyst Card", label = "Catalyst Card", config = {}},  --Works
         m_blank =   {max = 500, order = 16, name = "Blank Card", set = "Enhanced", pos = {x=1,y=0}, effect = "Blank Card", label = "Blank Card", config = {Xmult = 3, blank_front = true}},
-        m_mirror =  {max = 500, order = 17, name = "Mirror Card", set = "Enhanced", pos = {x=6,y=3}, effect = "Mirror Card", label = "Mirror Card", config = {mask=true, blank_front = true}},
+        m_mirror =  {max = 500, order = 17, name = "Mirror Card", set = "Enhanced", pos = {x=6,y=3}, effect = "Mirror Card", label = "Mirror Card", config = {reflection=true, blank_front = true}},
 
         m_weakened= {max = 500, order = 12, name = "Muscle Card", set = "Enhanced", pos = {x=4,y=0}, effect = "Weakened Muscle Card", label = "Weakened Muscle Card", config = {}}, -- works
 

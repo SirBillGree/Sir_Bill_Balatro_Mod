@@ -765,8 +765,8 @@ function eval_card(card, context)
     context = context or {}
     local ret = {}
 
-    local mask = card:get_mask(context)
-    if mask then card = mask end
+    local reflection = card:get_reflection(context)
+    if reflection then card = reflection end
 
     if context.repetition_only then
         local seals = card:calculate_seal(context)
@@ -2648,8 +2648,8 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         elseif card_type == 'Undiscovered' then 
             full_UI_table.name = localize{type = 'name', set = 'Other', key = 'undiscovered_'..(string.lower(_c.set)), name_nodes = {}}
         elseif specific_vars and (card_type == 'Default' or card_type == 'Enhanced') then
-            if _c.ability.blank_front then full_UI_table.name = true end
-            if (specific_vars.playing_card and (not _c.ability.blank_front)) then
+            if _c.config.blank_front then full_UI_table.name = true end
+            if (specific_vars.playing_card and (not _c.config.blank_front)) then
                 full_UI_table.name = {}
                 localize{type = 'other', key = 'playing_card', set = 'Other', nodes = full_UI_table.name, vars = {localize(specific_vars.value, 'ranks'), localize(specific_vars.suit, 'suits_plural'), colours = {specific_vars.colour}}}
                 full_UI_table.name = full_UI_table.name[1]
@@ -2809,7 +2809,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {specific_vars.bonus_chips}}
         end
     elseif _c.set == 'Enhanced' then
-        if specific_vars and _c.ability.blank_front and specific_vars.nominal_chips then
+        if specific_vars and _c.config.blank_front and specific_vars.nominal_chips then
             localize{type = 'other', key = 'card_chips', nodes = desc_nodes, vars = {specific_vars.nominal_chips}}
         end
         if _c.effect == 'Mult Card' then loc_vars = {_c.config.mult}
@@ -2832,7 +2832,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         --mod end
         end
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
-        if not _c.ability.blank_front and ((specific_vars and specific_vars.bonus_chips) or _c.config.bonus) then
+        if not _c.config.blank_front and ((specific_vars and specific_vars.bonus_chips) or _c.config.bonus) then
             localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {((specific_vars and specific_vars.bonus_chips) or _c.config.bonus)}}
         end
     elseif _c.set == 'Booster' then

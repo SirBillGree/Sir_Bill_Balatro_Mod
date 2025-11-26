@@ -160,12 +160,12 @@ function Card:set_sprites(_center, _front)
         end
     end
     -- mod
-    if self.children.mask then
-        self.children.mask.states.hover = self.states.hover
-        self.children.mask.states.click = self.states.click
-        self.children.mask.states.drag = self.states.drag
-        self.children.mask.states.collide.can = false
-        self.children.mask:set_role({major = self, role_type = 'Glued', draw_major = self})
+    if self.children.reflection then
+        self.children.reflection.states.hover = self.states.hover
+        self.children.reflection.states.click = self.states.click
+        self.children.reflection.states.drag = self.states.drag
+        self.children.reflection.states.collide.can = false
+        self.children.reflection:set_role({major = self, role_type = 'Glued', draw_major = self})
     end
     -- mod end
     if _center then 
@@ -320,9 +320,9 @@ function Card:set_ability(center, initial, delay_sprites)
     }
 
     -- mod
-    if center.config.mask then
-        self:set_mask() -- sets to blank_mirror mask
-    else self.children.mask = nil end -- delete mask if converted from mirror card to other card type
+    if center.config.reflection then
+        self:set_reflection() -- sets to blank_mirror mask
+    else self.children.reflection = nil end -- delete mask if converted from mirror card to other card type
     -- mod
 
     self.ability.bonus = (self.ability.bonus or 0) + (center.config.bonus or 0)
@@ -1208,39 +1208,39 @@ function Card:attempt_bankrupt(context)
     else return nil end
 end
 
-function Card:set_mask()
+function Card:set_reflection()
     if self.ability.effect == "Mirror Card" then 
-        self.children.mask = Card(self.T.x, self.T.y, self.T.w, self.T.h, G.P_CENTERS['c_base'], nil)
-        self.children.mask.ability.blank_front = true
+        self.children.reflection = Card(self.T.x, self.T.y, self.T.w, self.T.h, nil, G.P_CENTERS['c_base'], nil)
+        self.children.reflection.ability.blank_front = true
     end
 end
 
-function Card:update_mask(mirrored_card)
-    if not self.children.mask then return end
+function Card:update_reflection(mirrored_card)
+    if not self.children.reflection then return end
     if mirrored_card == nil then
-        self.children.mask = Card(self.T.x, self.T.y, self.T.w, self.T.h, G.P_CENTERS['c_base'], nil)
-        self.children.mask.ability.blank_front = true
+        self.children.reflection = Card(self.T.x, self.T.y, self.T.w, self.T.h, nil, G.P_CENTERS['c_base'], nil)
+        self.children.reflection.ability.blank_front = true
     else
-        copy_card(self.children.mask, mirrored_card, nil, nil, true)
+        copy_card(mirrored_card, self.children.reflection, nil, nil, true)
     end
-    self.children.mask:set_edition(self.edition,true,true)
-    self.children.mask:set_seal(self.seal,true,true)
-    self.children.mask.ability.perma_bonus = self.children.ability.perma_bonus + self.ability.mask.perma_bonus
+    self.children.reflection:set_edition(self.edition,true,true)
+    self.children.reflection:set_seal(self.seal,true,true)
+    self.children.reflection.ability.perma_bonus = self.children.reflection.ability.perma_bonus + self.ability.perma_bonus
 end
 
-function Card:get_mask(context)
+function Card:get_reflection(context)
     if self.debuff then return nil end
-    if not self.children.mask then return nil end
+    if not self.children.reflection then return nil end
     if context.cardarea == G.play then
         for i=1,#G.play.cards do
-            if G.play.cards[i].unique_val == self.unique_val then self:update_mask(G.play.cards[i-1]) end
+            if G.play.cards[i].unique_val == self.unique_val then self:update_reflection(G.play.cards[i-1]) end
         end
     elseif context.cardarea == G.hand then
         for i=1,#G.hand.cards do
-            if G.hand.cards[i].unique_val == self.unique_val then self:update_mask(G.hand.cards[i-1]) end
+            if G.hand.cards[i].unique_val == self.unique_val then self:update_reflection(G.hand.cards[i-1]) end
         end
     end
-    return self.children.mask
+    return self.children.reflection
 end
 -- mod end
 
@@ -4836,7 +4836,7 @@ function Card:hard_set_T(X, Y, W, H)
     local h = (H or self.T.h)
     Moveable.hard_set_T(self,x, y, w, h)
     if self.children.front then self.children.front:hard_set_T(x, y, w, h) end
-    if self.children.mask then self.children.mask:hard_set_T(x, y, nil,nil) end
+    if self.children.reflection then self.children.reflection:hard_set_T(x, y, nil,nil) end
     self.children.back:hard_set_T(x, y, w, h)
     self.children.center:hard_set_T(x, y, w, h)
 end
@@ -4985,6 +4985,11 @@ function Card:draw(layer)
                 if self.children.front then 
                     self.children.front:draw_shader('vortex')
                 end
+                -- mod
+                if self.children.reflection then 
+                    self.children.reflection:draw_shader('vortex')
+                end
+                -- mod end
             end
 
             love.graphics.setShader()
@@ -4996,6 +5001,11 @@ function Card:draw(layer)
                     self.children.front:draw_shader('negative', nil, self.ARGS.send_to_shader)
                 end
             elseif not self.greyed then
+                -- mod (mask should be under center)
+                if self.children.reflection then
+                    self.children.reflection:draw_shader('dissolve')
+                end
+                -- mod end
                 self.children.center:draw_shader('dissolve')
                 --If the card has a front, draw that next
                 if self.children.front and not self.ability.blank_front then
