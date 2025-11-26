@@ -314,7 +314,8 @@ function Card:set_ability(center, initial, delay_sprites)
 
     -- mod
     if center.config.mask then
-        self.children.mask = Card(0, 0, W, H, G.P_CARDS.empty, G.P_CENTERS['blank_mirror'], nil)
+        self.children.mask = 'init' -- defines mask
+        self:update_mask(nil) -- sets to blank_mirror mask
     else self.children.mask = nil end -- delete mask if converted from mirror card to other card type
     -- mod
 
@@ -1204,8 +1205,8 @@ end
 function Card:update_mask(mirrored_card)
     if not self.children.mask then return end
     if mirrored_card == nil then
-        self.children.mask:remove()
-        self.children.mask = Card(0, 0, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['blank_mirror'], nil)
+        self.children.mask = Card(0, 0, G.CARD_W, G.CARD_H, G.P_CARDS.empty, G.P_CENTERS['c_base'], nil)
+        self.children.mask.blank_front = true
     else
         copy_card(self.children.mask, mirrored_card, nil, nil, true)
     end
