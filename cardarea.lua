@@ -47,6 +47,11 @@ function CardArea:emplace(card, location, stay_flipped)
             self.config.card_limit = #self.cards
         end
     end
+
+    -- mod
+    if self == G.hand and card.ability.effect == "Blank Card" then card:randomize_rank_suit() end
+    if self == G.discard or self == G.deck then card:blank_hide() end
+    -- mod end
     
     card:set_card_area(self)
     self:set_ranks()
@@ -174,7 +179,11 @@ function CardArea:parse_highlighted()
         for k, v in pairs(self.highlighted) do
             if v.facing == 'back' then
                 backwards = true
+            -- mod
+            elseif v.ability.effect == "Blank Card" then
+                backwards = true
             end
+            -- mod end
         end
         if backwards then
             update_hand_text({immediate = true, nopulse = nil, delay = 0}, {handname='????', level='?', mult = '?', chips = '?'})

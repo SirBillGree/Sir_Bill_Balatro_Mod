@@ -1025,6 +1025,7 @@ function Card:get_nominal(mod)
 end
 
 function Card:get_id()
+    if self.ability.effect == "Mirror Card" then return self.children.reflection:get_id() end
     if self.ability.blank_front and not self.vampired then
         return -math.random(100, 1000000)
     end
@@ -1204,12 +1205,13 @@ function Card:attempt_bankrupt(context)
 end
 
 function Card:update_reflection(mirrored_card)
-    if not self.ability.has_reflection then return end
+    if not self.ability.effect == "Mirror Card" then return end
     if mirrored_card == nil then
         mirrored_card = Card(self.T.x, self.T.y, self.T.w, self.T.h, nil, G.P_CENTERS['c_base'], nil)
         mirrored_card.ability.blank_front = true
         if not self.children.reflection then
             self.children.reflection = mirrored_card
+            self.children.reflection:draw()
         else
             copy_card(mirrored_card, self.children.reflection, nil, nil, true)
             mirrored_card:remove()
@@ -1217,6 +1219,7 @@ function Card:update_reflection(mirrored_card)
     else
         if not self.children.reflection then
             self.children.reflection = mirrored_card
+            self.children.reflection:draw()
         else
             copy_card(mirrored_card, self.children.reflection, nil, nil, true)
         end
@@ -1240,6 +1243,26 @@ function Card:get_reflection(context)
     end
     return self.children.reflection
 end
+
+function Card:randomize_rank_suit()
+    self:set_base(pseudorandom_element(G.P_CARDS, pseudoseed('blank')))
+    self:draw()
+end
+
+function Card:blank_show()
+    if self.ability.effect == "Blank Card" then
+        self.ability.blank_front = false
+        self:draw()
+    end
+end
+
+function Card:blank_hide()
+    if self.ability.effect == "Blank Card" then
+        self.ability.blank_front = true
+        self:draw()
+    end
+end
+
 -- mod end
 
 function Card:use_consumeable(area, copier)
@@ -1264,7 +1287,7 @@ function Card:use_consumeable(area, copier)
         delay(0.2)
         if self.ability.name == 'Death' then
             local rightmost = G.hand.highlighted[1]
-            -- for i=1, #G.hand.highlighted do if G.hand.highlighted[i].T.x > rightmost.T.x then rightmost = G.hand.highlighted[i] end end
+            for i=1, #G.hand.highlighted do if G.hand.highlighted[i].T.x > rightmost.T.x then rightmost = G.hand.highlighted[i] end end
             for i=1, #G.hand.highlighted do
                 G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
                     if G.hand.highlighted[i] ~= rightmost then
@@ -3219,6 +3242,12 @@ function Card:calculate_joker(context)
             end
         elseif context.pre_discard then
             if self.ability.name == 'Burnt Joker' and G.GAME.current_round.discards_used <= 0 and not context.hook then
+                -- mod
+                for i=1,#G.hand.highlighted do
+                    G.hand.highlighted[i]:update_reflection(G.hand.highlighted[i-1])
+                    G.hand.highlighted[i]:blank_show()
+                end
+                -- mod end
                 local text,disp_text = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
                 card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')})
                 update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(text, 'poker_hands'),chips = G.GAME.hands[text].chips, mult = G.GAME.hands[text].mult, level=G.GAME.hands[text].level})
@@ -4636,6 +4665,7 @@ function Card:calculate_joker(context)
     end
 
 function Card:is_suit(suit, bypass_debuff, flush_calc)
+    if self.ability.effect == "Mirror Card" then return self.children.reflection:is_suit(suit, bypass_debuff, flush_calc) end
     if flush_calc then
         if self.ability.blank_front then
             return false

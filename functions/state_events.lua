@@ -574,6 +574,14 @@ G.FUNCS.get_poker_hand_info = function(_cards)
 end
   
 G.FUNCS.evaluate_play = function(e)
+    -- mod
+    -- update mirror and blank cards before scoring
+    for i=1, #G.play.cards do
+        G.play.cards[i]:update_reflection(G.play.cards[i-1])
+        G.play.cards[i]:blank_show()
+    end
+    -- mod end
+
     local text,disp_text,poker_hands,scoring_hand,non_loc_disp_text = G.FUNCS.get_poker_hand_info(G.play.cards)
     
     G.GAME.hands[text].played = G.GAME.hands[text].played + 1
