@@ -765,8 +765,8 @@ function eval_card(card, context)
     context = context or {}
     local ret = {}
 
-    local reflection = card:get_reflection(context)
-    if reflection then card = reflection end
+    local reflect = card:get_reflection(context)
+    if reflect then ret = reflect end
 
     if context.repetition_only then
         local seals = card:calculate_seal(context)
@@ -789,12 +789,12 @@ function eval_card(card, context)
         end
         -- mod end
 
-        local chips = card:get_chip_bonus()
+        local chips = card:get_chip_bonus(context)
         if chips > 0 then 
             ret.chips = chips
         end
 
-        local mult = card:get_chip_mult()
+        local mult = card:get_chip_mult(context)
         if mult > 0 then 
             ret.mult = mult
         end
@@ -804,7 +804,7 @@ function eval_card(card, context)
             ret.x_mult = x_mult
         end
 
-        local p_dollars = card:get_p_dollars()
+        local p_dollars = card:get_p_dollars(context)
         if p_dollars ~= 0 then 
             ret.p_dollars = p_dollars
         end
@@ -828,12 +828,12 @@ function eval_card(card, context)
         end
         -- mod end
 
-        local h_mult = card:get_chip_h_mult()
+        local h_mult = card:get_chip_h_mult(context)
         if h_mult > 0 then 
             ret.h_mult = h_mult
         end
 
-        local h_x_mult = card:get_chip_h_x_mult()
+        local h_x_mult = card:get_chip_h_x_mult(context)
         if h_x_mult > 0 then 
             ret.x_mult = h_x_mult
         end

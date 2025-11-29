@@ -543,6 +543,7 @@ G.FUNCS.play_cards_from_highlighted = function(e)
 end
 
 G.FUNCS.get_poker_hand_info = function(_cards)
+    for i=1,#_cards do _cards[i]:update_reflection(_cards[i-1]) end
     local poker_hands = evaluate_poker_hand(_cards)
     local scoring_hand = {}
     local text,disp_text,loc_disp_text = 'NULL','NULL', 'NULL'
@@ -577,8 +578,11 @@ G.FUNCS.evaluate_play = function(e)
     -- mod
     -- update mirror and blank cards before scoring
     for i=1, #G.play.cards do
-        G.play.cards[i]:update_reflection(G.play.cards[i-1])
+        --G.play.cards[i]:update_reflection(G.play.cards[i-1])
         G.play.cards[i]:blank_show()
+    end
+    for i=1, #G.hand.cards do
+        G.hand.cards[i]:update_reflection(G.hand.cards[i-1])
     end
     -- mod end
 

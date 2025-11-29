@@ -159,15 +159,6 @@ function Card:set_sprites(_center, _front)
             self.children.front:set_role({major = self, role_type = 'Glued', draw_major = self})
         end
     end
-    -- mod
-    if self.children.reflection then
-        self.children.reflection.states.hover = self.states.hover
-        self.children.reflection.states.click = self.states.click
-        self.children.reflection.states.drag = self.states.drag
-        self.children.reflection.states.collide.can = false
-        self.children.reflection:set_role({major = self, role_type = 'Glued', draw_major = self})
-    end
-    -- mod end
     if _center then 
         if _center.set then
             if self.children.center then
@@ -309,7 +300,6 @@ function Card:set_ability(center, initial, delay_sprites)
         d_size = center.config.d_size or 0,
         -- mod
         mult_add = center.config.mult_add or 0,
-        has_reflection = center.config.reflection or false,
         blank_front = center.config.blank_front or false,
         -- mod end
         extra = copy_table(center.config.extra) or nil,
@@ -1025,7 +1015,6 @@ function Card:get_nominal(mod)
 end
 
 function Card:get_id()
-    if self.ability.effect == "Mirror Card" then return self.children.reflection:get_id() end
     if self.ability.blank_front and not self.vampired then
         return -math.random(100, 1000000)
     end
@@ -1044,7 +1033,7 @@ function Card:get_original_rank()
     return self.base.original_value
 end
 
-function Card:get_chip_bonus()
+function Card:get_chip_bonus(context)
     if self.debuff then return 0 end
     if self.ability.blank_front then
         return self.ability.bonus + (self.ability.perma_bonus or 0)
@@ -1052,7 +1041,7 @@ function Card:get_chip_bonus()
     return self.base.nominal + self.ability.bonus + (self.ability.perma_bonus or 0)
 end
 
-function Card:get_chip_mult()
+function Card:get_chip_mult(context)
     if self.debuff then return 0 end
     if self.ability.set == 'Joker' then return 0 end
     if self.ability.effect == "Lucky Card" then 
@@ -1063,10 +1052,10 @@ function Card:get_chip_mult()
             return 0
         end
     -- mod
-    elseif self.ability.effect == "Muscle Card" then 
+    elseif self.ability.effect == "Muscle Card" and not context.reflection then 
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() self:set_ability(G.P_CENTERS['m_weakened']);return true end }))
         return self.ability.mult
-    elseif self.ability.mult_add > 0 then --flaming card
+    elseif self.ability.mult_add >  not context.reflection then --flaming card
         self.ability.mult = self.ability.mult + self.ability.mult_add
         return self.ability.mult
     -- mod end
@@ -1097,19 +1086,19 @@ function Card:get_chip_x_mult(context)
     return self.ability.x_mult
 end
 
-function Card:get_chip_h_mult()
+function Card:get_chip_h_mult(context)
     if self.debuff then return 0 end
     return self.ability.h_mult
 end
 
-function Card:get_chip_h_x_mult()
+function Card:get_chip_h_x_mult(context)
     if self.debuff then return 0 end
     return self.ability.h_x_mult
 end
 
 
-function Card:get_edition()
-    if self.debuff then return end
+function Card:get_edition(context)
+    if self.debuff or context.reflection then return end
     if self.edition then
         local ret = {card = self}
         if self.edition.x_mult then 
@@ -1132,7 +1121,7 @@ function Card:get_end_of_round_effect(context)
         ret.h_dollars = self.ability.h_dollars
         ret.card = self
     end
-    if self.seal == 'Blue' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+    if self.seal == 'Blue' and not context.reflection and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
         local card_type = 'Planet'
         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
         G.E_MANAGER:add_event(Event({
@@ -1160,10 +1149,10 @@ function Card:get_end_of_round_effect(context)
 end
 
 
-function Card:get_p_dollars()
+function Card:get_p_dollars(context)
     if self.debuff then return 0 end
     local ret = 0
-    if self.seal == 'Gold' then
+    if self.seal == 'Gold' and not context.reflection then
         ret = ret +  3
     end
     if self.ability.p_dollars > 0 then
@@ -1204,44 +1193,37 @@ function Card:attempt_bankrupt(context)
     else return nil end
 end
 
-function Card:update_reflection(mirrored_card)
+function Card:update_reflection(mirrored_card) -- used for determining poker hand
     if not self.ability.effect == "Mirror Card" then return end
     if mirrored_card == nil then
-        mirrored_card = Card(self.T.x, self.T.y, self.T.w, self.T.h, nil, G.P_CENTERS['c_base'], nil)
-        mirrored_card.ability.blank_front = true
-        if not self.children.reflection then
-            self.children.reflection = mirrored_card
-            self.children.reflection:draw()
-        else
-            copy_card(mirrored_card, self.children.reflection, nil, nil, true)
-            mirrored_card:remove()
-        end
+        -- if mirrors nothing
+        self.ability.blank_front = true
     else
-        if not self.children.reflection then
-            self.children.reflection = mirrored_card
-            self.children.reflection:draw()
-        else
-            copy_card(mirrored_card, self.children.reflection, nil, nil, true)
-        end
+        -- if mirrors
+        self:change_rank(mirrored_card.base.rank)
+        self:change_suit(mirrored_card.base.suit)
+        if not mirrored_card.ability.blank_front then self.ability.blank_front = false end
     end
-    self.children.reflection:set_edition(self.edition,true,true)
-    self.children.reflection:set_seal(self.seal,true,true)
-    self.children.reflection.ability.perma_bonus = self.children.reflection.ability.perma_bonus + self.ability.perma_bonus
 end
 
 function Card:get_reflection(context)
     if self.debuff then return nil end
-    if not self.ability.has_reflection then return nil end
+    if self.ability.effect ~= "Mirror Card" then return nil end
     if context.cardarea == G.play then
         for i=1,#G.play.cards do
-            if G.play.cards[i].unique_val == self.unique_val then self:update_reflection(G.play.cards[i-1]) end
+            if G.play.cards[i].unique_val == self.unique_val and G.play.cards[i-1] then 
+                context.reflection = true
+                return eval_card(G.play.cards[i-1], context)
+            end
         end
     elseif context.cardarea == G.hand then
         for i=1,#G.hand.cards do
-            if G.hand.cards[i].unique_val == self.unique_val then self:update_reflection(G.hand.cards[i-1]) end
+            if G.hand.cards[i].unique_val == self.unique_val and G.hand.cards[i-1] then
+                context.reflection = true 
+                return eval_card(G.hand.cards[i-1], context)
+            end
         end
     end
-    return self.children.reflection
 end
 
 function Card:randomize_rank_suit()
@@ -3244,7 +3226,7 @@ function Card:calculate_joker(context)
             if self.ability.name == 'Burnt Joker' and G.GAME.current_round.discards_used <= 0 and not context.hook then
                 -- mod
                 for i=1,#G.hand.highlighted do
-                    G.hand.highlighted[i]:update_reflection(G.hand.highlighted[i-1])
+                    --G.hand.highlighted[i]:update_reflection(G.hand.highlighted[i-1])
                     G.hand.highlighted[i]:blank_show()
                 end
                 -- mod end
@@ -4665,7 +4647,6 @@ function Card:calculate_joker(context)
     end
 
 function Card:is_suit(suit, bypass_debuff, flush_calc)
-    if self.ability.effect == "Mirror Card" then return self.children.reflection:is_suit(suit, bypass_debuff, flush_calc) end
     if flush_calc then
         if self.ability.blank_front then
             return false
@@ -4864,7 +4845,6 @@ function Card:hard_set_T(X, Y, W, H)
     local h = (H or self.T.h)
     Moveable.hard_set_T(self,x, y, w, h)
     if self.children.front then self.children.front:hard_set_T(x, y, w, h) end
-    if self.children.reflection then self.children.reflection:hard_set_T(x, y, nil,nil) end
     self.children.back:hard_set_T(x, y, w, h)
     self.children.center:hard_set_T(x, y, w, h)
 end
@@ -5024,11 +5004,6 @@ function Card:draw(layer)
                     self.children.front:draw_shader('negative', nil, self.ARGS.send_to_shader)
                 end
             elseif not self.greyed then
-                -- mod
-                -- if self.ability.has_reflection then
-                --     self:update_reflection()
-                -- end
-                -- mod end
                 self.children.center:draw_shader('dissolve')
                 --If the card has a front, draw that next
                 if self.children.front and not self.ability.blank_front then
@@ -5162,12 +5137,6 @@ function Card:draw(layer)
             else
                 self.children.back:draw_shader('dissolve')
             end
-
-            -- mod
-            if self.children.reflection then
-                self.children.reflection:remove()
-            end
-            -- mod end
 
             if self.sticker and G.shared_stickers[self.sticker] then
                 G.shared_stickers[self.sticker].role.draw_major = self
