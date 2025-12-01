@@ -562,12 +562,12 @@ function Game:init_item_prototypes()
         c_temperance=       {order = 15,    discovered = false, cost = 3, consumeable = true, name = "Temperance", pos = {x=4,y=1}, set = "Tarot", effect = "Joker Payout", invert = 'c_impulse', cost_mult = 1.0, config = {extra = 50}},
         c_devil=            {order = 16,    discovered = false, cost = 3, consumeable = true, name = "The Devil", pos = {x=5,y=1}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_angel', config = {mod_conv = 'm_gold', max_highlighted = 1}},
         c_tower=            {order = 17,    discovered = false, cost = 3, consumeable = true, name = "The Tower", pos = {x=6,y=1}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_mountain', config = {mod_conv = 'm_stone', max_highlighted = 1}},
-        c_star=             {order = 18,    discovered = false, cost = 3, consumeable = true, name = "The Star", pos = {x=7,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_dust', config = {suit_conv = 'Diamonds', max_highlighted = 3}},
+        c_star=             {order = 18,    discovered = false, cost = 3, consumeable = true, name = "The Star", pos = {x=7,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_dust', config = {extra=10, max_highlighted = 3}},
         c_moon=             {order = 19,    discovered = false, cost = 3, consumeable = true, name = "The Moon", pos = {x=8,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_night', config = {suit_conv = 'Clubs', max_highlighted = 3}},
         c_sun=              {order = 20,    discovered = false, cost = 3, consumeable = true, name = "The Sun", pos = {x=9,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_day', config = {suit_conv = 'Hearts', max_highlighted = 3}},
         c_judgement=        {order = 21,    discovered = false, cost = 3, consumeable = true, name = "Judgement", pos = {x=0,y=2}, set = "Tarot", effect = "Random Joker", cost_mult = 1.0, invert = 'c_verdict', config = {}},
-        c_world=            {order = 22,    discovered = false, cost = 3, consumeable = true, name = "The World", pos = {x=1,y=2}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_void', config = {suit_conv = 'Spades', max_highlighted = 3}},
-        --inverted Tarots Mod (need to update configs!!!)
+        c_world=            {order = 22,    discovered = false, cost = 3, consumeable = true, name = "The World", pos = {x=1,y=2}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_void', config = {max_highlighted = 3}},
+        --inverted Tarots Mod
         c_jester=           {order = 23,    discovered = false, cost = 3, consumeable = true, name = "A Jester", pos = {x=0,y=0}, set = "Tarot", effect = "Flip Tarot", cost_mult = 1.0, invert = 'c_fool', config = {}},
         c_scientist=        {order = 24,    discovered = false, cost = 3, consumeable = true, name = "A Scientist", pos = {x=1,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_magician', config = {mod_conv = 'm_catalyst', max_highlighted = 2}},   --works
         c_critic=           {order = 25,    discovered = false, cost = 3, consumeable = true, name = "A Critic", pos = {x=2,y=0}, set = "Tarot", effect = "Pack Reroll", cost_mult = 1.0, invert = 'c_high_priestess', config = {planets = 1}},
@@ -586,8 +586,8 @@ function Game:init_item_prototypes()
         c_angel=            {order = 38,    discovered = false, cost = 3, consumeable = true, name = "An Angel", pos = {x=5,y=1}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_devil', config = {mod_conv = 'm_flame', max_highlighted = 1}}, --works
         c_mountain=         {order = 39,    discovered = false, cost = 3, consumeable = true, name = "A Mountain", pos = {x=6,y=1}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, invert = 'c_tower', config = {mod_conv = 'm_crystal', max_highlighted = 1}}, --works
         c_dust=             {order = 40,    discovered = false, cost = 3, consumeable = true, name = "Dust", pos = {x=7,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_star', config = {suit_conv = 'Diamonds', max_highlighted = 5}}, --works (temp)
-        c_night=            {order = 41,    discovered = false, cost = 3, consumeable = true, name = "Night", pos = {x=8,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_moon', config = {suit_conv = 'Clubs', max_highlighted = 5}}, --works (temp)
-        c_day=              {order = 42,    discovered = false, cost = 3, consumeable = true, name = "Day", pos = {x=9,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_sun', config = {suit_conv = 'Hearts', max_highlighted = 5}}, --works (temp)
+        c_night=            {order = 41,    discovered = false, cost = 3, consumeable = true, name = "Night", pos = {x=8,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_moon', config = {suit_conv = {'Spades','Clubs'}, max_highlighted = 5}}, --works (temp)
+        c_day=              {order = 42,    discovered = false, cost = 3, consumeable = true, name = "Day", pos = {x=9,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_sun', config = {suit_conv = {'Hearts', 'Diamonds'}, max_highlighted = 5}}, --works (temp)
         c_verdict=          {order = 43,    discovered = false, cost = 3, consumeable = true, name = "Verdict", pos = {x=0,y=2}, set = "Tarot", effect = "Joker to tags", cost_mult = 1.0, invert = 'c_judgement', config = {}},                                   --works
         c_void=             {order = 44,    discovered = false, cost = 3, consumeable = true, name = "Void", pos = {x=1,y=2}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, invert = 'c_world', config = {suit_conv = 'Spades', max_highlighted = 5}}, --works (temp)
 
@@ -703,7 +703,7 @@ function Game:init_item_prototypes()
         m_brutal =  {max = 500, order = 14, name = "Brutal Card", set = "Enhanced", pos = {x=0,y=4}, effect = "Brutal Card", label = "Brutal Card", config = {Xmult = 4}}, -- works
         m_catalyst= {max = 500, order = 15, name = "Catalyst Card", set = "Enhanced", pos = {x=4,y=2}, effect = "Catalyst Card", label = "Catalyst Card", config = {}},  --Works
         m_blank =   {max = 500, order = 16, name = "Blank Card", set = "Enhanced", pos = {x=1,y=0}, effect = "Blank Card", label = "Blank Card", config = {Xmult = 3, blank_front = true}}, -- works
-        m_mirror =  {max = 500, order = 17, name = "Mirror Card", set = "Enhanced", pos = {x=6,y=3}, effect = "Mirror Card", label = "Mirror Card", config = {blank_front = true}},
+        m_mirror =  {max = 500, order = 17, name = "Mirror Card", set = "Enhanced", pos = {x=6,y=3}, effect = "Mirror Card", label = "Mirror Card", config = {blank_front = true}}, -- works
 
         m_weakened= {max = 500, order = 12, name = "Muscle Card", set = "Enhanced", pos = {x=4,y=0}, effect = "Weakened Muscle Card", label = "Weakened Muscle Card", config = {}}, -- works
 

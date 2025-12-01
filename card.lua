@@ -1055,7 +1055,7 @@ function Card:get_chip_mult(context)
     elseif self.ability.effect == "Muscle Card" and not context.reflection then 
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() self:set_ability(G.P_CENTERS['m_weakened']);return true end }))
         return self.ability.mult
-    elseif self.ability.mult_add >  not context.reflection then --flaming card
+    elseif self.ability.mult_add > 0 and not context.reflection then --flaming card
         self.ability.mult = self.ability.mult + self.ability.mult_add
         return self.ability.mult
     -- mod end
@@ -1114,14 +1114,26 @@ function Card:get_edition(context)
     end
 end
 
-function Card:get_end_of_round_effect(context)
+function Card:get_end_of_round_effect()
     if self.debuff then return {} end
     local ret = {}
     if self.ability.h_dollars > 0 then
         ret.h_dollars = self.ability.h_dollars
         ret.card = self
     end
-    if self.seal == 'Blue' and not context.reflection and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+    -- mod (mirror gold card)
+    if self.ability.effect == "Mirror Card" then
+        for i=1,#G.hand.cards do
+            if G.hand.cards[i].unique_val == self.unique_val and G.hand.cards[i-1] then
+                if G.hand.cards[i-1].ability.h_dollars > 0 then
+                    ret.h_dollars = G.hand.cards[i-1].ability.h_dollars
+                    ret.card = self
+                end
+            end
+        end
+    end
+    -- mod end
+    if self.seal == 'Blue' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
         local card_type = 'Planet'
         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
         G.E_MANAGER:add_event(Event({
@@ -1194,15 +1206,17 @@ function Card:attempt_bankrupt(context)
 end
 
 function Card:update_reflection(mirrored_card) -- used for determining poker hand
-    if not self.ability.effect == "Mirror Card" then return end
+    if self.ability.effect ~= "Mirror Card" then return end
     if mirrored_card == nil then
         -- if mirrors nothing
         self.ability.blank_front = true
     else
         -- if mirrors
-        self:change_rank(mirrored_card.base.rank)
-        self:change_suit(mirrored_card.base.suit)
-        if not mirrored_card.ability.blank_front then self.ability.blank_front = false end
+        if mirrored_card.ability.blank_front == false then
+            self:change_rank(mirrored_card.base.value)
+            self:change_suit(mirrored_card.base.suit)
+            self.ability.blank_front = false 
+        else self.ability.blank_front = true end
     end
 end
 
@@ -1324,6 +1338,15 @@ function Card:use_consumeable(area, copier)
                     card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
                 return true end }))
             end  
+        elseif self.ability.name == "Dust" then
+            for i=1, #G.hand.highlighted do
+                G.hand.highlighted[i].ability.perma_bonus = G.hand.highlighted[i].ability.perma_bonus + self.ability.extra
+            end
+        elseif self.ability.name == "Void" then
+            for i=1, #G.hand.highlighted do
+                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() G.hand.highlighted[i]:set_ability(pseudorandom_element(G.P_CENTER_POOLS.Tarot,"void"));return true end }))
+            end 
+        end
         -- mod end
         elseif self.ability.name == 'Strength' then
             for i=1, #G.hand.highlighted do
@@ -1341,6 +1364,13 @@ function Card:use_consumeable(area, copier)
                     card:set_base(G.P_CARDS[suit_prefix..rank_suffix])
                 return true end }))
             end  
+        -- mod
+        elseif self.ability.name == "c_night" or self.ability.name == "c_day" then
+            for i=1, #G.hand.highlighted do
+                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() G.hand.highlighted[i]:change_suit(pseudorandom_element(self.ability.consumeable.suit_conv, "suit"));return true end }))
+            end    
+        end
+        -- mod end
         elseif self.ability.consumeable.suit_conv then
             for i=1, #G.hand.highlighted do
                 G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() G.hand.highlighted[i]:change_suit(self.ability.consumeable.suit_conv);return true end }))

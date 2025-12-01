@@ -50,7 +50,6 @@ function CardArea:emplace(card, location, stay_flipped)
 
     -- mod
     if self == G.hand and card.ability.effect == "Blank Card" then card:randomize_rank_suit() end
-    if self == G.discard or self == G.deck then card:blank_hide() end
     -- mod end
     
     card:set_card_area(self)

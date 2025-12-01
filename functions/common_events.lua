@@ -2967,11 +2967,11 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             loc_vars = {_c.config.extra, _out}
        elseif _c.name == "An Angel" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
        elseif _c.name == "A Mountain" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
-       elseif _c.name == "Dust" then loc_vars = {_c.config.max_highlighted,  localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
-       elseif _c.name == "Night" then loc_vars = {_c.config.max_highlighted, localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
-       elseif _c.name == "Day" then loc_vars = {_c.config.max_highlighted, localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
+       elseif _c.name == "Dust" then loc_vars = {_c.config.max_highlighted, _c.config.extra}
+       elseif _c.name == "Night" then loc_vars = {_c.config.max_highlighted}
+       elseif _c.name == "Day" then loc_vars = {_c.config.max_highlighted}
        elseif _c.name == "Verdict" then
-       elseif _c.name == "Void" then loc_vars = {_c.config.max_highlighted, localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
+       elseif _c.name == "Void" then loc_vars = {_c.config.max_highlighted}
        -- end mod
        end
        localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}

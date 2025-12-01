@@ -578,7 +578,6 @@ G.FUNCS.evaluate_play = function(e)
     -- mod
     -- update mirror and blank cards before scoring
     for i=1, #G.play.cards do
-        --G.play.cards[i]:update_reflection(G.play.cards[i-1])
         G.play.cards[i]:blank_show()
     end
     for i=1, #G.hand.cards do
@@ -843,6 +842,8 @@ G.FUNCS.evaluate_play = function(e)
             if scoring_hand[i].ability.name == 'Glass Card' and not scoring_hand[i].debuff and pseudorandom('glass') < G.GAME.probabilities.normal/scoring_hand[i].ability.extra then 
                 destroyed = true
             end
+
+            scoring_hand[i]:blank_hide()
 
             if destroyed then 
                 if scoring_hand[i].ability.name == 'Glass Card' then 

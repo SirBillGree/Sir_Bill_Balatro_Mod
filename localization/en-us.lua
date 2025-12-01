@@ -3243,15 +3243,15 @@ return {
                 text={
                     "Converts up to",
                     "{C:attention}#1#{} selected cards",
-                    "to {V:1}#2#{}",
+                    "to {V:1}Spades{} or {V:1}Clubs{}",
                 },
             },
             c_dust={
-                name="Dust",
+                name="Constellation",
                 text={
-                    "Converts up to",
+                    "Gives up to",
                     "{C:attention}#1#{} selected cards",
-                    "to {V:1}#2#{}",
+                    "{V:1}+#2# bonus chips{}",
                 },
             },
             c_weakness={
@@ -3267,7 +3267,7 @@ return {
                 text={
                     "Converts up to",
                     "{C:attention}#1#{} selected cards",
-                    "to {V:1}#2#{}",
+                    "to {V:1}Diamond{} or {V:1}Hearts{}",
                 },
             },
             c_impulse={
@@ -3299,9 +3299,9 @@ return {
             c_void={
                 name="Void",
                 text={
-                    "Converts up to",
-                    "{C:attention}#1#{} selected cards",
-                    "to {V:1}#2#{}",
+                    "Enhances {C:attention}#1#{}",
+                    "selected cards with a",
+                    "a {C:attention}random enhancement{}",
                 },
             },
             --end mod
