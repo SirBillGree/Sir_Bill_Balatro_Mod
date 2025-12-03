@@ -1346,7 +1346,6 @@ function Card:use_consumeable(area, copier)
             for i=1, #G.hand.highlighted do
                 G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() G.hand.highlighted[i]:set_ability(pseudorandom_element(G.P_CENTER_POOLS.Tarot,"void"));return true end }))
             end 
-        end
         -- mod end
         elseif self.ability.name == 'Strength' then
             for i=1, #G.hand.highlighted do
@@ -1369,7 +1368,6 @@ function Card:use_consumeable(area, copier)
             for i=1, #G.hand.highlighted do
                 G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() G.hand.highlighted[i]:change_suit(pseudorandom_element(self.ability.consumeable.suit_conv, "suit"));return true end }))
             end    
-        end
         -- mod end
         elseif self.ability.consumeable.suit_conv then
             for i=1, #G.hand.highlighted do

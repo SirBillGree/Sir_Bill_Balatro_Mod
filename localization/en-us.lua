@@ -3195,7 +3195,7 @@ return {
                 },
             },
             c_tennent={
-                name="A Tennent",
+                name="A Tenent",
                 text={
                     "Set money to {C:money}$#1#{}",
                 },
@@ -3243,7 +3243,7 @@ return {
                 text={
                     "Converts up to",
                     "{C:attention}#1#{} selected cards",
-                    "to {V:1}Spades{} or {V:1}Clubs{}",
+                    "to {C:spades}Spades{} or {C:clubs}Clubs{}",
                 },
             },
             c_dust={
@@ -3251,7 +3251,7 @@ return {
                 text={
                     "Gives up to",
                     "{C:attention}#1#{} selected cards",
-                    "{V:1}+#2# bonus chips{}",
+                    "{C:chips}+#2# bonus chips{}",
                 },
             },
             c_weakness={
@@ -3267,7 +3267,7 @@ return {
                 text={
                     "Converts up to",
                     "{C:attention}#1#{} selected cards",
-                    "to {V:1}Diamond{} or {V:1}Hearts{}",
+                    "to {C:diamonds}Diamonds{} or {C:hearts}Hearts{}",
                 },
             },
             c_impulse={
