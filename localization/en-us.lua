@@ -3159,10 +3159,12 @@ return {
                     "{C:attention}#2#s",
                 },
             },
-            c_peasant={
-                name="A peasant",
+            c_merchant={
+                name="A Merchant",
                 text={
-                    "Creates 1 random {C:attention}tag{}",
+                    "Creates up to {C:attention}#1#",
+                    "random {C:spectral}Spectral{} card",
+                    "{C:inactive}(Must have room)",
                 },
             },
             c_vanity={

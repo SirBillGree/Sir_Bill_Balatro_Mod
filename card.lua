@@ -1344,7 +1344,7 @@ function Card:use_consumeable(area, copier)
             end
         elseif self.ability.name == "Void" then
             for i=1, #G.hand.highlighted do
-                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() G.hand.highlighted[i]:set_ability(pseudorandom_element(G.P_CENTER_POOLS.Tarot,"void"));return true end }))
+                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() G.hand.highlighted[i]:set_ability(pseudorandom_element(G.P_CENTER_POOLS.Enhanced,pseudoseed("void")));return true end }))
             end 
         -- mod end
         elseif self.ability.name == 'Strength' then
@@ -1364,9 +1364,9 @@ function Card:use_consumeable(area, copier)
                 return true end }))
             end  
         -- mod
-        elseif self.ability.name == "c_night" or self.ability.name == "c_day" then
+        elseif self.ability.name == "Night" or self.ability.name == "Day" then
             for i=1, #G.hand.highlighted do
-                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() G.hand.highlighted[i]:change_suit(pseudorandom_element(self.ability.consumeable.suit_conv, "suit"));return true end }))
+                G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function() G.hand.highlighted[i]:change_suit(pseudorandom_element(self.ability.consumeable.suit_conv, pseudoseed("suit")));return true end }))
             end    
         -- mod end
         elseif self.ability.consumeable.suit_conv then
@@ -1692,19 +1692,7 @@ function Card:use_consumeable(area, copier)
         end
         delay(0.6)
     end
-    if self.ability.name == "A Peasant" then
-        local _tag = get_next_tag_key("peasant")
-        local tag = Tag(_tag, false, "Small")
-        add_tag(tag)
-        tag:apply_to_run("immediate")
-        tag:apply_to_run("tag_add")
-        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
-            play_sound('timpani')
-            used_tarot:juice_up(0.3, 0.5)
-            return true end }))
-        delay(0.6)
-    end
-    if self.ability.name == "A Critic" then
+    if self.ability.name == "A Critic" then --bug if in pack and last card select
         -- reset the number you can take
         G.GAME.pack_choices = G.GAME.original_choices
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
@@ -1781,12 +1769,12 @@ function Card:use_consumeable(area, copier)
             return true end }))
         delay(0.6)
     end
-    if self.ability.name == 'The Emperor' or self.ability.name == 'The High Priestess' then
-        for i = 1, math.min((self.ability.consumeable.tarots or self.ability.consumeable.planets), G.consumeables.config.card_limit - #G.consumeables.cards) do
+    if self.ability.name == 'The Emperor' or self.ability.name == 'The High Priestess' or self.ability.name == 'A Merchant' then
+        for i = 1, math.min((self.ability.consumeable.tarots or self.ability.consumeable.planets or self.ability.consumeable.spectrals), G.consumeables.config.card_limit - #G.consumeables.cards) do
             G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.4, func = function()
                 if G.consumeables.config.card_limit > #G.consumeables.cards then
                     play_sound('timpani')
-                    local card = create_card((self.ability.name == 'The Emperor' and 'Tarot') or (self.ability.name == 'The High Priestess' and 'Planet'), G.consumeables, nil, nil, nil, nil, nil, (self.ability.name == 'The Emperor' and 'emp') or (self.ability.name == 'The High Priestess' and 'pri'))
+                    local card = create_card((self.ability.name == 'The Emperor' and 'Tarot') or (self.ability.name == 'The High Priestess' and 'Planet') or (self.ability.name == 'A Merchant' and 'Spectral'), G.consumeables, nil, nil, nil, nil, nil, (self.ability.name == 'The Emperor' and 'emp') or (self.ability.name == 'The High Priestess' and 'pri') or (self.ability.name == 'A Merchant' and 'mer'))
                     card:add_to_deck()
                     G.consumeables:emplace(card)
                     used_tarot:juice_up(0.3, 0.5)
@@ -1925,7 +1913,7 @@ function Card:can_use_consumeable(any_state, skip_check)
     if G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT or any_state then
 
         if self.ability.name == 'The Hermit' or self.ability.consumeable.hand_type or self.ability.name == 'Temperance' or self.ability.name == 'Black Hole'
-        or self.ability.name == 'A Tennent' or self.ability.name == 'A Peasant' then
+        or self.ability.name == 'A Tennent' then
             return true
         end
         -- mod
@@ -1965,7 +1953,7 @@ function Card:can_use_consumeable(any_state, skip_check)
         if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' then 
             if next(self.eligible_editionless_jokers) then return true end
         end
-        if self.ability.name == 'The Emperor' or self.ability.name == 'The High Priestess'  then 
+        if self.ability.name == 'The Emperor' or self.ability.name == 'The High Priestess' or self.ability.name == 'A Merchant' then 
             if #G.consumeables.cards < G.consumeables.config.card_limit or self.area == G.consumeables then return true end
         end
         if self.ability.name == 'The Fool' then
