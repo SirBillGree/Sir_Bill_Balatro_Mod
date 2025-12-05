@@ -2276,11 +2276,11 @@ end
                       G.booster_pack.alignment.offset.py = nil
                     end
                     -- mod
-                    if card.ability.name == "A Critic" then
-                      G.GAME.pack_choices = G.GAME.pack_choices + 1
+                    if card.ability.name ~= "A Critic" then
+                      G.GAME.pack_choices = G.GAME.pack_choices - 1
                     end
                     -- mod end
-                    G.GAME.pack_choices = G.GAME.pack_choices - 1
+                    --G.GAME.pack_choices = G.GAME.pack_choices - 1
                   else
                       G.CONTROLLER.interrupt.focus = true
                       if prev_state == G.STATES.TAROT_PACK then inc_career_stat('c_tarot_reading_used', 1) end

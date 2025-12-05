@@ -1714,10 +1714,17 @@ function Card:use_consumeable(area, copier)
                 to_flip[#to_flip+1] = G.consumeables.cards[i]
             end
         end
-        if G.pack_cards then
+        if G.pack_cards and G.pack_cards.cards then
             for i=1,#G.pack_cards.cards do
                 if G.pack_cards.cards[i].ability.invert then
                     to_flip[#to_flip+1] = G.pack_cards.cards[i]
+                end
+            end
+        end
+        if G.shop_jokers and G.shop_jokers.cards then
+            for i=1,#G.shop_jokers.cards do
+                if G.shop_jokers.cards[i].ability.invert then
+                    to_flip[#to_flip+1] = G.shop_jokers.cards[i]
                 end
             end
         end
@@ -1727,16 +1734,9 @@ function Card:use_consumeable(area, copier)
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.15,func = function() to_flip[i]:flip();play_sound('card1', percent);to_flip[i]:juice_up(0.3, 0.3);return true end }))
         end
         -- change cards
-        for i=1,#G.consumeables.cards do
-            if G.consumeables.cards[i].ability.invert then
-                G.consumeables.cards[i]:set_ability(G.P_CENTERS[G.consumeables.cards[i].ability.invert])
-            end
-        end
-        if G.pack_cards then
-            for i=1,#G.pack_cards.cards do
-                if G.pack_cards.cards[i].ability.invert then
-                    G.pack_cards.cards[i]:set_ability(G.P_CENTERS[G.pack_cards.cards[i].ability.invert])
-                end
+        for i=1,#to_flip do
+            if to_flip[i].ability.invert then
+                to_flip[i]:set_ability(G.P_CENTERS[to_flip[i].ability.invert])
             end
         end
 
