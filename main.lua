@@ -195,7 +195,7 @@ function love.joystickaxis( joystick, axis, value )
     end
 end
 
-function love.errhand(msg)
+function love.errhand(msg) -- update this!!!
 	if G.F_NO_ERROR_HAND then return end
 	msg = tostring(msg)
 
