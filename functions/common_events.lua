@@ -2620,90 +2620,10 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         name_override = desc_override
         if not full_UI_table.name then full_UI_table.name = localize{type = 'name', set = 'Other', key = name_override, nodes = full_UI_table.name} end
         localize{type = 'other', key = desc_override, nodes = desc_nodes, vars = loc_vars}
-    elseif _c.set == 'Spectral' then 
-        if _c.name == 'Familiar' or _c.name == 'Grim' or _c.name == 'Incantation' then loc_vars = {_c.config.extra}
-        elseif _c.name == 'Immolate' then loc_vars = {_c.config.extra.destroy, _c.config.extra.dollars}
-        elseif _c.name == 'Hex' then info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
-        elseif _c.name == 'Talisman' then info_queue[#info_queue+1] = {key = 'gold_seal', set = 'Other'}
-        elseif _c.name == 'Deja Vu' then info_queue[#info_queue+1] = {key = 'red_seal', set = 'Other'}
-        elseif _c.name == 'Trance' then info_queue[#info_queue+1] = {key = 'blue_seal', set = 'Other'}
-        elseif _c.name == 'Medium' then info_queue[#info_queue+1] = {key = 'purple_seal', set = 'Other'}
-        elseif _c.name == 'Ankh' then
-            if G.jokers and G.jokers.cards then
-                for k, v in ipairs(G.jokers.cards) do
-                    if (v.edition and v.edition.negative) and (G.localization.descriptions.Other.remove_negative)then 
-                        info_queue[#info_queue+1] = G.P_CENTERS.e_negative
-                        main_end = {}
-                        localize{type = 'other', key = 'remove_negative', nodes = main_end, vars = {}}
-                        main_end = main_end[1]
-                        break
-                    end
-                end
-            end
-        elseif _c.name == 'Cryptid' then loc_vars = {_c.config.extra}
-        end
-        if _c.name == 'Ectoplasm' then info_queue[#info_queue+1] = G.P_CENTERS.e_negative; loc_vars = {G.GAME.ecto_minus or 1} end
-        if _c.name == 'Aura' then
-            info_queue[#info_queue+1] = G.P_CENTERS.e_foil
-            info_queue[#info_queue+1] = G.P_CENTERS.e_holo
-            info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
-        end
+    elseif _c.set == 'Spectral' or _c.set == "Tarot" or _c.set == "Planet" then 
+        loc_vars, info_queue, desc_nodes = _c.funcs.ui(info_queue) -- mod
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
-    elseif _c.set == 'Planet' then
-        loc_vars = {
-            G.GAME.hands[_c.config.hand_type].level,localize(_c.config.hand_type, 'poker_hands'), G.GAME.hands[_c.config.hand_type].l_mult, G.GAME.hands[_c.config.hand_type].l_chips,
-            colours = {(G.GAME.hands[_c.config.hand_type].level==1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, G.GAME.hands[_c.config.hand_type].level)])}
-        }
-        localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
-    elseif _c.set == 'Tarot' then
-       if _c.name == "The Fool" then
-            local fool_c = G.GAME.last_tarot_planet and G.P_CENTERS[G.GAME.last_tarot_planet] or nil
-            local last_tarot_planet = fool_c and localize{type = 'name_text', key = fool_c.key, set = fool_c.set} or localize('k_none')
-            local colour = (not fool_c or fool_c.name == 'The Fool') and G.C.RED or G.C.GREEN
-            main_end = {
-                {n=G.UIT.C, config={align = "bm", padding = 0.02}, nodes={
-                    {n=G.UIT.C, config={align = "m", colour = colour, r = 0.05, padding = 0.05}, nodes={
-                        {n=G.UIT.T, config={text = ' '..last_tarot_planet..' ', colour = G.C.UI.TEXT_LIGHT, scale = 0.3, shadow = true}},
-                    }}
-                }}
-            }
-           loc_vars = {last_tarot_planet}
-           if not (not fool_c or fool_c.name == 'The Fool') then
-                info_queue[#info_queue+1] = fool_c
-           end
-       elseif _c.name == "The Magician" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
-       elseif _c.name == "The High Priestess" then loc_vars = {_c.config.planets}
-       elseif _c.name == "The Empress" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
-       elseif _c.name == "The Emperor" then loc_vars = {_c.config.tarots}
-       elseif _c.name == "The Hierophant" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
-       elseif _c.name == "The Lovers" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
-       elseif _c.name == "The Chariot" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
-       elseif _c.name == "Justice" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
-       elseif _c.name == "The Hermit" then loc_vars = {_c.config.extra}
-       elseif _c.name == "The Wheel of Fortune" then loc_vars = {G.GAME.probabilities.normal, _c.config.extra};  info_queue[#info_queue+1] = G.P_CENTERS.e_foil; info_queue[#info_queue+1] = G.P_CENTERS.e_holo; info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome; 
-       elseif _c.name == "Strength" then loc_vars = {_c.config.max_highlighted}
-       elseif _c.name == "The Hanged Man" then loc_vars = {_c.config.max_highlighted}
-       elseif _c.name == "Death" then loc_vars = {_c.config.max_highlighted}
-       elseif _c.name == "Temperance" then
-        local _money = 0
-        if G.jokers then
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i].ability.set == 'Joker' then
-                    _money = _money + G.jokers.cards[i].sell_cost
-                end
-            end
-        end
-        loc_vars = {_c.config.extra, math.min(_c.config.extra, _money)}
-       elseif _c.name == "The Devil" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
-       elseif _c.name == "The Tower" then loc_vars = {_c.config.max_highlighted, localize{type = 'name_text', set = 'Enhanced', key = _c.config.mod_conv}}; info_queue[#info_queue+1] = G.P_CENTERS[_c.config.mod_conv]
-       elseif _c.name == "The Star" then loc_vars = {_c.config.max_highlighted,  localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
-       elseif _c.name == "The Moon" then loc_vars = {_c.config.max_highlighted, localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
-       elseif _c.name == "The Sun" then loc_vars = {_c.config.max_highlighted, localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
-       elseif _c.name == "Judgement" then
-       elseif _c.name == "The World" then loc_vars = {_c.config.max_highlighted, localize(_c.config.suit_conv, 'suits_plural'), colours = {G.C.SUITS[_c.config.suit_conv]}}
-       end
-       localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
-   end
+    end
 
     if main_end then 
         desc_nodes[#desc_nodes+1] = main_end 

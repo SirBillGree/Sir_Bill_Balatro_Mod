@@ -27,6 +27,8 @@ require "card_character"
 require "engine/particles"
 require "engine/text"
 require "challenges"
+-- from baltro-mod mod
+require "consumables"
 
 math.randomseed( G.SEED )
 
