@@ -1,4 +1,4 @@
-_RELEASE_MODE = true
+_RELEASE_MODE = false
 _DEMO = false
 
 function love.conf(t)

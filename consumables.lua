@@ -59,7 +59,7 @@ function add_consumables(CENTERS)
         c_earth=            {order = 3,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Earth", pos = {x=2,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Full House'}, funcs =                              {can_use = can_always_use(), use = hand_level_up('Full House'), ui = uidef_planet('Full House')}},
         c_mars=             {order = 4,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Mars", pos = {x=3,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Four of a Kind'}, funcs =                           {can_use = can_always_use(), use = hand_level_up('Four of a Kind'), ui = uidef_planet('Four of a Kind')}},
         c_jupiter=          {order = 5,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Jupiter", pos = {x=4,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Flush'}, funcs =                                 {can_use = can_always_use(), use = hand_level_up('Flush'), ui = uidef_planet('Flush')}},
-        c_saturn=           {order = 6,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Saturn", pos = {x=5,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Straight'}, funcs =                               {can_use = can_always_use(), use = hand_level_up('Straight'), ui = uidef_planet('Stright')}},
+        c_saturn=           {order = 6,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Saturn", pos = {x=5,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Straight'}, funcs =                               {can_use = can_always_use(), use = hand_level_up('Straight'), ui = uidef_planet('Straight')}},
         c_uranus=           {order = 7,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Uranus", pos = {x=6,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Two Pair'}, funcs =                               {can_use = can_always_use(), use = hand_level_up('Two Pair'), ui = uidef_planet('Two Pair')}},
         c_neptune=          {order = 8,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Neptune", pos = {x=7,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Straight Flush'}, funcs =                        {can_use = can_always_use(), use = hand_level_up('Straight Flush'), ui = uidef_planet('Straight Flush')}},
         c_pluto=            {order = 9,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Pluto", pos = {x=8,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'High Card'}, funcs =                               {can_use = can_always_use(), use = hand_level_up('High Card'), ui = uidef_planet('High Card')}},
@@ -71,7 +71,7 @@ function add_consumables(CENTERS)
         c_grim=             {order = 2,    discovered = false, cost = 4, consumeable = true, name = "Grim",     pos = {x=1,y=4}, set = "Spectral", config = {remove_card = true, extra = 2}, funcs =                            {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(2,{'A'},{'S','H','D','C'},'grim_create')), ui = uidef({cards=2})}},
         c_incantation=      {order = 3,    discovered = false, cost = 4, consumeable = true, name = "Incantation", pos = {x=2,y=4}, set = "Spectral", config =  {remove_card = true, extra = 4}, funcs =                        {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(4,{'2', '3', '4', '5', '6', '7', '8', '9', 'T'},{'S','H','D','C'},'incantation_create')), ui = uidef({cards=4})}},
         c_talisman=         {order = 4,    discovered = false, cost = 4, consumeable = true, name = "Talisman", pos = {x=3,y=4}, set = "Spectral", config =  {extra = 'Gold', max_highlighted = 1}, funcs =                     {can_use = selected_card_limit(1),      use = add_seal("Gold"), ui = uidef_seal_spectral('gold')}},
-        c_aura=             {order = 5,    discovered = false, cost = 4, consumeable = true, name = "Aura", pos = {x=4,y=4}, set = "Spectral", config =  {}, funcs =                                                            {can_use = selected_card_limit(1),      use = give_card_edition(), ui = uidef({},{G.P_CENTERS.e_foil,G.P_CENTERS.e_holo,G.P_CENTERS.e_polychrome})}},
+        c_aura=             {order = 5,    discovered = false, cost = 4, consumeable = true, name = "Aura", pos = {x=4,y=4}, set = "Spectral", config =  {}, funcs =                                                            {can_use = selected_card_limit(1),      use = give_card_edition(), ui = uidef(nil,{G.P_CENTERS.e_foil,G.P_CENTERS.e_holo,G.P_CENTERS.e_polychrome})}},
         c_wraith=           {order = 6,    discovered = false, cost = 4, consumeable = true, name = "Wraith", pos = {x=5,y=4}, set = "Spectral", config =  {}, funcs =                                                          {can_use = have_joker_space(),          use = get_rare(), ui = uidef()}},
         c_sigil=            {order = 7,    discovered = false, cost = 4, consumeable = true, name = "Sigil", pos = {x=6,y=4}, set = "Spectral", config =  {}, funcs =                                                           {can_use = have_hand(),                 use = alter_hand_cards(same_random_suit_alter()), ui = uidef()}},
         c_ouija=            {order = 8,    discovered = false, cost = 4, consumeable = true, name = "Ouija", pos = {x=7,y=4}, set = "Spectral", config =  {}, funcs =                                                           {can_use = have_hand(),                 use = alter_hand_cards(same_random_rank_alter()), ui = uidef()}},
@@ -107,12 +107,21 @@ end
 -------------------------------------------
 
 -- Generic ui function. DO NOT USE IF VALUES CHANGE.
-function uidef(text_vars, info_add)
-    text_vars = text_vars or {}
-    info_add = info_add or {}
+function uidef(text_vars_table, info_add)
+    text_vars_table = text_vars_table or nil
+    info_add = info_add or nil
     return function(info_queue)
-        for _, v in ipairs({info_add}) do
-            info_queue[#info_queue+1] = v
+        if info_add then
+            for _, v in ipairs(info_add) do
+                info_queue[#info_queue+1] = v
+            end
+        end
+        local text_vars = {}
+        -- if the text_vars_table is dictionary-like, this converts it to a list-like
+        if text_vars_table then
+            for _, v in ipairs(text_vars_table) do
+                text_vars[#text_vars+1] = v
+            end
         end
         return text_vars, info_queue, {}
     end
