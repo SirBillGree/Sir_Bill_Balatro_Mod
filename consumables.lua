@@ -41,7 +41,7 @@ function add_consumables(CENTERS)
         c_chariot=          {order = 8,     discovered = false, cost = 3, consumeable = true, name = "The Chariot", pos = {x=7,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {}, funcs =               {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_steel')), ui = uidef_enhancer_tarot(1, 'm_steel')}},
         c_justice=          {order = 9,     discovered = false, cost = 3, consumeable = true, name = "Justice", pos = {x=8,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {}, funcs =                   {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_glass')), ui = uidef_enhancer_tarot(1, 'm_glass')}},
         c_hermit=           {order = 10,    discovered = false, cost = 3, consumeable = true, name = "The Hermit", pos = {x=9,y=0}, set = "Tarot", effect = "Dollar Doubler", cost_mult = 1.0, config = {}, funcs =         {can_use = can_always_use(),            use = double_money(20), ui = uidef({money = 20})}},
-        c_wheel_of_fortune= {order = 11,    discovered = false, cost = 3, consumeable = true, name = "The Wheel of Fortune", pos = {x=0,y=1}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, config = {}, funcs =  {can_use = have_editionless_jokers(),   use = random_joker_give_edition(poll_edition('wheel_of_fortune', nil, true, true), 'wheel_of_fortune', wheel_spin(4), nil), ui = uidef({G.GAME.probabilities.normal, 4}, {G.P_CENTERS.e_foil, G.P_CENTERS.e_holo,G.P_CENTERS.e_polychrome})}},
+        c_wheel_of_fortune= {order = 11,    discovered = false, cost = 3, consumeable = true, name = "The Wheel of Fortune", pos = {x=0,y=1}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, config = {}, funcs =  {can_use = have_editionless_jokers(),   use = random_joker_give_edition('random', 'wheel_of_fortune', wheel_spin(4), nil), ui = uidef_wheel()}},
         c_strength=         {order = 12,    discovered = false, cost = 3, consumeable = true, name = "Strength", pos = {x=1,y=1}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, config = {}, funcs =              {can_use = selected_card_limit(2),      use = conversion(value_up_conv()), ui = uidef({max_highlighted=2})}},
         c_hanged_man=       {order = 13,    discovered = false, cost = 3, consumeable = true, name = "The Hanged Man", pos = {x=2,y=1}, set = "Tarot", effect = "Card Removal", cost_mult = 1.0, config = {}, funcs =       {can_use = selected_card_limit(2),      use = remove_selected_cards(), ui = uidef({max_highlighted=2})}},
         c_death=            {order = 14,    discovered = false, cost = 3, consumeable = true, name = "Death", pos = {x=3,y=1}, set = "Tarot", effect = "Card Conversion", cost_mult = 1.0, config = {}, funcs =             {can_use = selected_card_limit(2,2),    use = conversion(left_to_right_conv()), ui = uidef({max_highlighted=2})}},
@@ -75,7 +75,7 @@ function add_consumables(CENTERS)
         c_wraith=           {order = 6,    discovered = false, cost = 4, consumeable = true, name = "Wraith", pos = {x=5,y=4}, set = "Spectral", config =  {}, funcs =                                                          {can_use = have_joker_space(),          use = get_rare(), ui = uidef()}},
         c_sigil=            {order = 7,    discovered = false, cost = 4, consumeable = true, name = "Sigil", pos = {x=6,y=4}, set = "Spectral", config =  {}, funcs =                                                           {can_use = have_hand(),                 use = alter_hand_cards(same_random_suit_alter()), ui = uidef()}},
         c_ouija=            {order = 8,    discovered = false, cost = 4, consumeable = true, name = "Ouija", pos = {x=7,y=4}, set = "Spectral", config =  {}, funcs =                                                           {can_use = have_hand(),                 use = alter_hand_cards(same_random_rank_alter()), ui = uidef()}},
-        c_ectoplasm=        {order = 9,    discovered = false, cost = 4, consumeable = true, name = "Ectoplasm", pos = {x=8,y=4}, set = "Spectral", config =  {}, funcs =                                                       {can_use = have_editionless_jokers(),   use = random_joker_give_edition({negative = true},'ectoplasm',nil,reduce_hand_size()), ui = uidef({G.GAME.ecto_minus or 1},{G.P_CENTERS.e_negative})}},
+        c_ectoplasm=        {order = 9,    discovered = false, cost = 4, consumeable = true, name = "Ectoplasm", pos = {x=8,y=4}, set = "Spectral", config =  {}, funcs =                                                       {can_use = have_editionless_jokers(),   use = random_joker_give_edition({negative = true},'ectoplasm',nil,reduce_hand_size()), ui = uidef_ectoplasm()}},
         c_immolate=         {order = 10,   discovered = false, cost = 4, consumeable = true, name = "Immolate", pos = {x=9,y=4}, set = "Spectral", config =  {remove_card = true, extra = {destroy = 5, dollars = 20}}, funcs=  {can_use = have_hand(),                 use = destroy_cards_for_reward(for_money(20)), ui = uidef({cards=5,dollars=20})}},
         c_ankh=             {order = 11,   discovered = false, cost = 4, consumeable = true, name = "Ankh", pos = {x=0,y=5}, set = "Spectral", config =  {extra = 2}, funcs =                                                   {can_use = have_one_joker(),            use = double_joker(), ui = uidef_ankh()}},
         c_deja_vu=          {order = 12,   discovered = false, cost = 4, consumeable = true, name = "Deja Vu", pos = {x=1,y=5}, set = "Spectral", config =  {extra = 'Red', max_highlighted = 1}, funcs =                       {can_use = selected_card_limit(1),      use = add_seal("Red"), ui = uidef_seal_spectral('red')}},
@@ -106,6 +106,7 @@ end
 --               General                 --
 -------------------------------------------
 
+-- Generic ui function. DO NOT USE IF VALUES CHANGE.
 function uidef(text_vars, info_add)
     text_vars = text_vars or {}
     info_add = info_add or {}
@@ -155,11 +156,12 @@ end
 
 function uidef_ankh()
     return function(info_queue)
+        local des_node
         if G.jokers and G.jokers.cards then
             for k, v in ipairs(G.jokers.cards) do
                 if (v.edition and v.edition.negative) and (G.localization.descriptions.Other.remove_negative)then 
                     info_queue[#info_queue+1] = G.P_CENTERS.e_negative
-                    local des_node = {}
+                    des_node = {}
                     localize{type = 'other', key = 'remove_negative', nodes = des_node, vars = {}}
                     des_node = des_node[1]
                     break
@@ -205,6 +207,27 @@ function uidef_temperance()
     end
 end
 
+-------------------------------------------------
+--                Changing Vars                --
+-------------------------------------------------
+
+function uidef_wheel()
+    return function(info_queue)
+        local text_vars = {G.GAME.probabilities.normal, 4}
+        info_queue[#info_queue+1] = G.P_CENTERS.e_foil
+        info_queue[#info_queue+1] = G.P_CENTERS.e_holo
+        info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
+        return text_vars, info_queue, {}
+    end
+end
+
+function uidef_ectoplasm()
+    return function(info_queue)
+        local text_vars = {G.GAME.ecto_minus or 1}
+        info_queue[#info_queue+1] = G.P_CENTERS.e_negative
+        return text_vars, info_queue, {}
+    end
+end
 
 
 ---------------------------------------------------------------------------
@@ -691,6 +714,7 @@ function random_joker_give_edition(edition, pseudorandom_seed, fail_func, consqu
     fail_func = fail_func or (function() end)
     consquence_func = consquence_func or (function() end)
     return function(used_tarot)
+        if edition == 'random' then edition = poll_edition('wheel_of_fortune', nil, true, true) end
         local temp_pool = {}
         for k, v in pairs(G.jokers.cards) do
                 if v.ability.set == 'Joker' and (not v.edition) then
