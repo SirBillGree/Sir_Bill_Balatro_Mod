@@ -704,9 +704,7 @@ function Game:init_item_prototypes()
     }
 
     -- append consumbles from consumables.lua
-    for k, v in pairs(consumables_set) do
-        self.P_CENTERS[k] = v
-    end
+    self.P_CENTERS = add_consumables(self.P_CENTERS)
 
     self.P_CENTER_POOLS = {
         Booster = {},
