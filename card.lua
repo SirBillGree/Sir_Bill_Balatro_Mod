@@ -300,14 +300,13 @@ function Card:set_ability(center, initial, delay_sprites)
         order = center.order or nil,
         forced_selection = self.ability and self.ability.forced_selection or nil,
         perma_bonus = self.ability and self.ability.perma_bonus or 0,
-        -- mod mod
-        funcs = center.funcs or nil
     }
 
     self.ability.bonus = (self.ability.bonus or 0) + (center.config.bonus or 0)
 
     if center.consumeable then 
         self.ability.consumeable = center.config
+        self.funcs = get_consumable_functions(self.ability.id)
     end
 
     if self.ability.name == 'Gold Card' and self.seal == 'Gold' and self.playing_card then 
@@ -4162,7 +4161,11 @@ function Card:click()
     end
 end
 
+-- Maybe just make it save the object?
 function Card:save()
+    -- LOVE does not like to save functions in tables
+    local abil_without_funcs = copy_table(self.ability)
+    abil_without_funcs.funcs = nil
     cardTable = {
         sort_id = self.sort_id,
         save_fields = {
@@ -4185,7 +4188,7 @@ function Card:save()
         label = self.label,
         playing_card = self.playing_card,
         base = self.base,
-        ability = self.ability,
+        ability = abil_without_funcs,
         pinned = self.pinned,
         edition = self.edition,
         seal = self.seal,
@@ -4196,6 +4199,7 @@ function Card:save()
     return cardTable
 end
 
+-- then load and set sprites?
 function Card:load(cardTable, other_card)
     local scale = 1
     self.config = {}
@@ -4256,6 +4260,10 @@ function Card:load(cardTable, other_card)
     self.pinned = cardTable.pinned
     self.edition = cardTable.edition
     self.seal = cardTable.seal
+
+    if self.ability.consumeable then 
+        self.ability.funcs = get_consumable_functions(self.ability.id)
+    end
 
     remove_all(self.children)
     self.children = {}

@@ -27,69 +27,136 @@ functions in other files that need edits or restructuring:
 
 ]]--
 
+local consumables_set = {
+    -- Tarots
+    c_fool=             {id = 'c_fool', order = 1,     discovered = false, cost = 3, consumeable = true, name = "The Fool", pos = {x=0,y=0}, set = "Tarot", effect = "Disable Blind Effect", cost_mult = 1.0, config = {}},
+    c_magician=         {id = 'c_magician', order = 2,     discovered = false, cost = 3, consumeable = true, name = "The Magician", pos = {x=1,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {mod_conv = 'm_lucky', max_highlighted = 2}},
+    c_high_priestess=   {id = 'c_high_priestess', order = 3,     discovered = false, cost = 3, consumeable = true, name = "The High Priestess", pos = {x=2,y=0}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, config = {planets = 2}},
+    c_empress=          {id = 'c_empress', order = 4,     discovered = false, cost = 3, consumeable = true, name = "The Empress", pos = {x=3,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {mod_conv = 'm_mult', max_highlighted = 2}},
+    c_emperor=          {id = 'c_emperor', order = 5,     discovered = false, cost = 3, consumeable = true, name = "The Emperor", pos = {x=4,y=0}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, config = {tarots = 2}},
+    c_heirophant=       {id = 'c_heirophant', order = 6,     discovered = false, cost = 3, consumeable = true, name = "The Hierophant", pos = {x=5,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {mod_conv = 'm_bonus', max_highlighted = 2}},
+    c_lovers=           {id = 'c_lovers', order = 7,     discovered = false, cost = 3, consumeable = true, name = "The Lovers", pos = {x=6,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {mod_conv = 'm_wild', max_highlighted = 1}},
+    c_chariot=          {id = 'c_chariot', order = 8,     discovered = false, cost = 3, consumeable = true, name = "The Chariot", pos = {x=7,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {mod_conv = 'm_steel', max_highlighted = 1}},
+    c_justice=          {id = 'c_justice', order = 9,     discovered = false, cost = 3, consumeable = true, name = "Justice", pos = {x=8,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {mod_conv = 'm_glass', max_highlighted = 1}},
+    c_hermit=           {id = 'c_hermit', order = 10,    discovered = false, cost = 3, consumeable = true, name = "The Hermit", pos = {x=9,y=0}, set = "Tarot", effect = "Dollar Doubler", cost_mult = 1.0, config = {extra = 20}},
+    c_wheel_of_fortune= {id = 'c_wheel_of_fortune', order = 11,    discovered = false, cost = 3, consumeable = true, name = "The Wheel of Fortune", pos = {x=0,y=1}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, config = {extra = 4}},
+    c_strength=         {id = 'c_strength', order = 12,    discovered = false, cost = 3, consumeable = true, name = "Strength", pos = {x=1,y=1}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, config = {mod_conv = 'up_rank', max_highlighted = 2}},
+    c_hanged_man=       {id = 'c_hanged_man', order = 13,    discovered = false, cost = 3, consumeable = true, name = "The Hanged Man", pos = {x=2,y=1}, set = "Tarot", effect = "Card Removal", cost_mult = 1.0, config = {remove_card = true, max_highlighted = 2}},
+    c_death=            {id = 'c_death', order = 14,    discovered = false, cost = 3, consumeable = true, name = "Death", pos = {x=3,y=1}, set = "Tarot", effect = "Card Conversion", cost_mult = 1.0, config = {mod_conv = 'card', max_highlighted = 2, min_highlighted = 2}},
+    c_temperance=       {id = 'c_temperance', order = 15,    discovered = false, cost = 3, consumeable = true, name = "Temperance", pos = {x=4,y=1}, set = "Tarot", effect = "Joker Payout", cost_mult = 1.0, config = {extra = 50}},
+    c_devil=            {id = 'c_devil', order = 16,    discovered = false, cost = 3, consumeable = true, name = "The Devil", pos = {x=5,y=1}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {mod_conv = 'm_gold', max_highlighted = 1}},
+    c_tower=            {id = 'c_tower', order = 17,    discovered = false, cost = 3, consumeable = true, name = "The Tower", pos = {x=6,y=1}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {mod_conv = 'm_stone', max_highlighted = 1}},
+    c_star=             {id = 'c_star', order = 18,    discovered = false, cost = 3, consumeable = true, name = "The Star", pos = {x=7,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, config = {suit_conv = 'Diamonds', max_highlighted = 3}},
+    c_moon=             {id = 'c_moon', order = 19,    discovered = false, cost = 3, consumeable = true, name = "The Moon", pos = {x=8,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, config = {suit_conv = 'Clubs', max_highlighted = 3}},
+    c_sun=              {id = 'c_sun', order = 20,    discovered = false, cost = 3, consumeable = true, name = "The Sun", pos = {x=9,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, config = {suit_conv = 'Hearts', max_highlighted = 3}},
+    c_judgement=        {id = 'c_judgement', order = 21,    discovered = false, cost = 3, consumeable = true, name = "Judgement", pos = {x=0,y=2}, set = "Tarot", effect = "Random Joker", cost_mult = 1.0, config = {}},
+    c_world=            {id = 'c_world', order = 22,    discovered = false, cost = 3, consumeable = true, name = "The World", pos = {x=1,y=2}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, config = {suit_conv = 'Spades', max_highlighted = 3}},
 
---Tarots
+    --Planets
+    c_mercury=          {id = 'c_mercury', order = 1,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Mercury", pos = {x=0,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Pair'}},
+    c_venus=            {id = 'c_venus', order = 2,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Venus", pos = {x=1,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Three of a Kind'}},
+    c_earth=            {id = 'c_earth', order = 3,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Earth", pos = {x=2,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Full House'}},
+    c_mars=             {id = 'c_mars', order = 4,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Mars", pos = {x=3,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Four of a Kind'}},
+    c_jupiter=          {id = 'c_jupiter', order = 5,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Jupiter", pos = {x=4,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Flush'}},
+    c_saturn=           {id = 'c_saturn', order = 6,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Saturn", pos = {x=5,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Straight'}},
+    c_uranus=           {id = 'c_uranus', order = 7,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Uranus", pos = {x=6,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Two Pair'}},
+    c_neptune=          {id = 'c_neptune', order = 8,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Neptune", pos = {x=7,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Straight Flush'}},
+    c_pluto=            {id = 'c_pluto', order = 9,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Pluto", pos = {x=8,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'High Card'}},
+    c_planet_x=         {id = 'c_planet_x', order = 10,   discovered = false, cost = 3, consumeable = true, freq = 1, name = "Planet X", pos = {x=9,y=2}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Five of a Kind', softlock = true}},
+    c_ceres=            {id = 'c_ceres', order = 11,   discovered = false, cost = 3, consumeable = true, freq = 1, name = "Ceres", pos = {x=8,y=2}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Flush House', softlock = true}},
+    c_eris=             {id = 'c_eris', order = 12,   discovered = false, cost = 3, consumeable = true, freq = 1, name = "Eris", pos = {x=3,y=2}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Flush Five', softlock = true}},
+
+    --Spectral
+    c_familiar=         {id = 'c_familiar', order = 1,    discovered = false, cost = 4, consumeable = true, name = "Familiar", pos = {x=0,y=4}, set = "Spectral", config = {remove_card = true, extra = 3}},
+    c_grim=             {id = 'c_grim', order = 2,    discovered = false, cost = 4, consumeable = true, name = "Grim",     pos = {x=1,y=4}, set = "Spectral", config = {remove_card = true, extra = 2}},
+    c_incantation=      {id = 'c_incantation', order = 3,    discovered = false, cost = 4, consumeable = true, name = "Incantation", pos = {x=2,y=4}, set = "Spectral", config = {remove_card = true, extra = 4}},
+    c_talisman=         {id = 'c_talisman', order = 4,    discovered = false, cost = 4, consumeable = true, name = "Talisman", pos = {x=3,y=4}, set = "Spectral", config = {extra = 'Gold', max_highlighted = 1}},
+    c_aura=             {id = 'c_aura', order = 5,    discovered = false, cost = 4, consumeable = true, name = "Aura", pos = {x=4,y=4}, set = "Spectral", config = {}},
+    c_wraith=           {id = 'c_wraith', order = 6,    discovered = false, cost = 4, consumeable = true, name = "Wraith", pos = {x=5,y=4}, set = "Spectral", config = {}},
+    c_sigil=            {id = 'c_sigil', order = 7,    discovered = false, cost = 4, consumeable = true, name = "Sigil", pos = {x=6,y=4}, set = "Spectral", config = {}},
+    c_ouija=            {id = 'c_ouija', order = 8,    discovered = false, cost = 4, consumeable = true, name = "Ouija", pos = {x=7,y=4}, set = "Spectral", config = {}},
+    c_ectoplasm=        {id = 'c_ectoplasm', order = 9,    discovered = false, cost = 4, consumeable = true, name = "Ectoplasm", pos = {x=8,y=4}, set = "Spectral", config = {}},
+    c_immolate=         {id = 'c_immolate', order = 10,   discovered = false, cost = 4, consumeable = true, name = "Immolate", pos = {x=9,y=4}, set = "Spectral", config = {remove_card = true, extra = {destroy = 5, dollars = 20}}},
+    c_ankh=             {id = 'c_ankh', order = 11,   discovered = false, cost = 4, consumeable = true, name = "Ankh", pos = {x=0,y=5}, set = "Spectral", config = {extra = 2}},
+    c_deja_vu=          {id = 'c_deja_vu', order = 12,   discovered = false, cost = 4, consumeable = true, name = "Deja Vu", pos = {x=1,y=5}, set = "Spectral", config = {extra = 'Red', max_highlighted = 1}},
+    c_hex=              {id = 'c_hex', order = 13,   discovered = false, cost = 4, consumeable = true, name = "Hex", pos = {x=2,y=5}, set = "Spectral", config = {extra = 2}},
+    c_trance=           {id = 'c_trance', order = 14,   discovered = false, cost = 4, consumeable = true, name = "Trance", pos = {x=3,y=5}, set = "Spectral", config = {extra = 'Blue', max_highlighted = 1}},
+    c_medium=           {id = 'c_medium', order = 15,   discovered = false, cost = 4, consumeable = true, name = "Medium", pos = {x=4,y=5}, set = "Spectral", config = {extra = 'Purple', max_highlighted = 1}},
+    c_cryptid=          {id = 'c_cryptid', order = 16,   discovered = false, cost = 4, consumeable = true, name = "Cryptid", pos = {x=5,y=5}, set = "Spectral", config = {extra = 2, max_highlighted = 1}},
+    c_soul=             {id = 'c_soul', order = 17,   discovered = false, cost = 4, consumeable = true, name = "The Soul", pos = {x=2,y=2}, set = "Spectral", effect = "Unlocker", config = {}, hidden = true},
+    c_black_hole=       {id = 'c_black_hole', order = 18,   discovered = false, cost = 4, consumeable = true, name = "Black Hole", pos = {x=9,y=3}, set = "Spectral", config = {}, hidden = true},
+}
+
+
+
+local consumsables_functions = {
+    c_fool=             {can_use = fool_condition(),            use = give_last_tarot_planet(), ui = uidef_fool()},
+    c_magician=         {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_lucky')), ui = uidef_enhancer_tarot(2, 'm_lucky')},
+    c_high_priestess=   {can_use = have_consumable_space(),     use = give_consumables(2, "Planets", 'pri'), ui = uidef({2})},
+    c_empress=          {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_mult')), ui = uidef_enhancer_tarot(2, 'm_mult')},
+    c_emperor=          {can_use = have_consumable_space(),     use = give_consumables(2, "Tarots", 'emp'), ui = uidef({2})},
+    c_heirophant=       {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_bonus')), ui = uidef_enhancer_tarot(2, 'm_bonus')},
+    c_lovers=           {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_wild')), ui = uidef_enhancer_tarot(1, 'm_wild')},
+    c_chariot=          {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_steel')), ui = uidef_enhancer_tarot(1, 'm_steel')},
+    c_justice=          {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_glass')), ui = uidef_enhancer_tarot(1, 'm_glass')},
+    c_hermit=           {can_use = can_always_use(),            use = double_money(20), ui = uidef({money = 20})},
+    c_wheel_of_fortune= {can_use = have_editionless_jokers(),   use = random_joker_give_edition('random', 'wheel_of_fortune', wheel_spin(4), nil), ui = uidef_wheel()},
+    c_strength=         {can_use = selected_card_limit(2),      use = conversion(value_up_conv()), ui = uidef({2})},
+    c_hanged_man=       {can_use = selected_card_limit(2),      use = remove_selected_cards(), ui = uidef({2})},
+    c_death=            {can_use = selected_card_limit(2,2),    use = conversion(left_to_right_conv()), ui = uidef({2})},
+    c_temperance=       {can_use = can_always_use(),            use = give_joker_sell_value(50), ui = uidef_temperance()},
+    c_devil=            {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_gold')), ui = uidef_enhancer_tarot(1, 'm_gold')},
+    c_tower=            {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_stone')), ui = uidef_enhancer_tarot(1, 'm_stone')},
+    c_star=             {can_use = selected_card_limit(3),      use = conversion(suit_conv('Diamonds')), ui = uidef_suit_tarot(3, 'Diamonds')},
+    c_moon=             {can_use = selected_card_limit(3),      use = conversion(suit_conv('Clubs')), ui = uidef_suit_tarot(3, 'Clubs')},
+    c_sun=              {can_use = selected_card_limit(3),      use = conversion(suit_conv('Hearts')), ui = uidef_suit_tarot(3, 'Hearts')},
+    c_judgement=        {can_use = have_joker_space(),          use = give_joker(false, 'jud'), ui = uidef()},
+    c_world=            {can_use = selected_card_limit(3),      use = conversion(suit_conv('Spades')), ui = uidef_suit_tarot(3, 'Spades')},
+
+    c_mercury=          {can_use = can_always_use(), use = hand_level_up('Pair'), ui = uidef_planet('Pair')},
+    c_venus=            {can_use = can_always_use(), use = hand_level_up('Three of a Kind'), ui = uidef_planet('Three of a Kind')},
+    c_earth=            {can_use = can_always_use(), use = hand_level_up('Full House'), ui = uidef_planet('Full House')},
+    c_mars=             {can_use = can_always_use(), use = hand_level_up('Four of a Kind'), ui = uidef_planet('Four of a Kind')},
+    c_jupiter=          {can_use = can_always_use(), use = hand_level_up('Flush'), ui = uidef_planet('Flush')},
+    c_saturn=           {can_use = can_always_use(), use = hand_level_up('Straight'), ui = uidef_planet('Straight')},
+    c_uranus=           {can_use = can_always_use(), use = hand_level_up('Two Pair'), ui = uidef_planet('Two Pair')},
+    c_neptune=          {can_use = can_always_use(), use = hand_level_up('Straight Flush'), ui = uidef_planet('Straight Flush')},
+    c_pluto=            {can_use = can_always_use(), use = hand_level_up('High Card'), ui = uidef_planet('High Card')},
+    c_planet_x=         {can_use = can_always_use(), use = hand_level_up('Five of a Kind'), ui = uidef_planet('Five of a Kind')},
+    c_ceres=            {can_use = can_always_use(), use = hand_level_up('Flush House'), ui = uidef_planet('Flush House')},
+    c_eris=             {can_use = can_always_use(), use = hand_level_up('Flush Five'), ui = uidef_planet('Flush Five')},
+
+    c_familiar=         {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(3,{'J', 'Q', 'K'},{'S','H','D','C'},'familiar_create')), ui = uidef({3})},
+    c_grim=             {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(2,{'A'},{'S','H','D','C'},'grim_create')), ui = uidef({2})},
+    c_incantation=      {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(4,{'2', '3', '4', '5', '6', '7', '8', '9', 'T'},{'S','H','D','C'},'incantation_create')), ui = uidef({4})},
+    c_talisman=         {can_use = selected_card_limit(1),      use = add_seal("Gold"), ui = uidef_seal_spectral('gold')},
+    c_aura=             {can_use = selected_card_limit(1),      use = give_card_edition(), ui = uidef(nil,{G.P_CENTERS.e_foil,G.P_CENTERS.e_holo,G.P_CENTERS.e_polychrome})},
+    c_wraith=           {can_use = have_joker_space(),          use = get_rare(), ui = uidef()},
+    c_sigil=            {can_use = have_hand(),                 use = alter_hand_cards(same_random_suit_alter()), ui = uidef()},
+    c_ouija=            {can_use = have_hand(),                 use = alter_hand_cards(same_random_rank_alter()), ui = uidef()},
+    c_ectoplasm=        {can_use = have_editionless_jokers(),   use = random_joker_give_edition({negative = true},'ectoplasm',nil,reduce_hand_size()), ui = uidef_ectoplasm()},
+    c_immolate=         {can_use = have_hand(),                 use = destroy_cards_for_reward(for_money(20)), ui = uidef({5,20})},
+    c_ankh=             {can_use = have_one_joker(),            use = double_joker(), ui = uidef_ankh()},
+    c_deja_vu=          {can_use = selected_card_limit(1),      use = add_seal("Red"), ui = uidef_seal_spectral('red')},
+    c_hex=              {can_use = have_editionless_jokers(),   use = random_joker_give_edition({polychrome = true},'hex',nil,destory_all_other_jokers()), ui = uidef({},{G.P_CENTERS.e_polychrome})},
+    c_trance=           {can_use = selected_card_limit(1),      use = add_seal("Blue"), ui = uidef_seal_spectral('blue')},
+    c_medium=           {can_use = selected_card_limit(1),      use = add_seal("Purple"), ui = uidef_seal_spectral('purple')},
+    c_cryptid=          {can_use = selected_card_limit(1),      use = make_playing_card_copy(2), ui = uidef({2})},
+    c_soul=             {can_use = have_joker_space(),          use = give_joker(true, 'sol'), ui = uidef()},
+    c_black_hole=       {can_use = can_always_use(),            use = level_up_all_hands(), ui = uidef()},
+}
+
+
+
 function add_consumables(CENTERS)
-    local consumables_set = {
-        c_fool=             {order = 1,     discovered = false, cost = 3, consumeable = true, name = "The Fool", pos = {x=0,y=0}, set = "Tarot", effect = "Disable Blind Effect", cost_mult = 1.0, config = {}, funcs =     {can_use = fool_condition(),            use = give_last_tarot_planet(), ui = uidef_fool()}},
-        c_magician=         {order = 2,     discovered = false, cost = 3, consumeable = true, name = "The Magician", pos = {x=1,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {}, funcs =              {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_lucky')), ui = uidef_enhancer_tarot(2, 'm_lucky')}},
-        c_high_priestess=   {order = 3,     discovered = false, cost = 3, consumeable = true, name = "The High Priestess", pos = {x=2,y=0}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, config = {}, funcs =    {can_use = have_consumable_space(),     use = give_consumables(2, "Planets", 'pri'), ui = uidef({planets=2})}},
-        c_empress=          {order = 4,     discovered = false, cost = 3, consumeable = true, name = "The Empress", pos = {x=3,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {}, funcs =               {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_mult')), ui = uidef_enhancer_tarot(2, 'm_mult')}},
-        c_emperor=          {order = 5,     discovered = false, cost = 3, consumeable = true, name = "The Emperor", pos = {x=4,y=0}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, config = {}, funcs =           {can_use = have_consumable_space(),     use = give_consumables(2, "Tarots", 'emp'), ui = uidef({tarots=2})}},
-        c_heirophant=       {order = 6,     discovered = false, cost = 3, consumeable = true, name = "The Hierophant", pos = {x=5,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {}, funcs =            {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_bonus')), ui = uidef_enhancer_tarot(2, 'm_bonus')}},
-        c_lovers=           {order = 7,     discovered = false, cost = 3, consumeable = true, name = "The Lovers", pos = {x=6,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {}, funcs =                {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_wild')), ui = uidef_enhancer_tarot(1, 'm_wild')}},
-        c_chariot=          {order = 8,     discovered = false, cost = 3, consumeable = true, name = "The Chariot", pos = {x=7,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {}, funcs =               {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_steel')), ui = uidef_enhancer_tarot(1, 'm_steel')}},
-        c_justice=          {order = 9,     discovered = false, cost = 3, consumeable = true, name = "Justice", pos = {x=8,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {}, funcs =                   {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_glass')), ui = uidef_enhancer_tarot(1, 'm_glass')}},
-        c_hermit=           {order = 10,    discovered = false, cost = 3, consumeable = true, name = "The Hermit", pos = {x=9,y=0}, set = "Tarot", effect = "Dollar Doubler", cost_mult = 1.0, config = {}, funcs =         {can_use = can_always_use(),            use = double_money(20), ui = uidef({money = 20})}},
-        c_wheel_of_fortune= {order = 11,    discovered = false, cost = 3, consumeable = true, name = "The Wheel of Fortune", pos = {x=0,y=1}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, config = {}, funcs =  {can_use = have_editionless_jokers(),   use = random_joker_give_edition('random', 'wheel_of_fortune', wheel_spin(4), nil), ui = uidef_wheel()}},
-        c_strength=         {order = 12,    discovered = false, cost = 3, consumeable = true, name = "Strength", pos = {x=1,y=1}, set = "Tarot", effect = "Round Bonus", cost_mult = 1.0, config = {}, funcs =              {can_use = selected_card_limit(2),      use = conversion(value_up_conv()), ui = uidef({max_highlighted=2})}},
-        c_hanged_man=       {order = 13,    discovered = false, cost = 3, consumeable = true, name = "The Hanged Man", pos = {x=2,y=1}, set = "Tarot", effect = "Card Removal", cost_mult = 1.0, config = {}, funcs =       {can_use = selected_card_limit(2),      use = remove_selected_cards(), ui = uidef({max_highlighted=2})}},
-        c_death=            {order = 14,    discovered = false, cost = 3, consumeable = true, name = "Death", pos = {x=3,y=1}, set = "Tarot", effect = "Card Conversion", cost_mult = 1.0, config = {}, funcs =             {can_use = selected_card_limit(2,2),    use = conversion(left_to_right_conv()), ui = uidef({max_highlighted=2})}},
-        c_temperance=       {order = 15,    discovered = false, cost = 3, consumeable = true, name = "Temperance", pos = {x=4,y=1}, set = "Tarot", effect = "Joker Payout", cost_mult = 1.0, config = {}, funcs =           {can_use = can_always_use(),            use = give_joker_sell_value(50), ui = uidef_temperance()}},
-        c_devil=            {order = 16,    discovered = false, cost = 3, consumeable = true, name = "The Devil", pos = {x=5,y=1}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {}, funcs =                 {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_gold')), ui = uidef_enhancer_tarot(1, 'm_gold')}},
-        c_tower=            {order = 17,    discovered = false, cost = 3, consumeable = true, name = "The Tower", pos = {x=6,y=1}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {}, funcs =                 {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_stone')), ui = uidef_enhancer_tarot(1, 'm_stone')}},
-        c_star=             {order = 18,    discovered = false, cost = 3, consumeable = true, name = "The Star", pos = {x=7,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, config = {}, funcs =          {can_use = selected_card_limit(3),      use = conversion(suit_conv('Diamonds')), ui = uidef_suit_tarot(3, 'Diamonds')}},
-        c_moon=             {order = 19,    discovered = false, cost = 3, consumeable = true, name = "The Moon", pos = {x=8,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, config = {}, funcs =          {can_use = selected_card_limit(3),      use = conversion(suit_conv('Clubs')), ui = uidef_suit_tarot(3, 'Clubs')}},
-        c_sun=              {order = 20,    discovered = false, cost = 3, consumeable = true, name = "The Sun", pos = {x=9,y=1}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, config = {}, funcs =           {can_use = selected_card_limit(3),      use = conversion(suit_conv('Hearts')), ui = uidef_suit_tarot(3, 'Hearts')}},
-        c_judgement=        {order = 21,    discovered = false, cost = 3, consumeable = true, name = "Judgement", pos = {x=0,y=2}, set = "Tarot", effect = "Random Joker", cost_mult = 1.0, config = {}, funcs =            {can_use = have_joker_space(),          use = give_joker(false, 'jud'), ui = uidef()}},
-        c_world=            {order = 22,    discovered = false, cost = 3, consumeable = true, name = "The World", pos = {x=1,y=2}, set = "Tarot", effect = "Suit Conversion", cost_mult = 1.0, config = {}, funcs =         {can_use = selected_card_limit(3),      use = conversion(suit_conv('Spades')), ui = uidef_suit_tarot(3, 'Spades')}},
-
-        c_mercury=          {order = 1,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Mercury", pos = {x=0,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Pair'}, funcs =                                  {can_use = can_always_use(), use = hand_level_up('Pair'), ui = uidef_planet('Pair')}},
-        c_venus=            {order = 2,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Venus", pos = {x=1,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Three of a Kind'}, funcs =                         {can_use = can_always_use(), use = hand_level_up('Three of a Kind'), ui = uidef_planet('Three of a Kind')}},
-        c_earth=            {order = 3,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Earth", pos = {x=2,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Full House'}, funcs =                              {can_use = can_always_use(), use = hand_level_up('Full House'), ui = uidef_planet('Full House')}},
-        c_mars=             {order = 4,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Mars", pos = {x=3,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Four of a Kind'}, funcs =                           {can_use = can_always_use(), use = hand_level_up('Four of a Kind'), ui = uidef_planet('Four of a Kind')}},
-        c_jupiter=          {order = 5,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Jupiter", pos = {x=4,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Flush'}, funcs =                                 {can_use = can_always_use(), use = hand_level_up('Flush'), ui = uidef_planet('Flush')}},
-        c_saturn=           {order = 6,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Saturn", pos = {x=5,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Straight'}, funcs =                               {can_use = can_always_use(), use = hand_level_up('Straight'), ui = uidef_planet('Straight')}},
-        c_uranus=           {order = 7,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Uranus", pos = {x=6,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Two Pair'}, funcs =                               {can_use = can_always_use(), use = hand_level_up('Two Pair'), ui = uidef_planet('Two Pair')}},
-        c_neptune=          {order = 8,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Neptune", pos = {x=7,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Straight Flush'}, funcs =                        {can_use = can_always_use(), use = hand_level_up('Straight Flush'), ui = uidef_planet('Straight Flush')}},
-        c_pluto=            {order = 9,    discovered = false, cost = 3, consumeable = true, freq = 1, name = "Pluto", pos = {x=8,y=3}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'High Card'}, funcs =                               {can_use = can_always_use(), use = hand_level_up('High Card'), ui = uidef_planet('High Card')}},
-        c_planet_x=         {order = 10,   discovered = false, cost = 3, consumeable = true, freq = 1, name = "Planet X", pos = {x=9,y=2}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Five of a Kind', softlock = true}, funcs =      {can_use = can_always_use(), use = hand_level_up('Five of a Kind'), ui = uidef_planet('Five of a Kind')}},
-        c_ceres=            {order = 11,   discovered = false, cost = 3, consumeable = true, freq = 1, name = "Ceres", pos = {x=8,y=2}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Flush House', softlock = true}, funcs =            {can_use = can_always_use(), use = hand_level_up('Flush House'), ui = uidef_planet('Flush House')}},
-        c_eris=             {order = 12,   discovered = false, cost = 3, consumeable = true, freq = 1, name = "Eris", pos = {x=3,y=2}, set = "Planet", effect = "Hand Upgrade", cost_mult = 1.0, config = {hand_type = 'Flush Five', softlock = true}, funcs =              {can_use = can_always_use(), use = hand_level_up('Flush Five'), ui = uidef_planet('Flush Five')}},
-
-        c_familiar=         {order = 1,    discovered = false, cost = 4, consumeable = true, name = "Familiar", pos = {x=0,y=4}, set = "Spectral", config  = {remove_card = true, extra = 3}, funcs =                           {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(3,{'J', 'Q', 'K'},{'S','H','D','C'},'familiar_create')), ui = uidef({cards=3})}},
-        c_grim=             {order = 2,    discovered = false, cost = 4, consumeable = true, name = "Grim",     pos = {x=1,y=4}, set = "Spectral", config = {remove_card = true, extra = 2}, funcs =                            {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(2,{'A'},{'S','H','D','C'},'grim_create')), ui = uidef({cards=2})}},
-        c_incantation=      {order = 3,    discovered = false, cost = 4, consumeable = true, name = "Incantation", pos = {x=2,y=4}, set = "Spectral", config =  {remove_card = true, extra = 4}, funcs =                        {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(4,{'2', '3', '4', '5', '6', '7', '8', '9', 'T'},{'S','H','D','C'},'incantation_create')), ui = uidef({cards=4})}},
-        c_talisman=         {order = 4,    discovered = false, cost = 4, consumeable = true, name = "Talisman", pos = {x=3,y=4}, set = "Spectral", config =  {extra = 'Gold', max_highlighted = 1}, funcs =                     {can_use = selected_card_limit(1),      use = add_seal("Gold"), ui = uidef_seal_spectral('gold')}},
-        c_aura=             {order = 5,    discovered = false, cost = 4, consumeable = true, name = "Aura", pos = {x=4,y=4}, set = "Spectral", config =  {}, funcs =                                                            {can_use = selected_card_limit(1),      use = give_card_edition(), ui = uidef(nil,{G.P_CENTERS.e_foil,G.P_CENTERS.e_holo,G.P_CENTERS.e_polychrome})}},
-        c_wraith=           {order = 6,    discovered = false, cost = 4, consumeable = true, name = "Wraith", pos = {x=5,y=4}, set = "Spectral", config =  {}, funcs =                                                          {can_use = have_joker_space(),          use = get_rare(), ui = uidef()}},
-        c_sigil=            {order = 7,    discovered = false, cost = 4, consumeable = true, name = "Sigil", pos = {x=6,y=4}, set = "Spectral", config =  {}, funcs =                                                           {can_use = have_hand(),                 use = alter_hand_cards(same_random_suit_alter()), ui = uidef()}},
-        c_ouija=            {order = 8,    discovered = false, cost = 4, consumeable = true, name = "Ouija", pos = {x=7,y=4}, set = "Spectral", config =  {}, funcs =                                                           {can_use = have_hand(),                 use = alter_hand_cards(same_random_rank_alter()), ui = uidef()}},
-        c_ectoplasm=        {order = 9,    discovered = false, cost = 4, consumeable = true, name = "Ectoplasm", pos = {x=8,y=4}, set = "Spectral", config =  {}, funcs =                                                       {can_use = have_editionless_jokers(),   use = random_joker_give_edition({negative = true},'ectoplasm',nil,reduce_hand_size()), ui = uidef_ectoplasm()}},
-        c_immolate=         {order = 10,   discovered = false, cost = 4, consumeable = true, name = "Immolate", pos = {x=9,y=4}, set = "Spectral", config =  {remove_card = true, extra = {destroy = 5, dollars = 20}}, funcs=  {can_use = have_hand(),                 use = destroy_cards_for_reward(for_money(20)), ui = uidef({cards=5,dollars=20})}},
-        c_ankh=             {order = 11,   discovered = false, cost = 4, consumeable = true, name = "Ankh", pos = {x=0,y=5}, set = "Spectral", config =  {extra = 2}, funcs =                                                   {can_use = have_one_joker(),            use = double_joker(), ui = uidef_ankh()}},
-        c_deja_vu=          {order = 12,   discovered = false, cost = 4, consumeable = true, name = "Deja Vu", pos = {x=1,y=5}, set = "Spectral", config =  {extra = 'Red', max_highlighted = 1}, funcs =                       {can_use = selected_card_limit(1),      use = add_seal("Red"), ui = uidef_seal_spectral('red')}},
-        c_hex=              {order = 13,   discovered = false, cost = 4, consumeable = true, name = "Hex", pos = {x=2,y=5}, set = "Spectral", config =  {extra = 2}, funcs =                                                    {can_use = have_editionless_jokers(),   use = random_joker_give_edition({polychrome = true},'hex',nil,destory_all_other_jokers()), ui = uidef({},{G.P_CENTERS.e_polychrome})}},
-        c_trance=           {order = 14,   discovered = false, cost = 4, consumeable = true, name = "Trance", pos = {x=3,y=5}, set = "Spectral", config =  {extra = 'Blue', max_highlighted = 1}, funcs =                       {can_use = selected_card_limit(1),      use = add_seal("Blue"), ui = uidef_seal_spectral('blue')}},
-        c_medium=           {order = 15,   discovered = false, cost = 4, consumeable = true, name = "Medium", pos = {x=4,y=5}, set = "Spectral", config =  {extra = 'Purple', max_highlighted = 1}, funcs =                     {can_use = selected_card_limit(1),      use = add_seal("Purple"), ui = uidef_seal_spectral('purple')}},
-        c_cryptid=          {order = 16,   discovered = false, cost = 4, consumeable = true, name = "Cryptid", pos = {x=5,y=5}, set = "Spectral", config =  {extra = 2, max_highlighted = 1}, funcs =                           {can_use = selected_card_limit(1),      use = make_playing_card_copy(2), ui = uidef({cards=2})}},
-        c_soul=             {order = 17,   discovered = false, cost = 4, consumeable = true, name = "The Soul", pos = {x=2,y=2}, set = "Spectral", effect = "Unlocker", config =  {}, hidden = true, funcs =                    {can_use = have_joker_space(),          use = give_joker(true, 'sol'), ui = uidef()}},
-        c_black_hole=       {order = 18,   discovered = false, cost = 4, consumeable = true, name = "Black Hole", pos = {x=9,y=3}, set = "Spectral", config =  {}, hidden = true, funcs =                                       {can_use = can_always_use(),            use = level_up_all_hands(), ui = uidef()}},
-    }
     for k, v in pairs(consumables_set) do
         CENTERS[k] = v
     end
     return CENTERS
+end
+
+function get_consumable_functions(id)
+    return consumsables_functions[id]
 end
 
 ---------------------------------------------------------------------------
@@ -107,20 +174,13 @@ end
 -------------------------------------------
 
 -- Generic ui function. DO NOT USE IF VALUES CHANGE.
-function uidef(text_vars_table, info_add)
-    text_vars_table = text_vars_table or nil
+function uidef(text_vars, info_add)
+    text_vars = text_vars or {}
     info_add = info_add or nil
     return function(info_queue)
         if info_add then
             for _, v in ipairs(info_add) do
                 info_queue[#info_queue+1] = v
-            end
-        end
-        local text_vars = {}
-        -- if the text_vars_table is dictionary-like, this converts it to a list-like
-        if text_vars_table then
-            for _, v in ipairs(text_vars_table) do
-                text_vars[#text_vars+1] = v
             end
         end
         return text_vars, info_queue, {}
