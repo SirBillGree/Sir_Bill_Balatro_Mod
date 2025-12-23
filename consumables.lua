@@ -88,63 +88,66 @@ local consumables_set = {
 }
 
 
+consumables_functions = {}
 
-local consumsables_functions = {
-    c_fool=             {can_use = fool_condition(),            use = give_last_tarot_planet(), ui = uidef_fool()},
-    c_magician=         {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_lucky')), ui = uidef_enhancer_tarot(2, 'm_lucky')},
-    c_high_priestess=   {can_use = have_consumable_space(),     use = give_consumables(2, "Planets", 'pri'), ui = uidef({2})},
-    c_empress=          {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_mult')), ui = uidef_enhancer_tarot(2, 'm_mult')},
-    c_emperor=          {can_use = have_consumable_space(),     use = give_consumables(2, "Tarots", 'emp'), ui = uidef({2})},
-    c_heirophant=       {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_bonus')), ui = uidef_enhancer_tarot(2, 'm_bonus')},
-    c_lovers=           {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_wild')), ui = uidef_enhancer_tarot(1, 'm_wild')},
-    c_chariot=          {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_steel')), ui = uidef_enhancer_tarot(1, 'm_steel')},
-    c_justice=          {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_glass')), ui = uidef_enhancer_tarot(1, 'm_glass')},
-    c_hermit=           {can_use = can_always_use(),            use = double_money(20), ui = uidef({money = 20})},
-    c_wheel_of_fortune= {can_use = have_editionless_jokers(),   use = random_joker_give_edition('random', 'wheel_of_fortune', wheel_spin(4), nil), ui = uidef_wheel()},
-    c_strength=         {can_use = selected_card_limit(2),      use = conversion(value_up_conv()), ui = uidef({2})},
-    c_hanged_man=       {can_use = selected_card_limit(2),      use = remove_selected_cards(), ui = uidef({2})},
-    c_death=            {can_use = selected_card_limit(2,2),    use = conversion(left_to_right_conv()), ui = uidef({2})},
-    c_temperance=       {can_use = can_always_use(),            use = give_joker_sell_value(50), ui = uidef_temperance()},
-    c_devil=            {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_gold')), ui = uidef_enhancer_tarot(1, 'm_gold')},
-    c_tower=            {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_stone')), ui = uidef_enhancer_tarot(1, 'm_stone')},
-    c_star=             {can_use = selected_card_limit(3),      use = conversion(suit_conv('Diamonds')), ui = uidef_suit_tarot(3, 'Diamonds')},
-    c_moon=             {can_use = selected_card_limit(3),      use = conversion(suit_conv('Clubs')), ui = uidef_suit_tarot(3, 'Clubs')},
-    c_sun=              {can_use = selected_card_limit(3),      use = conversion(suit_conv('Hearts')), ui = uidef_suit_tarot(3, 'Hearts')},
-    c_judgement=        {can_use = have_joker_space(),          use = give_joker(false, 'jud'), ui = uidef()},
-    c_world=            {can_use = selected_card_limit(3),      use = conversion(suit_conv('Spades')), ui = uidef_suit_tarot(3, 'Spades')},
+function define_consumable_functions()
+    consumables_functions = {
+        c_fool=             {can_use = fool_condition(),            use = give_last_tarot_planet(), ui = uidef_fool()},
+        c_magician=         {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_lucky')), ui = uidef_enhancer_tarot(2, 'm_lucky')},
+        c_high_priestess=   {can_use = have_consumable_space(),     use = give_consumables(2, "Planets", 'pri'), ui = uidef({2})},
+        c_empress=          {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_mult')), ui = uidef_enhancer_tarot(2, 'm_mult')},
+        c_emperor=          {can_use = have_consumable_space(),     use = give_consumables(2, "Tarots", 'emp'), ui = uidef({2})},
+        c_heirophant=       {can_use = selected_card_limit(2),      use = conversion(enhance_conv('m_bonus')), ui = uidef_enhancer_tarot(2, 'm_bonus')},
+        c_lovers=           {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_wild')), ui = uidef_enhancer_tarot(1, 'm_wild')},
+        c_chariot=          {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_steel')), ui = uidef_enhancer_tarot(1, 'm_steel')},
+        c_justice=          {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_glass')), ui = uidef_enhancer_tarot(1, 'm_glass')},
+        c_hermit=           {can_use = can_always_use(),            use = double_money(20), ui = uidef({money = 20})},
+        c_wheel_of_fortune= {can_use = have_editionless_jokers(),   use = random_joker_give_edition('random', 'wheel_of_fortune', wheel_spin(4), nil), ui = uidef_wheel()},
+        c_strength=         {can_use = selected_card_limit(2),      use = conversion(value_up_conv()), ui = uidef({2})},
+        c_hanged_man=       {can_use = selected_card_limit(2),      use = remove_selected_cards(), ui = uidef({2})},
+        c_death=            {can_use = selected_card_limit(2,2),    use = conversion(left_to_right_conv()), ui = uidef({2})},
+        c_temperance=       {can_use = can_always_use(),            use = give_joker_sell_value(50), ui = uidef_temperance()},
+        c_devil=            {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_gold')), ui = uidef_enhancer_tarot(1, 'm_gold')},
+        c_tower=            {can_use = selected_card_limit(1),      use = conversion(enhance_conv('m_stone')), ui = uidef_enhancer_tarot(1, 'm_stone')},
+        c_star=             {can_use = selected_card_limit(3),      use = conversion(suit_conv('Diamonds')), ui = uidef_suit_tarot(3, 'Diamonds')},
+        c_moon=             {can_use = selected_card_limit(3),      use = conversion(suit_conv('Clubs')), ui = uidef_suit_tarot(3, 'Clubs')},
+        c_sun=              {can_use = selected_card_limit(3),      use = conversion(suit_conv('Hearts')), ui = uidef_suit_tarot(3, 'Hearts')},
+        c_judgement=        {can_use = have_joker_space(),          use = give_joker(false, 'jud'), ui = uidef()},
+        c_world=            {can_use = selected_card_limit(3),      use = conversion(suit_conv('Spades')), ui = uidef_suit_tarot(3, 'Spades')},
 
-    c_mercury=          {can_use = can_always_use(), use = hand_level_up('Pair'), ui = uidef_planet('Pair')},
-    c_venus=            {can_use = can_always_use(), use = hand_level_up('Three of a Kind'), ui = uidef_planet('Three of a Kind')},
-    c_earth=            {can_use = can_always_use(), use = hand_level_up('Full House'), ui = uidef_planet('Full House')},
-    c_mars=             {can_use = can_always_use(), use = hand_level_up('Four of a Kind'), ui = uidef_planet('Four of a Kind')},
-    c_jupiter=          {can_use = can_always_use(), use = hand_level_up('Flush'), ui = uidef_planet('Flush')},
-    c_saturn=           {can_use = can_always_use(), use = hand_level_up('Straight'), ui = uidef_planet('Straight')},
-    c_uranus=           {can_use = can_always_use(), use = hand_level_up('Two Pair'), ui = uidef_planet('Two Pair')},
-    c_neptune=          {can_use = can_always_use(), use = hand_level_up('Straight Flush'), ui = uidef_planet('Straight Flush')},
-    c_pluto=            {can_use = can_always_use(), use = hand_level_up('High Card'), ui = uidef_planet('High Card')},
-    c_planet_x=         {can_use = can_always_use(), use = hand_level_up('Five of a Kind'), ui = uidef_planet('Five of a Kind')},
-    c_ceres=            {can_use = can_always_use(), use = hand_level_up('Flush House'), ui = uidef_planet('Flush House')},
-    c_eris=             {can_use = can_always_use(), use = hand_level_up('Flush Five'), ui = uidef_planet('Flush Five')},
+        c_mercury=          {can_use = can_always_use(), use = hand_level_up('Pair'), ui = uidef_planet('Pair')},
+        c_venus=            {can_use = can_always_use(), use = hand_level_up('Three of a Kind'), ui = uidef_planet('Three of a Kind')},
+        c_earth=            {can_use = can_always_use(), use = hand_level_up('Full House'), ui = uidef_planet('Full House')},
+        c_mars=             {can_use = can_always_use(), use = hand_level_up('Four of a Kind'), ui = uidef_planet('Four of a Kind')},
+        c_jupiter=          {can_use = can_always_use(), use = hand_level_up('Flush'), ui = uidef_planet('Flush')},
+        c_saturn=           {can_use = can_always_use(), use = hand_level_up('Straight'), ui = uidef_planet('Straight')},
+        c_uranus=           {can_use = can_always_use(), use = hand_level_up('Two Pair'), ui = uidef_planet('Two Pair')},
+        c_neptune=          {can_use = can_always_use(), use = hand_level_up('Straight Flush'), ui = uidef_planet('Straight Flush')},
+        c_pluto=            {can_use = can_always_use(), use = hand_level_up('High Card'), ui = uidef_planet('High Card')},
+        c_planet_x=         {can_use = can_always_use(), use = hand_level_up('Five of a Kind'), ui = uidef_planet('Five of a Kind')},
+        c_ceres=            {can_use = can_always_use(), use = hand_level_up('Flush House'), ui = uidef_planet('Flush House')},
+        c_eris=             {can_use = can_always_use(), use = hand_level_up('Flush Five'), ui = uidef_planet('Flush Five')},
 
-    c_familiar=         {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(3,{'J', 'Q', 'K'},{'S','H','D','C'},'familiar_create')), ui = uidef({3})},
-    c_grim=             {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(2,{'A'},{'S','H','D','C'},'grim_create')), ui = uidef({2})},
-    c_incantation=      {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(4,{'2', '3', '4', '5', '6', '7', '8', '9', 'T'},{'S','H','D','C'},'incantation_create')), ui = uidef({4})},
-    c_talisman=         {can_use = selected_card_limit(1),      use = add_seal("Gold"), ui = uidef_seal_spectral('gold')},
-    c_aura=             {can_use = selected_card_limit(1),      use = give_card_edition(), ui = uidef(nil,{G.P_CENTERS.e_foil,G.P_CENTERS.e_holo,G.P_CENTERS.e_polychrome})},
-    c_wraith=           {can_use = have_joker_space(),          use = get_rare(), ui = uidef()},
-    c_sigil=            {can_use = have_hand(),                 use = alter_hand_cards(same_random_suit_alter()), ui = uidef()},
-    c_ouija=            {can_use = have_hand(),                 use = alter_hand_cards(same_random_rank_alter()), ui = uidef()},
-    c_ectoplasm=        {can_use = have_editionless_jokers(),   use = random_joker_give_edition({negative = true},'ectoplasm',nil,reduce_hand_size()), ui = uidef_ectoplasm()},
-    c_immolate=         {can_use = have_hand(),                 use = destroy_cards_for_reward(for_money(20)), ui = uidef({5,20})},
-    c_ankh=             {can_use = have_one_joker(),            use = double_joker(), ui = uidef_ankh()},
-    c_deja_vu=          {can_use = selected_card_limit(1),      use = add_seal("Red"), ui = uidef_seal_spectral('red')},
-    c_hex=              {can_use = have_editionless_jokers(),   use = random_joker_give_edition({polychrome = true},'hex',nil,destory_all_other_jokers()), ui = uidef({},{G.P_CENTERS.e_polychrome})},
-    c_trance=           {can_use = selected_card_limit(1),      use = add_seal("Blue"), ui = uidef_seal_spectral('blue')},
-    c_medium=           {can_use = selected_card_limit(1),      use = add_seal("Purple"), ui = uidef_seal_spectral('purple')},
-    c_cryptid=          {can_use = selected_card_limit(1),      use = make_playing_card_copy(2), ui = uidef({2})},
-    c_soul=             {can_use = have_joker_space(),          use = give_joker(true, 'sol'), ui = uidef()},
-    c_black_hole=       {can_use = can_always_use(),            use = level_up_all_hands(), ui = uidef()},
-}
+        c_familiar=         {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(3,{'J', 'Q', 'K'},{'S','H','D','C'},'familiar_create')), ui = uidef({3})},
+        c_grim=             {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(2,{'A'},{'S','H','D','C'},'grim_create')), ui = uidef({2})},
+        c_incantation=      {can_use = have_hand(),                 use = destroy_cards_for_reward(1,for_cards(4,{'2', '3', '4', '5', '6', '7', '8', '9', 'T'},{'S','H','D','C'},'incantation_create')), ui = uidef({4})},
+        c_talisman=         {can_use = selected_card_limit(1),      use = add_seal("Gold"), ui = uidef_seal_spectral('gold')},
+        c_aura=             {can_use = selected_card_limit(1),      use = give_card_edition(), ui = uidef(nil,{G.P_CENTERS.e_foil,G.P_CENTERS.e_holo,G.P_CENTERS.e_polychrome})},
+        c_wraith=           {can_use = have_joker_space(),          use = get_rare(), ui = uidef()},
+        c_sigil=            {can_use = have_hand(),                 use = alter_hand_cards(same_random_suit_alter()), ui = uidef()},
+        c_ouija=            {can_use = have_hand(),                 use = alter_hand_cards(same_random_rank_alter()), ui = uidef()},
+        c_ectoplasm=        {can_use = have_editionless_jokers(),   use = random_joker_give_edition({negative = true},'ectoplasm',nil,reduce_hand_size()), ui = uidef_ectoplasm()},
+        c_immolate=         {can_use = have_hand(),                 use = destroy_cards_for_reward(for_money(20)), ui = uidef({5,20})},
+        c_ankh=             {can_use = have_one_joker(),            use = double_joker(), ui = uidef_ankh()},
+        c_deja_vu=          {can_use = selected_card_limit(1),      use = add_seal("Red"), ui = uidef_seal_spectral('red')},
+        c_hex=              {can_use = have_editionless_jokers(),   use = random_joker_give_edition({polychrome = true},'hex',nil,destory_all_other_jokers()), ui = uidef({},{G.P_CENTERS.e_polychrome})},
+        c_trance=           {can_use = selected_card_limit(1),      use = add_seal("Blue"), ui = uidef_seal_spectral('blue')},
+        c_medium=           {can_use = selected_card_limit(1),      use = add_seal("Purple"), ui = uidef_seal_spectral('purple')},
+        c_cryptid=          {can_use = selected_card_limit(1),      use = make_playing_card_copy(2), ui = uidef({2})},
+        c_soul=             {can_use = have_joker_space(),          use = give_joker(true, 'sol'), ui = uidef()},
+        c_black_hole=       {can_use = can_always_use(),            use = level_up_all_hands(), ui = uidef()},
+    }
+end
 
 
 
@@ -156,7 +159,8 @@ function add_consumables(CENTERS)
 end
 
 function get_consumable_functions(id)
-    return consumsables_functions[id]
+    if #consumables_functions == 0 then define_consumable_functions() end
+    return consumables_functions[id]
 end
 
 ---------------------------------------------------------------------------

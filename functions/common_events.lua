@@ -2620,8 +2620,8 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         name_override = desc_override
         if not full_UI_table.name then full_UI_table.name = localize{type = 'name', set = 'Other', key = name_override, nodes = full_UI_table.name} end
         localize{type = 'other', key = desc_override, nodes = desc_nodes, vars = loc_vars}
-    elseif _c.set == 'Spectral' or _c.set == "Tarot" or _c.set == "Planet" then 
-        loc_vars, info_queue, main_end = _c.funcs.ui(info_queue) -- mod
+    elseif _c.set == 'Spectral' or _c.set == "Tarot" or _c.set == "Planet" then
+        loc_vars, info_queue, main_end = get_consumable_functions(_c.id).ui(info_queue) -- mod
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
     end
 

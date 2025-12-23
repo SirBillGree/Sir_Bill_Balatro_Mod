@@ -306,7 +306,6 @@ function Card:set_ability(center, initial, delay_sprites)
 
     if center.consumeable then 
         self.ability.consumeable = center.config
-        self.funcs = get_consumable_functions(self.ability.id)
     end
 
     if self.ability.name == 'Gold Card' and self.seal == 'Gold' and self.playing_card then 
@@ -1102,7 +1101,7 @@ function Card:use_consumeable(area, copier)
     if self.debuff then return nil end
     local used_tarot = copier or self
 
-    self.ability.funcs.use(used_tarot)
+    get_consumable_functions(self.ability.id).use(used_tarot)
 end
 
 function Card:can_use_consumeable(any_state, skip_check)
@@ -1111,7 +1110,7 @@ function Card:can_use_consumeable(any_state, skip_check)
         (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))
         then  return false end
     if G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT or any_state then
-        self.ability.funcs.can_use()
+        get_consumable_functions(self.ability.id).can_use()
     end
     return false
 end
@@ -4163,9 +4162,6 @@ end
 
 -- Maybe just make it save the object?
 function Card:save()
-    -- LOVE does not like to save functions in tables
-    local abil_without_funcs = copy_table(self.ability)
-    abil_without_funcs.funcs = nil
     cardTable = {
         sort_id = self.sort_id,
         save_fields = {
@@ -4188,7 +4184,7 @@ function Card:save()
         label = self.label,
         playing_card = self.playing_card,
         base = self.base,
-        ability = abil_without_funcs,
+        ability = self.ability,
         pinned = self.pinned,
         edition = self.edition,
         seal = self.seal,
@@ -4260,10 +4256,6 @@ function Card:load(cardTable, other_card)
     self.pinned = cardTable.pinned
     self.edition = cardTable.edition
     self.seal = cardTable.seal
-
-    if self.ability.consumeable then 
-        self.ability.funcs = get_consumable_functions(self.ability.id)
-    end
 
     remove_all(self.children)
     self.children = {}
