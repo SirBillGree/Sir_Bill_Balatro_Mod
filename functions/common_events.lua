@@ -2005,10 +2005,8 @@ function get_current_pool(_type, _rarity, _legendary, _append)
                             add = true
                         end
                     end
-                elseif v.set == 'Planet' then
-                    if (not v.config.softlock or G.GAME.hands[v.config.hand_type].played > 0) then
-                        add = true
-                    end
+                elseif v.set == 'Spectral' or v.set == "Tarot" or v.set == "Planet" then
+                    add = get_consumable_functions(v.id).filter()
                 elseif v.enhancement_gate then
                     add = nil
                     for kk, vv in pairs(G.playing_cards) do
@@ -2019,7 +2017,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
                 else
                     add = true
                 end
-                if v.name == 'Black Hole' or v.name == 'The Soul' then
+                if v.hidden then
                     add = false
                 end
             end

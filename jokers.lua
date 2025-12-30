@@ -15,6 +15,38 @@ passed to the card object.
 
 --[[
 Params all jokers will need:
-[ ] values specific to an instance of a joker (example: x_mult on lucky cat)
+[ ] additonal Trigger -> Trigger effect dictionary (optional)
+[ ] Scoring function (optional)
+[ ] values specific to an instance of a joker (example: x_mult on lucky cat) (add to config)
+[ ] UI Functions
+[ ] Pool functions
 
+functions in other files that need edits or restructuring:
+[ ] card:calculate_joker()
+[ ] card:set_ability()                  -- Remove setting specific vars
+[ ] common_events:generate_card_ui()    -- arguments for all instances of a card
+[ ] common_events:get_current_pool()    -- import filter conditions as function
+
+contexts:
+- open_booster
+- buy_self
+- sell_self
+- sell_card
+- reroll
+- leave_shop
+- skip_blind
+- skip_booster
+- playing_card_added
+- cards_destroyed
+- first_hand_drawn
+- setting_blind
+- using_consumeable
+- debuffed_hand
+- pre_discard
+- discard
+- end_of_round
+- individual (card)
+    - before_scoring
+    - after_scoring
+    - (scoring)
 ]]--
