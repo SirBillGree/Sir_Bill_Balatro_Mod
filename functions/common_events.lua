@@ -2006,7 +2006,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
                         end
                     end
                 elseif v.set == 'Spectral' or v.set == "Tarot" or v.set == "Planet" then
-                    add = get_consumable_functions(v.id).filter()
+                    add = get_card_functions(v.id).filter()
                 elseif v.enhancement_gate then
                     add = nil
                     for kk, vv in pairs(G.playing_cards) do
@@ -2619,7 +2619,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         if not full_UI_table.name then full_UI_table.name = localize{type = 'name', set = 'Other', key = name_override, nodes = full_UI_table.name} end
         localize{type = 'other', key = desc_override, nodes = desc_nodes, vars = loc_vars}
     elseif _c.set == 'Spectral' or _c.set == "Tarot" or _c.set == "Planet" then
-        loc_vars, info_queue, main_end = get_consumable_functions(_c.id).ui(info_queue) -- mod
+        loc_vars, info_queue, main_end = get_card_functions(_c.id).ui(info_queue) -- mod
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
     end
 

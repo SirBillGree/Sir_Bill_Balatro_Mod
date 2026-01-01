@@ -216,6 +216,8 @@ end
 -- Defines all objects (cards, vochers, tags, stakes, etc...) with configs
 function Game:init_item_prototypes()
     --Initialize all prototypes for units/items
+
+    -- replace with expansion_manager.lua
     self.P_SEALS = {
         Gold =      {order = 1,  discovered = false, set = "Seal"},
         Red =       {order = 2,  discovered = false, set = "Seal"},
@@ -730,6 +732,8 @@ function Game:init_item_prototypes()
     }
 
     self.P_LOCKED = {}
+
+    -- end 'replace with expansion_manager.lua'
 
     self:save_progress()
 

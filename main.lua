@@ -28,7 +28,7 @@ require "engine/particles"
 require "engine/text"
 require "challenges"
 -- from baltro-mod mod
-require "consumables"
+require 'expansions/expansion_manager'
 
 math.randomseed( G.SEED )
 

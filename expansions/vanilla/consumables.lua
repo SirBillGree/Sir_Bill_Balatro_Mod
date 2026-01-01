@@ -29,7 +29,7 @@ functions in other files that need edits or restructuring:
 
 ]]--
 
-local consumables_set = {
+vanilla_consumables_set = {
     -- Tarots
     c_fool=             {id = 'c_fool', order = 1,     discovered = false, cost = 3, consumeable = true, name = "The Fool", pos = {x=0,y=0}, set = "Tarot", effect = "Disable Blind Effect", cost_mult = 1.0, config = {}},
     c_magician=         {id = 'c_magician', order = 2,     discovered = false, cost = 3, consumeable = true, name = "The Magician", pos = {x=1,y=0}, set = "Tarot", effect = "Enhance", cost_mult = 1.0, config = {mod_conv = 'm_lucky', max_highlighted = 2}},
@@ -92,8 +92,8 @@ local consumables_set = {
 
 local consumables_functions = {}
 
-function define_consumable_functions()
-    for k,v in pairs(consumables_set) do
+local function define_consumable_functions()
+    for k,v in pairs(vanilla_consumables_set) do
         local c = v.config
 
         -- Tarots
@@ -104,6 +104,7 @@ function define_consumable_functions()
         elseif k == 'c_emperor' then consumables_functions[k] =         {can_use = have_consumable_space(), use = give_consumables(c.tarots, "Tarot", 'emp'), ui = uidef({c.tarots}), filter = always()}
         elseif k == 'c_heirophant' then consumables_functions[k] =      {can_use = selected_card_limit(c.max_highlighted), use = conversion(enhance_conv(c.mod_conv)), ui = uidef_enhancer_tarot(c.max_highlighted, c.mod_conv), filter = always()}
         elseif k == 'c_lovers' then consumables_functions[k] =          {can_use = selected_card_limit(c.max_highlighted), use = conversion(enhance_conv(c.mod_conv)), ui = uidef_enhancer_tarot(c.max_highlighted, c.mod_conv), filter = always()}
+        elseif k == 'c_chariot' then consumables_functions[k] =         {can_use = selected_card_limit(c.max_highlighted), use = conversion(enhance_conv(c.mod_conv)), ui = uidef_enhancer_tarot(c.max_highlighted, c.mod_conv), filter = always()}
         elseif k == 'c_justice' then consumables_functions[k] =         {can_use = selected_card_limit(c.max_highlighted), use = conversion(enhance_conv(c.mod_conv)), ui = uidef_enhancer_tarot(c.max_highlighted, c.mod_conv), filter = always()}
         elseif k == 'c_hermit' then consumables_functions[k] =          {can_use = always(), use = double_money(c.extra), ui = uidef({c.extra}), filter = always()}
         elseif k == 'c_wheel_of_fortune' then consumables_functions[k]= {can_use = have_editionless_jokers(), use = random_joker_give_edition('random', 'wheel_of_fortune', wheel_spin(c.extra), nil), ui = uidef_wheel(c.extra), filter = always()}
@@ -139,8 +140,8 @@ function define_consumable_functions()
         elseif k == 'c_hex' then consumables_functions[k] =             {can_use = have_editionless_jokers(), use = random_joker_give_edition({polychrome = true},'hex',nil,destory_all_other_jokers()), ui = uidef({},{G.P_CENTERS.e_polychrome}), filter = always()}
         elseif k == 'c_cryptid' then consumables_functions[k] =         {can_use = selected_card_limit(c.max_highlighted), use = make_playing_card_copy(c.extra), ui = uidef({c.extra}), filter = always()}
         
-        elseif k == 'c_soul' then consumables_functions[k] =            {can_use = have_editionless_jokers(), use = give_joker(true, 'sol'), ui = uidef(), filter = always()}
-        elseif k == 'c_black_hole' then consumables_functions[k] =      {can_use = always(), use = level_up_all_hands(), ui = uidef(), filter = always()}
+        elseif k == 'c_soul' then consumables_functions[k] =            {can_use = have_editionless_jokers(), use = give_joker(true, 'sol'), ui = uidef(), filter = never()}
+        elseif k == 'c_black_hole' then consumables_functions[k] =      {can_use = always(), use = level_up_all_hands(), ui = uidef(), filter = never()}
         else end
     end
 end
@@ -148,7 +149,7 @@ end
 
 
 function add_consumables(CENTERS)
-    for k, v in pairs(consumables_set) do
+    for k, v in pairs(vanilla_consumables_set) do
         CENTERS[k] = v
     end
     return CENTERS
@@ -157,6 +158,11 @@ end
 function get_consumable_functions(id)
     if #consumables_functions == 0 then define_consumable_functions() end
     return consumables_functions[id]
+end
+
+function vanilla_consumables_return_functions()
+    if #consumables_functions == 0 then define_consumable_functions() end
+    return consumables_functions
 end
 
 ---------------------------------------------------------------------------
@@ -177,13 +183,21 @@ end
 -- use function always()
 
 -------------------------------------------
+--               Special                 --
+-------------------------------------------
+
+function never()
+    return function() return false end
+end
+
+-------------------------------------------
 --               Planets                 --
 -------------------------------------------
 
 function filter_planet(hand, lock)
     lock = lock or false
     return function()
-        return lock or G.GAME.hands[hand].played > 0
+        return (not lock) or G.GAME.hands[hand].played > 0
     end
 end
 
@@ -333,6 +347,10 @@ end
 --                          ON USE FUNCTIONS                             --
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------
+-- input external: varied, given in card consumables_functions table
+-- output external: interal function
+-- input: used_tarot
+-- output: None
 
 
 -------------------------------------------
@@ -876,6 +894,11 @@ end
 --                      CAN_USE CHECK FUNCTIONS                          --
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------
+-- input external: varied, given in card consumables_functions table
+-- output external: interal function
+-- input: None
+-- output: boolean (allow/disallow)
+
 
 function always() -- planets use this one 
     return function()
