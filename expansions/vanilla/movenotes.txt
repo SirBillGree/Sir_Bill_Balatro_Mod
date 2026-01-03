@@ -1,0 +1,17 @@
+things to move into the vanilla "expansion box"
+Note: if item prototype, put it in here (besides regular playing cards)
+
+[ ] - Cards
+    [x] - Consumables
+    [ ] - Jokers
+    [ ] - Vouchers
+    [ ] - Packs
+    [ ] - Enhancements
+[ ] - Backs
+[ ] - Stakes
+[ ] - Editions
+[ ] - Seals
+[ ] - Tags
+[ ] - Blinds
+
+[ ] - Sprite Sheets (as well as the settings in Game:set_render_settings())

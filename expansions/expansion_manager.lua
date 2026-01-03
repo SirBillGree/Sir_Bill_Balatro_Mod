@@ -57,7 +57,7 @@ local card_functions = {}
 
 function define_card_functions()
     for i=1,#get_functions do
-        append_table(card_functions,get_functions[i])
+        append_table(card_functions,get_functions[i]())
     end
 end
 
