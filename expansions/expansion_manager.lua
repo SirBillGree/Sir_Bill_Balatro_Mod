@@ -26,27 +26,45 @@ functions in other files that need edits or restructuring:
 ]]--
 
 
-require "vanilla/consumables"
---require "vanilla/jokers"
+-- Add the path to your expansion here --
+require "expansions/vanilla"
 
-card_functions = {}
+-----------------------------------------
+
+-- Add your card sets here --------------
+local card_sets = {
+    vanilla_consumables_set,
+}
+-----------------------------------------
+
+-- Add your function collectors here ----
+local get_functions = {
+    vanilla_consumables_return_functions,
+}
+-----------------------------------------
 
 
------ UTILITY FUNCTION------------------------
+
+-- UTILITY FUNCTION
 function append_table(mainTable,appendedTable)
     for k, v in pairs(appendedTable) do
         mainTable[k] = v
     end
 end
------ UTILITY FUNCTION------------------------
+
+local card_functions = {}
 
 
 function define_card_functions()
-    append_table(card_functions,vanilla_consumables_return_functions())
+    for i=1,#get_functions do
+        append_table(card_functions,get_functions[i])
+    end
 end
 
 function append_pools()
-    append_table(G.P_CENTERS, vanilla_consumables_set)
+    for i=1,#card_sets do
+        append_table(G.P_CENTERS,card_sets[i])
+    end
 end
 
 function get_card_functions(id)

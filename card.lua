@@ -1102,7 +1102,7 @@ function Card:use_consumeable(area, copier)
     if self.debuff then return nil end
     local used_tarot = copier or self
 
-    get_consumable_functions(self.ability.id).use(used_tarot)
+    get_card_functions(self.ability.id).use(used_tarot)
 end
 
 function Card:can_use_consumeable(any_state, skip_check)
@@ -1111,7 +1111,7 @@ function Card:can_use_consumeable(any_state, skip_check)
         (G.GAME.STOP_USE and G.GAME.STOP_USE > 0))
         then  return false end
     if G.STATE ~= G.STATES.HAND_PLAYED and G.STATE ~= G.STATES.DRAW_TO_HAND and G.STATE ~= G.STATES.PLAY_TAROT or any_state then
-        return get_consumable_functions(self.ability.id).can_use()
+        return get_card_functions(self.ability.id).can_use()
     end
     return false
 end
