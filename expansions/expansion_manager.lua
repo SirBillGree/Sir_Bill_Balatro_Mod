@@ -15,7 +15,7 @@ enabled.
 --[[
 
 what we will need:
-[ ] - fetch and add cards to pool from a module
+[X] - fetch and add cards to pool from a module
 [ ] - add types to self.P_CENTER_POOLS (like contracts)
 [ ] - access card functions
 [ ] - a way to edit which modules are active
@@ -31,15 +31,15 @@ require "expansions/vanilla"
 
 -----------------------------------------
 
--- Add your card sets here --------------
-local card_sets = {
-    vanilla_consumables_set,
+-- Add your sets go here ----------------
+local sets = {
+    {set_type = 'P_CENTERS', set = vanilla_consumables_set},
 }
 -----------------------------------------
 
 -- Add your function collectors here ----
 local get_functions = {
-    vanilla_consumables_return_functions,
+    vanilla_consumables_function_collector,
 }
 -----------------------------------------
 
@@ -52,7 +52,7 @@ function append_table(mainTable,appendedTable)
     end
 end
 
-local card_functions = {}
+card_functions = {}
 
 
 function define_card_functions()
@@ -61,13 +61,16 @@ function define_card_functions()
     end
 end
 
-function append_pools()
-    for i=1,#card_sets do
-        append_table(G.P_CENTERS,card_sets[i])
+-- Note: replace with a function that defines all P_ tables on its own
+function append_pools(G_set, set_type)
+    for i=1,#sets do
+        if set_type == sets[i].set_type then append_table(G_set,sets[i].set) end
     end
 end
+--
 
 function get_card_functions(id)
     if (not card_functions[id]) then define_card_functions() end
     return card_functions[id]
 end
+

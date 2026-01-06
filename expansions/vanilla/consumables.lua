@@ -93,6 +93,10 @@ vanilla_consumables_set = {
 local consumables_functions = {}
 
 local function define_consumable_functions()
+    -- I chose to make a loop instead of define a table so that I could save time
+    -- and not have to write out "vanilla_consumables_set.c_<tarot>.config.<var>"
+    -- a billion times, which seems hard to maintain. "c.<var>" is much better.
+    -- Yes, it's slower (O(n) instead of O(1)), but this should only run once.
     for k,v in pairs(vanilla_consumables_set) do
         local c = v.config
 
@@ -147,21 +151,8 @@ local function define_consumable_functions()
 end
 
 
-
-function add_consumables(CENTERS)
-    for k, v in pairs(vanilla_consumables_set) do
-        CENTERS[k] = v
-    end
-    return CENTERS
-end
-
-function get_consumable_functions(id)
-    if #consumables_functions == 0 then define_consumable_functions() end
-    return consumables_functions[id]
-end
-
-function vanilla_consumables_return_functions()
-    if #consumables_functions == 0 then define_consumable_functions() end
+function vanilla_consumables_function_collector()
+    define_consumable_functions()
     return consumables_functions
 end
 

@@ -705,8 +705,8 @@ function Game:init_item_prototypes()
         undiscovered_tarot={pos = {x=6,y=3}},
     }
 
-    -- append consumbles from consumables.lua
-    self.P_CENTERS = add_consumables(self.P_CENTERS)
+    -- add all expansion P_CENTERS
+    append_pools(self.P_CENTERS, 'P_CENTERS')
 
     self.P_CENTER_POOLS = {
         Booster = {},

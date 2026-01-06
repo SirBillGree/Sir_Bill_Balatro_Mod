@@ -15,3 +15,7 @@ Note: if item prototype, put it in here (besides regular playing cards)
 [ ] - Blinds
 
 [ ] - Sprite Sheets (as well as the settings in Game:set_render_settings())
+
+
+Misc things that should also be done:
+[ ] - Remove 'order' and use a different metric to sort or change it

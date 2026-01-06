@@ -1,2 +1,2 @@
 require "expansions/vanilla/consumables"
-require "expansions/vanilla/edit_global"
+-- require "expansions/vanilla/edit_global"
