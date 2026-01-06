@@ -1,14 +1,17 @@
 
 --[[ 
-    function used to edit fuction lists
+    Add functions to fuction lists
     ------------------------------------
     func_list = {{name, func},{name, func} ...}
-    new_func = {name = <str>, func = <function>(e, loc_vars)}
-    relation = <str>
-    target_func = <str> 
+    new_func = {name = <str>, func = <function>(loc_vars)}
+    target_func = <str> (optional: places function at end of list)
+    relation = <str> (optional: defaults to 'before')
 ]]--
-function edit_func_list(func_list, new_func, relation, target_func)
-    for k, v, i in ipairs(func_list) do
+function edit_func_list(func_list, new_func, target_func, relation)
+    -- if no target specified, append to end of the list
+    if target_func == nil then table.insert(func_list, new_func) end
+    relation = relation or 'b'
+    for i,v in pairs(func_list) do
         if v.name == target_func then
             if relation == 'b' or relation == 'before' then
                 table.insert(func_list,i,new_func)
@@ -23,11 +26,20 @@ function edit_func_list(func_list, new_func, relation, target_func)
     end
 end
 
+function remove_from_func_list(func_list, target_func)
+    for i,v in pairs(func_list) do
+        if v.name == target_func then 
+            table.remove(func_list, i)
+            return
+        end
+    end
+end
+
 
 function remove_money(amt)
-    return function(e, loc_vars)
+    return function(loc_vars)
         ease_dollars(-amt)
     end
 end
 
-edit_func_list(G.FUNCS.draw_from_deck_to_hand_funcs, {name='rm',remove_money(1)}, 'b', 'draw')
+edit_func_list(new_round_funcs, {name='rm',func=remove_money(1)})
