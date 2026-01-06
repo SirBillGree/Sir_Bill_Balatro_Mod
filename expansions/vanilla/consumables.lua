@@ -73,7 +73,7 @@ vanilla_consumables_set = {
     c_grim=             {id = 'c_grim', order = 2,    discovered = false, cost = 4, consumeable = true, name = "Grim",     atlas = "Tarot", pos = {x=1,y=4}, set = "Spectral", config = {remove_card = true, extra = 2}},
     c_incantation=      {id = 'c_incantation', order = 3,    discovered = false, cost = 4, consumeable = true, name = "Incantation", atlas = "Tarot", pos = {x=2,y=4}, set = "Spectral", config = {remove_card = true, extra = 4}},
     c_talisman=         {id = 'c_talisman', order = 4,    discovered = false, cost = 4, consumeable = true, name = "Talisman", atlas = "Tarot", pos = {x=3,y=4}, set = "Spectral", config = {extra = 'Gold', max_highlighted = 1}},
-    c_aura=             {id = 'c_aura', order = 5,    discovered = false, cost = 4, consumeable = true, name = "Aura", atlas = "Tarot", pos = {x=4,y=4}, set = "Spectral", config = {}},
+    c_aura=             {id = 'c_aura', order = 5,    discovered = false, cost = 4, consumeable = true, name = "Aura", atlas = "Tarot", pos = {x=4,y=4}, set = "Spectral", config = {max_highlighted = 1}},
     c_wraith=           {id = 'c_wraith', order = 6,    discovered = false, cost = 4, consumeable = true, name = "Wraith", atlas = "Tarot", pos = {x=5,y=4}, set = "Spectral", config = {}},
     c_sigil=            {id = 'c_sigil', order = 7,    discovered = false, cost = 4, consumeable = true, name = "Sigil", atlas = "Tarot", pos = {x=6,y=4}, set = "Spectral", config = {}},
     c_ouija=            {id = 'c_ouija', order = 8,    discovered = false, cost = 4, consumeable = true, name = "Ouija", atlas = "Tarot", pos = {x=7,y=4}, set = "Spectral", config = {}},

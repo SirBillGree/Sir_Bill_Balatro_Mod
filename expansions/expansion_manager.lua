@@ -28,6 +28,7 @@ functions in other files that need edits or restructuring:
 
 -- Add the path to your expansion here --
 require "expansions/vanilla"
+require "expansions/tests"
 
 -----------------------------------------
 

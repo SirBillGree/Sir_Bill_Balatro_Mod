@@ -352,46 +352,23 @@ function new_round()
         }))
 end
 
--- G.FUNCS.draw_from_deck_to_hand = function(e)
---     -- lose if hand size == 0
---     if not (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and
---         G.hand.config.card_limit <= 0 and #G.hand.cards == 0 then 
---         G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false 
---         return true
---     end
+-------------------------------------------
+--        draw_from_deck_to_hand         --
+-------------------------------------------
 
---     -- serpent draw set to 3
---     local hand_space = e or math.min(#G.deck.cards, G.hand.config.card_limit - #G.hand.cards)
---     if G.GAME.blind.name == 'The Serpent' and
---         not G.GAME.blind.disabled and
---         (G.GAME.current_round.hands_played > 0 or
---         G.GAME.current_round.discards_used > 0) then
---             hand_space = math.min(#G.deck.cards, 3)
---     end
---     delay(0.3)
---     -- actually draw the cards 
---     for i=1, hand_space do --draw cards from deckL
---         if G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK then 
---             draw_card(G.deck,G.hand, i*100/hand_space,'up', true)
---         else
---             draw_card(G.deck,G.hand, i*100/hand_space,'up', true)
---         end
---     end
--- end
 
-function loose_if_hand_size_zero()
-    return function(e, loc_vars)
+G.FUNCS.draw_from_deck_to_hand_funcs = {
+    {name = 'hand zero',
+    func = function(e, loc_vars)
         -- lose if hand size == 0
         if not (G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK) and
             G.hand.config.card_limit <= 0 and #G.hand.cards == 0 then 
             G.STATE = G.STATES.GAME_OVER; G.STATE_COMPLETE = false 
             return true
         end
-    end
-end
-
-function serpant_set_draw_amt()
-    return function(e, loc_vars)
+    end},
+    {name = 'serpant',
+    func = function(e, loc_vars)
         -- serpent draw set to 3
         if G.GAME.blind.name == 'The Serpent' and
             not G.GAME.blind.disabled and
@@ -399,35 +376,22 @@ function serpant_set_draw_amt()
             G.GAME.current_round.discards_used > 0) then
                 loc_vars.hand_space = math.min(#G.deck.cards, 3)
         end
-    end
-end
-
-function draw_hand_space()
-    return function(e, loc_vars)
+    end},
+    {name = 'draw',
+    func = function(e, loc_vars)
         -- actually draw the cards 
         delay(0.3)
         for i=1, loc_vars.hand_space do --draw cards from deckL
-            if G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK then 
-                draw_card(G.deck,G.hand, i*100/loc_vars.hand_space,'up', true)
-            else
-                draw_card(G.deck,G.hand, i*100/loc_vars.hand_space,'up', true)
-            end
+            draw_card(G.deck,G.hand, i*100/loc_vars.hand_space,'up', true)
         end
-    end
-end
-
-G.FUNCS.draw_from_deck_to_hand_funcs = {
-        loose_if_hand_size_zero(),
-        serpant_set_draw_amt(),
-        draw_hand_space(),
+    end},
     }
-
 G.FUNCS.draw_from_deck_to_hand = function(e)
     local loc_vars = {hand_space = e or math.min(#G.deck.cards, G.hand.config.card_limit - #G.hand.cards)}
     local loc_funcs = G.FUNCS.draw_from_deck_to_hand_funcs
 
     for i=1,#loc_funcs do
-        loc_funcs[i](e, loc_vars)
+        loc_funcs[i].func(e, loc_vars)
     end
 end
 
