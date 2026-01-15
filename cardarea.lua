@@ -666,3 +666,73 @@ function CardArea:remove()
     end
     Moveable.remove(self)
 end
+
+
+-------------------------------------------
+--            Score CardArea             --
+-------------------------------------------
+--returns: percent (modified)
+--modifies: total_score (tables are immutable)
+
+--{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
+
+-- these are values that trigger card_eval_status_text() and update internal values
+score_types = {'debuff', 'repetitions', 'chips', 'mult', 'dollars', 'extra', 'x_mult'}
+
+-- addtional functions to evaluate during scoring
+additional_score_eval_functions = {
+    {name = 'challenge: chip dollar cap',
+    func = function(total_score, s)
+        if (G.GAME.modifiers.chips_dollar_cap and s == 'chips') then
+            total_score[s] = math.min(total_score[s], math.max(G.GAME.dollars, 0))
+        end
+    end}
+}
+function CardArea:score(context, total_score, percent, percent_delta, highlighted_only)
+    local scoring_cards = (highlighted_only and self.highlighted) or self.cards
+    if not context.cardarea then context.cardarea = self end
+    
+    local score_table = {}
+    local score_unit = {}
+    local s = ''
+    for i=1,#scoring_cards do
+        -- add to cards played (TEMP)
+        if self == G.play.cards then
+            if scoring_cards[i].ability.effect ~= 'Stone Card' then 
+                G.GAME.cards_played[scoring_cards[i].base.value].total = G.GAME.cards_played[scoring_cards[i].base.value].total + 1
+                G.GAME.cards_played[scoring_cards[i].base.value].suits[scoring_cards[i].base.suit] = true 
+            end
+        end
+        -- score table = {{score_unit},{score_unit}...}
+        -- score_unit = {card_eval} | {joker_eval_for_card} | {repetition_notif}
+        score_table = scoring_cards[i]:score(context)
+        -- up-pitch sound for each card
+        percent = percent+percent_delta
+        for ii=1,#score_table do
+            score_unit = score_table[ii]
+            -- iterate 's' through score_types 
+            for v=1,#score_types do s=score_types[v]
+                if score_unit[s] then
+                    if score_unit.card then juice_card(score_unit.card) end
+
+                    -- Base scoring conditions
+                    if total_score[s] then total_score[s] = total_score[s] + score_unit[s]
+                    elseif s == 'x_mult' then total_score[s] = total_score[s] * score_unit[s]
+                    elseif s == 'dollars' then ease_dollars(score_unit[s])
+                    -- if we're repeating the card, up-pitch sound again
+                    elseif s == 'repetitions' then percent = percent+percent_delta
+                    else end
+
+                    -- Modded scoring functions
+                    for f=1,#additional_score_eval_functions do
+                        additional_score_eval_functions[f].funcs(total_score, s)
+                    end
+
+                    update_hand_text({delay = 0},total_score)
+                    card_eval_status_text(scoring_cards[i], s, score_unit[s], percent, nil, (score_unit.extra or nil))
+                end
+            end
+        end
+    end
+    return percent
+end

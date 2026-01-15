@@ -28,6 +28,7 @@ functions in other files that need edits or restructuring:
 [ ] common_events:generate_card_ui()    -- arguments for all instances of a card
 [ ] common_events:get_current_pool()    -- import filter conditions as function
 [ ] state_events:check_for_unlock()     -- add all unlock conditions to an array of functions to check
+[ ] common_events:reset_<joker>         -- trigger system ^^
 
 contexts:
 - open_booster
@@ -266,3 +267,62 @@ end
 -- trig1 = trigger(context_condition('individual'), effect())
 -- trig1(context.individual) => effect()
 -- trig1(context.other) => nil
+
+
+
+--------------------------------------------------------------------------
+
+function reset_idol_card()
+    G.GAME.current_round.idol_card.rank = 'Ace'
+    G.GAME.current_round.idol_card.suit = 'Spades'
+    local valid_idol_cards = {}
+    for k, v in ipairs(G.playing_cards) do
+        if v.ability.effect ~= 'Stone Card' then
+            valid_idol_cards[#valid_idol_cards+1] = v
+        end
+    end
+    if valid_idol_cards[1] then 
+        local idol_card = pseudorandom_element(valid_idol_cards, pseudoseed('idol'..G.GAME.round_resets.ante))
+        G.GAME.current_round.idol_card.rank = idol_card.base.value
+        G.GAME.current_round.idol_card.suit = idol_card.base.suit
+        G.GAME.current_round.idol_card.id = idol_card.base.id
+    end
+end
+
+function reset_mail_rank()
+    G.GAME.current_round.mail_card.rank = 'Ace'
+    local valid_mail_cards = {}
+    for k, v in ipairs(G.playing_cards) do
+        if v.ability.effect ~= 'Stone Card' then
+            valid_mail_cards[#valid_mail_cards+1] = v
+        end
+    end
+    if valid_mail_cards[1] then 
+        local mail_card = pseudorandom_element(valid_mail_cards, pseudoseed('mail'..G.GAME.round_resets.ante))
+        G.GAME.current_round.mail_card.rank = mail_card.base.value
+        G.GAME.current_round.mail_card.id = mail_card.base.id
+    end
+end
+
+function reset_ancient_card()
+    local ancient_suits = {}
+    for k, v in ipairs({'Spades','Hearts','Clubs','Diamonds'}) do
+        if v ~= G.GAME.current_round.ancient_card.suit then ancient_suits[#ancient_suits + 1] = v end
+    end
+    local ancient_card = pseudorandom_element(ancient_suits, pseudoseed('anc'..G.GAME.round_resets.ante))
+    G.GAME.current_round.ancient_card.suit = ancient_card
+end
+
+function reset_castle_card()
+    G.GAME.current_round.castle_card.suit = 'Spades'
+    local valid_castle_cards = {}
+    for k, v in ipairs(G.playing_cards) do
+        if v.ability.effect ~= 'Stone Card' then
+            valid_castle_cards[#valid_castle_cards+1] = v
+        end
+    end
+    if valid_castle_cards[1] then 
+        local castle_card = pseudorandom_element(valid_castle_cards, pseudoseed('cas'..G.GAME.round_resets.ante))
+        G.GAME.current_round.castle_card.suit = castle_card.base.suit
+    end
+end

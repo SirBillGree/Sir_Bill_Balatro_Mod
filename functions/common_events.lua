@@ -577,83 +577,83 @@ function update_hand_text(config, vals)
     end}))
 end
 
-function eval_card(card, context)
-    context = context or {}
-    local ret = {}
+-- function eval_card(card, context)
+--     context = context or {}
+--     local ret = {}
 
-    if context.repetition_only then
-        local seals = card:calculate_seal(context)
-        if seals then
-            ret.seals = seals
-        end
-        return ret
-    end
+--     if context.repetition_only then
+--         local seals = card:calculate_seal(context)
+--         if seals then
+--             ret.seals = seals
+--         end
+--         return ret
+--     end
     
-    if context.cardarea == G.play then
-        local chips = card:get_chip_bonus()
-        if chips > 0 then 
-            ret.chips = chips
-        end
+--     if context.cardarea == G.play then
+--         local chips = card:get_chip_bonus()
+--         if chips > 0 then 
+--             ret.chips = chips
+--         end
 
-        local mult = card:get_chip_mult()
-        if mult > 0 then 
-            ret.mult = mult
-        end
+--         local mult = card:get_chip_mult()
+--         if mult > 0 then 
+--             ret.mult = mult
+--         end
 
-        local x_mult = card:get_chip_x_mult(context)
-        if x_mult > 0 then 
-            ret.x_mult = x_mult
-        end
+--         local x_mult = card:get_chip_x_mult(context)
+--         if x_mult > 0 then 
+--             ret.x_mult = x_mult
+--         end
 
-        local p_dollars = card:get_p_dollars()
-        if p_dollars > 0 then 
-            ret.p_dollars = p_dollars
-        end
+--         local p_dollars = card:get_p_dollars()
+--         if p_dollars > 0 then 
+--             ret.p_dollars = p_dollars
+--         end
 
-        local jokers = card:calculate_joker(context)
-        if jokers then 
-            ret.jokers = jokers
-        end
+--         local jokers = card:calculate_joker(context)
+--         if jokers then 
+--             ret.jokers = jokers
+--         end
 
-        local edition = card:get_edition(context)
-        if edition then 
-            ret.edition = edition
-        end
-    end
+--         local edition = card:get_edition(context)
+--         if edition then 
+--             ret.edition = edition
+--         end
+--     end
 
-    if context.cardarea == G.hand then
-        local h_mult = card:get_chip_h_mult()
-        if h_mult > 0 then 
-            ret.h_mult = h_mult
-        end
+--     if context.cardarea == G.hand then
+--         local h_mult = card:get_chip_h_mult()
+--         if h_mult > 0 then 
+--             ret.h_mult = h_mult
+--         end
 
-        local h_x_mult = card:get_chip_h_x_mult()
-        if h_x_mult > 0 then 
-            ret.x_mult = h_x_mult
-        end
+--         local h_x_mult = card:get_chip_h_x_mult()
+--         if h_x_mult > 0 then 
+--             ret.x_mult = h_x_mult
+--         end
 
-        local jokers = card:calculate_joker(context)
-        if jokers then 
-            ret.jokers = jokers
-        end
-    end
+--         local jokers = card:calculate_joker(context)
+--         if jokers then 
+--             ret.jokers = jokers
+--         end
+--     end
 
-    if context.cardarea == G.jokers or context.card == G.consumeables then
-        local jokers = nil
-        if context.edition then
-            jokers = card:get_edition(context)
-        elseif context.other_joker then
-            jokers = context.other_joker:calculate_joker(context)
-        else
-            jokers = card:calculate_joker(context)
-        end
-        if jokers then 
-            ret.jokers = jokers
-        end
-    end
+--     if context.cardarea == G.jokers or context.card == G.consumeables then
+--         local jokers = nil
+--         if context.edition then
+--             jokers = card:get_edition(context)
+--         elseif context.other_joker then
+--             jokers = context.other_joker:calculate_joker(context)
+--         else
+--             jokers = card:calculate_joker(context)
+--         end
+--         if jokers then 
+--             ret.jokers = jokers
+--         end
+--     end
 
-    return ret
-end
+--     return ret
+-- end
 
 function set_alerts()
     if G.REFRESH_ALERTS then
@@ -850,6 +850,7 @@ function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
         amt = amt
         text = localize('k_swapped_ex')
         colour = G.C.PURPLE
+    -- used for editions and joker 
     elseif eval_type == 'extra' or eval_type == 'jokers' then 
         sound = extra.edition and 'foil2' or extra.mult_mod and 'multhit1' or extra.Xmult_mod and 'multhit2' or 'generic1'
         if extra.edition then 
@@ -2266,6 +2267,7 @@ function calculate_reroll_cost(skip_increment)
     G.GAME.current_round.reroll_cost = (G.GAME.round_resets.temp_reroll_cost or G.GAME.round_resets.reroll_cost) + G.GAME.current_round.reroll_cost_increase
 end
 
+-- REMOVE --
 function reset_idol_card()
     G.GAME.current_round.idol_card.rank = 'Ace'
     G.GAME.current_round.idol_card.suit = 'Spades'
@@ -2320,6 +2322,8 @@ function reset_castle_card()
         G.GAME.current_round.castle_card.suit = castle_card.base.suit
     end
 end
+
+-- REMOVE END --
 
 function reset_blinds()
     G.GAME.round_resets.blind_states = G.GAME.round_resets.blind_states or {Small = 'Select', Big = 'Upcoming', Boss = 'Upcoming'}
@@ -2574,6 +2578,8 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
     elseif _c.set == 'Edition' then
         loc_vars = {_c.config.extra}
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
+
+    -- playing cards
     elseif _c.set == 'Default' and specific_vars then 
         if specific_vars.nominal_chips then 
             localize{type = 'other', key = 'card_chips', nodes = desc_nodes, vars = {specific_vars.nominal_chips}}
@@ -2597,6 +2603,8 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         if _c.name ~= 'Stone Card' and ((specific_vars and specific_vars.bonus_chips) or _c.config.bonus) then
             localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {((specific_vars and specific_vars.bonus_chips) or _c.config.bonus)}}
         end
+    -- playing cards end
+
     elseif _c.set == 'Booster' then 
         local desc_override = 'p_arcana_normal'
         if _c.name == 'Arcana Pack' then desc_override = 'p_arcana_normal'; loc_vars = {_c.config.choose, _c.config.extra}

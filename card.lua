@@ -300,7 +300,10 @@ function Card:set_ability(center, initial, delay_sprites)
         type = center.config.type or '',
         order = center.order or nil,
         forced_selection = self.ability and self.ability.forced_selection or nil,
-        perma_bonus = self.ability and self.ability.perma_bonus or 0,
+    }
+
+    self.perma = {
+        chips = self.perma and self.perma.chips or 0,
     }
 
     self.ability.bonus = (self.ability.bonus or 0) + (center.config.bonus or 0)
@@ -396,17 +399,17 @@ function Card:set_edition(edition, immediate, silent)
     if not edition then return end
     if edition.holo then
         if not self.edition then self.edition = {} end
-        self.edition.mult = G.P_CENTERS.e_holo.config.extra
+        self.edition.score = {mult = G.P_CENTERS.e_holo.config.extra}
         self.edition.holo = true
         self.edition.type = 'holo'
     elseif edition.foil then
         if not self.edition then self.edition = {} end
-        self.edition.chips = G.P_CENTERS.e_foil.config.extra
+        self.edition.score = {chips = G.P_CENTERS.e_foil.config.extra}
         self.edition.foil = true
         self.edition.type = 'foil'
     elseif edition.polychrome then
         if not self.edition then self.edition = {} end
-        self.edition.x_mult = G.P_CENTERS.e_polychrome.config.extra
+        self.edition.score = {x_mult = G.P_CENTERS.e_polychrome.config.extra}
         self.edition.polychrome = true
         self.edition.type = 'polychrome'
     elseif edition.negative then
@@ -735,7 +738,7 @@ function Card:generate_UIBox_ability_table()
     elseif card_type == 'Default' or card_type == 'Enhanced' then
         loc_vars = { playing_card = not not self.base.colour, value = self.base.value, suit = self.base.suit, colour = self.base.colour,
                     nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,
-                    bonus_chips = (self.ability.bonus + (self.ability.perma_bonus or 0)) > 0 and (self.ability.bonus + (self.ability.perma_bonus or 0)) or nil,
+                    bonus_chips = (self.ability.bonus + (self.perma.chips or 0)) > 0 and (self.ability.bonus + (self.perma.chips or 0)) or nil,
                 }
     elseif self.ability.set == 'Joker' then -- all remaining jokers
         if self.ability.name == 'Joker' then loc_vars = {self.ability.mult}
@@ -981,120 +984,253 @@ function Card:get_original_rank()
     return self.base.original_value
 end
 
-function Card:get_chip_bonus()
-    if self.debuff then return 0 end
-    if self.ability.effect == 'Stone Card' then
-        return self.ability.bonus + (self.ability.perma_bonus or 0)
-    end
-    return self.base.nominal + self.ability.bonus + (self.ability.perma_bonus or 0)
-end
 
-function Card:get_chip_mult()
-    if self.debuff then return 0 end
-    if self.ability.set == 'Joker' then return 0 end
-    if self.ability.effect == "Lucky Card" then 
-        if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/5 then
-            self.lucky_trigger = true
-            return self.ability.mult
-        else
-            return 0
-        end
-    else  
-        return self.ability.mult
-    end
-end
+-------------------------------------------
+--              Score Card               --
+-------------------------------------------
 
-function Card:get_chip_x_mult(context)
-    if self.debuff then return 0 end
-    if self.ability.set == 'Joker' then return 0 end
-    if self.ability.x_mult <= 1 then return 0 end
-    return self.ability.x_mult
-end
-
-function Card:get_chip_h_mult()
-    if self.debuff then return 0 end
-    return self.ability.h_mult
-end
-
-function Card:get_chip_h_x_mult()
-    if self.debuff then return 0 end
-    return self.ability.h_x_mult
-end
-
-function Card:get_edition()
-    if self.debuff then return end
-    if self.edition then
-        local ret = {card = self}
-        if self.edition.x_mult then 
-            ret.x_mult_mod = self.edition.x_mult
-        end
-        if self.edition.mult then 
-            ret.mult_mod = self.edition.mult
-        end
-        if self.edition.chips then 
-            ret.chip_mod = self.edition.chips
-        end
-        return ret
-    end
-end
-
-function Card:get_end_of_round_effect(context)
-    if self.debuff then return {} end
-    local ret = {}
-    if self.ability.h_dollars > 0 then
-        ret.h_dollars = self.ability.h_dollars
-        ret.card = self
-    end
-    if self.seal == 'Blue' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-        local card_type = 'Planet'
-        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-        G.E_MANAGER:add_event(Event({
-            trigger = 'before',
-            delay = 0.0,
-            func = (function()
-                if G.GAME.last_hand_played then
-                    local _planet = 0
-                    for k, v in pairs(G.P_CENTER_POOLS.Planet) do
-                        if v.config.hand_type == G.GAME.last_hand_played then
-                            _planet = v.key
-                        end
-                    end
-                    local card = create_card(card_type,G.consumeables, nil, nil, nil, nil, _planet, 'blusl')
-                    card:add_to_deck()
-                    G.consumeables:emplace(card)
-                    G.GAME.consumeable_buffer = 0
+-- append to add new reptition sources
+-- return: nothing, just append to loc_vals.reps
+repetition_sources = {
+    {name = 'seal',
+    func = function(self, loc_vals, context)
+        local seal = self:calculate_seal(context)
+        if (seal and seal.repetitions) then loc_vals.reps[#loc_vals.reps+1] = seal end
+    end},
+    {name = 'jokers',
+    func = function(self, loc_vals, context)
+        for j=1, #G.jokers.cards do
+            --calculate the joker effects
+            local eval = G.jokers.cards[j]:calculate_joker(context)
+            if next(eval) and eval.jokers then 
+                -- create <repetitions> rep tables
+                for h = 1, eval.jokers.repetitions do
+                    loc_vals.reps[#loc_vals.reps+1] = eval
                 end
-                return true
-            end)}))
-        card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
-        ret.effect = true
-    end
-    return ret
-end
-
-
-function Card:get_p_dollars()
-    if self.debuff then return 0 end
-    local ret = 0
-    if self.seal == 'Gold' then
-        ret = ret +  3
-    end
-    if self.ability.p_dollars > 0 then
-        if self.ability.effect == "Lucky Card" then 
-            if pseudorandom('lucky_money') < G.GAME.probabilities.normal/15 then
-                self.lucky_trigger = true
-                ret = ret +  self.ability.p_dollars
             end
-        else 
-            ret = ret + self.ability.p_dollars
         end
+    end}
+}
+-- append to add new score sources
+-- return: nothing, just append to loc_vals.score_table
+score_sources = {
+    {name = 'card',
+    func = function(self, loc_vals, context)
+        local score = {}
+        if context.cardarea == G.play then
+            score = self.perma
+            if self.ability.effect ~= 'Stone Card' then
+                score.chips = score.chips + self.base.nominal
+            end
+        end
+        if #score ~= 0 then loc_vals.score_table[#loc_vals.score_table+1] = score end
+    end},
+    -- temp function for before joker implementation
+    {name = 'TEMP JOKER',
+    func = function(self, loc_vals, context)
+        if context.cardarea == G.jokers then
+            loc_vals.score_table[#loc_vals.score_table+1] = self:calculate_joker(context)
+        end
+    end},
+    -- this will do both jokers and playing cards once jokers implemented
+    {name = 'score ability',
+    func = function(self, loc_vals, context)
+        if self.ability.id and get_card_functions(self.ability.id) and get_card_functions(self.ability.id).score then
+            loc_vals.score_table[#loc_vals.score_table+1] = get_card_functions(self.ability.id).score(self, context)
+        end
+    end},
+    {name = 'seal',
+    func = function(self, loc_vals, context)
+        local seal = self:calculate_seal(context)
+        if (seal and not seal.repetitions) then loc_vals.score_table[#loc_vals.score_table+1] = seal end
+    end},
+    -- merge the output of all previous card functions
+    {name = 'merge all',
+    func = function(self, loc_vals, context)
+        local merged_table = {}
+        if #loc_vals.score_table <= 1 then return end
+        for i=1,#loc_vals.score_table do
+            for k,v in pairs(loc_vals.score_table[i]) do
+                if merged_table[k] then
+                    merged_table[k] = merged_table[k]+v
+                else 
+                    merged_table[k] = v
+                end
+            end
+        end
+        loc_vals.score_table = merged_table
+    end},
+    {name = 'edition',
+    func = function(self, loc_vals, context)
+        local score = {}
+        if context.cardarea ~= G.hand and self.edition.score then
+            score = self.edition.score
+            loc_vals.score_table[#loc_vals.score_table+1] = score
+        end
+    end},
+    {name = 'other joker',
+    func = function(self, loc_vals, context)
+        local this_context = context
+        this_context.other_card = self
+        this_context.individual = true
+        for i=1,#G.jokers.cards do
+            local score = G.jokers.cards[i]:calculate_joker(this_context)--{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
+            if score then loc_vals.score_table[#loc_vals.score_table+1] = score end
+        end
+    end},
+}
+function Card:score(context)
+    local loc_vals = {reps = {1}, score_table={}, }
+    -- calculate the number of repitions
+    for i = 1,#repetition_sources do
+        repetition_sources[i].func(self,loc_vals,context)
     end
-    if ret > 0 then 
-        G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + ret
-        G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+    loc_vals.final_table = {}
+    for i = 1,#loc_vals.reps do
+        -- eval all score sources
+        for ii = 1,#score_sources do
+            score_sources[ii].func(self,loc_vals,context)
+        end
+        -- add rep notification if there's an output to repeat
+        if (i~=1 and #loc_vals.score_table ~= 0) then table.insert(loc_vals.final_table, loc_vals.reps[i]) end
+        -- append scores to final score table
+        for ii=1,#loc_vals.score_table do table.insert(loc_vals.final_table, loc_vals.score_table[ii]) end
+        -- empty score table for next iteration
+        loc_vals.score_table = {}
     end
-    return ret
+
+    -- Give debuff (TEMP)
+    if (self.debuff and #loc_vals.final_table ~= 0) then 
+        G.GAME.blind.triggered = true
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'immediate',
+                    func = (function() G.HUD_blind:get_UIE_by_ID('HUD_blind_debuff_1'):juice_up(0.3, 0)
+                        G.HUD_blind:get_UIE_by_ID('HUD_blind_debuff_2'):juice_up(0.3, 0)
+                        G.GAME.blind:juice_up();return true end)
+                }))
+        return {{debuff=true}}
+    end
+    return loc_vals.final_table
 end
+
+
+
+-- NOTE: NOW EDIT ALL OCCURANCES OF EVAL_CARD  :D
+
+-- function Card:get_chip_bonus()
+--     if self.debuff then return 0 end
+--     if self.ability.effect == 'Stone Card' then
+--         return self.ability.bonus + (self.perma.chips or 0)
+--     end
+--     return self.base.nominal + self.ability.bonus + (self.perma.chips or 0)
+-- end
+
+-- function Card:get_chip_mult()
+--     if self.debuff then return 0 end
+--     if self.ability.set == 'Joker' then return 0 end
+--     if self.ability.effect == "Lucky Card" then 
+--         if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/5 then
+--             self.lucky_trigger = true
+--             return self.ability.mult
+--         else
+--             return 0
+--         end
+--     else  
+--         return self.ability.mult
+--     end
+-- end
+
+-- function Card:get_chip_x_mult(context)
+--     if self.debuff then return 0 end
+--     if self.ability.set == 'Joker' then return 0 end
+--     if self.ability.x_mult <= 1 then return 0 end
+--     return self.ability.x_mult
+-- end
+
+-- function Card:get_chip_h_mult()
+--     if self.debuff then return 0 end
+--     return self.ability.h_mult
+-- end
+
+-- function Card:get_chip_h_x_mult()
+--     if self.debuff then return 0 end
+--     return self.ability.h_x_mult
+-- end
+
+-- function Card:get_edition()
+--     if self.debuff then return end
+--     if self.edition then
+--         local ret = {card = self}
+--         if self.edition.x_mult then 
+--             ret.x_mult_mod = self.edition.score.x_mult
+--         end
+--         if self.edition.mult then 
+--             ret.mult_mod = self.edition.score.mult
+--         end
+--         if self.edition.chips then 
+--             ret.chip_mod = self.edition.score.chips
+--         end
+--         return ret
+--     end
+-- end
+
+-- function Card:get_end_of_round_effect(context)
+--     if self.debuff then return {} end
+--     local ret = {}
+--     if self.ability.h_dollars > 0 then
+--         ret.h_dollars = self.ability.h_dollars
+--         ret.card = self
+--     end
+--     if self.seal == 'Blue' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+--         local card_type = 'Planet'
+--         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+--         G.E_MANAGER:add_event(Event({
+--             trigger = 'before',
+--             delay = 0.0,
+--             func = (function()
+--                 if G.GAME.last_hand_played then
+--                     local _planet = 0
+--                     for k, v in pairs(G.P_CENTER_POOLS.Planet) do
+--                         if v.config.hand_type == G.GAME.last_hand_played then
+--                             _planet = v.key
+--                         end
+--                     end
+--                     local card = create_card(card_type,G.consumeables, nil, nil, nil, nil, _planet, 'blusl')
+--                     card:add_to_deck()
+--                     G.consumeables:emplace(card)
+--                     G.GAME.consumeable_buffer = 0
+--                 end
+--                 return true
+--             end)}))
+--         card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
+--         ret.effect = true
+--     end
+--     return ret
+-- end
+
+
+-- function Card:get_p_dollars()
+--     if self.debuff then return 0 end
+--     local ret = 0
+--     if self.seal == 'Gold' then
+--         ret = ret +  3
+--     end
+--     if self.ability.p_dollars > 0 then
+--         if self.ability.effect == "Lucky Card" then 
+--             if pseudorandom('lucky_money') < G.GAME.probabilities.normal/15 then
+--                 self.lucky_trigger = true
+--                 ret = ret +  self.ability.p_dollars
+--             end
+--         else 
+--             ret = ret + self.ability.p_dollars
+--         end
+--     end
+--     if ret > 0 then 
+--         G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + ret
+--         G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
+--     end
+--     return ret
+-- end
 
 function Card:use_consumeable(area, copier)
     stop_use()
@@ -1786,6 +1922,38 @@ function Card:calculate_seal(context)
                     repetitions = 1,
                     card = self
                 }
+        end
+    end
+    if context.cardarea == G.play then
+        if self.seal == 'Gold' then
+                return {
+                    dollars = 3,
+                }
+        end
+    end
+    if context.end_of_round and context.cardarea == G.hand then
+        if self.seal == 'Blue' then
+            local card_type = 'Planet'
+        G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+        G.E_MANAGER:add_event(Event({
+            trigger = 'before',
+            delay = 0.0,
+            func = (function()
+                if G.GAME.last_hand_played then
+                    local _planet = 0
+                    for k, v in pairs(G.P_CENTER_POOLS.Planet) do
+                        if v.config.hand_type == G.GAME.last_hand_played then
+                            _planet = v.key
+                        end
+                    end
+                    local card = create_card(card_type,G.consumeables, nil, nil, nil, nil, _planet, 'blusl')
+                    card:add_to_deck()
+                    G.consumeables:emplace(card)
+                    G.GAME.consumeable_buffer = 0
+                end
+                return true
+            end)}))
+        card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
         end
     end
     if context.discard then
@@ -2603,8 +2771,8 @@ function Card:calculate_joker(context)
         elseif context.individual then
             if context.cardarea == G.play then
                 if self.ability.name == 'Hiker' then
-                        context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus or 0
-                        context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus + self.ability.extra
+                        context.other_card.perma.chips = context.other_card.perma.chips or 0
+                        context.other_card.perma.chips = context.other_card.perma.chips + self.ability.extra
                         return {
                             extra = {message = localize('k_upgrade_ex'), colour = G.C.CHIPS},
                             colour = G.C.CHIPS,
@@ -3753,14 +3921,14 @@ function Card:update(dt)
             end
         end
         -- why are we defining this like this instead of just checking when selected?
-        if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' then 
-            self.eligible_editionless_jokers = EMPTY(self.eligible_editionless_jokers)
-            for k, v in pairs(G.jokers.cards) do
-                if v.ability.set == 'Joker' and (not v.edition) then
-                    table.insert(self.eligible_editionless_jokers, v)
-                end
-            end
-        end
+        -- if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' then 
+        --     self.eligible_editionless_jokers = EMPTY(self.eligible_editionless_jokers)
+        --     for k, v in pairs(G.jokers.cards) do
+        --         if v.ability.set == 'Joker' and (not v.edition) then
+        --             table.insert(self.eligible_editionless_jokers, v)
+        --         end
+        --     end
+        -- end
         if self.ability.name == 'Blueprint' or self.ability.name == 'Brainstorm' then
             local other_joker = nil
             if self.ability.name == 'Brainstorm' then
