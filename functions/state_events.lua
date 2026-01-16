@@ -437,14 +437,9 @@ new_round_funcs = {
 function new_round()
     local loc_vars = {}
     local loc_funcs = new_round_funcs
-    G.E_MANAGER:add_event(Event({
-        trigger = 'immediate',
-        func = function()
-            for i=1,#loc_funcs do
-                loc_funcs[i].func(loc_vars)
-            end
-        end
-    }))
+    for i=1,#loc_funcs do
+        loc_funcs[i].func(loc_vars)
+    end
 end
 
 -------------------------------------------
@@ -489,7 +484,6 @@ G.FUNCS.draw_from_deck_to_hand = function(e)
     end
 end
 
--- test end
 
 G.FUNCS.discard_cards_from_highlighted = function(e, hook)
     stop_use()
@@ -744,18 +738,23 @@ G.FUNCS.evaluate_play = function(e)
             G.GAME.first_used_hand_level = nil
         end
 
-        local hand_text_set = false
-        for i=1, #G.jokers.cards do
-            --calculate the joker effects
-            local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before = true})
-            if effects.jokers then
-                card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects.jokers)
-                percent = percent + percent_delta
-                if effects.jokers.level_up then
-                    level_up_hand(G.jokers.cards[i], text)
-                end
-            end
-        end
+        -- local hand_text_set = false
+        -- for i=1, #G.jokers.cards do
+        --     --calculate the joker effects
+        --     local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before = true})
+        --     if effects.jokers then
+        --         card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects.jokers)
+        --         percent = percent + percent_delta
+        --         if effects.jokers.level_up then
+        --             level_up_hand(G.jokers.cards[i], text)
+        --         end
+        --     end
+        -- end
+
+        G.jokers:score({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before = true},
+                    {},
+                    percent,
+                    percent_delta)
 
         mult = mod_mult(G.GAME.hands[text].mult)
         hand_chips = mod_chips(G.GAME.hands[text].chips)
@@ -771,10 +770,10 @@ G.FUNCS.evaluate_play = function(e)
         --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
         local total_score = {chips = hand_chips, mult = mult}
         percent = G.play:score({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hand = text}, 
-                    total_score, 
-                    percent, 
-                    percent_delta, 
-                    true)
+                    total_score,
+                    percent,
+                    percent_delta,
+                    scoring_hand)
         -- for i=1, #scoring_hand do
         --     --add cards played to list
         --     if scoring_hand[i].ability.effect ~= 'Stone Card' then 
@@ -918,7 +917,7 @@ G.FUNCS.evaluate_play = function(e)
         percent = G.hand:score({cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands}, 
                     total_score,
                     percent,
-                    percent_delta,)
+                    percent_delta)
 
         -- local mod_percent = false
         --     for i=1, #G.hand.cards do
@@ -1017,12 +1016,12 @@ G.FUNCS.evaluate_play = function(e)
         percent = G.jokers:score({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true}, 
                     total_score,
                     percent,
-                    percent_delta,)
+                    percent_delta)
 
         percent = G.consumeables:score({cardarea = G.consumeables, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true}, 
                     total_score,
                     percent,
-                    percent_delta,)
+                    percent_delta)
         
         -- percent = percent + percent_delta
         -- for i=1, #G.jokers.cards + #G.consumeables.cards do

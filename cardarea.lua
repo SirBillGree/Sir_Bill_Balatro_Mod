@@ -677,7 +677,7 @@ end
 --{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
 
 -- these are values that trigger card_eval_status_text() and update internal values
-score_types = {'debuff', 'repetitions', 'chips', 'mult', 'dollars', 'extra', 'x_mult'}
+score_types = {'debuff', 'jokers', 'repetitions', 'chips', 'mult', 'dollars', 'extra', 'x_mult'}
 
 -- addtional functions to evaluate during scoring
 additional_score_eval_functions = {
@@ -688,8 +688,8 @@ additional_score_eval_functions = {
         end
     end}
 }
-function CardArea:score(context, total_score, percent, percent_delta, highlighted_only)
-    local scoring_cards = (highlighted_only and self.highlighted) or self.cards
+function CardArea:score(context, total_score, percent, percent_delta, specific_cards)
+    local scoring_cards = specific_cards or self.cards
     if not context.cardarea then context.cardarea = self end
     
     local score_table = {}
@@ -725,11 +725,11 @@ function CardArea:score(context, total_score, percent, percent_delta, highlighte
 
                     -- Modded scoring functions
                     for f=1,#additional_score_eval_functions do
-                        additional_score_eval_functions[f].funcs(total_score, s)
+                        additional_score_eval_functions[f].func(total_score, s)
                     end
 
-                    update_hand_text({delay = 0},total_score)
-                    card_eval_status_text(scoring_cards[i], s, score_unit[s], percent, nil, (score_unit.extra or nil))
+                    update_hand_text({delay = 0},copy_table(total_score))
+                    card_eval_status_text(scoring_cards[i], s, score_unit[s], percent, nil, (score_unit.extra or score_unit.jokers or nil))
                 end
             end
         end

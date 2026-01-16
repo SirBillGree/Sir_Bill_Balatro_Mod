@@ -1023,7 +1023,7 @@ score_sources = {
                 score.chips = score.chips + self.base.nominal
             end
         end
-        if #score ~= 0 then loc_vals.score_table[#loc_vals.score_table+1] = score end
+        if score ~= {} then loc_vals.score_table[#loc_vals.score_table+1] = score end
     end},
     -- temp function for before joker implementation
     {name = 'TEMP JOKER',
@@ -1063,7 +1063,7 @@ score_sources = {
     {name = 'edition',
     func = function(self, loc_vals, context)
         local score = {}
-        if context.cardarea ~= G.hand and self.edition.score then
+        if context.cardarea ~= G.hand and self.edition and self.edition.score then
             score = self.edition.score
             loc_vals.score_table[#loc_vals.score_table+1] = score
         end
@@ -1080,7 +1080,7 @@ score_sources = {
     end},
 }
 function Card:score(context)
-    local loc_vals = {reps = {1}, score_table={}, }
+    local loc_vals = {reps = {1}, score_table={}}
     -- calculate the number of repitions
     for i = 1,#repetition_sources do
         repetition_sources[i].func(self,loc_vals,context)
