@@ -810,8 +810,8 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Egg' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Burglar' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Blackboard' then loc_vars = {self.ability.extra, localize('Spades', 'suits_plural'), localize('Clubs', 'suits_plural')}
-        elseif self.ability.name == 'Runner' then loc_vars = {self.ability.extra.chips, self.ability.extra.chip_mod}
-        elseif self.ability.name == 'Ice Cream' then loc_vars = {self.ability.extra.chips, self.ability.extra.chip_mod}
+        elseif self.ability.name == 'Runner' then loc_vars = {self.ability.extra.chips, self.ability.extra.chips}
+        elseif self.ability.name == 'Ice Cream' then loc_vars = {self.ability.extra.chips, self.ability.extra.chips}
         elseif self.ability.name == 'DNA' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Splash' then
         elseif self.ability.name == 'Constellation' then loc_vars = {self.ability.extra, self.ability.x_mult}
@@ -846,7 +846,7 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Glass Joker' then loc_vars = {self.ability.extra, self.ability.x_mult}
         elseif self.ability.name == 'Showman' then
         elseif self.ability.name == 'Flower Pot' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Wee Joker' then loc_vars = {self.ability.extra.chips, self.ability.extra.chip_mod}
+        elseif self.ability.name == 'Wee Joker' then loc_vars = {self.ability.extra.chips, self.ability.extra.chips}
         elseif self.ability.name == 'Merry Andy' then loc_vars = {self.ability.d_size, self.ability.h_size}
         elseif self.ability.name == 'The Idol' then loc_vars = {self.ability.extra, localize(G.GAME.current_round.idol_card.rank, 'ranks'), localize(G.GAME.current_round.idol_card.suit, 'suits_plural'), colours = {G.C.SUITS[G.GAME.current_round.idol_card.suit]}}
         elseif self.ability.name == 'Seeing Double' then loc_vars = {self.ability.extra}
@@ -859,7 +859,7 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Card Sharp' then loc_vars = {self.ability.extra.Xmult}
         elseif self.ability.name == 'Red Card' then loc_vars = {self.ability.extra, self.ability.mult}
         elseif self.ability.name == 'Madness' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Square Joker' then loc_vars = {self.ability.extra.chips, self.ability.extra.chip_mod}
+        elseif self.ability.name == 'Square Joker' then loc_vars = {self.ability.extra.chips, self.ability.extra.chips}
         elseif self.ability.name == 'Seance' then loc_vars = {localize(self.ability.extra.poker_hand, 'poker_hands')}
         elseif self.ability.name == 'Riff-raff' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Vampire' then loc_vars = {self.ability.extra, self.ability.x_mult}
@@ -902,10 +902,10 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Ancient Joker' then loc_vars = {self.ability.extra, localize(G.GAME.current_round.ancient_card.suit, 'suits_singular'), colours = {G.C.SUITS[G.GAME.current_round.ancient_card.suit]}}
         elseif self.ability.name == 'Walkie Talkie' then loc_vars = {self.ability.extra.chips, self.ability.extra.mult}
         elseif self.ability.name == 'Seltzer' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Castle' then loc_vars = {self.ability.extra.chip_mod, localize(G.GAME.current_round.castle_card.suit, 'suits_singular'), self.ability.extra.chips, colours = {G.C.SUITS[G.GAME.current_round.castle_card.suit]}}
+        elseif self.ability.name == 'Castle' then loc_vars = {self.ability.extra.chips, localize(G.GAME.current_round.castle_card.suit, 'suits_singular'), self.ability.extra.chips, colours = {G.C.SUITS[G.GAME.current_round.castle_card.suit]}}
         elseif self.ability.name == 'Smiley Face' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Campfire' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Stuntman' then loc_vars = {self.ability.extra.chip_mod, self.ability.extra.h_size}
+        elseif self.ability.name == 'Stuntman' then loc_vars = {self.ability.extra.chips, self.ability.extra.h_size}
         elseif self.ability.name == 'Invisible Joker' then loc_vars = {self.ability.extra, self.ability.invis_rounds}
         elseif self.ability.name == 'Brainstorm' then
             self.ability.blueprint_compat_ui = self.ability.blueprint_compat_ui or ''; self.ability.blueprint_compat_check = nil
@@ -1163,13 +1163,13 @@ end
 --     if self.edition then
 --         local ret = {card = self}
 --         if self.edition.x_mult then 
---             ret.x_mult_mod = self.edition.score.x_mult
+--             ret.x_mult = self.edition.score.x_mult
 --         end
 --         if self.edition.mult then 
---             ret.mult_mod = self.edition.score.mult
+--             ret.mult = self.edition.score.mult
 --         end
 --         if self.edition.chips then 
---             ret.chip_mod = self.edition.score.chips
+--             ret.chips = self.edition.score.chips
 --         end
 --         return ret
 --     end
@@ -2002,7 +2002,7 @@ function Card:calculate_joker(context)
             if G.GAME.used_vouchers.v_observatory and self.ability.consumeable.hand_type == context.scoring_name then
                 return {
                     message = localize{type = 'variable', key = 'a_xmult', vars = {G.P_CENTERS.v_observatory.config.extra}},
-                    Xmult_mod = G.P_CENTERS.v_observatory.config.extra
+                    x_mult = G.P_CENTERS.v_observatory.config.extra
                 }
             end
         end
@@ -2521,7 +2521,7 @@ function Card:calculate_joker(context)
             if self.ability.name == 'Castle' and
             not context.other_card.debuff and
             context.other_card:is_suit(G.GAME.current_round.castle_card.suit) and not context.blueprint then
-                self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+                self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chips
                   
                 return {
                     message = localize('k_upgrade_ex'),
@@ -2789,7 +2789,7 @@ function Card:calculate_joker(context)
                 end
                 if self.ability.name == 'Wee Joker' and
                     context.other_card:get_id() == 2 and not context.blueprint then
-                        self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+                        self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chips
                         
                         return {
                             extra = {focus = self, message = localize('k_upgrade_ex')},
@@ -3110,7 +3110,7 @@ function Card:calculate_joker(context)
                 })) 
                 return {
                     message = localize{type='variable',key='a_xmult',vars={self.ability.extra}},
-                    Xmult_mod = self.ability.extra
+                    x_mult = self.ability.extra
                 }
             end
         else
@@ -3132,7 +3132,7 @@ function Card:calculate_joker(context)
                         }
                     end
                     if self.ability.name == 'Square Joker' and #context.full_hand == 4 and not context.blueprint then
-                        self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+                        self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chips
                         return {
                             message = localize('k_upgrade_ex'),
                             colour = G.C.CHIPS,
@@ -3140,7 +3140,7 @@ function Card:calculate_joker(context)
                         }
                     end
                     if self.ability.name == 'Runner' and next(context.poker_hands['Straight']) and not context.blueprint then
-                        self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chip_mod
+                        self.ability.extra.chips = self.ability.extra.chips + self.ability.extra.chips
                         return {
                             message = localize('k_upgrade_ex'),
                             colour = G.C.CHIPS,
@@ -3276,7 +3276,7 @@ function Card:calculate_joker(context)
                     end
                 elseif context.after then
                     if self.ability.name == 'Ice Cream' and not context.blueprint then
-                        if self.ability.extra.chips - self.ability.extra.chip_mod <= 0 then 
+                        if self.ability.extra.chips - self.ability.extra.chips <= 0 then 
                             G.E_MANAGER:add_event(Event({
                                 func = function()
                                     play_sound('tarot1')
@@ -3298,9 +3298,9 @@ function Card:calculate_joker(context)
                                 colour = G.C.CHIPS
                             }
                         else
-                            self.ability.extra.chips = self.ability.extra.chips - self.ability.extra.chip_mod
+                            self.ability.extra.chips = self.ability.extra.chips - self.ability.extra.chips
                             return {
-                                message = localize{type='variable',key='a_chips_minus',vars={self.ability.extra.chip_mod}},
+                                message = localize{type='variable',key='a_chips_minus',vars={self.ability.extra.chips}},
                                 colour = G.C.CHIPS
                             }
                         end
@@ -3342,7 +3342,7 @@ function Card:calculate_joker(context)
                                 if self.ability.loyalty_remaining == self.ability.extra.every then
                                     return {
                                         message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}},
-                                        Xmult_mod = self.ability.extra.Xmult
+                                        x_mult = self.ability.extra.Xmult
                                     }
                                 end
                             else
@@ -3352,7 +3352,7 @@ function Card:calculate_joker(context)
                                 elseif self.ability.loyalty_remaining == self.ability.extra.every then
                                     return {
                                         message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}},
-                                        Xmult_mod = self.ability.extra.Xmult
+                                        x_mult = self.ability.extra.Xmult
                                     }
                                 end
                             end
@@ -3361,25 +3361,25 @@ function Card:calculate_joker(context)
                             return {
                                 message = localize{type='variable',key='a_xmult',vars={self.ability.x_mult}},
                                 colour = G.C.RED,
-                                Xmult_mod = self.ability.x_mult
+                                x_mult = self.ability.x_mult
                             }
                         end
                         if self.ability.t_mult > 0 and next(context.poker_hands[self.ability.type]) then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.t_mult}},
-                                mult_mod = self.ability.t_mult
+                                mult = self.ability.t_mult
                             }
                         end
                         if self.ability.t_chips > 0 and next(context.poker_hands[self.ability.type]) then
                             return {
                                 message = localize{type='variable',key='a_chips',vars={self.ability.t_chips}},
-                                chip_mod = self.ability.t_chips
+                                chips = self.ability.t_chips
                             }
                         end
                         if self.ability.name == 'Half Joker' and #context.full_hand <= self.ability.extra.size then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}},
-                                mult_mod = self.ability.extra.mult
+                                mult = self.ability.extra.mult
                             }
                         end
                         if self.ability.name == 'Abstract Joker' then
@@ -3389,38 +3389,38 @@ function Card:calculate_joker(context)
                             end
                             return {
                                 message = localize{type='variable',key='a_mult',vars={x*self.ability.extra}},
-                                mult_mod = x*self.ability.extra
+                                mult = x*self.ability.extra
                             }
                         end
                         if self.ability.name == 'Acrobat' and G.GAME.current_round.hands_left == 0 then
                             return {
                                 message = localize{type='variable',key='a_xmult',vars={self.ability.extra}},
-                                Xmult_mod = self.ability.extra
+                                x_mult = self.ability.extra
                             }
                         end
                         if self.ability.name == 'Mystic Summit' and G.GAME.current_round.discards_left == self.ability.extra.d_remaining then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}},
-                                mult_mod = self.ability.extra.mult
+                                mult = self.ability.extra.mult
                             }
                         end
                         if self.ability.name == 'Misprint' then
                             local temp_Mult = pseudorandom('misprint', self.ability.extra.min, self.ability.extra.max)
                             return {
                                 message = localize{type='variable',key='a_mult',vars={temp_Mult}},
-                                mult_mod = temp_Mult
+                                mult = temp_Mult
                             }
                         end
                         if self.ability.name == 'Banner' and G.GAME.current_round.discards_left > 0 then
                             return {
                                 message = localize{type='variable',key='a_chips',vars={G.GAME.current_round.discards_left*self.ability.extra}},
-                                chip_mod = G.GAME.current_round.discards_left*self.ability.extra
+                                chips = G.GAME.current_round.discards_left*self.ability.extra
                             }
                         end
                         if self.ability.name == 'Stuntman' then
                             return {
-                                message = localize{type='variable',key='a_chips',vars={self.ability.extra.chip_mod}},
-                                chip_mod = self.ability.extra.chip_mod,
+                                message = localize{type='variable',key='a_chips',vars={self.ability.extra.chips}},
+                                chips = self.ability.extra.chips,
                             }
                         end
                         if self.ability.name == 'Matador' then
@@ -3438,13 +3438,13 @@ function Card:calculate_joker(context)
                         if self.ability.name == 'Supernova' then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={G.GAME.hands[context.scoring_name].played}},
-                                mult_mod = G.GAME.hands[context.scoring_name].played
+                                mult = G.GAME.hands[context.scoring_name].played
                             }
                         end
                         if self.ability.name == 'Ceremonial Dagger' and self.ability.mult > 0 then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
-                                mult_mod = self.ability.mult
+                                mult = self.ability.mult
                             }
                         end
                         if self.ability.name == 'Vagabond' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
@@ -3540,7 +3540,7 @@ function Card:calculate_joker(context)
                             suits["Clubs"] > 0 then
                                 return {
                                     message = localize{type='variable',key='a_xmult',vars={self.ability.extra}},
-                                    Xmult_mod = self.ability.extra
+                                    x_mult = self.ability.extra
                                 }
                             end
                         end
@@ -3573,77 +3573,77 @@ function Card:calculate_joker(context)
                             suits["Clubs"] > 0 then
                                 return {
                                     message = localize{type='variable',key='a_xmult',vars={self.ability.extra}},
-                                    Xmult_mod = self.ability.extra
+                                    x_mult = self.ability.extra
                                 }
                             end
                         end
                         if self.ability.name == 'Wee Joker' then
                             return {
                                 message = localize{type='variable',key='a_chips',vars={self.ability.extra.chips}},
-                                chip_mod = self.ability.extra.chips, 
+                                chips = self.ability.extra.chips, 
                                 colour = G.C.CHIPS
                             }
                         end
                         if self.ability.name == 'Castle' and (self.ability.extra.chips > 0) then
                             return {
                                 message = localize{type='variable',key='a_chips',vars={self.ability.extra.chips}},
-                                chip_mod = self.ability.extra.chips, 
+                                chips = self.ability.extra.chips, 
                                 colour = G.C.CHIPS
                             }
                         end
                         if self.ability.name == 'Blue Joker' and #G.deck.cards > 0 then
                             return {
                                 message = localize{type='variable',key='a_chips',vars={self.ability.extra*#G.deck.cards}},
-                                chip_mod = self.ability.extra*#G.deck.cards, 
+                                chips = self.ability.extra*#G.deck.cards, 
                                 colour = G.C.CHIPS
                             }
                         end
                         if self.ability.name == 'Erosion' and (G.GAME.starting_deck_size - #G.playing_cards) > 0 then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.extra*(G.GAME.starting_deck_size - #G.playing_cards)}},
-                                mult_mod = self.ability.extra*(G.GAME.starting_deck_size - #G.playing_cards), 
+                                mult = self.ability.extra*(G.GAME.starting_deck_size - #G.playing_cards), 
                                 colour = G.C.MULT
                             }
                         end
                         if self.ability.name == 'Square Joker' then
                             return {
                                 message = localize{type='variable',key='a_chips',vars={self.ability.extra.chips}},
-                                chip_mod = self.ability.extra.chips, 
+                                chips = self.ability.extra.chips, 
                                 colour = G.C.CHIPS
                             }
                         end
                         if self.ability.name == 'Runner' then
                             return {
                                 message = localize{type='variable',key='a_chips',vars={self.ability.extra.chips}},
-                                chip_mod = self.ability.extra.chips, 
+                                chips = self.ability.extra.chips, 
                                 colour = G.C.CHIPS
                             }
                         end
                         if self.ability.name == 'Ice Cream' then
                             return {
                                 message = localize{type='variable',key='a_chips',vars={self.ability.extra.chips}},
-                                chip_mod = self.ability.extra.chips, 
+                                chips = self.ability.extra.chips, 
                                 colour = G.C.CHIPS
                             }
                         end
                         if self.ability.name == 'Stone Joker' and self.ability.stone_tally > 0 then
                             return {
                                 message = localize{type='variable',key='a_chips',vars={self.ability.extra*self.ability.stone_tally}},
-                                chip_mod = self.ability.extra*self.ability.stone_tally, 
+                                chips = self.ability.extra*self.ability.stone_tally, 
                                 colour = G.C.CHIPS
                             }
                         end
                         if self.ability.name == 'Steel Joker' and self.ability.steel_tally > 0 then
                             return {
                                 message = localize{type='variable',key='a_xmult',vars={1 + self.ability.extra*self.ability.steel_tally}},
-                                Xmult_mod = 1 + self.ability.extra*self.ability.steel_tally, 
+                                x_mult = 1 + self.ability.extra*self.ability.steel_tally, 
                                 colour = G.C.MULT
                             }
                         end
                         if self.ability.name == 'Bull' and (G.GAME.dollars + (G.GAME.dollar_buffer or 0)) > 0 then
                             return {
                                 message = localize{type='variable',key='a_chips',vars={self.ability.extra*math.max(0,(G.GAME.dollars + (G.GAME.dollar_buffer or 0))) }},
-                                chip_mod = self.ability.extra*math.max(0,(G.GAME.dollars + (G.GAME.dollar_buffer or 0))), 
+                                chips = self.ability.extra*math.max(0,(G.GAME.dollars + (G.GAME.dollar_buffer or 0))), 
                                 colour = G.C.CHIPS
                             }
                         end
@@ -3651,7 +3651,7 @@ function Card:calculate_joker(context)
                             if (self.ability.driver_tally or 0) >= 16 then 
                                 return {
                                     message = localize{type='variable',key='a_xmult',vars={self.ability.extra}},
-                                    Xmult_mod = self.ability.extra
+                                    x_mult = self.ability.extra
                                 }
                             end
                         end
@@ -3666,7 +3666,7 @@ function Card:calculate_joker(context)
                             if black_suits == all_cards then 
                                 return {
                                     message = localize{type='variable',key='a_xmult',vars={self.ability.extra}},
-                                    Xmult_mod = self.ability.extra
+                                    x_mult = self.ability.extra
                                 }
                             end
                         end
@@ -3674,92 +3674,92 @@ function Card:calculate_joker(context)
                             if (G.jokers.config.card_limit - #G.jokers.cards) > 0 then
                                 return {
                                     message = localize{type='variable',key='a_xmult',vars={self.ability.x_mult}},
-                                    Xmult_mod = self.ability.x_mult
+                                    x_mult = self.ability.x_mult
                                 }
                             end
                         end
                         if self.ability.name == 'Swashbuckler' and self.ability.mult > 0 then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
-                                mult_mod = self.ability.mult
+                                mult = self.ability.mult
                             }
                         end
                         if self.ability.name == 'Joker' then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
-                                mult_mod = self.ability.mult
+                                mult = self.ability.mult
                             }
                         end
                         if self.ability.name == 'Spare Trousers' and self.ability.mult > 0 then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
-                                mult_mod = self.ability.mult
+                                mult = self.ability.mult
                             }
                         end
                         if self.ability.name == 'Ride the Bus' and self.ability.mult > 0 then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
-                                mult_mod = self.ability.mult
+                                mult = self.ability.mult
                             }
                         end
                         if self.ability.name == 'Flash Card' and self.ability.mult > 0 then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
-                                mult_mod = self.ability.mult
+                                mult = self.ability.mult
                             }
                         end
                         if self.ability.name == 'Popcorn' and self.ability.mult > 0 then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
-                                mult_mod = self.ability.mult
+                                mult = self.ability.mult
                             }
                         end
                         if self.ability.name == 'Green Joker' and self.ability.mult > 0 then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
-                                mult_mod = self.ability.mult
+                                mult = self.ability.mult
                             }
                         end
                         if self.ability.name == 'Fortune Teller' and G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.tarot > 0 then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={G.GAME.consumeable_usage_total.tarot}},
-                                mult_mod = G.GAME.consumeable_usage_total.tarot
+                                mult = G.GAME.consumeable_usage_total.tarot
                             }
                         end
                         if self.ability.name == 'Gros Michel' then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult}},
-                                mult_mod = self.ability.extra.mult,
+                                mult = self.ability.extra.mult,
                             }
                         end
                         if self.ability.name == 'Cavendish' then
                             return {
                                 message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}},
-                                Xmult_mod = self.ability.extra.Xmult,
+                                x_mult = self.ability.extra.Xmult,
                             }
                         end
                         if self.ability.name == 'Red Card' and self.ability.mult > 0 then
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.mult}},
-                                mult_mod = self.ability.mult
+                                mult = self.ability.mult
                             }
                         end
                         if self.ability.name == 'Card Sharp' and G.GAME.hands[context.scoring_name] and G.GAME.hands[context.scoring_name].played_this_round > 1 then
                             return {
                                 message = localize{type='variable',key='a_xmult',vars={self.ability.extra.Xmult}},
-                                Xmult_mod = self.ability.extra.Xmult,
+                                x_mult = self.ability.extra.Xmult,
                             }
                         end
                         if self.ability.name == 'Bootstraps' and math.floor((G.GAME.dollars + (G.GAME.dollar_buffer or 0))/self.ability.extra.dollars) >= 1 then 
                             return {
                                 message = localize{type='variable',key='a_mult',vars={self.ability.extra.mult*math.floor((G.GAME.dollars + (G.GAME.dollar_buffer or 0))/self.ability.extra.dollars)}},
-                                mult_mod = self.ability.extra.mult*math.floor((G.GAME.dollars + (G.GAME.dollar_buffer or 0))/self.ability.extra.dollars)
+                                mult = self.ability.extra.mult*math.floor((G.GAME.dollars + (G.GAME.dollar_buffer or 0))/self.ability.extra.dollars)
                             }
                         end
                         if self.ability.name == 'Caino' and self.ability.caino_xmult > 1 then 
                             return {
                                 message = localize{type='variable',key='a_xmult',vars={self.ability.caino_xmult}},
-                                Xmult_mod = self.ability.caino_xmult
+                                x_mult = self.ability.caino_xmult
                             }
                         end
                     end
