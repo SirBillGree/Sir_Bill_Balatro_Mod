@@ -530,9 +530,11 @@ G.FUNCS.discard_cards_from_highlighted = function(e, hook)
             end
         end
 
+        -- if cards are destroyed, calculate jokers
         if destroyed_cards[1] then 
             for j=1, #G.jokers.cards do
-                eval_card(G.jokers.cards[j], {cardarea = G.jokers, remove_playing_cards = true, removed = destroyed_cards})
+                G.jokers.cards[j]:calculate_joker({cardarea = G.jokers, remove_playing_cards = true, removed = destroyed_cards})
+                -- eval_card(G.jokers.cards[j], {cardarea = G.jokers, remove_playing_cards = true, removed = destroyed_cards})
             end
         end
 
@@ -1125,7 +1127,8 @@ G.FUNCS.evaluate_play = function(e)
             end
         end
         for j=1, #G.jokers.cards do
-            eval_card(G.jokers.cards[j], {cardarea = G.jokers, remove_playing_cards = true, removed = cards_destroyed})
+            G.jokers.cards[j]:calculate_joker({cardarea = G.jokers, remove_playing_cards = true, removed = cards_destroyed})
+            -- eval_card(G.jokers.cards[j], {cardarea = G.jokers, remove_playing_cards = true, removed = cards_destroyed})
         end
 
         local glass_shattered = {}
@@ -1170,7 +1173,8 @@ G.FUNCS.evaluate_play = function(e)
         for i=1, #G.jokers.cards do
             
             --calculate the joker effects
-            local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, debuffed_hand = true})
+            local effects = G.jokers.cards[i]:calculate_joker({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, debuffed_hand = true})
+            -- local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, debuffed_hand = true})
 
             --Any Joker effects
             if effects.jokers then
@@ -1218,14 +1222,19 @@ G.FUNCS.evaluate_play = function(e)
     }))
     delay(0.3)
 
-    for i=1, #G.jokers.cards do
-        --calculate the joker after hand played effects
-        local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true})
-        if effects.jokers then
-            card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects.jokers)
-            percent = percent + percent_delta
-        end
-    end
+
+    percent = G.jokers:score({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true}, 
+                    {}, 
+                    percent,
+                    percent_delta)
+    -- for i=1, #G.jokers.cards do
+    --     --calculate the joker after hand played effects
+    --     local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true})
+    --     if effects.jokers then
+    --         card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects.jokers)
+    --         percent = percent + percent_delta
+    --     end
+    -- end
 
     -- If pillar, debuff cards played
     G.E_MANAGER:add_event(Event({

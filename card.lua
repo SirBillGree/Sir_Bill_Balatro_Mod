@@ -999,16 +999,18 @@ repetition_sources = {
     end},
     {name = 'jokers',
     func = function(self, loc_vals, context)
+        context.repetitions = true
         for j=1, #G.jokers.cards do
             --calculate the joker effects
             local eval = G.jokers.cards[j]:calculate_joker(context)
-            if next(eval) and eval.jokers then 
+            if type(eval) == "table" and eval.jokers then 
                 -- create <repetitions> rep tables
                 for h = 1, eval.jokers.repetitions do
                     loc_vals.reps[#loc_vals.reps+1] = eval
                 end
             end
         end
+        context.repetitions = true
     end}
 }
 -- append to add new score sources
@@ -1115,7 +1117,6 @@ end
 
 
 
--- NOTE: NOW EDIT ALL OCCURANCES OF EVAL_CARD  :D
 
 -- function Card:get_chip_bonus()
 --     if self.debuff then return 0 end
