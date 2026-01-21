@@ -1020,25 +1020,24 @@ score_sources = {
     func = function(self, loc_vals, context)
         local score = {}
         if context.cardarea == G.play then
-            score = self.perma
+            score = copy_table(self.perma)
             if self.ability.effect ~= 'Stone Card' then
                 score.chips = score.chips + self.base.nominal
             end
         end
         if score ~= {} then loc_vals.score_table[#loc_vals.score_table+1] = score end
     end},
-    -- temp function for before joker implementation
-    {name = 'TEMP JOKER',
-    func = function(self, loc_vals, context)
-        if context.cardarea == G.jokers then
-            loc_vals.score_table[#loc_vals.score_table+1] = self:calculate_joker(context)
-        end
-    end},
-    -- this will do both jokers and playing cards once jokers implemented
+    -- this should do both jokers and playing cards once jokers implemented
     {name = 'score ability',
     func = function(self, loc_vals, context)
-        if self.ability.id and get_card_functions(self.ability.id) and get_card_functions(self.ability.id).score then
-            loc_vals.score_table[#loc_vals.score_table+1] = get_card_functions(self.ability.id).score(self, context)
+
+        if self.ability.id then
+            local score = nil
+            local re = get_card_functions(self.ability.id)
+            if re.score then
+                score = re.score(self, context)
+            end
+            if score then loc_vals.score_table[#loc_vals.score_table+1] = score end
         end
     end},
     {name = 'seal',
@@ -1046,7 +1045,7 @@ score_sources = {
         local seal = self:calculate_seal(context)
         if (seal and not seal.repetitions) then loc_vals.score_table[#loc_vals.score_table+1] = seal end
     end},
-    -- merge the output of all previous card functions
+    -- merge the output of all previous card functions ERROR!!
     {name = 'merge all',
     func = function(self, loc_vals, context)
         local merged_table = {}
@@ -1060,7 +1059,17 @@ score_sources = {
                 end
             end
         end
-        loc_vals.score_table = merged_table
+        loc_vals.score_table[1] = merged_table
+    end},
+    -- temp function for before joker implementation
+    {name = 'TEMP JOKER',
+    func = function(self, loc_vals, context)
+        -- edit context
+        context.other_card = self
+        local score = self:calculate_joker(context)--{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
+        if score then loc_vals.score_table[#loc_vals.score_table+1] = score end
+        -- revert context
+        context.other_card = nil
     end},
     {name = 'edition',
     func = function(self, loc_vals, context)
@@ -1070,23 +1079,28 @@ score_sources = {
             loc_vals.score_table[#loc_vals.score_table+1] = score
         end
     end},
-    {name = 'other joker',
+    {name = 'joker bonus',
     func = function(self, loc_vals, context)
-        local this_context = context
-        this_context.other_card = self
-        this_context.individual = true
+        -- edit context
+        context.other_card = self
+        context.individual = true -- important
         for i=1,#G.jokers.cards do
-            local score = G.jokers.cards[i]:calculate_joker(this_context)--{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
+            local score = G.jokers.cards[i]:calculate_joker(context)--{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
             if score then loc_vals.score_table[#loc_vals.score_table+1] = score end
         end
+        -- revert context
+        context.other_card = nil
+        context.individual = nil
     end},
 }
 function Card:score(context)
     local loc_vals = {reps = {1}, score_table={}}
     -- calculate the number of repitions
+    context.repetition = true
     for i = 1,#repetition_sources do
         repetition_sources[i].func(self,loc_vals,context)
     end
+    context.repetition = false
     loc_vals.final_table = {}
     for i = 1,#loc_vals.reps do
         -- eval all score sources
@@ -1102,7 +1116,7 @@ function Card:score(context)
     end
 
     -- Give debuff (TEMP)
-    if (self.debuff and #loc_vals.final_table ~= 0) then 
+    if (self.debuff and next(loc_vals.final_table)) then 
         G.GAME.blind.triggered = true
                 G.E_MANAGER:add_event(Event({
                     trigger = 'immediate',

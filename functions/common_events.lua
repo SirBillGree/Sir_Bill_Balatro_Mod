@@ -776,6 +776,7 @@ function set_main_menu_UI()
     G.CONTROLLER:snap_to{node = G.MAIN_MENU_UI:get_UIE_by_ID('main_menu_play')}
 end
 
+-- add repetiton definition
 function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
     percent = percent or (0.9 + 0.2*math.random())
     if dir == 'down' then 

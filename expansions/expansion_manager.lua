@@ -35,12 +35,14 @@ require "expansions/tests"
 -- Add your sets go here ----------------
 local sets = {
     {set_type = 'P_CENTERS', set = vanilla_consumables_set},
+    {set_type = 'P_CENTERS', set = vanilla_enhancements_set},
 }
 -----------------------------------------
 
 -- Add your function collectors here ----
 local get_functions = {
     vanilla_consumables_function_collector,
+    vanilla_enhancement_function_collector,
 }
 -----------------------------------------
 
