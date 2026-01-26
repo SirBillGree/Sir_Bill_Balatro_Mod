@@ -678,6 +678,36 @@ G.FUNCS.get_poker_hand_info = function(_cards)
     loc_disp_text = localize(disp_text, 'poker_hands')
     return text, loc_disp_text, poker_hands, scoring_hand, disp_text
 end
+
+
+
+----------------------------------------------------
+--            Add Other Scoring Cards             --
+----------------------------------------------------
+
+add_other_scoring_cards_funcs={
+    {name = "stone", -- temp: replace with "no face" cards
+    func = function(loc_vars)
+        for i=1,#loc_vars.playing do
+            if loc_vars.playing[i].ability.effect == 'Stone Card' then
+                table.insert(loc_vars.scoring_hand, loc_vars.playing[i])
+            end
+        end
+    end},
+    {name = "splash",
+    func = function(loc_vars)
+        if next(find_joker('Splash')) then loc_vars.scoring_hand = loc_vars.playing end
+    end},
+}
+function add_other_scoring_cards(scoring_hand, playing)
+    local loc_vars = {scoring_hand = scoring_hand, playing = (playing or G.play.cards)}
+
+    for i=1,#add_other_scoring_cards_funcs do
+        add_other_scoring_cards_funcs[i].func(loc_vars)
+    end
+    
+    table.sort(loc_vars.scoring_hand, function (a, b) return a.T.x < b.T.x end )
+end
   
 G.FUNCS.evaluate_play = function(e)
     -- get information on the end before it is played
@@ -690,28 +720,30 @@ G.FUNCS.evaluate_play = function(e)
     set_hand_usage(text)
     G.GAME.hands[text].visible = true
 
-    -- Add additional cards to play (stone, splash)
-    local pures = {}
-    for i=1, #G.play.cards do
-        if next(find_joker('Splash')) then
-            scoring_hand[i] = G.play.cards[i]
-        else
-            if G.play.cards[i].ability.effect == 'Stone Card' then
-                local inside = false
-                for j=1, #scoring_hand do
-                    if scoring_hand[j] == G.play.cards[i] then
-                        inside = true
-                    end
-                end
-                if not inside then table.insert(pures, G.play.cards[i]) end
-            end
-        end
-    end
-    for i=1, #pures do
-        table.insert(scoring_hand, pures[i])
-    end
-    table.sort(scoring_hand, function (a, b) return a.T.x < b.T.x end )
-    -- End of add cards 
+    add_other_scoring_cards(scoring_hand)
+
+    -- -- Add additional cards to play (stone, splash)
+    -- local pures = {}
+    -- for i=1, #G.play.cards do
+    --     if next(find_joker('Splash')) then
+    --         scoring_hand[i] = G.play.cards[i]
+    --     else
+    --         if G.play.cards[i].ability.effect == 'Stone Card' then
+    --             local inside = false
+    --             for j=1, #scoring_hand do
+    --                 if scoring_hand[j] == G.play.cards[i] then
+    --                     inside = true
+    --                 end
+    --             end
+    --             if not inside then table.insert(pures, G.play.cards[i]) end
+    --         end
+    --     end
+    -- end
+    -- for i=1, #pures do
+    --     table.insert(scoring_hand, pures[i])
+    -- end
+    -- table.sort(scoring_hand, function (a, b) return a.T.x < b.T.x end )
+    -- -- End of add cards 
 
     delay(0.2)
     for i=1, #scoring_hand do
@@ -740,23 +772,18 @@ G.FUNCS.evaluate_play = function(e)
             G.GAME.first_used_hand_level = nil
         end
 
-        -- local hand_text_set = false
-        -- for i=1, #G.jokers.cards do
-        --     --calculate the joker effects
-        --     local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before = true})
-        --     if effects.jokers then
-        --         card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects.jokers)
-        --         percent = percent + percent_delta
-        --         if effects.jokers.level_up then
-        --             level_up_hand(G.jokers.cards[i], text)
-        --         end
-        --     end
-        -- end
-
-        G.jokers:score({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before = true},
-                    {},
-                    percent,
-                    percent_delta)
+        local hand_text_set = false
+        for i=1, #G.jokers.cards do
+            --calculate the joker effects
+            local effects = G.jokers.cards[i]:calculate_joker({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before = true})
+            if effects then
+                card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects)
+                percent = percent + percent_delta
+                if effects.level_up then
+                    level_up_hand(G.jokers.cards[i], text)
+                end
+            end
+        end
 
         mult = mod_mult(G.GAME.hands[text].mult)
         hand_chips = mod_chips(G.GAME.hands[text].chips)

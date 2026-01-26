@@ -676,8 +676,9 @@ end
 
 --{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
 
--- these are values that trigger card_eval_status_text() and update internal values
-score_types = {'debuff', 'jokers', 'repetitions', 'chips', 'mult', 'dollars', 'extra', 'x_mult'}
+-- these are values that trigger card_eval_status_text() and update internal values.
+-- Need to be in order that they'd execute
+score_types = {'debuff', 'jokers', 'chips', 'mult', 'dollars', 'extra', 'x_mult'}
 
 -- addtional functions to evaluate during scoring
 additional_score_eval_functions = {
@@ -710,6 +711,8 @@ function CardArea:score(context, total_score, percent, percent_delta, specific_c
         percent = percent+percent_delta
         for ii=1,#score_table do
             score_unit = score_table[ii]
+            -- if repetition, up-pitch sound
+            if score_unit.repetitions then percent = percent+percent_delta end
             -- iterate 's' through score_types 
             for v=1,#score_types do s=score_types[v]
                 if score_unit[s] then
@@ -717,10 +720,8 @@ function CardArea:score(context, total_score, percent, percent_delta, specific_c
 
                     -- Base scoring conditions
                     if total_score[s] then total_score[s] = total_score[s] + score_unit[s]
-                    elseif s == 'x_mult' then total_score[s] = total_score[s] * score_unit[s]
+                    elseif s == 'x_mult' then total_score[s] = total_score.mult * score_unit[s]
                     elseif s == 'dollars' then ease_dollars(score_unit[s])
-                    -- if we're repeating the card, up-pitch sound again
-                    elseif s == 'repetitions' then percent = percent+percent_delta
                     else end
 
                     -- Modded scoring functions

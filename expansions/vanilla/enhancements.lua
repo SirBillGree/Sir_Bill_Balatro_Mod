@@ -36,7 +36,7 @@ vanilla_enhancements_set = {
         m_wild =    {max = 500, order = 4, name = "Wild Card", set = "Enhanced", pos = {x=3,y=1}, effect = "Wild Card", label = "Wild Card", config = {}},
         m_glass =   {max = 500, order = 5, name = "Glass Card", set = "Enhanced", pos = {x=5,y=1}, effect = "Glass Card", label = "Glass Card", config = {x_mult = 2, extra = 4}},
         m_steel =   {max = 500, order = 6, name = "Steel Card", set = "Enhanced", pos = {x=6,y=1}, effect = "Steel Card", label = "Steel Card", config = {h_x_mult = 1.5}},
-        m_stone =   {max = 500, order = 7, name = "Stone Card", set = "Enhanced", pos = {x=5,y=0}, effect = "Stone Card", label = "Stone Card", config = {chips = 50}},
+        m_stone =   {max = 500, order = 7, name = "Stone Card", set = "Enhanced", pos = {x=5,y=0}, effect = "Stone Card", label = "Stone Card", config = {chips = 50, faceless = true}},
         m_gold =    {max = 500, order = 8, name = "Gold Card", set = "Enhanced", pos = {x=6,y=0}, effect = "Gold Card", label = "Gold Card", config = {h_dollars = 3}},
         m_lucky =   {max = 500, order = 9, name = "Lucky Card", set = "Enhanced", pos = {x=4,y=1}, effect = "Lucky Card", label = "Lucky Card", config = {mult=20, p_dollars = 20}},
 }
@@ -137,7 +137,7 @@ function score_lucky(chance1, mult, chance2, dollars)
             local score = {}
             if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/chance1 then score.mult = mult end
             if pseudorandom('lucky_money') < G.GAME.probabilities.normal/chance2 then score.dollars = dollars end
-            if #score > 0 then self.lucky_trigger = true end
+            if score.mult or score.dollars then self.lucky_trigger = true end
             return score
         else return {} end
     end

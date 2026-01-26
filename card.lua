@@ -1045,7 +1045,7 @@ score_sources = {
         local seal = self:calculate_seal(context)
         if (seal and not seal.repetitions) then loc_vals.score_table[#loc_vals.score_table+1] = seal end
     end},
-    -- merge the output of all previous card functions ERROR!!
+    -- merge the output of all previous card functions
     {name = 'merge all',
     func = function(self, loc_vals, context)
         local merged_table = {}
@@ -1059,7 +1059,7 @@ score_sources = {
                 end
             end
         end
-        loc_vals.score_table[1] = merged_table
+        loc_vals.score_table = {merged_table}
     end},
     -- temp function for before joker implementation
     {name = 'TEMP JOKER',
@@ -1108,7 +1108,7 @@ function Card:score(context)
             score_sources[ii].func(self,loc_vals,context)
         end
         -- add rep notification if there's an output to repeat
-        if (i~=1 and #loc_vals.score_table ~= 0) then table.insert(loc_vals.final_table, loc_vals.reps[i]) end
+        if (i~=1 and #loc_vals.score_table ~= 0) then table.insert(loc_vals.final_table, {extra=loc_vals.reps[i]}) end
         -- append scores to final score table
         for ii=1,#loc_vals.score_table do table.insert(loc_vals.final_table, loc_vals.score_table[ii]) end
         -- empty score table for next iteration
@@ -1939,14 +1939,14 @@ function Card:calculate_seal(context)
                 }
         end
     end
-    if context.cardarea == G.play then
+    if context.cardarea == G.play and not context.repetition then
         if self.seal == 'Gold' then
                 return {
                     dollars = 3,
                 }
         end
     end
-    if context.end_of_round and context.cardarea == G.hand then
+    if context.end_of_round and context.cardarea == G.hand and not context.repetition then
         if self.seal == 'Blue' then
             local card_type = 'Planet'
         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
@@ -1971,7 +1971,7 @@ function Card:calculate_seal(context)
         card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
         end
     end
-    if context.discard then
+    if context.discard and not context.repetition then
         if self.seal == 'Purple' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
             G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
             G.E_MANAGER:add_event(Event({

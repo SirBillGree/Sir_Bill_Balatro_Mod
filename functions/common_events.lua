@@ -776,71 +776,115 @@ function set_main_menu_UI()
     G.CONTROLLER:snap_to{node = G.MAIN_MENU_UI:get_UIE_by_ID('main_menu_play')}
 end
 
--- add repetiton definition
+--------------------------------------------------
+--            Card Eval Status Text             --
+--------------------------------------------------
+
+
+card_eval_status_text_alignment = {
+    {name = "render bottom",
+    func = function(card, loc_vars)
+        if card.area == G.jokers or card.area == G.consumeables then
+            loc_vars.card_aligned = 'bm'
+            loc_vars.y_off = 0.05*G.CARD_H
+        end
+    end},
+    {name = "render top",
+    func = function(card, loc_vars)
+        if card.area == G.hand or card.area == G.play or card.jimbo then
+            loc_vars.card_aligned = 'tm'
+            loc_vars.y_off = -0.05*G.CARD_H
+        end
+    end},
+}
+card_eval_status_text_type_settings = {
+    debuff = function(amt, loc_vars) 
+        loc_vars.sound = 'cancel'; loc_vars.colour = G.C.RED; loc_vars.scale = 0.6; loc_vars.text = localize('k_debuffed')
+    end,
+    chips = function(amt, loc_vars) 
+        loc_vars.sound = 'chips1'; loc_vars.colour = G.C.CHIPS; loc_vars.delay = 0.6; loc_vars.text = localize{type='variable',key='a_chips',vars={amt}}
+    end,
+    mult = function(amt, loc_vars) 
+        loc_vars.sound = 'multhit1'; loc_vars.colour = G.C.MULT; loc_vars.scale = 0.7; loc_vars.text = localize{type='variable',key='a_mult',vars={amt}}
+    end,
+    x_mult = function(amt, loc_vars) 
+        loc_vars.sound = 'multhit2'; loc_vars.colour = G.C.MULT; loc_vars.scale = 0.7; loc_vars.volume = 0.7; loc_vars.text = localize{type='variable',key='a_xmult',vars={amt}}
+    end,
+    dollars = function(amt, loc_vars) 
+        loc_vars.sound = 'coin3'; loc_vars.colour = amt < 0 and G.C.RED or G.C.MONEY; loc_vars.text = (amt < 0 and '-' or '')..localize("$")..tostring(math.abs(amt))
+    end,
+}
 function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
     percent = percent or (0.9 + 0.2*math.random())
     if dir == 'down' then 
         percent = 1-percent
     end
-
+    extra = extra or {}
     if extra and extra.focus then card = extra.focus end
+    
+    local loc_vars = {
+        text = extra.message or eval_type,
+        sound = extra.sound or nil,
+        volume = extra.volume or 1,
+        card_aligned = 'bm',
+        y_off = 0.15*G.CARD_H,
+        scale = extra.scale or 1,
+        delay = extra.delay or 0.65,
+        colour = (extra and extra.colour) or ( G.C.FILTER ),
+    }
 
-    local text = ''
-    local sound = nil
-    local volume = 1
-    local card_aligned = 'bm'
-    local y_off = 0.15*G.CARD_H
-    if card.area == G.jokers or card.area == G.consumeables then
-        y_off = 0.05*card.T.h
-    elseif card.area == G.hand then
-        y_off = -0.05*G.CARD_H
-        card_aligned = 'tm'
-    elseif card.area == G.play then
-        y_off = -0.05*G.CARD_H
-        card_aligned = 'tm'
-    elseif card.jimbo  then
-        y_off = -0.05*G.CARD_H
-        card_aligned = 'tm'
+    -- render text on top or bottom based on cardarea name
+    for i=1,#card_eval_status_text_alignment do
+        card_eval_status_text_alignment[i].func(card, loc_vars)
     end
-    local config = {}
-    local delay = 0.65
-    local colour = config.colour or (extra and extra.colour) or ( G.C.FILTER )
-    local extrafunc = nil
 
-    if eval_type == 'debuff' then 
-        sound = 'cancel'
-        amt = 1
-        colour = G.C.RED
-        config.scale = 0.6
-        text = localize('k_debuffed')
-    elseif eval_type == 'chips' then 
-        sound = 'chips1'
-        amt = amt
-        colour = G.C.CHIPS
-        text = localize{type='variable',key='a_chips',vars={amt}}
-        delay = 0.6
-    elseif eval_type == 'mult' then 
-        sound = 'multhit1'--'other1'
-        amt = amt
-        text = localize{type='variable',key='a_mult',vars={amt}}
-        colour = G.C.MULT
-        config.type = 'fade'
-        config.scale = 0.7
-    elseif (eval_type == 'x_mult') or (eval_type == 'h_x_mult') then 
-        sound = 'multhit2'
-        volume = 0.7
-        amt = amt
-        text = localize{type='variable',key='a_xmult',vars={amt}}
-        colour = G.C.XMULT
-        config.type = 'fade'
-        config.scale = 0.7
-    elseif eval_type == 'h_mult' then 
-        sound = 'multhit1'
-        amt = amt
-        text = localize{type='variable',key='a_mult',vars={amt}}
-        colour = G.C.MULT
-        config.type = 'fade'
-        config.scale = 0.7
+    -- search for render settings, stick to default otherwise
+    if card_eval_status_text_type_settings[eval_type] then 
+        card_eval_status_text_type_settings[eval_type](amt, loc_vars)
+    end
+
+    G.E_MANAGER:add_event(Event({ 
+            trigger = 'before',
+            delay = loc_vars.delay,
+            func = function()
+                -- display text
+                attention_text({
+                    text = loc_vars.text,
+                    scale = loc_vars.scale or 1, 
+                    hold = loc_vars.delay - 0.2,
+                    backdrop_colour = loc_vars.colour,
+                    align = loc_vars.card_aligned,
+                    major = card,
+                    offset = {x = 0, y = loc_vars.y_off}
+                })
+                -- play sound
+                play_sound(loc_vars.sound, 0.8+percent*0.2, loc_vars.volume)
+                -- unless told not to jiggle, jiggle
+                if not extra or not extra.no_juice then
+                    card:juice_up(0.6, 0.1)
+                    G.ROOM.jiggle = G.ROOM.jiggle + 0.7
+                end
+                -- play functions associated with score_unit
+                if extra.func then extra.func() end
+                return true
+            end
+    }))
+end
+
+-- text = text,
+-- scale = config.scale or 1, 
+-- hold = delay - 0.2,
+-- backdrop_colour = colour,
+-- align = card_aligned,
+-- major = card,
+-- offset = {x = 0, y = y_off}
+
+-- sound 
+-- volume
+
+--[[
+function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
+
     elseif eval_type == 'dollars' then 
         sound = 'coin3'
         amt = amt
@@ -925,6 +969,7 @@ function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
         playing_card_joker_effects(extra.playing_cards_created)
     end
 end
+]]--
 
 function add_round_eval_row(config)
     local config = config or {}
