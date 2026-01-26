@@ -299,6 +299,7 @@ function Card:set_ability(center, initial, delay_sprites)
         extra_value = 0,
         type = center.config.type or '',
         order = center.order or nil,
+        faceless = center.config.faceless or nil,
         forced_selection = self.ability and self.ability.forced_selection or nil,
     }
 
@@ -961,12 +962,12 @@ end
 function Card:get_nominal(mod)
     local mult = 1
     if mod == 'suit' then mult = 1000 end
-    if self.ability.effect == 'Stone Card' then mult = -1000 end
+    if self.ability.faceless then mult = -1000 end
     return self.base.nominal + self.base.suit_nominal*mult + (self.base.suit_nominal_original or 0)*0.0001*mult + self.base.face_nominal + 0.000001*self.unique_val
 end
 
 function Card:get_id()
-    if self.ability.effect == 'Stone Card' and not self.vampired then
+    if self.ability.faceless and not self.vampired then
         return -math.random(100, 1000000)
     end
     return self.base.id
@@ -1021,7 +1022,7 @@ score_sources = {
         local score = {}
         if context.cardarea == G.play then
             score = copy_table(self.perma)
-            if self.ability.effect ~= 'Stone Card' then
+            if not self.ability.faceless then
                 score.chips = score.chips + self.base.nominal
             end
         end
@@ -3042,7 +3043,7 @@ function Card:calculate_joker(context)
                         local temp_Mult, temp_ID = 15, 15
                         local raised_card = nil
                         for i=1, #G.hand.cards do
-                            if temp_ID >= G.hand.cards[i].base.id and G.hand.cards[i].ability.effect ~= 'Stone Card' then temp_Mult = G.hand.cards[i].base.nominal; temp_ID = G.hand.cards[i].base.id; raised_card = G.hand.cards[i] end
+                            if temp_ID >= G.hand.cards[i].base.id and not G.hand.cards[i].ability.faceless then temp_Mult = G.hand.cards[i].base.nominal; temp_ID = G.hand.cards[i].base.id; raised_card = G.hand.cards[i] end
                         end
                         if raised_card == context.other_card then 
                             if context.other_card.debuff then
@@ -3784,7 +3785,7 @@ function Card:calculate_joker(context)
 
 function Card:is_suit(suit, bypass_debuff, flush_calc)
     if flush_calc then
-        if self.ability.effect == 'Stone Card' then
+        if self.ability.faceless then
             return false
         end
         if self.ability.name == "Wild Card" and not self.debuff then
@@ -3796,7 +3797,7 @@ function Card:is_suit(suit, bypass_debuff, flush_calc)
         return self.base.suit == suit
     else
         if self.debuff and not bypass_debuff then return end
-        if self.ability.effect == 'Stone Card' then
+        if self.ability.faceless then
             return false
         end
         if self.ability.name == "Wild Card" then
@@ -4137,13 +4138,13 @@ function Card:draw(layer)
             --Draw the main part of the card
             if (self.edition and self.edition.negative) or (self.ability.name == 'Antimatter' and (self.config.center.discovered or self.bypass_discovery_center)) then
                 self.children.center:draw_shader('negative', nil, self.ARGS.send_to_shader)
-                if self.children.front and self.ability.effect ~= 'Stone Card' then
+                if self.children.front and not self.ability.faceless then
                     self.children.front:draw_shader('negative', nil, self.ARGS.send_to_shader)
                 end
             elseif not self.greyed then
                 self.children.center:draw_shader('dissolve')
                 --If the card has a front, draw that next
-                if self.children.front and self.ability.effect ~= 'Stone Card' then
+                if self.children.front and not self.ability.faceless then
                     self.children.front:draw_shader('dissolve')
                 end
             end
@@ -4173,19 +4174,19 @@ function Card:draw(layer)
                 end
                 if self.edition and self.edition.holo then
                     self.children.center:draw_shader('holo', nil, self.ARGS.send_to_shader)
-                    if self.children.front and self.ability.effect ~= 'Stone Card' then
+                    if self.children.front and not self.ability.faceless then
                         self.children.front:draw_shader('holo', nil, self.ARGS.send_to_shader)
                     end
                 end
                 if self.edition and self.edition.foil then
                     self.children.center:draw_shader('foil', nil, self.ARGS.send_to_shader)
-                    if self.children.front and self.ability.effect ~= 'Stone Card' then
+                    if self.children.front and not self.ability.faceless then
                         self.children.front:draw_shader('foil', nil, self.ARGS.send_to_shader)
                     end
                 end
                 if self.edition and self.edition.polychrome then
                     self.children.center:draw_shader('polychrome', nil, self.ARGS.send_to_shader)
-                    if self.children.front and self.ability.effect ~= 'Stone Card' then
+                    if self.children.front and not self.ability.faceless then
                         self.children.front:draw_shader('polychrome', nil, self.ARGS.send_to_shader)
                     end
                 end
@@ -4247,13 +4248,13 @@ function Card:draw(layer)
                 end
                 if self.debuff then
                     self.children.center:draw_shader('debuff', nil, self.ARGS.send_to_shader)
-                    if self.children.front and self.ability.effect ~= 'Stone Card' then
+                    if self.children.front and not self.ability.faceless then
                         self.children.front:draw_shader('debuff', nil, self.ARGS.send_to_shader)
                     end
                 end
                 if self.greyed then
                     self.children.center:draw_shader('played', nil, self.ARGS.send_to_shader)
-                    if self.children.front and self.ability.effect ~= 'Stone Card' then
+                    if self.children.front and not self.ability.faceless then
                         self.children.front:draw_shader('played', nil, self.ARGS.send_to_shader)
                     end
                 end

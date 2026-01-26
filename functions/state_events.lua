@@ -686,10 +686,10 @@ end
 ----------------------------------------------------
 
 add_other_scoring_cards_funcs={
-    {name = "stone", -- temp: replace with "no face" cards
+    {name = "faceless", -- temp: replace with "no face" cards
     func = function(loc_vars)
         for i=1,#loc_vars.playing do
-            if loc_vars.playing[i].ability.effect == 'Stone Card' then
+            if loc_vars.playing[i].ability.faceless then
                 table.insert(loc_vars.scoring_hand, loc_vars.playing[i])
             end
         end

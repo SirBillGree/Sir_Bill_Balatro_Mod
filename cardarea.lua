@@ -699,7 +699,7 @@ function CardArea:score(context, total_score, percent, percent_delta, specific_c
     for i=1,#scoring_cards do
         -- add to cards played (TEMP)
         if self == G.play.cards then
-            if scoring_cards[i].ability.effect ~= 'Stone Card' then 
+            if not scoring_cards[i].ability.faceless then 
                 G.GAME.cards_played[scoring_cards[i].base.value].total = G.GAME.cards_played[scoring_cards[i].base.value].total + 1
                 G.GAME.cards_played[scoring_cards[i].base.value].suits[scoring_cards[i].base.suit] = true 
             end

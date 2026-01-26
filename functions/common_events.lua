@@ -1389,12 +1389,12 @@ function check_for_unlock(args)
             if args.type == 'play_all_hearts' then
                 local played = true
                 for k, v in ipairs(G.deck.cards) do
-                    if v.ability.name ~= 'Stone Card' and v.base.suit == 'Hearts' then 
+                    if not v.ability.faceless and v.base.suit == 'Hearts' then 
                         played = false
                     end
                 end
                 for k, v in ipairs(G.hand.cards) do
-                    if v.ability.name ~= 'Stone Card' and v.base.suit == 'Hearts' then 
+                    if not v.ability.faceless and v.base.suit == 'Hearts' then 
                         played = false
                     end
                 end
@@ -2319,7 +2319,7 @@ function reset_idol_card()
     G.GAME.current_round.idol_card.suit = 'Spades'
     local valid_idol_cards = {}
     for k, v in ipairs(G.playing_cards) do
-        if v.ability.effect ~= 'Stone Card' then
+        if not v.ability.faceless then
             valid_idol_cards[#valid_idol_cards+1] = v
         end
     end
@@ -2335,7 +2335,7 @@ function reset_mail_rank()
     G.GAME.current_round.mail_card.rank = 'Ace'
     local valid_mail_cards = {}
     for k, v in ipairs(G.playing_cards) do
-        if v.ability.effect ~= 'Stone Card' then
+        if not v.ability.faceless then
             valid_mail_cards[#valid_mail_cards+1] = v
         end
     end
@@ -2359,7 +2359,7 @@ function reset_castle_card()
     G.GAME.current_round.castle_card.suit = 'Spades'
     local valid_castle_cards = {}
     for k, v in ipairs(G.playing_cards) do
-        if v.ability.effect ~= 'Stone Card' then
+        if not v.ability.faceless then
             valid_castle_cards[#valid_castle_cards+1] = v
         end
     end
