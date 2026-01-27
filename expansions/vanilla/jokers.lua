@@ -56,20 +56,20 @@ contexts:
 
 vanilla_jokers_set = {
         j_joker=            {order = 1,  unlocked = true,   start_alerted = true, discovered = true,  blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 2, name = "Joker", pos = {x=0,y=0}, set = "Joker", effect = "Mult", cost_mult = 1.0, config = {mult = 4}},
-        j_greedy_joker=     {order = 2,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Greedy Joker", pos = {x=6,y=1}, set = "Joker", effect = "Suit Mult", cost_mult = 1.0, config = {extra = {s_mult = 3, suit = 'Diamonds'}}},
-        j_lusty_joker=      {order = 3,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Lusty Joker", pos = {x=7,y=1}, set = "Joker", effect = "Suit Mult", cost_mult = 1.0, config = {extra = {s_mult = 3, suit = 'Hearts'}}},
-        j_wrathful_joker=   {order = 4,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Wrathful Joker", pos = {x=8,y=1}, set = "Joker", effect = "Suit Mult", cost_mult = 1.0, config = {extra = {s_mult = 3, suit = 'Spades'}}},
-        j_gluttenous_joker= {order = 5,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Gluttonous Joker", pos = {x=9,y=1}, set = "Joker", effect = "Suit Mult", cost_mult = 1.0, config = {extra = {s_mult = 3, suit = 'Clubs'}}},
-        j_jolly=            {order = 6,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 3, name = "Jolly Joker", pos = {x=2,y=0}, set = "Joker", effect = "Type Mult", cost_mult = 1.0, config = {t_mult = 8, type = 'Pair'}},
-        j_zany=             {order = 7,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Zany Joker", pos = {x=3,y=0}, set = "Joker", effect = "Type Mult", cost_mult = 1.0, config = {t_mult = 12, type = 'Three of a Kind'}},
-        j_mad=              {order = 8,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Mad Joker", pos = {x=4,y=0}, set = "Joker", effect = "Type Mult", cost_mult = 1.0, config = {t_mult = 10, type = 'Two Pair'}},
-        j_crazy=            {order = 9,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Crazy Joker", pos = {x=5,y=0}, set = "Joker", effect = "Type Mult", cost_mult = 1.0, config = {t_mult = 12, type = 'Straight'}},
-        j_droll=            {order = 10,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Droll Joker", pos = {x=6,y=0}, set = "Joker", effect = "Type Mult", cost_mult = 1.0, config = {t_mult = 10, type = 'Flush'}},
-        j_sly=              {order = 11,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 3, name = "Sly Joker",set = "Joker", config = {t_chips = 50, type = 'Pair'}, pos = {x=0,y=14}},
-        j_wily=             {order = 12,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Wily Joker",set = "Joker", config = {t_chips = 100, type = 'Three of a Kind'}, pos = {x=1,y=14}},
-        j_clever=           {order = 13,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Clever Joker",set = "Joker", config = {t_chips = 80, type = 'Two Pair'}, pos = {x=2,y=14}},
-        j_devious=          {order = 14,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Devious Joker",set = "Joker", config = {t_chips = 100, type = 'Straight'}, pos = {x=3,y=14}},
-        j_crafty=           {order = 15,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Crafty Joker",set = "Joker", config = {t_chips = 80, type = 'Flush'}, pos = {x=4,y=14}},
+        j_greedy_joker=     {order = 2,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Greedy Joker", pos = {x=6,y=1}, set = "Joker", effect = "Suit Mult", cost_mult = 1.0, config = {extra = {mult = 3, suit = 'Diamonds'}}},
+        j_lusty_joker=      {order = 3,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Lusty Joker", pos = {x=7,y=1}, set = "Joker", effect = "Suit Mult", cost_mult = 1.0, config = {extra = {mult = 3, suit = 'Hearts'}}},
+        j_wrathful_joker=   {order = 4,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Wrathful Joker", pos = {x=8,y=1}, set = "Joker", effect = "Suit Mult", cost_mult = 1.0, config = {extra = {mult = 3, suit = 'Spades'}}},
+        j_gluttenous_joker= {order = 5,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Gluttonous Joker", pos = {x=9,y=1}, set = "Joker", effect = "Suit Mult", cost_mult = 1.0, config = {extra = {mult = 3, suit = 'Clubs'}}},
+        j_jolly=            {order = 6,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 3, name = "Jolly Joker", pos = {x=2,y=0}, set = "Joker", effect = "Type Mult", cost_mult = 1.0, config = {mult = 8, type = 'Pair'}},
+        j_zany=             {order = 7,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Zany Joker", pos = {x=3,y=0}, set = "Joker", effect = "Type Mult", cost_mult = 1.0, config = {mult = 12, type = 'Three of a Kind'}},
+        j_mad=              {order = 8,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Mad Joker", pos = {x=4,y=0}, set = "Joker", effect = "Type Mult", cost_mult = 1.0, config = {mult = 10, type = 'Two Pair'}},
+        j_crazy=            {order = 9,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Crazy Joker", pos = {x=5,y=0}, set = "Joker", effect = "Type Mult", cost_mult = 1.0, config = {mult = 12, type = 'Straight'}},
+        j_droll=            {order = 10,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Droll Joker", pos = {x=6,y=0}, set = "Joker", effect = "Type Mult", cost_mult = 1.0, config = {mult = 10, type = 'Flush'}},
+        j_sly=              {order = 11,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 3, name = "Sly Joker",set = "Joker", effect = "Type Chips", config = {chips = 50, type = 'Pair'}, pos = {x=0,y=14}},
+        j_wily=             {order = 12,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Wily Joker",set = "Joker", effect = "Type Chips", config = {chips = 100, type = 'Three of a Kind'}, pos = {x=1,y=14}},
+        j_clever=           {order = 13,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Clever Joker",set = "Joker", effect = "Type Chips", config = {chips = 80, type = 'Two Pair'}, pos = {x=2,y=14}},
+        j_devious=          {order = 14,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Devious Joker",set = "Joker", effect = "Type Chips", config = {chips = 100, type = 'Straight'}, pos = {x=3,y=14}},
+        j_crafty=           {order = 15,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Crafty Joker",set = "Joker", effect = "Type Chips", config = {chips = 80, type = 'Flush'}, pos = {x=4,y=14}},
 
         j_half=             {order = 16,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Half Joker", pos = {x=7,y=0}, set = "Joker", effect = "Hand Size Mult", cost_mult = 1.0, config = {extra = {mult = 20, size = 3}}},
         j_stencil=          {order = 17,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 8, name = "Joker Stencil", pos = {x=2,y=5}, set = "Joker", effect = "Hand Size Mult", cost_mult = 1.0, config = {}},
@@ -226,14 +226,61 @@ end
 local joker_functions = {}
 
 local function define_joker_functions()
+
+    ---------------------------------------------------------------
+    ---------------------------------------------------------------
+    --                     SCORING FUNCTIONS                     --
+    ---------------------------------------------------------------
+    ---------------------------------------------------------------
+
+    local function score_suit_jokers()
+        return function(self, context)
+            if context.individual and context.other_card:is_suit(self.ability.extra.suit) then
+                return {
+                        mult = self.ability.extra.mult,
+                        card = self
+                    }
+            end
+        end
+    end
+
+    local function score_hand_jokers()
+        return function(self, context)
+            if context.individual and context.poker_hands[self.ability.extra.type] then
+                return {
+                        mult = self.ability.extra.mult or nil,
+                        chips = self.ability.extra.chips or nil,
+                        card = self
+                    }
+            end
+        end
+    end
+
+    local function half_joker()
+        return function(self, context)
+
+        end
+    end
+
+
+
     -- I chose to make a loop instead of define a table so that I could save time
     -- and not have to write out "vanilla_jokers_set.j_<joker>.config.<var>"
     -- a billion times, which seems hard to maintain. "c.<var>" is much better.
-    -- Yes, it's slower (O(n) instead of O(1)), but this should only run once.
+    -- Yes, it's slower (O(n^2) instead of O(n)), but this should only run once.
     for k,v in pairs(vanilla_jokers_set) do
         local c = v.config
 
         -- place function defs here --
+        if k == 'j_joker' then joker_functions[k] =                             {eval={}}
+        elseif k == 'j_half' then joker_functions[k] =                          {eval={}}
+        elseif v.effect then 
+            if v.effect == "Suit Mult" then joker_functions[k] =                {eval={score_suit_jokers()}}
+            elseif v.effect == "Type Mult" or
+                   v.effect == "Type Chips" then joker_functions[k] =           {eval={score_hand_jokers()}}
+            end
+        end
+        
 
     end
 end
@@ -253,20 +300,26 @@ end
 
 
 function trigger(cond, effect)
-  return function(cond_args)
-    if cond(cond_args) then effect() end
-  end
-end
-
-function context_condition(context_type)
-  return function(context)
-    if context[context_type] then return true else return false end
+  return function(self, context)
+    if cond(context) then effect(self, context) end
   end
 end
 
 -- trig1 = trigger(context_condition('individual'), effect())
 -- trig1(context.individual) => effect()
 -- trig1(context.other) => nil
+
+----------------------------------------------
+--               CONDITIONS                 --
+----------------------------------------------
+
+function on(code)
+    return function(context)
+        if context[code] then return true else return false end
+    end
+end
+
+
 
 
 

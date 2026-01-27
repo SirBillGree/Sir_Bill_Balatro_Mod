@@ -50,7 +50,74 @@ end
 
 local enhancement_functions = {}
 
+
+-- functions passed exist in this function and are passed to game --
 local function define_enhancement_functions()
+
+    ---------------------------------------------------------------------------
+    ---------------------------------------------------------------------------
+    --                           SCORING FUNCTIONS                           --
+    ---------------------------------------------------------------------------
+    ---------------------------------------------------------------------------
+    -- input external: varied, given in card consumables_functions table
+    -- output external: interal function
+    -- input: self, context
+    -- output: <score_unit> => {} | {card, chips, mult, x_mult, dollars, extra}
+
+    local function score_none()
+        return function(self, context)
+            return {}
+        end
+    end
+
+    -- both bonus and stone cards
+    local function score_chips(amt)
+        return function(self, context)
+            if context.cardarea == G.play then return {chips = amt}
+            else return {} end
+        end
+    end
+
+    local function score_mult(amt)
+        return function(self, context)
+            if context.cardarea == G.play then return {mult = amt}
+            else return {} end
+        end
+    end
+
+    local function score_glass(amt)
+        return function(self, context)
+            if context.cardarea == G.play then return {x_mult = amt}
+            else return {} end
+        end
+    end
+
+    local function score_steel(amt)
+        return function(self, context)
+            if context.cardarea == G.hand then return {x_mult = amt}
+            else return {} end
+        end
+    end
+
+    local function score_gold(amt)
+        return function(self, context)
+            if context.cardarea == G.hand and context.end_of_round == true then return {dollars = amt} 
+            else return {} end
+        end
+    end
+
+    local function score_lucky(chance1, mult, chance2, dollars)
+        return function(self, context)
+            if context.cardarea == G.play then 
+                local score = {}
+                if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/chance1 then score.mult = mult end
+                if pseudorandom('lucky_money') < G.GAME.probabilities.normal/chance2 then score.dollars = dollars end
+                if score.mult or score.dollars then self.lucky_trigger = true end
+                return score
+            else return {} end
+        end
+    end
+
     -- I chose to make a loop instead of define a table so that I could save time
     -- and not have to write out "vanilla_enhancements_set.j_<enhancement>.config.<var>"
     -- a billion times, which seems hard to maintain. "c.<var>" is much better.
@@ -89,58 +156,58 @@ end
 -- output: <score_unit> => {} | {card, chips, mult, x_mult, dollars, extra}
 
 
-function score_none()
-    return function(self, context)
-        return {}
-    end
-end
+-- local function score_none()
+--     return function(self, context)
+--         return {}
+--     end
+-- end
 
--- both bonus and stone cards
-function score_chips(amt)
-    return function(self, context)
-        if context.cardarea == G.play then return {chips = amt}
-        else return {} end
-    end
-end
+-- -- both bonus and stone cards
+-- local function score_chips(amt)
+--     return function(self, context)
+--         if context.cardarea == G.play then return {chips = amt}
+--         else return {} end
+--     end
+-- end
 
-function score_mult(amt)
-    return function(self, context)
-        if context.cardarea == G.play then return {mult = amt}
-        else return {} end
-    end
-end
+-- local function score_mult(amt)
+--     return function(self, context)
+--         if context.cardarea == G.play then return {mult = amt}
+--         else return {} end
+--     end
+-- end
 
-function score_glass(amt)
-    return function(self, context)
-        if context.cardarea == G.play then return {x_mult = amt}
-        else return {} end
-    end
-end
+-- local function score_glass(amt)
+--     return function(self, context)
+--         if context.cardarea == G.play then return {x_mult = amt}
+--         else return {} end
+--     end
+-- end
 
-function score_steel(amt)
-    return function(self, context)
-        if context.cardarea == G.hand then return {x_mult = amt}
-        else return {} end
-    end
-end
+-- local function score_steel(amt)
+--     return function(self, context)
+--         if context.cardarea == G.hand then return {x_mult = amt}
+--         else return {} end
+--     end
+-- end
 
-function score_gold(amt)
-    return function(self, context)
-        if context.cardarea == G.hand and context.end_of_round == true then return {dollars = amt} 
-        else return {} end
-    end
-end
+-- local function score_gold(amt)
+--     return function(self, context)
+--         if context.cardarea == G.hand and context.end_of_round == true then return {dollars = amt} 
+--         else return {} end
+--     end
+-- end
 
-function score_lucky(chance1, mult, chance2, dollars)
-    return function(self, context)
-        if context.cardarea == G.play then 
-            local score = {}
-            if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/chance1 then score.mult = mult end
-            if pseudorandom('lucky_money') < G.GAME.probabilities.normal/chance2 then score.dollars = dollars end
-            if score.mult or score.dollars then self.lucky_trigger = true end
-            return score
-        else return {} end
-    end
-end
+-- local function score_lucky(chance1, mult, chance2, dollars)
+--     return function(self, context)
+--         if context.cardarea == G.play then 
+--             local score = {}
+--             if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/chance1 then score.mult = mult end
+--             if pseudorandom('lucky_money') < G.GAME.probabilities.normal/chance2 then score.dollars = dollars end
+--             if score.mult or score.dollars then self.lucky_trigger = true end
+--             return score
+--         else return {} end
+--     end
+-- end
 
 
