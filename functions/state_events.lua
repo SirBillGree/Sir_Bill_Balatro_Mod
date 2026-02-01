@@ -775,7 +775,7 @@ G.FUNCS.evaluate_play = function(e)
         local hand_text_set = false
         for i=1, #G.jokers.cards do
             --calculate the joker effects
-            local effects = G.jokers.cards[i]:calculate_joker({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before = true})
+            local effects = G.jokers.cards[i]:calculate_joker({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before_score = true})
             if effects then
                 card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects)
                 percent = percent + percent_delta
@@ -798,7 +798,7 @@ G.FUNCS.evaluate_play = function(e)
         --score cards
         --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
         local total_score = {chips = hand_chips, mult = mult}
-        percent = G.play:score({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hand = text}, 
+        percent = G.play:score({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hand = text, score=true}, 
                     total_score,
                     percent,
                     percent_delta,
@@ -943,7 +943,7 @@ G.FUNCS.evaluate_play = function(e)
         --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
         delay(0.3)
 
-        percent = G.hand:score({cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands}, 
+        percent = G.hand:score({cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands,score=true}, 
                     total_score,
                     percent,
                     percent_delta)
@@ -1042,12 +1042,12 @@ G.FUNCS.evaluate_play = function(e)
         --Joker Effects
         --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
 
-        percent = G.jokers:score({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true}, 
+        percent = G.jokers:score({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true, score=true}, 
                     total_score,
                     percent,
                     percent_delta)
 
-        percent = G.consumeables:score({cardarea = G.consumeables, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true}, 
+        percent = G.consumeables:score({cardarea = G.consumeables, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, joker_main = true, score=true}, 
                     total_score,
                     percent,
                     percent_delta)

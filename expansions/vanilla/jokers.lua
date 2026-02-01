@@ -256,12 +256,6 @@ local function define_joker_functions()
         end
     end
 
-    local function half_joker()
-        return function(self, context)
-
-        end
-    end
-
 
 
     -- I chose to make a loop instead of define a table so that I could save time
@@ -297,7 +291,8 @@ end
 --                     TRIGGER FUNCTION + CONDITIONS                     --
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------
-
+-- cond = <conditional> | {<conditional>, <conditional>...}
+-- <conditional> = <context> | not <context> 
 
 function trigger(cond, effect)
   return function(self, context)
@@ -305,20 +300,47 @@ function trigger(cond, effect)
   end
 end
 
--- trig1 = trigger(context_condition('individual'), effect())
--- trig1(context.individual) => effect()
--- trig1(context.other) => nil
 
-----------------------------------------------
---               CONDITIONS                 --
-----------------------------------------------
+--------------------------------------------------
+--               CONDITIONS (on)                --
+--------------------------------------------------
 
-function on(code)
-    return function(context)
-        if context[code] then return true else return false end
+function eval_on(code)
+    local invert = 0
+    code, invert = string.gsub(code, "not ", "")
+    if invert == 0 then
+        -- if no "not"
+        return function(context)
+            if context[code] then return true else return false end
+        end
+    else
+        -- if "not"
+        return function(context)
+            if not context[code] then return true else return false end
+        end
     end
 end
 
+function on(code)
+    if type(code) == "string" then
+        -- default condition
+        return function(context)
+            return eval_on(code)
+        end
+    elseif type(code) == "table" then
+        -- if input is a table of context strings
+        return function(context)
+            -- Go through each string
+            for i=1,#code do
+                -- if the result of any of the conditions is false, return false
+                if not eval_on(code[i]) then return false end
+            end 
+            -- Else return true
+            return true
+        end
+    else error("string or table of strings expected for on() function") end
+        -- otherwise, it's not a valid input
+end
 
 
 
