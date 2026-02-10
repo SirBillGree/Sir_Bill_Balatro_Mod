@@ -1,4 +1,5 @@
 if (love.system.getOS() == 'OS X' ) and (jit.arch == 'arm64' or jit.arch == 'arm') then jit.off() end
+require "tools"
 require "engine/object"
 require "bit"
 require "engine/string_packer"
@@ -28,7 +29,8 @@ require "engine/particles"
 require "engine/text"
 require "challenges"
 -- from baltro-mod mod
-require 'expansions/expansion_manager'
+require "expansions/expansion_tools"
+require "expansions/expansion_manager"
 
 math.randomseed( G.SEED )
 

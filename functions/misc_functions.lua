@@ -373,252 +373,385 @@ function get_blind_main_colour(blind) --either in the form of the blind key for 
   blind == 'bl_big' and mix_colours(G.C.ORANGE, G.C.BLACK, 0.6)) or G.C.BLACK
 end
 
+
+-----------------------------------------------
+---             EVAL POKER HAND             ---
+-----------------------------------------------
+-- evalues the poker hand name and the cards that are part of it
+-- Input: list of 1-5 cards
+-- Output: {name=<str>, hand=<list-of-cards>}
+
+-- main body placed into a list that can be appended to by modders.
+evaluate_poker_hand_funcs = {
+  {name="calculate", func=function(loc)
+
+    -- imagine a 13 by 4 grid: 13 ranks, 4 suits
+    local hand = loc.hand
+    loc.suit_subtable = {} -- {Diamonds={}, Hearts={}...}
+    loc.rank_subtable = {} -- {2={},3={}...Ace={}}
+
+    -- place each card from this hand into that grid. (A copy will be placed into each of the two lists}
+    for i=1,#hand do 
+      local value = hand[i].base.id
+      for _,suit in pairs(hand[i]:get_suits(true)) do
+        if not loc.suit_subtable[suit] then loc.suit_subtable[suit] = {} end
+        table.insert(loc.suit_subtable[suit], hand[i])
+      end
+      if not loc.rank_subtable[value] then loc.rank_subtable[value] = {} end
+      table.insert(loc.rank_subtable[value], hand[i])
+    end
+    if loc.rank_subtable[14] then loc.rank_subtable[1] = loc.rank_subtable[14] end -- place a copy of the "ace" row in row "one"
+
+    -- to find the most common suit, we just need to count which column has the most cards in it
+    local max_suit = {}
+    for k,v in pairs(loc.suit_subtable) do 
+      if #v >= #max_suit then max_suit=v end
+    end
+    
+    -- do the same for ranks. We want the first and second most common rank (because of two-pairs and full-houses)
+    local max_rank = {}
+    local second_rank = {}
+    for i=14,2,-1 do 
+      if not loc.rank_subtable[i] then --do nothing if row is empty
+      elseif #loc.rank_subtable[i] > #max_rank then 
+        second_rank = max_rank
+        max_rank=loc.rank_subtable[i]
+      elseif #loc.rank_subtable[i] > #second_rank then 
+        second_rank=loc.rank_subtable[i]
+      end
+    end
+    
+    -- to find the longest straight, we just need to go down each row and check if there's anything there.
+    local max_straight = {}
+    local current = {}
+    for i=1,15 do -- row 1 (ace copy) to ace row, then once more to cut off and store straights ending with an ace
+      if loc.rank_subtable[i] then current[#current+1] = loc.rank_subtable[i][1]
+      elseif #current ~= 0 then 
+        if #current > #max_straight then max_straight = current end
+        current = {}
+      end
+    end
+
+    -- We now have 4 lists representing our hand. The lengths of these lists is all we need to determine the hand type. 
+    -- Example: {2,2,2,3} = 2-pair: not enough of any one suit for a flush and not a long enough chain for a straight.
+    -- We store the cards themselves & not just the length (as int) to more easily return the cards required to make the hand.
+    loc.hand_stats = {rank1 = max_rank, len_rank1 = #max_rank, 
+                      rank2 = second_rank, len_rank2 = #second_rank,
+                      suits = max_suit, len_suits = #max_suit,
+                      str = max_straight, len_str = #max_straight}
+
+    -- Functions used to identify the hand sub-type. All poker hands can be defined using 1 or more of these functions.
+    loc.x_kind = function(x, stats) if stats.len_rank1 == x then return true end end
+    loc.straight = function(stats) if stats.len_str >= 5 then return true end end
+    loc.c_flush = function(stats) if stats.len_suits >= 5 then return true end end
+    loc.two_rank = function(x, y, stats) if stats.len_rank1 == x and stats.len_rank2 == y then return true end end
+
+    -- List of hand names and functions placed in order of priority.
+    -- Input: hand_stats list
+    -- Output: nil | or | a list of cards that are part of that hand.
+    loc.priority_list = {
+      {name="Flush Five", func = function(stats,loc) if loc.x_kind(5,stats) and loc.c_flush(stats) then return set_merge(stats.rank1, stats.suits) end end},
+      {name="Flush House", func = function(stats,loc) if loc.two_rank(3,2,stats) and loc.c_flush(stats) then return set_merge(set_merge(stats.rank1, stats.rank2),stats.suits) end end},
+      {name="Five of a Kind", func = function(stats,loc) if loc.x_kind(5,stats) then return stats.rank1 end end},
+      {name="Straight Flush", func = function(stats,loc) if loc.straight(stats) and loc.c_flush(stats) then return set_merge(stats.str, stats.suits) end end},
+      {name="Four of a Kind", func = function(stats,loc) if loc.x_kind(4,stats) then return stats.rank1 end end},
+      {name="Full House", func = function(stats,loc) if loc.two_rank(3,2,stats) then return set_merge(stats.rank1,stats.rank2) end end},
+      {name="Flush", func = function(stats,loc) if loc.c_flush(stats) then return stats.suits end end},
+      {name="Straight", func = function(stats,loc) if loc.straight(stats) then return stats.str end end},
+      {name="Three of a Kind", func = function(stats,loc) if loc.x_kind(3,stats) then return stats.rank1 end end},
+      {name="Two Pair", func = function(stats,loc) if loc.two_rank(2,2,stats) then return set_merge(stats.rank1, stats.rank2) end end},
+      {name="Pair", func = function(stats,loc) if loc.x_kind(2,stats) then return stats.rank1 end end},
+      {name="High Card", func = function(stats,loc) return stats.rank1 end},
+    }
+  end}, {name="Shortcut", func=function(loc) -- Temp (move to jokers)
+
+    if next(find_joker('Shortcut')) then 
+      -- recalculate straight
+      local max_straight = {}
+      local current = {}
+      for i=2,16,2 do -- row 1 (ace copy) to ace row, then once more to cut off and store straights ending with an ace
+        if loc.rank_subtable[i] or loc.rank_subtable[i-1] then --current[#current+1] = loc.rank_subtable[i][1]
+          if loc.rank_subtable[i-1] then current[#current+1] = loc.rank_subtable[i-1][1] end
+          if loc.rank_subtable[i] then current[#current+1] = loc.rank_subtable[i][1] end
+        elseif #current ~= 0 then 
+          if #current > #max_straight then max_straight = current end
+          current = {}
+        end
+      end
+      loc.hand_stats.str = max_straight
+      loc.hand_stats.len_str = #max_straight
+    end
+      
+  end}, {name="four fingers", func=function(loc) -- Temp (move to jokers)
+
+    if next(find_joker('Four Fingers')) then 
+      loc.hand_stats.len_str = loc.hand_stats.len_str+1
+      loc.hand_stats.len_suits = loc.hand_stats.len_suits+1
+    end
+
+  end}
+}
 function evaluate_poker_hand(hand)
+  local loc = {hand=hand}
+  for i=1,#evaluate_poker_hand_funcs do evaluate_poker_hand_funcs[i].func(loc) end -- iterate through function list
 
-  local results = {
-    ["Flush Five"] = {},
-    ["Flush House"] = {},
-    ["Five of a Kind"] = {},
-    ["Straight Flush"] = {},
-    ["Four of a Kind"] = {},
-    ["Full House"] = {},
-    ["Flush"] = {},
-    ["Straight"] = {},
-    ["Three of a Kind"] = {},
-    ["Two Pair"] = {},
-    ["Pair"] = {},
-    ["High Card"] = {},
-    top = nil
-  }
-
-  local parts = {
-    _5 = get_X_same(5,hand),
-    _4 = get_X_same(4,hand),
-    _3 = get_X_same(3,hand),
-    _2 = get_X_same(2,hand),
-    _flush = get_flush(hand),
-    _straight = get_straight(hand),
-    _highest = get_highest(hand)
-  }
-
-  if next(parts._5) and next(parts._flush) then
-    results["Flush Five"] = parts._5
-    if not results.top then results.top = results["Flush Five"] end
+  -- Finally, iterate through the above function list. If you receive a list of cards, add it to the all_hands list.
+  -- We need to know all the plays it can be identified as for the sake of jokers that trigger if hand contains <x>.
+  local all_hands = {}
+  for i=1,#loc.priority_list do
+    local this_hand = loc.priority_list[i].func(loc.hand_stats, loc) or {}
+    all_hands[loc.priority_list[i].name] = this_hand
   end
-
-  if next(parts._3) and next(parts._2) and next(parts._flush) then
-    local fh_hand = {}
-    local fh_3 = parts._3[1]
-    local fh_2 = parts._2[1]
-    for i=1, #fh_3 do
-      fh_hand[#fh_hand+1] = fh_3[i]
-    end
-    for i=1, #fh_2 do
-      fh_hand[#fh_hand+1] = fh_2[i]
-    end
-    table.insert(results["Flush House"], fh_hand)
-    if not results.top then results.top = results["Flush House"] end
-  end
-
-  if next(parts._5) then
-    results["Five of a Kind"] = parts._5
-    if not results.top then results.top = results["Five of a Kind"] end
-  end
-
-  if next(parts._flush) and next(parts._straight) then
-    local _s, _f, ret = parts._straight, parts._flush, {}
-    for _, v in ipairs(_f[1]) do
-      ret[#ret+1] = v
-    end
-    for _, v in ipairs(_s[1]) do
-      local in_straight = nil
-      for _, vv in ipairs(_f[1]) do
-        if vv == v then in_straight = true end
-      end
-      if not in_straight then ret[#ret+1] = v end
-    end
-
-    results["Straight Flush"] = {ret}
-    if not results.top then results.top = results["Straight Flush"] end
-  end
-
-  if next(parts._4) then
-    results["Four of a Kind"] = parts._4
-    if not results.top then results.top = results["Four of a Kind"] end
-  end
-
-  if next(parts._3) and next(parts._2) then
-    local fh_hand = {}
-    local fh_3 = parts._3[1]
-    local fh_2 = parts._2[1]
-    for i=1, #fh_3 do
-      fh_hand[#fh_hand+1] = fh_3[i]
-    end
-    for i=1, #fh_2 do
-      fh_hand[#fh_hand+1] = fh_2[i]
-    end
-    table.insert(results["Full House"], fh_hand)
-    if not results.top then results.top = results["Full House"] end
-  end
-
-  if next(parts._flush) then
-    results["Flush"] = parts._flush
-    if not results.top then results.top = results["Flush"] end
-  end
-
-  if next(parts._straight) then
-    results["Straight"] = parts._straight
-    if not results.top then results.top = results["Straight"] end
-  end
-
-  if next(parts._3) then
-    results["Three of a Kind"] = parts._3
-    if not results.top then results.top = results["Three of a Kind"] end
-  end
-
-  if (#parts._2 == 2) or (#parts._3 == 1 and #parts._2 == 1) then
-    local fh_hand = {}
-    local r = parts._2
-    local fh_2a = r[1]
-    local fh_2b = r[2]
-    if not fh_2b then 
-      fh_2b = parts._3[1]
-    end
-    for i=1, #fh_2a do
-      fh_hand[#fh_hand+1] = fh_2a[i]
-    end
-    for i=1, #fh_2b do
-      fh_hand[#fh_hand+1] = fh_2b[i]
-    end
-    table.insert(results["Two Pair"], fh_hand)
-    if not results.top then results.top = results["Two Pair"] end
-  end
-
-  if next(parts._2) then
-    results["Pair"] = parts._2
-    if not results.top then results.top = results["Pair"] end
-  end
-
-  if next(parts._highest) then
-    results["High Card"] = parts._highest
-    if not results.top then results.top = results["High Card"] end
-  end
-
-  if results["Five of a Kind"][1] then
-    results["Four of a Kind"] = {results["Five of a Kind"][1], results["Five of a Kind"][2], results["Five of a Kind"][3], results["Five of a Kind"][4]}
-  end
-
-  if results["Four of a Kind"][1] then
-    results["Three of a Kind"] = {results["Four of a Kind"][1], results["Four of a Kind"][2], results["Four of a Kind"][3]}
-  end
-
-  if results["Three of a Kind"][1] then
-    results["Pair"] = {results["Three of a Kind"][1], results["Three of a Kind"][2]}
-  end
-
-  return results
+  return all_hands
 end
 
-function get_flush(hand)
-  local ret = {}
-  local four_fingers = next(find_joker('Four Fingers'))
-  local suits = {
-    "Spades",
-    "Hearts",
-    "Clubs",
-    "Diamonds"
-  }
-  if #hand > 5 or #hand < (5 - (four_fingers and 1 or 0)) then return ret else
-    for j = 1, #suits do
-      local t = {}
-      local suit = suits[j]
-      local flush_count = 0
-      for i=1, #hand do
-        if hand[i]:is_suit(suit, nil, true) then flush_count = flush_count + 1;  t[#t+1] = hand[i] end 
-      end
-      if flush_count >= (5 - (four_fingers and 1 or 0)) then
-        table.insert(ret, t)
-        return ret
-      end
-    end
-    return {}
-  end
-end
+-- function evaluate_poker_hand(hand)
 
-function get_straight(hand)
-  local ret = {}
-  local four_fingers = next(find_joker('Four Fingers'))
-  if #hand > 5 or #hand < (5 - (four_fingers and 1 or 0)) then return ret else
-    local t = {}
-    local IDS = {}
-    for i=1, #hand do
-      local id = hand[i]:get_id()
-      if id > 1 and id < 15 then
-        if IDS[id] then
-          IDS[id][#IDS[id]+1] = hand[i]
-        else
-          IDS[id] = {hand[i]}
-        end
-      end
-    end
+--   local results = {
+--     ["Flush Five"] = {},
+--     ["Flush House"] = {},
+--     ["Five of a Kind"] = {},
+--     ["Straight Flush"] = {},
+--     ["Four of a Kind"] = {},
+--     ["Full House"] = {},
+--     ["Flush"] = {},
+--     ["Straight"] = {},
+--     ["Three of a Kind"] = {},
+--     ["Two Pair"] = {},
+--     ["Pair"] = {},
+--     ["High Card"] = {},
+--     top = nil
+--   }
 
-    local straight_length = 0
-    local straight = false
-    local can_skip = next(find_joker('Shortcut')) 
-    local skipped_rank = false
-    for j = 1, 14 do
-      if IDS[j == 1 and 14 or j] then
-        straight_length = straight_length + 1
-        skipped_rank = false
-        for k, v in ipairs(IDS[j == 1 and 14 or j]) do
-          t[#t+1] = v
-        end
-      elseif can_skip and not skipped_rank and j ~= 14 then
-          skipped_rank = true
-      else
-        straight_length = 0
-        skipped_rank = false
-        if not straight then t = {} end
-        if straight then break end
-      end
-      if straight_length >= (5 - (four_fingers and 1 or 0)) then straight = true end 
-    end
-    if not straight then return ret end
-    table.insert(ret, t)
-    return ret
-  end
-end
+--   local parts = {
+--     _5 = get_X_same(5,hand),
+--     _4 = get_X_same(4,hand),
+--     _3 = get_X_same(3,hand),
+--     _2 = get_X_same(2,hand),
+--     _flush = get_flush(hand),
+--     _straight = get_straight(hand),
+--     _highest = get_highest(hand)
+--   }
 
-function get_X_same(num, hand)
-  local vals = {{},{},{},{},{},{},{},{},{},{},{},{},{},{}}
-  for i=#hand, 1, -1 do
-    local curr = {}
-    table.insert(curr, hand[i])
-    for j=1, #hand do
-      if hand[i]:get_id() == hand[j]:get_id() and i ~= j then
-        table.insert(curr, hand[j])
-      end
-    end
-    if #curr == num then
-      vals[curr[1]:get_id()] = curr
-    end
-  end
-  local ret = {}
-  for i=#vals, 1, -1 do
-    if next(vals[i]) then table.insert(ret, vals[i]) end
-  end
-  return ret
-end
+--   if next(parts._5) and next(parts._flush) then
+--     results["Flush Five"] = parts._5
+--     if not results.top then results.top = results["Flush Five"] end
+--   end
 
-function get_highest(hand)
-  local highest = nil
-  for k, v in ipairs(hand) do
-    if not highest or v:get_nominal() > highest:get_nominal() then
-      highest = v
-    end
-  end
-  if #hand > 0 then return {{highest}} else return {} end
-end
+--   if next(parts._3) and next(parts._2) and next(parts._flush) then
+--     local fh_hand = {}
+--     local fh_3 = parts._3[1]
+--     local fh_2 = parts._2[1]
+--     for i=1, #fh_3 do
+--       fh_hand[#fh_hand+1] = fh_3[i]
+--     end
+--     for i=1, #fh_2 do
+--       fh_hand[#fh_hand+1] = fh_2[i]
+--     end
+--     table.insert(results["Flush House"], fh_hand)
+--     if not results.top then results.top = results["Flush House"] end
+--   end
+
+--   if next(parts._5) then
+--     results["Five of a Kind"] = parts._5
+--     if not results.top then results.top = results["Five of a Kind"] end
+--   end
+
+--   if next(parts._flush) and next(parts._straight) then
+--     local _s, _f, ret = parts._straight, parts._flush, {}
+--     for _, v in ipairs(_f[1]) do
+--       ret[#ret+1] = v
+--     end
+--     for _, v in ipairs(_s[1]) do
+--       local in_straight = nil
+--       for _, vv in ipairs(_f[1]) do
+--         if vv == v then in_straight = true end
+--       end
+--       if not in_straight then ret[#ret+1] = v end
+--     end
+
+--     results["Straight Flush"] = {ret}
+--     if not results.top then results.top = results["Straight Flush"] end
+--   end
+
+--   if next(parts._4) then
+--     results["Four of a Kind"] = parts._4
+--     if not results.top then results.top = results["Four of a Kind"] end
+--   end
+
+--   if next(parts._3) and next(parts._2) then
+--     local fh_hand = {}
+--     local fh_3 = parts._3[1]
+--     local fh_2 = parts._2[1]
+--     for i=1, #fh_3 do
+--       fh_hand[#fh_hand+1] = fh_3[i]
+--     end
+--     for i=1, #fh_2 do
+--       fh_hand[#fh_hand+1] = fh_2[i]
+--     end
+--     table.insert(results["Full House"], fh_hand)
+--     if not results.top then results.top = results["Full House"] end
+--   end
+
+--   if next(parts._flush) then
+--     results["Flush"] = parts._flush
+--     if not results.top then results.top = results["Flush"] end
+--   end
+
+--   if next(parts._straight) then
+--     results["Straight"] = parts._straight
+--     if not results.top then results.top = results["Straight"] end
+--   end
+
+--   if next(parts._3) then
+--     results["Three of a Kind"] = parts._3
+--     if not results.top then results.top = results["Three of a Kind"] end
+--   end
+
+--   if (#parts._2 == 2) or (#parts._3 == 1 and #parts._2 == 1) then
+--     local fh_hand = {}
+--     local r = parts._2
+--     local fh_2a = r[1]
+--     local fh_2b = r[2]
+--     if not fh_2b then 
+--       fh_2b = parts._3[1]
+--     end
+--     for i=1, #fh_2a do
+--       fh_hand[#fh_hand+1] = fh_2a[i]
+--     end
+--     for i=1, #fh_2b do
+--       fh_hand[#fh_hand+1] = fh_2b[i]
+--     end
+--     table.insert(results["Two Pair"], fh_hand)
+--     if not results.top then results.top = results["Two Pair"] end
+--   end
+
+--   if next(parts._2) then
+--     results["Pair"] = parts._2
+--     if not results.top then results.top = results["Pair"] end
+--   end
+
+--   if next(parts._highest) then
+--     results["High Card"] = parts._highest
+--     if not results.top then results.top = results["High Card"] end
+--   end
+
+--   if results["Five of a Kind"][1] then
+--     results["Four of a Kind"] = {results["Five of a Kind"][1], results["Five of a Kind"][2], results["Five of a Kind"][3], results["Five of a Kind"][4]}
+--   end
+
+--   if results["Four of a Kind"][1] then
+--     results["Three of a Kind"] = {results["Four of a Kind"][1], results["Four of a Kind"][2], results["Four of a Kind"][3]}
+--   end
+
+--   if results["Three of a Kind"][1] then
+--     results["Pair"] = {results["Three of a Kind"][1], results["Three of a Kind"][2]}
+--   end
+
+--   return results
+-- end
+
+
+-- function get_flush(hand)
+--   local ret = {}
+--   local four_fingers = next(find_joker('Four Fingers'))
+--   local suits = {
+--     "Spades",
+--     "Hearts",
+--     "Clubs",
+--     "Diamonds"
+--   }
+--   if #hand > 5 or #hand < (5 - (four_fingers and 1 or 0)) then return ret else
+--     for j = 1, #suits do
+--       local t = {}
+--       local suit = suits[j]
+--       local flush_count = 0
+--       for i=1, #hand do
+--         if hand[i]:is_suit(suit, nil, true) then flush_count = flush_count + 1;  t[#t+1] = hand[i] end 
+--       end
+--       if flush_count >= (5 - (four_fingers and 1 or 0)) then
+--         table.insert(ret, t)
+--         return ret
+--       end
+--     end
+--     return {}
+--   end
+-- end
+
+-- function get_straight(hand)
+--   local ret = {}
+--   local four_fingers = next(find_joker('Four Fingers'))
+--   if #hand > 5 or #hand < (5 - (four_fingers and 1 or 0)) then return ret else
+--     local t = {}
+--     local IDS = {}
+--     for i=1, #hand do
+--       local id = hand[i]:get_id()
+--       if id > 1 and id < 15 then
+--         if IDS[id] then
+--           IDS[id][#IDS[id]+1] = hand[i]
+--         else
+--           IDS[id] = {hand[i]}
+--         end
+--       end
+--     end
+
+--     local straight_length = 0
+--     local straight = false
+--     local can_skip = next(find_joker('Shortcut')) 
+--     local skipped_rank = false
+--     for j = 1, 14 do
+--       if IDS[j == 1 and 14 or j] then
+--         straight_length = straight_length + 1
+--         skipped_rank = false
+--         for k, v in ipairs(IDS[j == 1 and 14 or j]) do
+--           t[#t+1] = v
+--         end
+--       elseif can_skip and not skipped_rank and j ~= 14 then
+--           skipped_rank = true
+--       else
+--         straight_length = 0
+--         skipped_rank = false
+--         if not straight then t = {} end
+--         if straight then break end
+--       end
+--       if straight_length >= (5 - (four_fingers and 1 or 0)) then straight = true end 
+--     end
+--     if not straight then return ret end
+--     table.insert(ret, t)
+--     return ret
+--   end
+-- end
+
+-- function get_X_same(num, hand)
+--   local vals = {{},{},{},{},{},{},{},{},{},{},{},{},{},{}}
+--   for i=#hand, 1, -1 do
+--     local curr = {}
+--     table.insert(curr, hand[i])
+--     for j=1, #hand do
+--       if hand[i]:get_id() == hand[j]:get_id() and i ~= j then
+--         table.insert(curr, hand[j])
+--       end
+--     end
+--     if #curr == num then
+--       vals[curr[1]:get_id()] = curr
+--     end
+--   end
+--   local ret = {}
+--   for i=#vals, 1, -1 do
+--     if next(vals[i]) then table.insert(ret, vals[i]) end
+--   end
+--   return ret
+-- end
+
+-- function get_highest(hand)
+--   local highest = nil
+--   for k, v in ipairs(hand) do
+--     if not highest or v:get_nominal() > highest:get_nominal() then
+--       highest = v
+--     end
+--   end
+--   if #hand > 0 then return {{highest}} else return {} end
+-- end
 
 function reset_drawhash()
   G.DRAW_HASH = EMPTY(G.DRAW_HASH)

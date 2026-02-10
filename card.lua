@@ -2,6 +2,9 @@
 Card = Moveable:extend()
 
 --class methods
+
+-- Init Function 
+-- All Card function
 function Card:init(X, Y, W, H, card, center, params)
     self.params = (type(params) == 'table') and params or {}
 
@@ -76,14 +79,16 @@ function Card:init(X, Y, W, H, card, center, params)
     end
 end
 
+-- Impacts Rendering of cards in your collection so that additional decals (like souls) apear on top of cards --
+-- All Card function
 function Card:update_alert() 
-    if (self.ability.set == 'Joker' or self.ability.set == 'Voucher' or self.ability.consumeable or self.ability.set == 'Edition' or self.ability.set == 'Booster') then 
-        if self.area and self.area.config.collection and self.config.center then
-            if self.config.center.alerted and self.children.alert  then
+    --if (self.ability.set == 'Joker' or self.ability.set == 'Voucher' or self.ability.consumeable or self.ability.set == 'Edition' or self.ability.set == 'Booster') then 
+        if self.area and self.area.config.collection and self.config.center then -- if in an area, in collection, and has a selected type
+            if self.config.center.alerted and self.children.alert  then -- if everyone alerted 
                 self.children.alert:remove()
                 self.children.alert = nil
-            elseif not self.config.center.alerted and not self.children.alert and self.config.center.discovered then
-                self.children.alert = UIBox{
+            elseif not self.config.center.alerted and not self.children.alert and self.config.center.discovered then -- if no one is alerted and in disocvered
+                self.children.alert = UIBox{  -- generate UIBox
                     definition = create_UIBox_card_alert(), 
                     config = {align=(self.ability.set == 'Voucher' and (self.config.center.order%2)==1) and "tli" or "tri",
                             offset = {x = (self.ability.set == 'Voucher' and (self.config.center.order%2)==1) and 0.1 or -0.1, y = 0.1},
@@ -91,9 +96,11 @@ function Card:update_alert()
                 }
             end
         end
-    end
+    --end
 end
 
+-- Sets values associated with cards with ranks and suits --
+-- PlayingCard Function --> PlayingCard:init()
 function Card:set_base(card, initial)
     card = card or {}
 
@@ -146,6 +153,9 @@ end
 
 -- NEEDS MOD
 -- _center should include card dimentions (H, W)
+
+-- Sets sprites of a given card --
+-- All Card function + subclass specific args
 function Card:set_sprites(_center, _front)
     if _front then 
         local _atlas, _pos = get_front_spriteinfo(_front)
@@ -224,6 +234,9 @@ end
 
 -- NEEDS MOD
 -- Joker specific values should be defined in .center
+
+-- Sets special abilities of a card, including scoring values --
+-- consumable, scorable, etc --> <subclass>:init()
 function Card:set_ability(center, initial, delay_sprites)
     local X, Y, W, H = self.T.x, self.T.y, self.T.w, self.T.h
 
@@ -377,6 +390,8 @@ function Card:set_ability(center, initial, delay_sprites)
     if self.playing_card and not initial then check_for_unlock({type = 'modify_deck'}) end
 end
 
+-- Sets cost of a card --
+-- should be different for each card type --
 function Card:set_cost()
     self.extra_cost = 0 + G.GAME.inflation
     if self.edition then
@@ -395,6 +410,8 @@ function Card:set_cost()
     self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost
 end
 
+-- Add edition to a card --
+-- All Card function (can modify code so negitive just increases max size of whatever CardArea it's in)
 function Card:set_edition(edition, immediate, silent)
     self.edition = nil
     if not edition then return end
@@ -472,6 +489,8 @@ function Card:set_edition(edition, immediate, silent)
     self:set_cost()
 end
 
+-- add seal --
+-- PlayingCard function
 function Card:set_seal(_seal, silent, immediate)
     self.seal = nil
     if _seal then
@@ -509,11 +528,14 @@ function Card:set_seal(_seal, silent, immediate)
     self:set_cost()
 end
 
+-- get seal --
+-- PlayingCard Function
 function Card:get_seal(bypass_debuff)
     if self.debuff and not bypass_debuff then return end
     return self.seal
 end
 
+-- Joker Function
 function Card:set_eternal(_eternal)
     self.ability.eternal = nil
     if self.config.center.eternal_compat and not self.ability.perishable then
@@ -521,6 +543,7 @@ function Card:set_eternal(_eternal)
     end
 end
 
+-- Joker Function
 function Card:set_perishable(_perishable) 
     self.ability.perishable = nil
     if self.config.center.perishable_compat and not self.ability.eternal then 
@@ -529,11 +552,13 @@ function Card:set_perishable(_perishable)
     end
 end
 
+-- Joker Function
 function Card:set_rental(_rental)
     self.ability.rental = _rental
     self:set_cost()
 end
 
+-- Scorable Function
 function Card:set_debuff(should_debuff)
     if self.ability.perishable and self.ability.perish_tally <= 0 then 
         if not self.debuff then
@@ -548,6 +573,7 @@ function Card:set_debuff(should_debuff)
     end
 end
 
+-- All Card Function
 function Card:remove_UI()
     self.ability_UIBox_table = nil
     self.config.h_popup = nil
@@ -555,6 +581,7 @@ function Card:remove_UI()
     self.no_ui = true
 end
 
+-- PlayingCard Function
 function Card:change_suit(new_suit)
     local new_code = (new_suit == 'Diamonds' and 'D_') or
     (new_suit == 'Spades' and 'S_') or
@@ -572,6 +599,7 @@ function Card:change_suit(new_suit)
     G.GAME.blind:debuff_card(self)
 end
 
+-- All Card Function with specific args per card
 function Card:add_to_deck(from_debuff)
     if not self.config.center.discovered then
         discover_card(self.config.center)
@@ -653,6 +681,7 @@ function Card:add_to_deck(from_debuff)
     end
 end
 
+-- All Card Function with specific args per card
 function Card:remove_from_deck(from_debuff)
     if self.added_to_deck then
         self.added_to_deck = false
@@ -710,6 +739,7 @@ function Card:remove_from_deck(from_debuff)
     end
 end
 
+-- All Card Function
 function Card:generate_UIBox_unlock_table(hidden)
     local loc_vars = {no_name = true, not_hidden = not hidden}
 
@@ -717,6 +747,8 @@ function Card:generate_UIBox_unlock_table(hidden)
 end
 
 -- This is for arguments SPECIFIC TO THIS INSTANCE OF THE CARD
+
+-- All Card Function + specific cards args
 function Card:generate_UIBox_ability_table()
     local card_type, hide_desc = self.ability.set or "None", nil
     local loc_vars = nil
@@ -959,6 +991,7 @@ function Card:generate_UIBox_ability_table()
     return generate_card_ui(self.config.center, nil, loc_vars, card_type, badges, hide_desc, main_start, main_end)
 end
 
+-- PlayingCard Function
 function Card:get_nominal(mod)
     local mult = 1
     if mod == 'suit' then mult = 1000 end
@@ -966,6 +999,7 @@ function Card:get_nominal(mod)
     return self.base.nominal + self.base.suit_nominal*mult + (self.base.suit_nominal_original or 0)*0.0001*mult + self.base.face_nominal + 0.000001*self.unique_val
 end
 
+-- PlayingCard Function
 function Card:get_id()
     if self.ability.faceless and not self.vampired then
         return -math.random(100, 1000000)
@@ -973,6 +1007,7 @@ function Card:get_id()
     return self.base.id
 end
 
+-- PlayingCard Function
 function Card:is_face(from_boss)
     if self.debuff and not from_boss then return end
     local id = self:get_id()
@@ -981,11 +1016,13 @@ function Card:is_face(from_boss)
     end
 end
 
+-- PlayingCard Function
 function Card:get_original_rank()
     return self.base.original_value
 end
 
 
+-- Scorable function
 -------------------------------------------
 --              Score Card               --
 -------------------------------------------
@@ -1031,7 +1068,6 @@ score_sources = {
     -- this should do both jokers and playing cards once jokers implemented
     {name = 'score ability',
     func = function(self, loc_vals, context)
-
         if self.ability.id then
             local score = nil
             local re = get_card_functions(self.ability.id)
@@ -1248,6 +1284,7 @@ end
 --     return ret
 -- end
 
+-- Consumable function
 function Card:use_consumeable(area, copier)
     stop_use()
     if not copier then set_consumeable_usage(self) end
@@ -1257,6 +1294,7 @@ function Card:use_consumeable(area, copier)
     get_card_functions(self.ability.id).use(used_tarot)
 end
 
+-- Consumable function
 function Card:can_use_consumeable(any_state, skip_check)
     if not skip_check and ((G.play and #G.play.cards > 0) or
         (G.CONTROLLER.locked) or
@@ -1268,6 +1306,7 @@ function Card:can_use_consumeable(any_state, skip_check)
     return false
 end
 
+-- Consumable function
 function Card:check_use()
     if self.ability.name == 'Ankh' then 
         if #G.jokers.cards >= G.jokers.config.card_limit then  
@@ -1277,6 +1316,7 @@ function Card:check_use()
     end
 end
 
+-- All Cards Function + subclass specific
 function Card:sell_card()
     G.CONTROLLER.locks.selling_card = true
     stop_use()
@@ -1327,6 +1367,7 @@ function Card:sell_card()
     end}))
 end
 
+-- All Cards + subclass specific + card specific
 function Card:can_sell_card(context)
     if (G.play and #G.play.cards > 0) or
         (G.CONTROLLER.locked) or 
@@ -1342,6 +1383,7 @@ function Card:can_sell_card(context)
     return false
 end
 
+-- Joker Function +/ card specific
 function Card:calculate_dollar_bonus()
     if self.debuff then return end
     if self.ability.set == "Joker" then
@@ -1368,6 +1410,7 @@ function Card:calculate_dollar_bonus()
     end
 end
 
+-- Booster Function + Card Specific
 function Card:open()
     if self.ability.set == "Booster" then
         stop_use()
@@ -1500,6 +1543,7 @@ function Card:open()
     end
 end
 
+-- Voucher Function
 function Card:redeem()
     if self.ability.set == "Voucher" then
         stop_use()
@@ -1567,6 +1611,7 @@ function Card:redeem()
     end
 end
 
+-- Voucher Function + Card Specific
 function Card:apply_to_run(center)
     local center_table = {
         name = center and center.name or self and self.ability.name,
@@ -1660,6 +1705,7 @@ function Card:apply_to_run(center)
     end
 end
 
+-- Booster Function
 function Card:explode(dissolve_colours, explode_time_fac)
     local explode_time = 1.3*(explode_time_fac or 1)*(math.sqrt(G.SETTINGS.GAMESPEED))
     self.dissolve = 0
@@ -1766,6 +1812,7 @@ function Card:explode(dissolve_colours, explode_time_fac)
     }))
 end
 
+-- Playing Card Function
 function Card:shatter()
     local dissolve_time = 0.7
     self.shattered = true
@@ -1817,6 +1864,7 @@ function Card:shatter()
     }))
 end
 
+-- All Cards Function
 function Card:start_dissolve(dissolve_colours, silent, dissolve_time_fac, no_juice)
     local dissolve_time = 0.7*(dissolve_time_fac or 1)
     self.dissolve = 0
@@ -1870,6 +1918,7 @@ function Card:start_dissolve(dissolve_colours, silent, dissolve_time_fac, no_jui
     }))
 end
 
+-- All Card Function + subclass specific
 function Card:start_materialize(dissolve_colours, silent, timefac)
     local dissolve_time = 0.6*(timefac or 1)
     self.states.visible = true
@@ -1929,6 +1978,7 @@ function Card:start_materialize(dissolve_colours, silent, timefac)
     }))
 end
 
+-- Playing Card function
 function Card:calculate_seal(context)
     if self.debuff then return nil end
     if context.repetition then
@@ -1990,6 +2040,7 @@ function Card:calculate_seal(context)
     end
 end
 
+-- Joker Function
 function Card:calculate_rental()
     if self.ability.rental then
         ease_dollars(-G.GAME.rental_rate)
@@ -1997,6 +2048,7 @@ function Card:calculate_rental()
     end
 end
 
+-- Joker Function
 function Card:calculate_perishable()
     if self.ability.perishable and self.ability.perish_tally > 0 then
         if self.ability.perish_tally == 1 then
@@ -2010,6 +2062,7 @@ function Card:calculate_perishable()
     end
 end
 
+-- Joker Function
 function Card:calculate_joker(context)
     if self.debuff then return nil end
     if self.ability.set == "Planet" and not self.debuff then
@@ -3689,7 +3742,7 @@ function Card:calculate_joker(context)
                             if (G.jokers.config.card_limit - #G.jokers.cards) > 0 then
                                 return {
                                     message = localize{type='variable',key='a_xmult',vars={self.ability.x_mult}},
-                                    x_mult = self.ability.x_mult
+                                    x_mult = (G.jokers.config.card_limit - #G.jokers.cards)--self.ability.x_mult
                                 }
                             end
                         end
@@ -3783,6 +3836,7 @@ function Card:calculate_joker(context)
         end
     end
 
+-- PlayingCard Function
 function Card:is_suit(suit, bypass_debuff, flush_calc)
     if flush_calc then
         if self.ability.faceless then
@@ -3810,18 +3864,50 @@ function Card:is_suit(suit, bypass_debuff, flush_calc)
     end
 end
 
+-- added function
+-- PlayingCard Function
+
+-- Function input: self, local_variables
+-- If function in list returns something, the program stops iterating through function list.
+card_get_suits_funcs = {
+    {name = "debuff", func=function(self, loc)
+        if self.debuff and not loc.bypass_debuff then return {} end
+    end}, {name = "faceless card", func=function(self, loc)  -- put in enhancements.lua
+        if self.ability.faceless then return {} end
+    end}, {name = "wild card", func=function(self, loc) -- put in enhancements.lua
+        if self.ability.effect == "Wild Card" then return {'Diamonds', 'Spades', 'Hearts', 'Clubs'} end
+    end}, {name = "smeared", func=function(self, loc) -- put in jokers.lua
+        if next(find_joker('Smeared Joker')) then
+            if self.base.suit == 'Diamonds' or self.base.suit == 'Hearts' then loc.ret = set_merge(loc.ret, {'Diamonds', 'Hearts'}) end
+            if self.base.suit == 'Spades' or self.base.suit == 'Clubs' then loc.ret = set_merge(loc.ret, {'Spades', 'Clubs'}) end
+        end
+    end}, {name = "default", func=function(self, loc)
+        if #loc.ret == 0 then return {self.base.suit} else return loc.ret end
+    end},
+}
+function Card:get_suits(bypass_debuff)
+    local loc = {ret={}, bypass_debuff=bypass_debuff or nil}
+    for i=1,#card_get_suits_funcs do
+        local out = card_get_suits_funcs[i].func(self, loc)
+        if out then return out end
+    end
+end
+
+-- All Card Function
 function Card:set_card_area(area)
     self.area = area
     self.parent = area
     self.layered_parallax = area.layered_parallax
 end
 
+-- All Card Function
 function Card:remove_from_area()
     self.area = nil
     self.parent = nil
     self.layered_parallax = {x = 0, y = 0}
 end
 
+-- All Card Function
 function Card:align()  
     if self.children.floating_sprite then 
         self.children.floating_sprite.T.y = self.T.y
@@ -3832,6 +3918,7 @@ function Card:align()
     if self.children.focused_ui then self.children.focused_ui:set_alignment() end
 end
 
+-- All Card Function
 function Card:flip()
     if self.facing == 'front' then 
         self.flipping = 'f2b'
@@ -3845,6 +3932,7 @@ function Card:flip()
     end
 end
 
+-- All Card Function + Card Specific
 function Card:update(dt)
     if self.flipping == 'f2b' then
         if self.sprite_facing == 'front' or true then
@@ -3976,6 +4064,7 @@ function Card:update(dt)
     end
 end
 
+-- All Card Function
 function Card:hard_set_T(X, Y, W, H)
     local x = (X or self.T.x)
     local y = (Y or self.T.y)
@@ -3987,6 +4076,7 @@ function Card:hard_set_T(X, Y, W, H)
     self.children.center:hard_set_T(x, y, w, h)
 end
 
+-- All Card Function
 function Card:move(dt)
     Moveable.move(self, dt)
     --self:align()
@@ -3995,6 +4085,7 @@ function Card:move(dt)
     end
 end
 
+-- All Card Function
 function Card:align_h_popup()
         local focused_ui = self.children.focused_ui and true or false
         local popup_direction = (self.children.buy_button or (self.area and self.area.config.view_deck) or (self.area and self.area.config.type == 'shop')) and 'cl' or 
@@ -4026,6 +4117,7 @@ function Card:align_h_popup()
         }
 end
 
+-- All Card Function
 function Card:hover()
     self:juice_up(0.05, 0.03)
     play_sound('paper1', math.random()*0.2 + 0.9, 0.35)
@@ -4049,10 +4141,12 @@ function Card:hover()
     end
 end
 
+-- All Card Function
 function Card:stop_hover()
     Node.stop_hover(self)
 end
 
+-- All Card Function
 function Card:juice_up(scale, rot_amount)
     --G.VIBRATION = G.VIBRATION + 0.4
     local rot_amt = rot_amount and 0.4*(math.random()>0.5 and 1 or -1)*rot_amount or (math.random()>0.5 and 1 or -1)*0.16
@@ -4060,6 +4154,7 @@ function Card:juice_up(scale, rot_amount)
     Moveable.juice_up(self, scale, rot_amt)
 end
 
+-- All Card Function
 function Card:draw(layer)
     layer = layer or 'both'
 
@@ -4296,12 +4391,14 @@ function Card:draw(layer)
     end
 end
 
+-- All Card Function
 function Card:release(dragged)
     if dragged:is(Card) and self.area then
         self.area:release(dragged)
     end
 end 
 
+-- All Card Function
 function Card:highlight(is_higlighted)
     self.highlighted = is_higlighted
     if self.ability.consumeable or self.ability.set == 'Joker' or (self.area and self.area == G.pack_cards) then
@@ -4330,6 +4427,7 @@ function Card:highlight(is_higlighted)
     end
 end
 
+-- All Card Function
 function Card:click() 
     if self.area and self.area:can_highlight(self) then
         if (self.area == G.hand) and (G.STATE == G.STATES.HAND_PLAYED) then return end
@@ -4346,6 +4444,7 @@ function Card:click()
 end
 
 -- Maybe just make it save the object?
+-- All Card Function + Subclass specific
 function Card:save()
     cardTable = {
         sort_id = self.sort_id,
@@ -4381,6 +4480,7 @@ function Card:save()
 end
 
 -- then load and set sprites?
+-- All Card Function + Subclass specific
 function Card:load(cardTable, other_card)
     local scale = 1
     self.config = {}
@@ -4449,6 +4549,7 @@ function Card:load(cardTable, other_card)
     self:set_sprites(self.config.center, self.config.card)
 end
 
+-- All Card Function
 function Card:remove()
     self.removed = true
 

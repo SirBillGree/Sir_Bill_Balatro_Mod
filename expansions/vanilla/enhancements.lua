@@ -38,7 +38,7 @@ vanilla_enhancements_set = {
         m_steel =   {max = 500, order = 6, name = "Steel Card", set = "Enhanced", pos = {x=6,y=1}, effect = "Steel Card", label = "Steel Card", config = {x_mult = 1.5}},
         m_stone =   {max = 500, order = 7, name = "Stone Card", set = "Enhanced", pos = {x=5,y=0}, effect = "Stone Card", label = "Stone Card", config = {chips = 50, faceless = true}},
         m_gold =    {max = 500, order = 8, name = "Gold Card", set = "Enhanced", pos = {x=6,y=0}, effect = "Gold Card", label = "Gold Card", config = {dollars = 3}},
-        m_lucky =   {max = 500, order = 9, name = "Lucky Card", set = "Enhanced", pos = {x=4,y=1}, effect = "Lucky Card", label = "Lucky Card", config = {mult=20, dollars = 20, mult_chance = 5, dollar_chance = 15}},
+        m_lucky =   {max = 500, order = 9, name = "Lucky Card", set = "Enhanced", pos = {x=4,y=1}, effect = "Lucky Card", label = "Lucky Card", config = {mult=20, dollars = 20, extra={mult_chance = 5, dollar_chance = 15}}},
 }
 -- This adds the id and sprite atlas variables to every item in the above table.
 -- This is way faster than adding them manually
@@ -110,30 +110,13 @@ local function define_enhancement_functions()
         return function(self, context)
             if context.cardarea == G.play then 
                 local score = {}
-                if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/self.ability.config.mult_chance then score.mult = self.ability.mult end
-                if pseudorandom('lucky_money') < G.GAME.probabilities.normal/self.ability.config.dollar_chance then score.dollars = self.ability.dollars end
+                if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/self.ability.extra.mult_chance then score.mult = self.ability.mult end
+                if pseudorandom('lucky_money') < G.GAME.probabilities.normal/self.ability.extra.dollar_chance then score.dollars = self.ability.dollars end
                 if score.mult or score.dollars then self.lucky_trigger = true end
                 return score
             else return {} end
         end
     end
-
-    -- ui_function_list = {
-    --     c_base = function(self, desc_nodes) end,
-    --     m_bonus = function(self, desc_nodes) end,
-        
-    -- }
-    -- local function fetch_ui(card_type)
-    --     return function(self, desc_nodes)
-    --         if not self.ability.config.faceless and self.base.nominal then 
-    --             localize{type = 'other', key = 'card_chips', nodes = desc_nodes, vars = {self.base.nominal+(self.ability.chips or 0)}}
-    --         end
-    --         if self.ability.perma.chips ~= 0 then
-    --             localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {self.ability.perma.chips}}
-    --         end
-
-    --     end
-    -- end
 
     -- I chose to make a loop instead of define a table so that I could save time
     -- and not have to write out "vanilla_enhancements_set.j_<enhancement>.config.<var>"

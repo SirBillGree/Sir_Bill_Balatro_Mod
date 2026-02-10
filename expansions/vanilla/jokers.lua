@@ -55,6 +55,7 @@ contexts:
 ]]--
 
 vanilla_jokers_set = {
+        -- ^ Implemented UI ^ --
         j_joker=            {order = 1,  unlocked = true,   start_alerted = true, discovered = true,  blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 2, name = "Joker", pos = {x=0,y=0}, set = "Joker", effect = "Mult", cost_mult = 1.0, config = {mult = 4}},
         j_greedy_joker=     {order = 2,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Greedy Joker", pos = {x=6,y=1}, set = "Joker", effect = "Suit Mult", cost_mult = 1.0, config = {extra = {mult = 3, suit = 'Diamonds'}}},
         j_lusty_joker=      {order = 3,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Lusty Joker", pos = {x=7,y=1}, set = "Joker", effect = "Suit Mult", cost_mult = 1.0, config = {extra = {mult = 3, suit = 'Hearts'}}},
@@ -74,6 +75,7 @@ vanilla_jokers_set = {
         j_half=             {order = 16,  unlocked = true,   discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Half Joker", pos = {x=7,y=0}, set = "Joker", effect = "Hand Size Mult", cost_mult = 1.0, config = {extra = {mult = 20, size = 3}}},
         j_stencil=          {order = 17,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 8, name = "Joker Stencil", pos = {x=2,y=5}, set = "Joker", effect = "Hand Size Mult", cost_mult = 1.0, config = {}},
         j_four_fingers=     {order = 18,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Four Fingers", pos = {x=6,y=6}, set = "Joker", effect = "", config = {}},
+        -- ^ Implemented functionality ^ --
         j_mime=             {order = 19,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Mime", pos = {x=4,y=1}, set = "Joker", effect = "Hand card double", cost_mult = 1.0, config = {extra = 1}},
         j_credit_card=      {order = 20,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 1, name = "Credit Card", pos = {x=5,y=1}, set = "Joker", effect = "Credit", cost_mult = 1.0, config = {extra = 20}},
         j_ceremonial=       {order = 21,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Ceremonial Dagger", pos = {x=5,y=5}, set = "Joker", effect = "", config = {mult = 0}},
@@ -227,13 +229,31 @@ local joker_functions = {}
 
 local function define_joker_functions()
 
-    ---------------------------------------------------------------
-    ---------------------------------------------------------------
-    --                     SCORING FUNCTIONS                     --
-    ---------------------------------------------------------------
-    ---------------------------------------------------------------
+    -------------------------------------------------------------
+    -------------------------------------------------------------
+    --                     SCORE FUNCTIONS                     --
+    -------------------------------------------------------------
+    -------------------------------------------------------------
 
-    local function score_suit_jokers()
+    -- val_name: string = 'chips', 'mult', 'x_mult', 'dollars'
+    -- cond (condition): function, takes (self, context), returns true/false
+    local function score_value(val_name, cond)
+        cond = cond or function(x, xx) return true end
+        return function(self, context)
+            local ret = {}
+            if context.cardarea == G.jokers and cond(self, context) then ret[val_name] = self.ability[val_name] end
+            return ret
+        end
+    end
+
+
+    -------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------
+    --                     INDIVIDUAL CARD TRIGGER FUNCTIONS                     --
+    -------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------
+
+    local function trigger_suit_jokers()
         return function(self, context)
             if context.individual and context.other_card:is_suit(self.ability.extra.suit) then
                 return {
@@ -244,7 +264,7 @@ local function define_joker_functions()
         end
     end
 
-    local function score_hand_jokers()
+    local function trigger_hand_jokers()
         return function(self, context)
             if context.individual and context.poker_hands[self.ability.extra.type] then
                 return {
@@ -256,6 +276,18 @@ local function define_joker_functions()
         end
     end
 
+    --------------------------------------------------------------
+    --------------------------------------------------------------
+    --                     UPDATE FUNCTIONS                     --
+    --------------------------------------------------------------
+    --------------------------------------------------------------
+    
+    local function stencil_joker_upd() return function(self)
+            self.ability.x_mult = (G.jokers.config.card_limit - #G.jokers.cards)
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i].ability.name == 'Joker Stencil' then self.ability.x_mult = self.ability.x_mult + 1 end
+            end
+    end end
 
 
     -- I chose to make a loop instead of define a table so that I could save time
@@ -266,12 +298,13 @@ local function define_joker_functions()
         local c = v.config
 
         -- place function defs here --
-        if k == 'j_joker' then joker_functions[k] =                             {eval={}}
-        elseif k == 'j_half' then joker_functions[k] =                          {eval={}}
+        if k == 'j_joker' then joker_functions[k] =                             {score=score_value('mult')}
+        elseif k == 'j_half' then joker_functions[k] =                          {score=score_value('mult', function (self,context) return #context.full_hand <= self.ability.extra.size end)}
+        elseif k == 'j_stencil' then joker_functions[k] =                       {score=score_value('x_mult'), update=stencil_joker_upd()}
         elseif v.effect then 
-            if v.effect == "Suit Mult" then joker_functions[k] =                {eval={score_suit_jokers()}}
+            if v.effect == "Suit Mult" then joker_functions[k] =                {triggers={trigger_suit_jokers()}}
             elseif v.effect == "Type Mult" or
-                   v.effect == "Type Chips" then joker_functions[k] =           {eval={score_hand_jokers()}}
+                   v.effect == "Type Chips" then joker_functions[k] =           {triggers={trigger_hand_jokers()}}
             end
         end
         
