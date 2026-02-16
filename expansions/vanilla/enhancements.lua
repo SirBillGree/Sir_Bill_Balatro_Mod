@@ -101,7 +101,7 @@ local function define_enhancement_functions()
 
     local function score_gold()
         return function(self, context)
-            if context.cardarea == G.hand and context.end_of_round == true then return {dollars = self.ability.dollars} 
+            if context.cardarea == G.hand and context.end_of_round == true then return {dollars = self.ability.dollars}
             else return {} end
         end
     end

@@ -422,12 +422,14 @@ evaluate_poker_hand_funcs = {
     end
     
     -- to find the longest straight, we just need to go down each row and check if there's anything there.
+    loc.all_straights = {}
     local max_straight = {}
     local current = {}
     for i=1,15 do -- row 1 (ace copy) to ace row, then once more to cut off and store straights ending with an ace
       if loc.rank_subtable[i] then current[#current+1] = loc.rank_subtable[i][1]
       elseif #current ~= 0 then 
         if #current > #max_straight then max_straight = current end
+        table.insert(loc.all_straights, current)
         current = {}
       end
     end
@@ -463,23 +465,28 @@ evaluate_poker_hand_funcs = {
       {name="Pair", func = function(stats,loc) if loc.x_kind(2,stats) then return stats.rank1 end end},
       {name="High Card", func = function(stats,loc) return stats.rank1 end},
     }
+
   end}, {name="Shortcut", func=function(loc) -- Temp (move to jokers)
 
     if next(find_joker('Shortcut')) then 
-      -- recalculate straight
-      local max_straight = {}
-      local current = {}
-      for i=2,16,2 do -- row 1 (ace copy) to ace row, then once more to cut off and store straights ending with an ace
-        if loc.rank_subtable[i] or loc.rank_subtable[i-1] then --current[#current+1] = loc.rank_subtable[i][1]
-          if loc.rank_subtable[i-1] then current[#current+1] = loc.rank_subtable[i-1][1] end
-          if loc.rank_subtable[i] then current[#current+1] = loc.rank_subtable[i][1] end
-        elseif #current ~= 0 then 
-          if #current > #max_straight then max_straight = current end
-          current = {}
+      -- recalculate straight using loc.all_straights
+      local ls = loc.all_straights
+      local nt = {ls[1]}
+
+      -- take list of sub-straights and merge any that are two ranks apart
+      for i=2,#ls do
+        if nt[#nt][#nt[#nt]].base.id + 2 == ls[i][1].base.id then
+          for j=1,#ls[i] do table.insert(nt[#nt],ls[i][j]) end
+        else nt[#nt+1] = ls[i] end
+      end
+      -- Update all values based on new straights
+      loc.all_straights = nt
+      for i=1,#nt do 
+        if #nt[i] >= #loc.hand_stats.str then
+          loc.hand_stats.str = nt[i]
+          loc.hand_stats.len_str = #nt[i]
         end
       end
-      loc.hand_stats.str = max_straight
-      loc.hand_stats.len_str = #max_straight
     end
       
   end}, {name="four fingers", func=function(loc) -- Temp (move to jokers)

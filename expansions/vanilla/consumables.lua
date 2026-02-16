@@ -710,7 +710,7 @@ end
 
 -- parameter functions
 
-function same_random_rank_alter()
+function same_random_suit_alter()
     return function()
         local _suit = pseudorandom_element({'S','H','D','C'}, pseudoseed('sigil'))
         for i=1, #G.hand.cards do
@@ -727,7 +727,7 @@ function same_random_rank_alter()
     end
 end
 
-function same_random_suit_alter()
+function same_random_rank_alter()
     return function()
         local _rank = pseudorandom_element({'2','3','4','5','6','7','8','9','T','J','Q','K','A'}, pseudoseed('ouija'))
             for i=1, #G.hand.cards do

@@ -808,7 +808,7 @@ card_eval_status_text_type_settings = {
         loc_vars.sound = 'multhit1'; loc_vars.colour = G.C.MULT; loc_vars.scale = 0.7; loc_vars.text = localize{type='variable',key='a_mult',vars={amt}}
     end,
     x_mult = function(amt, loc_vars) 
-        loc_vars.sound = 'multhit2'; loc_vars.colour = G.C.MULT; loc_vars.scale = 0.7; loc_vars.volume = 0.7; loc_vars.text = localize{type='variable',key='a_xmult',vars={amt}}
+        loc_vars.sound = 'multhit2'; loc_vars.colour = G.C.MULT; loc_vars.scale = 0.7; loc_vars.volume = 0.7; loc_vars.text = localize{type='variable',key='a_x_mult',vars={amt}}
     end,
     dollars = function(amt, loc_vars) 
         loc_vars.sound = 'coin3'; loc_vars.colour = amt < 0 and G.C.RED or G.C.MONEY; loc_vars.text = (amt < 0 and '-' or '')..localize("$")..tostring(math.abs(amt))
@@ -897,7 +897,7 @@ function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
         colour = G.C.PURPLE
     -- used for editions and joker 
     elseif eval_type == 'extra' or eval_type == 'jokers' then 
-        sound = extra.edition and 'foil2' or extra.mult_mod and 'multhit1' or extra.Xmult_mod and 'multhit2' or 'generic1'
+        sound = extra.edition and 'foil2' or extra.mult_mod and 'multhit1' or extra.x_mult_mod and 'multhit2' or 'generic1'
         if extra.edition then 
             colour = G.C.DARK_EDITION
         end
@@ -905,7 +905,7 @@ function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
         delay = extra.delay or 0.75
         amt = 1
         text = extra.message or text
-        if not extra.edition and (extra.mult_mod or extra.Xmult_mod)  then
+        if not extra.edition and (extra.mult_mod or extra.x_mult_mod)  then
             colour = G.C.MULT
         end
         if extra.chip_mod then
@@ -2639,9 +2639,9 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         end
         if _c.effect == 'Mult Card' then loc_vars = {_c.config.mult}
         elseif _c.effect == 'Wild Card' then
-        elseif _c.effect == 'Glass Card' then loc_vars = {_c.config.Xmult, G.GAME.probabilities.normal, _c.config.extra}
+        elseif _c.effect == 'Glass Card' then loc_vars = {_c.config.x_mult, G.GAME.probabilities.normal, _c.config.extra}
         elseif _c.effect == 'Steel Card' then loc_vars = {_c.config.x_mult}
-        elseif _c.effect == 'Stone Card' then loc_vars = {((specific_vars and specific_vars.bonus_chips) or _c.config.bonus)}
+        elseif _c.effect == 'Stone Card' then loc_vars = {((specific_vars and specific_vars.bonus_chips) or _c.config.chips)}
         elseif _c.effect == 'Gold Card' then loc_vars = {_c.config.dollars}
         elseif _c.effect == 'Lucky Card' then loc_vars = {G.GAME.probabilities.normal, _c.config.mult, _c.config.mult_chance, _c.config.dollars, _c.config.dollar_chance}
         end

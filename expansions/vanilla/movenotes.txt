@@ -6,7 +6,7 @@ Note: if item prototype, put it in here (besides regular playing cards)
     [ ] - Jokers
     [ ] - Vouchers
     [ ] - Packs
-    [ ] - Enhancements
+    [ ] - Enhancements (need UI still)
 [ ] - Backs
 [ ] - Stakes
 [ ] - Editions

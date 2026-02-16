@@ -13,3 +13,9 @@ function set_merge(t1, t2)
     end
   return nt
 end
+
+function concat_table(mainTable,appendedTable)
+    for k, v in pairs(appendedTable) do
+        mainTable[k] = v
+    end
+end

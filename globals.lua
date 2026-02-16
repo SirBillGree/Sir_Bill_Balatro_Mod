@@ -354,7 +354,7 @@ function Game:set_globals()
         MULT = HEX('FE5F55'),
         CHIPS = HEX("009dff"),
         MONEY = HEX('f3b958'),
-        XMULT = HEX('FE5F55'),
+        x_mult = HEX('FE5F55'),
         FILTER = HEX('ff9a00'),
         BLUE = HEX("009dff"),
         RED = HEX('FE5F55'),

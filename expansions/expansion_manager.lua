@@ -36,6 +36,7 @@ require "expansions/tests"
 local sets = {
     {set_type = 'P_CENTERS', set = vanilla_consumables_set},
     {set_type = 'P_CENTERS', set = vanilla_enhancements_set},
+    {set_type = 'P_CENTERS', set = vanilla_jokers_set},
 }
 -----------------------------------------
 
@@ -43,31 +44,25 @@ local sets = {
 local get_functions = {
     vanilla_consumables_function_collector,
     vanilla_enhancement_function_collector,
+    vanilla_joker_function_collector,
 }
 -----------------------------------------
 
 
-
--- UTILITY FUNCTION
-function append_table(mainTable,appendedTable)
-    for k, v in pairs(appendedTable) do
-        mainTable[k] = v
-    end
-end
 
 card_functions = {}
 
 
 function define_card_functions()
     for i=1,#get_functions do
-        append_table(card_functions,get_functions[i]())
+        concat_table(card_functions,get_functions[i]())
     end
 end
 
 -- Note: replace with a function that defines all P_ tables on its own
 function append_pools(G_set, set_type)
     for i=1,#sets do
-        if set_type == sets[i].set_type then append_table(G_set,sets[i].set) end
+        if set_type == sets[i].set_type then concat_table(G_set,sets[i].set) end
     end
 end
 --
