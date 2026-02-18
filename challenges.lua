@@ -12,7 +12,7 @@ G.CHALLENGES = {
                 {id = 'set_seed', value = 'SEEDEEDS'},
             },
             modifiers = {
-                {id = 'dollars', value = 100},
+                {id = 'dollars', value = 0},
                 {id = 'discards', value = 1},
                 {id = 'hands', value = 6},
                 {id = 'reroll_cost', value = 10},
@@ -22,8 +22,9 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_four_fingers'},
-            {id = 'j_shortcut'}
+            {id = 'j_stencil'},
+            {id = 'j_banner'},
+            {id = 'j_ceremonial'},
         },
         consumeables = {
             {id = 'c_sigil'}
@@ -32,6 +33,8 @@ G.CHALLENGES = {
             {id = 'v_hieroglyph'},
         },
         deck = {
+            cards = {{s='D',r='2',e='m_glass',},{s='D',r='2',e='m_glass',},{s='D',r='2',e='m_glass',},{s='D',r='2',e='m_glass',},{s='D',r='2',e='m_glass',}},
+            --{{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},},
             type = 'Challenge Deck'
         },
         restrictions = {

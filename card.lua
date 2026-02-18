@@ -632,43 +632,45 @@ function Card:add_to_deck(from_debuff)
             G.GAME.round_resets.discards = G.GAME.round_resets.discards + self.ability.d_size
             ease_discard(self.ability.d_size)
         end
-        if self.ability.name == 'Credit Card' then
-            G.GAME.bankrupt_at = G.GAME.bankrupt_at - self.ability.extra
-        end
-        if self.ability.name == 'Chicot' and G.GAME.blind and G.GAME.blind.boss and not G.GAME.blind.disabled then
-            G.GAME.blind:disable()
-            play_sound('timpani')
-            card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('ph_boss_disabled')})
-        end
-        if self.ability.name == 'Chaos the Clown' then
-            G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls + 1
-            calculate_reroll_cost(true)
-        end
-        if self.ability.name == 'Turtle Bean' then
-            G.hand:change_size(self.ability.extra.h_size)
-        end
-        if self.ability.name == 'Oops! All 6s' then
-            for k, v in pairs(G.GAME.probabilities) do 
-                G.GAME.probabilities[k] = v*2
-            end
-        end
-        if self.ability.name == 'To the Moon' then
-            G.GAME.interest_amount = G.GAME.interest_amount + self.ability.extra
-        end
-        if self.ability.name == 'Astronomer' then 
-            G.E_MANAGER:add_event(Event({func = function()
-                for k, v in pairs(G.I.CARD) do
-                    if v.set_cost then v:set_cost() end
-                end
-                return true end }))
-        end
-        if self.ability.name == 'Troubadour' then
-            G.hand:change_size(self.ability.extra.h_size)
-            G.GAME.round_resets.hands = G.GAME.round_resets.hands + self.ability.extra.h_plays
-        end
-        if self.ability.name == 'Stuntman' then
-            G.hand:change_size(-self.ability.extra.h_size)
-        end
+        local card_funcs = get_card_functions(self.ability.id)
+        if card_funcs and card_funcs.add_deck then card_funcs.add_deck(self) end
+        -- if self.ability.name == 'Credit Card' then
+        --     G.GAME.bankrupt_at = G.GAME.bankrupt_at - self.ability.extra
+        -- end
+        -- if self.ability.name == 'Chicot' and G.GAME.blind and G.GAME.blind.boss and not G.GAME.blind.disabled then
+        --     G.GAME.blind:disable()
+        --     play_sound('timpani')
+        --     card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('ph_boss_disabled')})
+        -- end
+        -- if self.ability.name == 'Chaos the Clown' then
+        --     G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls + 1
+        --     calculate_reroll_cost(true)
+        -- end
+        -- if self.ability.name == 'Turtle Bean' then
+        --     G.hand:change_size(self.ability.extra.h_size)
+        -- end
+        -- if self.ability.name == 'Oops! All 6s' then
+        --     for k, v in pairs(G.GAME.probabilities) do 
+        --         G.GAME.probabilities[k] = v*2
+        --     end
+        -- end
+        -- if self.ability.name == 'To the Moon' then
+        --     G.GAME.interest_amount = G.GAME.interest_amount + self.ability.extra
+        -- end
+        -- if self.ability.name == 'Astronomer' then 
+        --     G.E_MANAGER:add_event(Event({func = function()
+        --         for k, v in pairs(G.I.CARD) do
+        --             if v.set_cost then v:set_cost() end
+        --         end
+        --         return true end }))
+        -- end
+        -- if self.ability.name == 'Troubadour' then
+        --     G.hand:change_size(self.ability.extra.h_size)
+        --     G.GAME.round_resets.hands = G.GAME.round_resets.hands + self.ability.extra.h_plays
+        -- end
+        -- if self.ability.name == 'Stuntman' then
+        --     G.hand:change_size(-self.ability.extra.h_size)
+        -- end
         if self.edition and self.edition.negative then 
             if from_debuff then 
                 self.ability.queue_negative_removal = nil
@@ -695,38 +697,40 @@ function Card:remove_from_deck(from_debuff)
             G.GAME.round_resets.discards = G.GAME.round_resets.discards - self.ability.d_size
             ease_discard(-self.ability.d_size)
         end
-        if self.ability.name == 'Credit Card' then
-            G.GAME.bankrupt_at = G.GAME.bankrupt_at + self.ability.extra
-        end
-        if self.ability.name == 'Chaos the Clown' then
-            G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls - 1
-            calculate_reroll_cost(true)
-        end
-        if self.ability.name == 'Turtle Bean' then
-            G.hand:change_size(-self.ability.extra.h_size)
-        end
-        if self.ability.name == 'Oops! All 6s' then
-            for k, v in pairs(G.GAME.probabilities) do 
-                G.GAME.probabilities[k] = v/2
-            end
-        end
-        if self.ability.name == 'To the Moon' then
-            G.GAME.interest_amount = G.GAME.interest_amount - self.ability.extra
-        end
-        if self.ability.name == 'Astronomer' then 
-            G.E_MANAGER:add_event(Event({func = function()
-                for k, v in pairs(G.I.CARD) do
-                    if v.set_cost then v:set_cost() end
-                end
-                return true end }))
-        end
-        if self.ability.name == 'Troubadour' then
-            G.hand:change_size(-self.ability.extra.h_size)
-            G.GAME.round_resets.hands = G.GAME.round_resets.hands - self.ability.extra.h_plays
-        end
-        if self.ability.name == 'Stuntman' then
-            G.hand:change_size(self.ability.extra.h_size)
-        end
+        local card_funcs = get_card_functions(self.ability.id)
+        if card_funcs and card_funcs.remove_deck then card_funcs.remove_deck(self) end
+        -- if self.ability.name == 'Credit Card' then
+        --     G.GAME.bankrupt_at = G.GAME.bankrupt_at + self.ability.extra
+        -- end
+        -- if self.ability.name == 'Chaos the Clown' then
+        --     G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls - 1
+        --     calculate_reroll_cost(true)
+        -- end
+        -- if self.ability.name == 'Turtle Bean' then
+        --     G.hand:change_size(-self.ability.extra.h_size)
+        -- end
+        -- if self.ability.name == 'Oops! All 6s' then
+        --     for k, v in pairs(G.GAME.probabilities) do 
+        --         G.GAME.probabilities[k] = v/2
+        --     end
+        -- end
+        -- if self.ability.name == 'To the Moon' then
+        --     G.GAME.interest_amount = G.GAME.interest_amount - self.ability.extra
+        -- end
+        -- if self.ability.name == 'Astronomer' then 
+        --     G.E_MANAGER:add_event(Event({func = function()
+        --         for k, v in pairs(G.I.CARD) do
+        --             if v.set_cost then v:set_cost() end
+        --         end
+        --         return true end }))
+        -- end
+        -- if self.ability.name == 'Troubadour' then
+        --     G.hand:change_size(-self.ability.extra.h_size)
+        --     G.GAME.round_resets.hands = G.GAME.round_resets.hands - self.ability.extra.h_plays
+        -- end
+        -- if self.ability.name == 'Stuntman' then
+        --     G.hand:change_size(self.ability.extra.h_size)
+        -- end
         if self.edition and self.edition.negative and G.jokers then
             if from_debuff then
                 self.ability.queue_negative_removal = true 
@@ -1044,9 +1048,9 @@ repetition_sources = {
         for j=1, #G.jokers.cards do
             --calculate the joker effects
             local eval = G.jokers.cards[j]:calculate_joker(context)
-            if type(eval) == "table" and eval.jokers then 
+            if type(eval) == "table" and eval.repetitions then --eval.jokers then 
                 -- create <repetitions> rep tables
-                for h = 1, eval.jokers.repetitions do
+                for h = 1, eval.repetitions do
                     loc_vals.reps[#loc_vals.reps+1] = eval
                 end
             end
@@ -1147,7 +1151,7 @@ function Card:score(context)
             score_sources[ii].func(self,loc_vals,context)
         end
         -- add rep notification if there's an output to repeat
-        if (i~=1 and #loc_vals.score_table ~= 0) then table.insert(loc_vals.final_table, {extra=loc_vals.reps[i]}) end
+        if (i~=1 and loc_vals.score_table == {}) then table.insert(loc_vals.final_table, {extra=loc_vals.reps[i]}) end
         -- append scores to final score table
         for ii=1,#loc_vals.score_table do table.insert(loc_vals.final_table, loc_vals.score_table[ii]) end
         -- empty score table for next iteration
@@ -3985,89 +3989,92 @@ function Card:update(dt)
         end
         self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost
 
-        if self.ability.name == 'Temperance' then
-            self.ability.money = 0
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i].ability.set == 'Joker' then
-                    self.ability.money = self.ability.money + G.jokers.cards[i].sell_cost
-                end
-            end
-            self.ability.money = math.min(self.ability.money, self.ability.extra)
-        end
-        if self.ability.name == 'Throwback' then
-            self.ability.x_mult = 1 + G.GAME.skips*self.ability.extra
-        end
-        if self.ability.name == "Driver's License" then 
-            self.ability.driver_tally = 0
-            for k, v in pairs(G.playing_cards) do
-                if v.config.center ~= G.P_CENTERS.c_base then self.ability.driver_tally = self.ability.driver_tally+1 end
-            end
-        end
-        if self.ability.name == "Steel Joker" then 
-            self.ability.steel_tally = 0
-            for k, v in pairs(G.playing_cards) do
-                if v.config.center == G.P_CENTERS.m_steel then self.ability.steel_tally = self.ability.steel_tally+1 end
-            end
-        end
-        if self.ability.name == "Cloud 9" then 
-            self.ability.nine_tally = 0
-            for k, v in pairs(G.playing_cards) do
-                if v:get_id() == 9 then self.ability.nine_tally = self.ability.nine_tally+1 end
-            end
-        end
-        if self.ability.name == "Stone Joker" then 
-            self.ability.stone_tally = 0
-            for k, v in pairs(G.playing_cards) do
-                if v.config.center == G.P_CENTERS.m_stone then self.ability.stone_tally = self.ability.stone_tally+1 end
-            end
-        end
-        if self.ability.name == "Joker Stencil" then 
-            self.ability.x_mult = (G.jokers.config.card_limit - #G.jokers.cards)
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i].ability.name == 'Joker Stencil' then self.ability.x_mult = self.ability.x_mult + 1 end
-            end
-        end
-        if self.ability.name == 'The Wheel of Fortune' then
-            self.eligible_strength_jokers = EMPTY(self.eligible_strength_jokers)
-            for k, v in pairs(G.jokers.cards) do
-                if v.ability.set == 'Joker' and (not v.edition) then
-                    table.insert(self.eligible_strength_jokers, v)
-                end
-            end
-        end
-        -- why are we defining this like this instead of just checking when selected?
-        -- if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' then 
-        --     self.eligible_editionless_jokers = EMPTY(self.eligible_editionless_jokers)
+        local card_funcs = get_card_functions(self.ability.id)
+        if card_funcs and card_funcs.update then card_funcs.update(self) end
+
+        -- if self.ability.name == 'Temperance' then
+        --     self.ability.money = 0
+        --     for i = 1, #G.jokers.cards do
+        --         if G.jokers.cards[i].ability.set == 'Joker' then
+        --             self.ability.money = self.ability.money + G.jokers.cards[i].sell_cost
+        --         end
+        --     end
+        --     self.ability.money = math.min(self.ability.money, self.ability.extra)
+        -- end
+        -- if self.ability.name == 'Throwback' then
+        --     self.ability.x_mult = 1 + G.GAME.skips*self.ability.extra
+        -- end
+        -- if self.ability.name == "Driver's License" then 
+        --     self.ability.driver_tally = 0
+        --     for k, v in pairs(G.playing_cards) do
+        --         if v.config.center ~= G.P_CENTERS.c_base then self.ability.driver_tally = self.ability.driver_tally+1 end
+        --     end
+        -- end
+        -- if self.ability.name == "Steel Joker" then 
+        --     self.ability.steel_tally = 0
+        --     for k, v in pairs(G.playing_cards) do
+        --         if v.config.center == G.P_CENTERS.m_steel then self.ability.steel_tally = self.ability.steel_tally+1 end
+        --     end
+        -- end
+        -- if self.ability.name == "Cloud 9" then 
+        --     self.ability.nine_tally = 0
+        --     for k, v in pairs(G.playing_cards) do
+        --         if v:get_id() == 9 then self.ability.nine_tally = self.ability.nine_tally+1 end
+        --     end
+        -- end
+        -- if self.ability.name == "Stone Joker" then 
+        --     self.ability.stone_tally = 0
+        --     for k, v in pairs(G.playing_cards) do
+        --         if v.config.center == G.P_CENTERS.m_stone then self.ability.stone_tally = self.ability.stone_tally+1 end
+        --     end
+        -- end
+        -- if self.ability.name == "Joker Stencil" then 
+        --     self.ability.x_mult = (G.jokers.config.card_limit - #G.jokers.cards)
+        --     for i = 1, #G.jokers.cards do
+        --         if G.jokers.cards[i].ability.name == 'Joker Stencil' then self.ability.x_mult = self.ability.x_mult + 1 end
+        --     end
+        -- end
+        -- if self.ability.name == 'The Wheel of Fortune' then
+        --     self.eligible_strength_jokers = EMPTY(self.eligible_strength_jokers)
         --     for k, v in pairs(G.jokers.cards) do
         --         if v.ability.set == 'Joker' and (not v.edition) then
-        --             table.insert(self.eligible_editionless_jokers, v)
+        --             table.insert(self.eligible_strength_jokers, v)
         --         end
         --     end
         -- end
-        if self.ability.name == 'Blueprint' or self.ability.name == 'Brainstorm' then
-            local other_joker = nil
-            if self.ability.name == 'Brainstorm' then
-                other_joker = G.jokers.cards[1]
-            elseif self.ability.name == 'Blueprint' then
-                for i = 1, #G.jokers.cards do
-                    if G.jokers.cards[i] == self then other_joker = G.jokers.cards[i+1] end
-                end
-            end
-            if other_joker and other_joker ~= self and other_joker.config.center.blueprint_compat then
-                self.ability.blueprint_compat = 'compatible'
-            else
-                self.ability.blueprint_compat = 'incompatible'
-            end
-        end
-        if self.ability.name == 'Swashbuckler' then
-            local sell_cost = 0
-            for i = 1, #G.jokers.cards do
-                if G.jokers.cards[i] ~= self and (G.jokers.cards[i].area and G.jokers.cards[i].area == G.jokers) then
-                    sell_cost = sell_cost + G.jokers.cards[i].sell_cost
-                end
-            end
-            self.ability.mult = sell_cost
-        end
+        -- -- why are we defining this like this instead of just checking when selected?
+        -- -- if self.ability.name == 'Ectoplasm' or self.ability.name == 'Hex' then 
+        -- --     self.eligible_editionless_jokers = EMPTY(self.eligible_editionless_jokers)
+        -- --     for k, v in pairs(G.jokers.cards) do
+        -- --         if v.ability.set == 'Joker' and (not v.edition) then
+        -- --             table.insert(self.eligible_editionless_jokers, v)
+        -- --         end
+        -- --     end
+        -- -- end
+        -- if self.ability.name == 'Blueprint' or self.ability.name == 'Brainstorm' then
+        --     local other_joker = nil
+        --     if self.ability.name == 'Brainstorm' then
+        --         other_joker = G.jokers.cards[1]
+        --     elseif self.ability.name == 'Blueprint' then
+        --         for i = 1, #G.jokers.cards do
+        --             if G.jokers.cards[i] == self then other_joker = G.jokers.cards[i+1] end
+        --         end
+        --     end
+        --     if other_joker and other_joker ~= self and other_joker.config.center.blueprint_compat then
+        --         self.ability.blueprint_compat = 'compatible'
+        --     else
+        --         self.ability.blueprint_compat = 'incompatible'
+        --     end
+        -- end
+        -- if self.ability.name == 'Swashbuckler' then
+        --     local sell_cost = 0
+        --     for i = 1, #G.jokers.cards do
+        --         if G.jokers.cards[i] ~= self and (G.jokers.cards[i].area and G.jokers.cards[i].area == G.jokers) then
+        --             sell_cost = sell_cost + G.jokers.cards[i].sell_cost
+        --         end
+        --     end
+        --     self.ability.mult = sell_cost
+        -- end
     else
         if self.ability.name == 'Temperance' then
             self.ability.money = 0

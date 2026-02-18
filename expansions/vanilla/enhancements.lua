@@ -94,7 +94,7 @@ local function define_enhancement_functions()
 
     local function score_steel()
         return function(self, context)
-            if context.cardarea == G.hand then return {x_mult = self.ability.x_mult}
+            if context.cardarea == G.hand and context.score then return {x_mult = self.ability.x_mult}
             else return {} end
         end
     end

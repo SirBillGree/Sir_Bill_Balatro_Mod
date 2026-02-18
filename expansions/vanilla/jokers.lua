@@ -76,10 +76,10 @@ vanilla_jokers_set = {
         j_stencil=          {order = 17,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 8, name = "Joker Stencil", pos = {x=2,y=5}, set = "Joker", effect = "Hand Size Mult", cost_mult = 1.0, config = {}},
         j_four_fingers=     {order = 18,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Four Fingers", pos = {x=6,y=6}, set = "Joker", effect = "", config = {}},
         j_mime=             {order = 19,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Mime", pos = {x=4,y=1}, set = "Joker", effect = "Hand card double", cost_mult = 1.0, config = {extra = {reps=1}}},
+        j_credit_card=      {order = 20,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 1, name = "Credit Card", pos = {x=5,y=1}, set = "Joker", effect = "Credit", cost_mult = 1.0, config = {extra = 20}},
+        j_ceremonial=       {order = 21,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Ceremonial Dagger", pos = {x=5,y=5}, set = "Joker", effect = "", config = {mult = 0}},
+        j_banner=           {order = 22,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Banner", pos = {x=1,y=2}, set = "Joker", effect = "Discard Chips", cost_mult = 1.0, config = {extra = 30}},
         -- ^ Implemented functionality ^ --
-        -- j_credit_card=      {order = 20,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 1, name = "Credit Card", pos = {x=5,y=1}, set = "Joker", effect = "Credit", cost_mult = 1.0, config = {extra = 20}},
-        -- j_ceremonial=       {order = 21,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Ceremonial Dagger", pos = {x=5,y=5}, set = "Joker", effect = "", config = {mult = 0}},
-        -- j_banner=           {order = 22,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Banner", pos = {x=1,y=2}, set = "Joker", effect = "Discard Chips", cost_mult = 1.0, config = {extra = 30}},
         -- j_mystic_summit=    {order = 23,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Mystic Summit", pos = {x=2,y=2}, set = "Joker", effect = "No Discard Mult", cost_mult = 1.0, config = {extra = {mult = 15, d_remaining = 0}}},
         -- j_marble=           {order = 24,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Marble Joker", pos = {x=3,y=2}, set = "Joker", effect = "Stone card hands", cost_mult = 1.0, config = {extra = 1}},
         -- j_loyalty_card=     {order = 25,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Loyalty Card", pos = {x=4,y=2}, set = "Joker", effect = "1 in 10 mult", cost_mult = 1.0, config = {extra = {x_mult = 4, every = 5, remaining = "5 remaining"}}},
@@ -234,6 +234,7 @@ local function define_joker_functions()
     --                     SCORE FUNCTIONS                     --
     -------------------------------------------------------------
     -------------------------------------------------------------
+    --- ALL MUST INCLUDE A CHECK FOR: context.cardarea == G.jokers and context.score
 
     -- val_name: string = 'chips', 'mult', 'x_mult', 'dollars'
     -- cond (condition): function, takes (self, context), returns true/false
@@ -246,22 +247,6 @@ local function define_joker_functions()
         end
     end
 
-
-    -------------------------------------------------------------------------------
-    -------------------------------------------------------------------------------
-    --                     INDIVIDUAL CARD TRIGGER FUNCTIONS                     --
-    -------------------------------------------------------------------------------
-    -------------------------------------------------------------------------------
-
-    local function trigger_suit_jokers() return function(self, context)
-        if context.individual and context.cardarea == G.play and context.other_card:is_suit(self.ability.extra.suit) then
-            return {
-                    mult = self.ability.mult,
-                    card = self
-                }
-        end
-    end end
-
     local function score_hand_jokers() return function(self, context)
         if context.cardarea == G.jokers and context.score and #context.poker_hands[self.ability.type] > 0 then
             return {
@@ -272,18 +257,68 @@ local function define_joker_functions()
         end
     end end
 
-    ---------------------------------------------------------
-    --                     CONDITITONS                     --
-    ---------------------------------------------------------
+
+    ---------------------------------------------------------------
+    ---------------------------------------------------------------
+    --                     TRIGGER FUNCTIONS                     --
+    ---------------------------------------------------------------
+    ---------------------------------------------------------------
+
+    local function trigger_suit_jokers() return function(self, context)
+        if context.individual and context.cardarea == G.play and context.other_card:is_suit(self.ability.extra.suit) then
+            return {
+                    mult = self.ability.mult,
+                    card = self
+                }
+        end
+    end end
+
+
+    local function trigger_dagger() return function(self, context)
+        if not context.blueprint and context.setting_blind and not self.getting_sliced then
+            local my_pos = nil
+            for i = 1, #G.jokers.cards do
+                if G.jokers.cards[i] == self then my_pos = i; break end
+            end
+            if my_pos and G.jokers.cards[my_pos+1] and not self.getting_sliced and not G.jokers.cards[my_pos+1].ability.eternal and not G.jokers.cards[my_pos+1].getting_sliced then 
+                local sliced_card = G.jokers.cards[my_pos+1]
+                sliced_card.getting_sliced = true
+                G.GAME.joker_buffer = G.GAME.joker_buffer - 1
+                G.E_MANAGER:add_event(Event({func = function()
+                    G.GAME.joker_buffer = 0
+                    self.ability.mult = self.ability.mult + sliced_card.sell_cost*2
+                    self:juice_up(0.8, 0.8)
+                    sliced_card:start_dissolve({HEX("57ecab")}, nil, 1.6)
+                    play_sound('slice1', 0.96+math.random()*0.08)
+                return true end }))
+                card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_mult', vars = {self.ability.mult+2*sliced_card.sell_cost}}, colour = G.C.RED, no_juice = true})
+            end
+        end
+    end end
+
+    ------------------------------------------------------------------
+    ------------------------------------------------------------------
+    --                     ADD/REMOVE FUNCTIONS                     --
+    ------------------------------------------------------------------
+    ------------------------------------------------------------------
+    
+
+    -------------------------------------------------------
+    -------------------------------------------------------
+    --                     CONDITIONS                    --
+    -------------------------------------------------------
+    -------------------------------------------------------
 
     local function mime_cond() return function (self, context)
-        if context.cardarea == G.hand and context.card_effects and (next(context.card_effects[1]) or #context.card_effects > 1) then
+        if context.cardarea == G.hand then
             return true
         end
     end end
 
     -------------------------------------------------------------
+    -------------------------------------------------------------
     --                     GET REPETITIONS                     --
+    -------------------------------------------------------------
     -------------------------------------------------------------
 
     local function get_repitions(cond)
@@ -313,6 +348,7 @@ local function define_joker_functions()
     end end
 
 
+
     -- I chose to make a loop instead of define a table so that I could save time
     -- and not have to write out "vanilla_jokers_set.j_<joker>.config.<var>"
     -- a billion times, which seems hard to maintain. "c.<var>" is much better.
@@ -325,6 +361,10 @@ local function define_joker_functions()
         elseif k == 'j_half' then joker_functions[k] =                          {score=score_value('mult', function (self,context) return #context.full_hand <= self.ability.extra.size end)}
         elseif k == 'j_stencil' then joker_functions[k] =                       {score=score_value('x_mult'), update=stencil_joker_upd()}
         elseif k == 'j_mime' then joker_functions[k] =                          {triggers={get_repitions(mime_cond())}}
+        elseif k == 'j_credit_card' then joker_functions[k] =                   {add_deck = function(self) G.GAME.bankrupt_at = G.GAME.bankrupt_at - self.ability.extra end, remove_deck = function(self) G.GAME.bankrupt_at = G.GAME.bankrupt_at + self.ability.extra end}
+        elseif k == 'j_ceremonial' then joker_functions[k] =                    {score=score_value('mult'), triggers={trigger_dagger()}}
+        elseif k == 'j_banner' then joker_functions[k] =                        {score=score_value('chips', function (self,context) return G.GAME.current_round.discards_left > 0 end), update=function(self) self.ability.chips = G.GAME.current_round.discards_left * self.ability.extra end}
+        
         elseif v.effect then 
             if v.effect == "Suit Mult" then joker_functions[k] =                {triggers={trigger_suit_jokers()}}
             elseif v.effect == "Type Mult" or
@@ -339,64 +379,6 @@ end
 function vanilla_joker_function_collector()
     define_joker_functions()
     return joker_functions
-end
-
-
-
----------------------------------------------------------------------------
----------------------------------------------------------------------------
---                     TRIGGER FUNCTION + CONDITIONS                     --
----------------------------------------------------------------------------
----------------------------------------------------------------------------
--- cond = <conditional> | {<conditional>, <conditional>...}
--- <conditional> = <context> | not <context> 
-
-function trigger(cond, effect)
-  return function(self, context)
-    if cond(context) then effect(self, context) end
-  end
-end
-
-
---------------------------------------------------
---               CONDITIONS (on)                --
---------------------------------------------------
-
-function eval_on(code)
-    local invert = 0
-    code, invert = string.gsub(code, "not ", "")
-    if invert == 0 then
-        -- if no "not"
-        return function(context)
-            if context[code] then return true else return false end
-        end
-    else
-        -- if "not"
-        return function(context)
-            if not context[code] then return true else return false end
-        end
-    end
-end
-
-function on(code)
-    if type(code) == "string" then
-        -- default condition
-        return function(context)
-            return eval_on(code)
-        end
-    elseif type(code) == "table" then
-        -- if input is a table of context strings
-        return function(context)
-            -- Go through each string
-            for i=1,#code do
-                -- if the result of any of the conditions is false, return false
-                if not eval_on(code[i]) then return false end
-            end 
-            -- Else return true
-            return true
-        end
-    else error("string or table of strings expected for on() function") end
-        -- otherwise, it's not a valid input
 end
 
 

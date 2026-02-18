@@ -943,7 +943,7 @@ G.FUNCS.evaluate_play = function(e)
         --+++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
         delay(0.3)
 
-        percent = G.hand:score({cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands,score=true}, 
+        percent = G.hand:score({cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, score=true}, 
                     total_score,
                     percent,
                     percent_delta)

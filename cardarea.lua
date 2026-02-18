@@ -720,7 +720,7 @@ function CardArea:score(context, total_score, percent, percent_delta, specific_c
 
                     -- Base scoring conditions
                     if total_score[s] then total_score[s] = total_score[s] + score_unit[s]
-                    elseif s == 'x_mult' then total_score[s] = total_score.mult * score_unit[s]
+                    elseif s == 'x_mult' then total_score.mult = total_score.mult * score_unit[s]
                     elseif s == 'dollars' then ease_dollars(score_unit[s])
                     else end
 
