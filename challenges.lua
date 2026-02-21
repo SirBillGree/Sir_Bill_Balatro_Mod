@@ -22,9 +22,10 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_stencil'},
-            {id = 'j_banner'},
-            {id = 'j_ceremonial'},
+            {id = 'j_oops'},
+            {id = 'j_8_ball'},
+            {id = 'j_blueprint'},
+            {id = 'j_brainstorm'}
         },
         consumeables = {
             {id = 'c_sigil'}
@@ -33,7 +34,7 @@ G.CHALLENGES = {
             {id = 'v_hieroglyph'},
         },
         deck = {
-            cards = {{s='D',r='2',e='m_glass',},{s='D',r='2',e='m_glass',},{s='D',r='2',e='m_glass',},{s='D',r='2',e='m_glass',},{s='D',r='2',e='m_glass',}},
+            cards = {{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',}},
             --{{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},},
             type = 'Challenge Deck'
         },

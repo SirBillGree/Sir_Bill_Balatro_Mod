@@ -72,18 +72,18 @@ vanilla_jokers_set = {
         j_devious=          {order = 14,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Devious Joker",set = "Joker", effect = "Type Chips", config = {chips = 100, type = 'Straight'}, pos = {x=3,y=14}},
         j_crafty=           {order = 15,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Crafty Joker",set = "Joker", effect = "Type Chips", config = {chips = 80, type = 'Flush'}, pos = {x=4,y=14}},
 
-        j_half=             {order = 16,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Half Joker", pos = {x=7,y=0}, set = "Joker", effect = "Hand Size Mult", cost_mult = 1.0, config = {extra = {mult = 20, size = 3}}},
+        j_half=             {order = 16,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Half Joker", pos = {x=7,y=0}, set = "Joker", effect = "Hand Size Mult", cost_mult = 1.0, config = {mult = 20, extra = {size = 3}}},
         j_stencil=          {order = 17,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 8, name = "Joker Stencil", pos = {x=2,y=5}, set = "Joker", effect = "Hand Size Mult", cost_mult = 1.0, config = {}},
         j_four_fingers=     {order = 18,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Four Fingers", pos = {x=6,y=6}, set = "Joker", effect = "", config = {}},
         j_mime=             {order = 19,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Mime", pos = {x=4,y=1}, set = "Joker", effect = "Hand card double", cost_mult = 1.0, config = {extra = {reps=1}}},
         j_credit_card=      {order = 20,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 1, name = "Credit Card", pos = {x=5,y=1}, set = "Joker", effect = "Credit", cost_mult = 1.0, config = {extra = 20}},
         j_ceremonial=       {order = 21,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Ceremonial Dagger", pos = {x=5,y=5}, set = "Joker", effect = "", config = {mult = 0}},
         j_banner=           {order = 22,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Banner", pos = {x=1,y=2}, set = "Joker", effect = "Discard Chips", cost_mult = 1.0, config = {extra = 30}},
+        j_mystic_summit=    {order = 23,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Mystic Summit", pos = {x=2,y=2}, set = "Joker", effect = "No Discard Mult", cost_mult = 1.0, config = {mult = 15, extra = {d_remaining = 0}}},
+        j_marble=           {order = 24,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Marble Joker", pos = {x=3,y=2}, set = "Joker", effect = "Stone card hands", cost_mult = 1.0, config = {extra = 1}},
+        j_loyalty_card=     {order = 25,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Loyalty Card", pos = {x=4,y=2}, set = "Joker", effect = "1 in 10 mult", cost_mult = 1.0, config = {x_mult = 4, extra = {every = 5, loyalty_remaining = 5, remaining = "5 remaining"}}},
         -- ^ Implemented functionality ^ --
-        -- j_mystic_summit=    {order = 23,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Mystic Summit", pos = {x=2,y=2}, set = "Joker", effect = "No Discard Mult", cost_mult = 1.0, config = {extra = {mult = 15, d_remaining = 0}}},
-        -- j_marble=           {order = 24,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Marble Joker", pos = {x=3,y=2}, set = "Joker", effect = "Stone card hands", cost_mult = 1.0, config = {extra = 1}},
-        -- j_loyalty_card=     {order = 25,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Loyalty Card", pos = {x=4,y=2}, set = "Joker", effect = "1 in 10 mult", cost_mult = 1.0, config = {extra = {x_mult = 4, every = 5, remaining = "5 remaining"}}},
-        -- j_8_ball=           {order = 26,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "8 Ball", pos = {x=0,y=5}, set = "Joker", effect = "Spawn Tarot", cost_mult = 1.0, config = {extra=4}},
+        j_8_ball=           {order = 26,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "8 Ball", pos = {x=0,y=5}, set = "Joker", effect = "Spawn Tarot", cost_mult = 1.0, config = {extra=4}},
         -- j_misprint=         {order = 27,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Misprint", pos = {x=6,y=2}, set = "Joker", effect = "Random Mult", cost_mult = 1.0, config = {extra = {max = 23, min = 0}}},
         -- j_dusk=             {order = 28,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Dusk", pos = {x=4,y=7}, set = "Joker", effect = "", config = {extra = {reps=1}}, unlock_condition = {type = '', extra = '', hidden = true}},
         -- j_raised_fist=      {order = 29,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Raised Fist", pos = {x=8,y=2}, set = "Joker", effect = "Socialized Mult", cost_mult = 1.0, config = {}},
@@ -190,7 +190,7 @@ vanilla_jokers_set = {
         j_blueprint=        {order = 123,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 10,name = "Blueprint", pos = {x=0,y=3}, set = "Joker", effect = "Copycat", cost_mult = 1.0, config = {},unlock_condition = {type = 'win_custom'}},
         -- j_wee=              {order = 124,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 3, cost = 8, name = "Wee Joker", pos = {x=0,y=0}, set = "Joker", effect = "", config = {extra = {chips = 0, chip_mod = 8}}, unlock_condition = {type = 'win', n_rounds = 18}},
         -- j_merry_andy=       {order = 125,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Merry Andy", pos = {x=8,y=0}, set = "Joker", effect = "", cost_mult = 1.0, config = {d_size = 3, h_size = -1}, unlock_condition = {type = 'win', n_rounds = 12}},
-        -- j_oops=             {order = 126,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 4, name = "Oops! All 6s", pos = {x=5,y=6}, set = "Joker", effect = "", config = {}, unlock_condition = {type = 'chip_score', chips = 10000}},
+        j_oops=             {order = 126,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 4, name = "Oops! All 6s", pos = {x=5,y=6}, set = "Joker", effect = "", config = {}, unlock_condition = {type = 'chip_score', chips = 10000}},
         -- j_idol=             {order = 127,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "The Idol", pos = {x=6,y=7}, set = "Joker", effect = "", config = {extra = 2}, unlock_condition = {type = 'chip_score', chips = 1000000}},
         -- j_seeing_double=    {order = 128,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Seeing Double", pos = {x=4,y=4}, set = "Joker", effect = "X1.5 Mult club 7", cost_mult = 1.0, config = {extra = 2},unlock_condition = {type = 'hand_contents', extra = 'four 7 of Clubs'}},
         -- j_matador=          {order = 129,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Matador", pos = {x=4,y=5}, set = "Joker", effect = "", config = {extra = 8}, unlock_condition = {type = 'round_win'}},
@@ -203,7 +203,7 @@ vanilla_jokers_set = {
         
         -- j_stuntman=         {order = 136,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 7, name = "Stuntman", pos = {x=8,y=6}, set = "Joker", effect = "", config = {extra = {h_size = 2, chip_mod = 250}}, unlock_condition = {type = 'chip_score', chips = 100000000}},
         -- j_invisible=        {order = 137,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = false, rarity = 3, cost = 8, name = "Invisible Joker", pos = {x=1,y=7}, set = "Joker", effect = "", config = {extra = 2}, unlock_condition = {type = 'win_custom'}},
-        -- j_brainstorm=       {order = 138,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 10, name = "Brainstorm", pos = {x=7,y=7}, set = "Joker", effect = "Copycat", config = {}, unlock_condition = {type = 'discard_custom'}},
+        j_brainstorm=       {order = 138,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 10, name = "Brainstorm", pos = {x=7,y=7}, set = "Joker", effect = "Copycat", config = {}, unlock_condition = {type = 'discard_custom'}},
         -- j_satellite=        {order = 139,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Satellite", pos = {x=8,y=7}, set = "Joker", effect = "", config = {extra = 1}, unlock_condition = {type = 'money', extra = 400}},
         -- j_shoot_the_moon=   {order = 140,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Shoot the Moon", pos = {x=2,y=6}, set = "Joker", effect = "", config = {extra = 13}, unlock_condition = {type = 'play_all_hearts'}},
         -- j_drivers_license=  {order = 141,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 7, name = "Driver's License", pos = {x=0,y=7}, set = "Joker", effect = "", config = {extra = 3}, unlock_condition = {type = 'modify_deck', extra = {count = 16, tally = 'total'}}},
@@ -257,6 +257,17 @@ local function define_joker_functions()
         end
     end end
 
+    local function score_copy() return function(self, context)
+        local target = self.ability.blueprint_target or nil
+        if target then 
+            local ret
+            context.blueprint = true
+            local card_funcs = get_card_functions(target.ability.id)
+            if card_funcs and card_funcs.score then ret = card_funcs.score(target,context) end
+            if context.blueprint then context.blueprint = nil end
+            return ret or nil
+        end
+    end end
 
     ---------------------------------------------------------------
     ---------------------------------------------------------------
@@ -296,11 +307,94 @@ local function define_joker_functions()
         end
     end end
 
+    local function trigger_marble() return function(self, context)
+        if context.setting_blind and not (context.blueprint_card or self).getting_sliced  then
+            G.E_MANAGER:add_event(Event({
+                func = function() 
+                    local front = pseudorandom_element(G.P_CARDS, pseudoseed('marb_fr'))
+                    G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+                    local card = Card(G.play.T.x + G.play.T.w/2, G.play.T.y, G.CARD_W, G.CARD_H, front, G.P_CENTERS.m_stone, {playing_card = G.playing_card})
+                    card:start_materialize({G.C.SECONDARY_SET.Enhanced})
+                    G.play:emplace(card)
+                    table.insert(G.playing_cards, card)
+                    return true
+                end}))
+            card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_plus_stone'), colour = G.C.SECONDARY_SET.Enhanced})
+
+            G.E_MANAGER:add_event(Event({
+                func = function() 
+                    G.deck.config.card_limit = G.deck.config.card_limit + 1
+                    return true
+                end}))
+                draw_card(G.play,G.deck, 90,'up', nil)  
+
+            playing_card_joker_effects({true})
+        end
+    end end
+
+    local function trigger_loyalty_iter() return function(self, context)
+        if context.cardarea == G.jokers and context.score then
+            if not context.blueprint then
+                self.ability.extra.loyalty_remaining = (self.ability.extra.every-1-(G.GAME.hands_played - self.ability.hands_played_at_create))%(self.ability.extra.every+1)
+            end
+            if self.ability.extra.loyalty_remaining == 0 then
+                local eval = function(card) return (card.ability.extra.loyalty_remaining == 0) end
+                juice_card_until(self, eval, true)
+            end
+        end
+    end end
+
+    local function trigger_8_ball() return function(self, context)
+        if context.individual and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            if (context.other_card:get_id() == 8) and (pseudorandom('8ball') < G.GAME.probabilities.normal/self.ability.extra) then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                return {
+                    extra = {focus = self, message = localize('k_plus_tarot'), func = function()
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'before',
+                            delay = 0.0,
+                            func = (function()
+                                    local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, '8ba')
+                                    card:add_to_deck()
+                                    G.consumeables:emplace(card)
+                                    G.GAME.consumeable_buffer = 0
+                                return true
+                            end)}))
+                    end},
+                    colour = G.C.SECONDARY_SET.Tarot,
+                    card = self
+                }
+            end
+        end
+    end end
+
+    local function trigger_copy() return function(self, context)
+        local target = self.ability.blueprint_target or nil
+        if target then 
+            local ret
+            context.blueprint = true
+            context.blueprint_card = self
+            local card_funcs = get_card_functions(target.ability.id)
+            -- if copied cards has triggers
+            if card_funcs and card_funcs.triggers then 
+                for i=1,#card_funcs.triggers do 
+                    -- Problem: what if a cards triggers several times in a context?
+                    local o = card_funcs.triggers[i](target,context)
+                    if o then ret = o end
+                end
+            end
+            if context.blueprint then context.blueprint = nil end
+            if context.blueprint_card then context.blueprint_card = nil end
+            return ret or nil
+        end
+    end end
+
     ------------------------------------------------------------------
     ------------------------------------------------------------------
     --                     ADD/REMOVE FUNCTIONS                     --
     ------------------------------------------------------------------
     ------------------------------------------------------------------
+    ---Required: function(self,context)
     
 
     -------------------------------------------------------
@@ -340,10 +434,44 @@ local function define_joker_functions()
     --------------------------------------------------------------
     --------------------------------------------------------------
     
-    local function stencil_joker_upd() return function(self)
+    local function upd_stencil_joker() return function(self, context)
             self.ability.x_mult = (G.jokers.config.card_limit - #G.jokers.cards)
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i].ability.name == 'Joker Stencil' then self.ability.x_mult = self.ability.x_mult + 1 end
+            end
+    end end
+
+    -- input: target_conf = {type="abs"|"rel", pos=<int>} | {custom=<function>}
+    -- "abs" = absolute: copy joker in position <int>
+    -- "rel" = relitive: copy joker at <this_card's_position> + <int>
+    local function upd_copy(target_conf) 
+        local get_target = function() end
+        if target_conf.type == "abs" then get_target = function(self, target_conf) return G.jokers.cards[target_conf.pos] end
+        elseif target_conf.type == "rel" then
+            get_target = function(self,target_conf)
+                for i = 1, #G.jokers.cards do
+                    if G.jokers.cards[i] == self then return G.jokers.cards[i+target_conf.pos] end
+                end
+            end
+        elseif target_conf.custom then get_target = target_conf.custom end
+        return function(self, context)
+            local target = get_target(self,target_conf)
+            if target and target.config.center.blueprint_compat == true and target ~= self then
+                self.ability.blueprint_target = target
+                -- double check that we aren't in a loop [example: {blueprint,brainstorm}]
+                while target and target.ability.blueprint_target do
+                    -- if target's target isn't self, target = target's target
+                    if target.ability.blueprint_target ~= self then
+                        target = target.ability.blueprint_target
+                        self.ability.blueprint_target = target
+                    -- if target is self, target = nil, break
+                    else
+                        target = nil
+                        self.ability.blueprint_target = nil
+                    end
+                end
+            else
+                self.ability.blueprint_target = nil
             end
     end end
 
@@ -358,20 +486,27 @@ local function define_joker_functions()
 
         -- place function defs here --
         if k == 'j_joker' then joker_functions[k] =                             {score=score_value('mult')}
+        elseif k == 'j_blueprint' then joker_functions[k] =                     {score=score_copy(), triggers={trigger_copy()}, update=upd_copy({type="rel",pos=1})}
+        elseif k == 'j_brainstorm' then joker_functions[k] =                    {score=score_copy(), triggers={trigger_copy()}, update=upd_copy({type="abs",pos=1})}
         elseif k == 'j_half' then joker_functions[k] =                          {score=score_value('mult', function (self,context) return #context.full_hand <= self.ability.extra.size end)}
-        elseif k == 'j_stencil' then joker_functions[k] =                       {score=score_value('x_mult'), update=stencil_joker_upd()}
+        elseif k == 'j_stencil' then joker_functions[k] =                       {score=score_value('x_mult', function (self,context) return self.ability.x_mult > 1 end), update=upd_stencil_joker()}
         elseif k == 'j_mime' then joker_functions[k] =                          {triggers={get_repitions(mime_cond())}}
-        elseif k == 'j_credit_card' then joker_functions[k] =                   {add_deck = function(self) G.GAME.bankrupt_at = G.GAME.bankrupt_at - self.ability.extra end, remove_deck = function(self) G.GAME.bankrupt_at = G.GAME.bankrupt_at + self.ability.extra end}
+        elseif k == 'j_credit_card' then joker_functions[k] =                   {add_deck = function(self,context) G.GAME.bankrupt_at = G.GAME.bankrupt_at - self.ability.extra end, remove_deck = function(self,context) G.GAME.bankrupt_at = G.GAME.bankrupt_at + self.ability.extra end}
         elseif k == 'j_ceremonial' then joker_functions[k] =                    {score=score_value('mult'), triggers={trigger_dagger()}}
-        elseif k == 'j_banner' then joker_functions[k] =                        {score=score_value('chips', function (self,context) return G.GAME.current_round.discards_left > 0 end), update=function(self) self.ability.chips = G.GAME.current_round.discards_left * self.ability.extra end}
-        
+        elseif k == 'j_banner' then joker_functions[k] =                        {score=score_value('chips', function (self,context) return G.GAME.current_round.discards_left > 0 end), update=function(self,context) self.ability.chips = G.GAME.current_round.discards_left * self.ability.extra end}
+        elseif k == 'j_mystic_summit' then joker_functions[k] =                 {score=score_value('mult', function (self,context) return G.GAME.current_round.discards_left == self.ability.extra.d_remaining end)}
+        elseif k == 'j_marble' then joker_functions[k] =                        {triggers={trigger_marble()}}
+        elseif k == 'j_loyalty_card' then joker_functions[k] =                  {score=score_value('x_mult', function (self,context) return self.ability.extra.loyalty_remaining == self.ability.extra.every end), triggers={trigger_loyalty_iter()}}  
+        elseif k == 'j_8_ball' then joker_functions[k] =                        {triggers={trigger_8_ball()}}
+        elseif k == 'j_oops' then joker_functions[k] =                          {add_deck= function(self,context) for k,v in pairs(G.GAME.probabilities) do G.GAME.probabilities[k] = v*2 end end, remove_deck = function(self,context) for k,v in pairs(G.GAME.probabilities) do G.GAME.probabilities[k] = v/2 end end}
+        --elseif k == 'j_' then joker_functions[k] =                         
+        --elseif k == 'j_' then joker_functions[k] =                         
         elseif v.effect then 
             if v.effect == "Suit Mult" then joker_functions[k] =                {triggers={trigger_suit_jokers()}}
             elseif v.effect == "Type Mult" or
                    v.effect == "Type Chips" then joker_functions[k] =           {score=score_hand_jokers()}
             end
         end
-        
 
     end
 end

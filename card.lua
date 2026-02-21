@@ -332,32 +332,31 @@ function Card:set_ability(center, initial, delay_sprites)
     if self.ability.name == 'Gold Card' and self.seal == 'Gold' and self.playing_card then 
         check_for_unlock({type = 'double_gold'})
     end
-    if self.ability.name == "Invisible Joker" then 
-        self.ability.invis_rounds = 0
-    end
-    if self.ability.name == 'To Do List' then
-        local _poker_hands = {}
-        for k, v in pairs(G.GAME.hands) do
-            if v.visible then _poker_hands[#_poker_hands+1] = k end
-        end
-        local old_hand = self.ability.to_do_poker_hand
-        self.ability.to_do_poker_hand = nil
+    -- if self.ability.name == "Invisible Joker" then 
+    --     self.ability.invis_rounds = 0
+    -- end
+    -- if self.ability.name == 'To Do List' then
+    --     local _poker_hands = {}
+    --     for k, v in pairs(G.GAME.hands) do
+    --         if v.visible then _poker_hands[#_poker_hands+1] = k end
+    --     end
+    --     local old_hand = self.ability.to_do_poker_hand
+    --     self.ability.to_do_poker_hand = nil
 
-        while not self.ability.to_do_poker_hand do
-            self.ability.to_do_poker_hand = pseudorandom_element(_poker_hands, pseudoseed((self.area and self.area.config.type == 'title') and 'false_to_do' or 'to_do'))
-            if self.ability.to_do_poker_hand == old_hand then self.ability.to_do_poker_hand = nil end
-        end
-    end
-    if self.ability.name == 'Caino' then 
-        self.ability.caino_x_mult = 1
-    end
-    if self.ability.name == 'Yorick' then 
-        self.ability.yorick_discards = self.ability.extra.discards
-    end
-    if self.ability.name == 'Loyalty Card' then 
-        self.ability.burnt_hand = 0
-        self.ability.loyalty_remaining = self.ability.extra.every
-    end
+    --     while not self.ability.to_do_poker_hand do
+    --         self.ability.to_do_poker_hand = pseudorandom_element(_poker_hands, pseudoseed((self.area and self.area.config.type == 'title') and 'false_to_do' or 'to_do'))
+    --         if self.ability.to_do_poker_hand == old_hand then self.ability.to_do_poker_hand = nil end
+    --     end
+    -- end
+    -- if self.ability.name == 'Caino' then 
+    --     self.ability.caino_x_mult = 1
+    -- end
+    -- if self.ability.name == 'Yorick' then 
+    --     self.ability.yorick_discards = self.ability.extra.discards
+    -- end
+    -- if self.ability.name == 'Loyalty Card' then 
+    --     self.ability.loyalty_remaining = self.ability.extra.every
+    -- end
 
     self.base_cost = center.cost or 1
 
@@ -790,7 +789,7 @@ function Card:generate_UIBox_ability_table()
         self.ability.name == 'Clever Joker' or self.ability.name == 'Devious Joker'  or 
         self.ability.name == 'Crafty Joker' then 
             loc_vars = {self.ability.chips, localize(self.ability.type, 'poker_hands')}
-        elseif self.ability.name == 'Half Joker' then loc_vars = {self.ability.extra.mult, self.ability.extra.size}
+        elseif self.ability.name == 'Half Joker' then loc_vars = {self.ability.mult, self.ability.extra.size}
         elseif self.ability.name == 'Fortune Teller' then loc_vars = {self.ability.extra, (G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.tarot or 0)}
         elseif self.ability.name == 'Steel Joker' then loc_vars = {self.ability.extra, 1 + self.ability.extra*(self.ability.steel_tally or 0)}
         elseif self.ability.name == 'Chaos the Clown' then loc_vars = {self.ability.extra}
@@ -828,9 +827,9 @@ function Card:generate_UIBox_ability_table()
                     loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult},
                 colours = {G.C.UI.TEXT_DARK},pop_in_rate = 9999999, silent = true, random_element = true, pop_delay = 0.2011, scale = 0.32, min_cycle_time = 0})}},
             }
-        elseif self.ability.name == 'Mystic Summit' then loc_vars = {self.ability.extra.mult, self.ability.extra.d_remaining}
+        elseif self.ability.name == 'Mystic Summit' then loc_vars = {self.ability.mult, self.ability.extra.d_remaining}
         elseif self.ability.name == 'Marble Joker' then
-        elseif self.ability.name == 'Loyalty Card' then loc_vars = {self.ability.extra.x_mult, self.ability.extra.every + 1, localize{type = 'variable', key = (self.ability.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {self.ability.loyalty_remaining}}}
+        elseif self.ability.name == 'Loyalty Card' then loc_vars = {self.ability.x_mult, self.ability.extra.every + 1, localize{type = 'variable', key = (self.ability.extra.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {self.ability.extra.loyalty_remaining}}}
         elseif self.ability.name == '8 Ball' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1),self.ability.extra}
         elseif self.ability.name == 'Dusk' then loc_vars = {self.ability.extra+1}
         elseif self.ability.name == 'Raised Fist' then
@@ -4101,6 +4100,8 @@ function Card:move(dt)
     if self.children.h_popup then
         self.children.h_popup:set_alignment(self:align_h_popup())
     end
+    local card_funcs = get_card_functions(self.ability.id)
+    if card_funcs and card_funcs.move_card then card_funcs.move_card(self) end
 end
 
 -- All Card Function
