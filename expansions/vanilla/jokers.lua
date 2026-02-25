@@ -82,15 +82,15 @@ vanilla_jokers_set = {
         j_mystic_summit=    {order = 23,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Mystic Summit", pos = {x=2,y=2}, set = "Joker", effect = "No Discard Mult", cost_mult = 1.0, config = {mult = 15, extra = {d_remaining = 0}}},
         j_marble=           {order = 24,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Marble Joker", pos = {x=3,y=2}, set = "Joker", effect = "Stone card hands", cost_mult = 1.0, config = {extra = 1}},
         j_loyalty_card=     {order = 25,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Loyalty Card", pos = {x=4,y=2}, set = "Joker", effect = "1 in 10 mult", cost_mult = 1.0, config = {x_mult = 4, extra = {every = 5, loyalty_remaining = 5, remaining = "5 remaining"}}},
-        -- ^ Implemented functionality ^ --
         j_8_ball=           {order = 26,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "8 Ball", pos = {x=0,y=5}, set = "Joker", effect = "Spawn Tarot", cost_mult = 1.0, config = {extra=4}},
-        -- j_misprint=         {order = 27,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Misprint", pos = {x=6,y=2}, set = "Joker", effect = "Random Mult", cost_mult = 1.0, config = {extra = {max = 23, min = 0}}},
-        -- j_dusk=             {order = 28,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Dusk", pos = {x=4,y=7}, set = "Joker", effect = "", config = {extra = {reps=1}}, unlock_condition = {type = '', extra = '', hidden = true}},
-        -- j_raised_fist=      {order = 29,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Raised Fist", pos = {x=8,y=2}, set = "Joker", effect = "Socialized Mult", cost_mult = 1.0, config = {}},
-        -- j_chaos=            {order = 30,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Chaos the Clown", pos = {x=1,y=0}, set = "Joker", effect = "Bonus Rerolls", cost_mult = 1.0, config = {extra = 1}},
+        j_misprint=         {order = 27,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Misprint", pos = {x=6,y=2}, set = "Joker", effect = "Random Mult", cost_mult = 1.0, config = {extra = {max = 23, min = 0}}},
+        j_dusk=             {order = 28,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Dusk", pos = {x=4,y=7}, set = "Joker", effect = "", config = {extra = {reps=1}}, unlock_condition = {type = '', extra = '', hidden = true}},
+        j_raised_fist=      {order = 29,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Raised Fist", pos = {x=8,y=2}, set = "Joker", effect = "Socialized Mult", cost_mult = 1.0, config = {}},
+        -- ^ Implemented functionality ^ --
+        j_chaos=            {order = 30,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Chaos the Clown", pos = {x=1,y=0}, set = "Joker", effect = "Bonus Rerolls", cost_mult = 1.0, config = {extra = 1}},
         
-        -- j_fibonacci=        {order = 31,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 8, name = "Fibonacci", pos = {x=1,y=5}, set = "Joker", effect = "Card Mult", cost_mult = 1.0, config = {extra = 8}},
-        -- j_steel_joker=      {order = 32,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Steel Joker", pos = {x=7,y=2}, set = "Joker", effect = "Steel Card Buff", cost_mult = 1.0, config = {extra = 0.2}, enhancement_gate = 'm_steel'},
+        j_fibonacci=        {order = 31,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 8, name = "Fibonacci", pos = {x=1,y=5}, set = "Joker", effect = "Card Mult", cost_mult = 1.0, config = {mult = 8}},
+        j_steel_joker=      {order = 32,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Steel Joker", pos = {x=7,y=2}, set = "Joker", effect = "Steel Card Buff", cost_mult = 1.0, config = {x_mult = 1, extra = 0.2}, enhancement_gate = 'm_steel'},
         -- j_scary_face=       {order = 33,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Scary Face", pos = {x=2,y=3}, set = "Joker", effect = "Scary Face Cards", cost_mult = 1.0, config = {extra = 30}},
         -- j_abstract=         {order = 34,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Abstract Joker", pos = {x=3,y=3}, set = "Joker", effect = "Joker Mult", cost_mult = 1.0, config = {extra = 3}},
         -- j_delayed_grat=     {order = 35,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Delayed Gratification", pos = {x=4,y=3}, set = "Joker", effect = "Discard dollars", cost_mult = 1.0, config = {extra = 2}},
@@ -275,6 +275,20 @@ local function define_joker_functions()
     ---------------------------------------------------------------
     ---------------------------------------------------------------
 
+    --------------------------------------------------------
+    --                     BUFF CARDS                     --
+    --------------------------------------------------------
+
+    local function trigger_card_buff(cond, val) 
+        cond = cond or function(x, xx) return true end
+        return function(self, context)
+        if context.individual and context.cardarea == G.play and cond(self,context) then
+            local r = {card = self}
+            r[val] = self.ability[val]
+            return r
+        end
+    end end
+
     local function trigger_suit_jokers() return function(self, context)
         if context.individual and context.cardarea == G.play and context.other_card:is_suit(self.ability.extra.suit) then
             return {
@@ -284,6 +298,59 @@ local function define_joker_functions()
         end
     end end
 
+    local function trigger_lowest_raised_fist() return function(self, context)
+        if context.individual and context.cardarea == G.hand then
+            -- Trigger card if smallest (trigger card set in "trigger_set_lowest_for_raised_fist()")
+            if self.ability.trigger_card == context.other_card then
+                return {
+                    mult = 2*context.other_card.base.nominal,
+                    card = self
+                }
+            end
+        end
+    end end
+
+    local function trigger_8_ball() return function(self, context)
+        if context.individual and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            if (context.other_card:get_id() == 8) and (pseudorandom('8ball') < G.GAME.probabilities.normal/self.ability.extra) then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                return {
+                    extra = {focus = self, message = localize('k_plus_tarot'), func = function()
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'before',
+                            delay = 0.0,
+                            func = (function()
+                                    local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, '8ba')
+                                    card:add_to_deck()
+                                    G.consumeables:emplace(card)
+                                    G.GAME.consumeable_buffer = 0
+                                return true
+                            end)}))
+                    end},
+                    colour = G.C.SECONDARY_SET.Tarot,
+                    card = self
+                }
+            end
+        end
+    end end
+
+    ---------------------------------------------------------
+    --                     BEFORE PLAY                     --
+    ---------------------------------------------------------
+
+    local function trigger_set_lowest_for_raised_fist() return function(self, context)
+        if context.individual and context.cardarea == G.hand then
+            -- defines which card should trigger the raised fist effect
+            self.ability.trigger_card = G.hand.cards[1]
+            for _,card in pairs(G.hand.cards) do
+                if card.base.nominal < self.ability.trigger_card.base.nominal then self.ability.trigger_card = card end
+            end
+        end
+    end end
+
+    ----------------------------------------------------------
+    --                     BEFORE ROUND                     --
+    ----------------------------------------------------------
 
     local function trigger_dagger() return function(self, context)
         if not context.blueprint and context.setting_blind and not self.getting_sliced then
@@ -344,34 +411,11 @@ local function define_joker_functions()
         end
     end end
 
-    local function trigger_8_ball() return function(self, context)
-        if context.individual and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-            if (context.other_card:get_id() == 8) and (pseudorandom('8ball') < G.GAME.probabilities.normal/self.ability.extra) then
-                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                return {
-                    extra = {focus = self, message = localize('k_plus_tarot'), func = function()
-                        G.E_MANAGER:add_event(Event({
-                            trigger = 'before',
-                            delay = 0.0,
-                            func = (function()
-                                    local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, '8ba')
-                                    card:add_to_deck()
-                                    G.consumeables:emplace(card)
-                                    G.GAME.consumeable_buffer = 0
-                                return true
-                            end)}))
-                    end},
-                    colour = G.C.SECONDARY_SET.Tarot,
-                    card = self
-                }
-            end
-        end
-    end end
-
     local function trigger_copy() return function(self, context)
         local target = self.ability.blueprint_target or nil
         if target then 
             local ret
+            -- add blueprint to context
             context.blueprint = true
             context.blueprint_card = self
             local card_funcs = get_card_functions(target.ability.id)
@@ -383,6 +427,9 @@ local function define_joker_functions()
                     if o then ret = o end
                 end
             end
+            -- Jiggle blueprint instead of copied joker during scoring
+            if ret and ret.card ~= self then ret.card = self end
+            -- remove blueprint from context
             if context.blueprint then context.blueprint = nil end
             if context.blueprint_card then context.blueprint_card = nil end
             return ret or nil
@@ -396,6 +443,10 @@ local function define_joker_functions()
     ------------------------------------------------------------------
     ---Required: function(self,context)
     
+    local function add_remove_chaos(mod_rerolls) return function(self)
+        G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls + mod_rerolls
+        calculate_reroll_cost(true)
+    end end
 
     -------------------------------------------------------
     -------------------------------------------------------
@@ -408,6 +459,31 @@ local function define_joker_functions()
             return true
         end
     end end
+
+    -- return true if card rank is in fibonacci sequence
+    local function fibonacci_cond() return function (self, context)
+        local valid_ranks = {14, 2, 3, 5, 8}
+        for _,rank in pairs(valid_ranks) do
+            if context.other_card:get_id() == rank then return true end
+        end
+    end end
+
+    ------------------------------------------------------
+    ------------------------------------------------------
+    --                     ON CREATE                    --
+    ------------------------------------------------------
+    ------------------------------------------------------
+    --- Effects triggered when the card is created
+    
+    -- calculate the amount of steel cards there are when this card is created
+    local function update_steel_joker() return function (self, context)
+        self.ability.steel_tally = 0
+        for k, v in pairs(G.playing_cards) do
+            if v.config.center == G.P_CENTERS.m_steel then self.ability.steel_tally = self.ability.steel_tally+1 end
+        end
+        self.ability.x_mult = 1 + (self.ability.extra * self.ability.steel_tally)
+    end end
+
 
     -------------------------------------------------------------
     -------------------------------------------------------------
@@ -486,7 +562,7 @@ local function define_joker_functions()
 
         -- place function defs here --
         if k == 'j_joker' then joker_functions[k] =                             {score=score_value('mult')}
-        elseif k == 'j_blueprint' then joker_functions[k] =                     {score=score_copy(), triggers={trigger_copy()}, update=upd_copy({type="rel",pos=1})}
+        elseif k == 'j_blueprint' then joker_functions[k] =                     {score=score_copy(), triggers={trigger_copy()}, update=upd_copy({type="rel",pos=1})} -- chance for optimization (update)
         elseif k == 'j_brainstorm' then joker_functions[k] =                    {score=score_copy(), triggers={trigger_copy()}, update=upd_copy({type="abs",pos=1})}
         elseif k == 'j_half' then joker_functions[k] =                          {score=score_value('mult', function (self,context) return #context.full_hand <= self.ability.extra.size end)}
         elseif k == 'j_stencil' then joker_functions[k] =                       {score=score_value('x_mult', function (self,context) return self.ability.x_mult > 1 end), update=upd_stencil_joker()}
@@ -499,10 +575,15 @@ local function define_joker_functions()
         elseif k == 'j_loyalty_card' then joker_functions[k] =                  {score=score_value('x_mult', function (self,context) return self.ability.extra.loyalty_remaining == self.ability.extra.every end), triggers={trigger_loyalty_iter()}}  
         elseif k == 'j_8_ball' then joker_functions[k] =                        {triggers={trigger_8_ball()}}
         elseif k == 'j_oops' then joker_functions[k] =                          {add_deck= function(self,context) for k,v in pairs(G.GAME.probabilities) do G.GAME.probabilities[k] = v*2 end end, remove_deck = function(self,context) for k,v in pairs(G.GAME.probabilities) do G.GAME.probabilities[k] = v/2 end end}
-        --elseif k == 'j_' then joker_functions[k] =                         
+        elseif k == 'j_misprint' then joker_functions[k] =                      {score=function(self,context) return {mult=pseudorandom('misprint', self.ability.extra.min, self.ability.extra.max)} end}
+        elseif k == 'j_dusk' then joker_functions[k] =                          {triggers={get_repitions(function(self,context) return G.GAME.current_round.hands_left == 0 and context.cardarea == G.play end)}}
+        elseif k == 'j_raised_fist' then joker_functions[k] =                   {triggers={trigger_lowest_raised_fist(),trigger_set_lowest_for_raised_fist()}}
+        elseif k == 'j_chaos' then joker_functions[k] =                         {add_deck=add_remove_chaos(1), remove_deck=add_remove_chaos(-1)}
+        elseif k == 'j_fibonacci' then joker_functions[k] =                     {triggers={trigger_card_buff(fibonacci_cond(), 'mult')}}
+        elseif k == 'j_steel_joker' then joker_functions[k] =                   {score=score_value('x_mult'), update = update_steel_joker()} -- chance for optimization (update)
         --elseif k == 'j_' then joker_functions[k] =                         
         elseif v.effect then 
-            if v.effect == "Suit Mult" then joker_functions[k] =                {triggers={trigger_suit_jokers()}}
+            if v.effect == "Suit Mult" then joker_functions[k] =                {triggers={trigger_card_buff(function(self,context) return context.other_card:is_suit(self.ability.extra.suit) end, 'mult')}}
             elseif v.effect == "Type Mult" or
                    v.effect == "Type Chips" then joker_functions[k] =           {score=score_hand_jokers()}
             end

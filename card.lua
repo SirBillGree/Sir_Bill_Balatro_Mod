@@ -332,6 +332,9 @@ function Card:set_ability(center, initial, delay_sprites)
     if self.ability.name == 'Gold Card' and self.seal == 'Gold' and self.playing_card then 
         check_for_unlock({type = 'double_gold'})
     end
+
+    local card_funcs = get_card_functions(self.ability.id)
+    if card_funcs and card_funcs.on_create then card_funcs.on_create(self) end
     -- if self.ability.name == "Invisible Joker" then 
     --     self.ability.invis_rounds = 0
     -- end
@@ -831,9 +834,9 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Marble Joker' then
         elseif self.ability.name == 'Loyalty Card' then loc_vars = {self.ability.x_mult, self.ability.extra.every + 1, localize{type = 'variable', key = (self.ability.extra.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {self.ability.extra.loyalty_remaining}}}
         elseif self.ability.name == '8 Ball' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1),self.ability.extra}
-        elseif self.ability.name == 'Dusk' then loc_vars = {self.ability.extra+1}
+        elseif self.ability.name == 'Dusk' then loc_vars = {self.ability.extra.reps+1}
         elseif self.ability.name == 'Raised Fist' then
-        elseif self.ability.name == 'Fibonacci' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Fibonacci' then loc_vars = {self.ability.mult}
         elseif self.ability.name == 'Scary Face' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Abstract Joker' then loc_vars = {self.ability.extra, (G.jokers and G.jokers.cards and #G.jokers.cards or 0)*self.ability.extra}
         elseif self.ability.name == 'Delayed Gratification' then loc_vars = {self.ability.extra}
@@ -1047,14 +1050,14 @@ repetition_sources = {
         for j=1, #G.jokers.cards do
             --calculate the joker effects
             local eval = G.jokers.cards[j]:calculate_joker(context)
-            if type(eval) == "table" and eval.repetitions then --eval.jokers then 
+            if type(eval) == "table" and eval.repetitions then
                 -- create <repetitions> rep tables
                 for h = 1, eval.repetitions do
                     loc_vals.reps[#loc_vals.reps+1] = eval
                 end
             end
         end
-        context.repetitions = true
+        context.repetitions = nil
     end}
 }
 -- append to add new score sources
@@ -1145,12 +1148,12 @@ function Card:score(context)
     context.repetition = false
     loc_vals.final_table = {}
     for i = 1,#loc_vals.reps do
+        -- add rep notification if there's an output to repeat
+        if (i~=1 or loc_vals.score_table == {}) then table.insert(loc_vals.final_table, {extra=loc_vals.reps[i]}) end
         -- eval all score sources
         for ii = 1,#score_sources do
             score_sources[ii].func(self,loc_vals,context)
         end
-        -- add rep notification if there's an output to repeat
-        if (i~=1 and loc_vals.score_table == {}) then table.insert(loc_vals.final_table, {extra=loc_vals.reps[i]}) end
         -- append scores to final score table
         for ii=1,#loc_vals.score_table do table.insert(loc_vals.final_table, loc_vals.score_table[ii]) end
         -- empty score table for next iteration
@@ -1158,7 +1161,7 @@ function Card:score(context)
     end
 
     -- Give debuff (TEMP)
-    if (self.debuff and next(loc_vals.final_table)) then 
+    if (self.debuff and loc_vals.final_table) then 
         G.GAME.blind.triggered = true
                 G.E_MANAGER:add_event(Event({
                     trigger = 'immediate',

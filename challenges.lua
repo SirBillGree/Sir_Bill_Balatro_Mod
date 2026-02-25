@@ -14,7 +14,7 @@ G.CHALLENGES = {
             modifiers = {
                 {id = 'dollars', value = 0},
                 {id = 'discards', value = 1},
-                {id = 'hands', value = 6},
+                {id = 'hands', value = 5},
                 {id = 'reroll_cost', value = 10},
                 {id = 'joker_slots', value = 8},
                 {id = 'consumable_slots', value = 3},
@@ -22,19 +22,17 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_oops'},
-            {id = 'j_8_ball'},
+            {id = 'j_greedy_joker'},
             {id = 'j_blueprint'},
-            {id = 'j_brainstorm'}
         },
         consumeables = {
-            {id = 'c_sigil'}
+            {id = 'c_chariot'}
         },
         vouchers = {
-            {id = 'v_hieroglyph'},
+            --{id = 'v_hieroglyph'},
         },
         deck = {
-            cards = {{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',}},
+            --cards = {{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',}},
             --{{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},},
             type = 'Challenge Deck'
         },
