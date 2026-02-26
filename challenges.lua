@@ -22,7 +22,9 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_gros_michel'},
+            {id = 'j_oops'},
+            {id = 'j_oops'},
+            {id = 'j_space'},
             {id = 'j_blueprint'},
         },
         consumeables = {

@@ -96,15 +96,14 @@ vanilla_jokers_set = {
         j_hack=             {order = 36,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Hack", pos = {x=5,y=2}, set = "Joker", effect = "Low Card double", cost_mult = 1.0, config = {extra = {reps=1}}},
         j_pareidolia=       {order = 37,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Pareidolia", pos = {x=6,y=3}, set = "Joker", effect = "All face cards", cost_mult = 1.0, config = {}},
         j_gros_michel=      {order = 38,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 1, cost = 5, name = "Gros Michel", pos = {x=7,y=6}, set = "Joker", effect = "", config = {mult = 15, extra = {odds = 6}}, no_pool_flag = 'gros_michel_extinct'},
+        j_even_steven=      {order = 39,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Even Steven", pos = {x=8,y=3}, set = "Joker", effect = "Even Card Buff", cost_mult = 1.0, config = {mult = 4}},
+        j_odd_todd=         {order = 40,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Odd Todd", pos = {x=9,y=3}, set = "Joker", effect = "Odd Card Buff", cost_mult = 1.0, config = {chips = 31}},
+        j_scholar=          {order = 41,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Scholar", pos = {x=0,y=4}, set = "Joker", effect = "Ace Buff", cost_mult = 1.0, config = {mult = 4, chips = 20}},
+        j_business=         {order = 42,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Business Card", pos = {x=1,y=4}, set = "Joker", effect = "Face Card dollar Chance", cost_mult = 1.0, config = {dollars = 2, extra={chance=2}}},
+        j_supernova=        {order = 43,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Supernova", pos = {x=2,y=4}, set = "Joker", effect = "Hand played mult", cost_mult = 1.0, config = {extra = 1}},
+        j_ride_the_bus=     {order = 44,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 1, cost = 6, name = "Ride the Bus", pos = {x=1,y=6}, set = "Joker", effect = "", config = {mult = 0, extra = 1}, unlock_condition = {type = 'discard_custom'}},
+        j_space=            {order = 45,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Space Joker", pos = {x=3,y=5}, set = "Joker", effect = "Upgrade Hand chance", cost_mult = 1.0, config = {extra = 4}},
         -- ^ Implemented functionality ^ --
-        -- j_even_steven=      {order = 39,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Even Steven", pos = {x=8,y=3}, set = "Joker", effect = "Even Card Buff", cost_mult = 1.0, config = {extra = 4}},
-        -- j_odd_todd=         {order = 40,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Odd Todd", pos = {x=9,y=3}, set = "Joker", effect = "Odd Card Buff", cost_mult = 1.0, config = {extra = 31}},
-        -- j_scholar=          {order = 41,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Scholar", pos = {x=0,y=4}, set = "Joker", effect = "Ace Buff", cost_mult = 1.0, config = {extra = {mult = 4, chips = 20}}},
-        -- j_business=         {order = 42,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Business Card", pos = {x=1,y=4}, set = "Joker", effect = "Face Card dollar Chance", cost_mult = 1.0, config = {extra = 2}},
-        -- j_supernova=        {order = 43,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Supernova", pos = {x=2,y=4}, set = "Joker", effect = "Hand played mult", cost_mult = 1.0, config = {extra = 1}},
-        -- j_ride_the_bus=     {order = 44,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 1, cost = 6, name = "Ride the Bus", pos = {x=1,y=6}, set = "Joker", effect = "", config = {extra = 1}, unlock_condition = {type = 'discard_custom'}},
-        -- j_space=            {order = 45,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Space Joker", pos = {x=3,y=5}, set = "Joker", effect = "Upgrade Hand chance", cost_mult = 1.0, config = {extra = 4}},
-        
         -- j_egg=              {order = 46,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = 'Egg', pos = {x = 0, y = 10}, set = 'Joker', config = {extra = 3}},
         -- j_burglar=          {order = 47,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Burglar', pos = {x = 1, y = 10}, set = 'Joker', config = {extra = 3}},
         -- j_blackboard=       {order = 48,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Blackboard', pos = {x = 2, y = 10}, set = 'Joker', config = {extra = 3}},
@@ -282,23 +281,16 @@ local function define_joker_functions()
     -- Base Version --
     local function trigger_card_buff(cond, val) 
         cond = cond or function(x, xx) return true end
+        if type(val) == "string" then val = {val} end
         return function(self, context)
-        if context.individual and context.cardarea == G.play and cond(self,context) then
-            local r = {card = self}
-            r[val] = self.ability[val]
-            return r
-        end
+            if context.individual and context.cardarea == G.play and cond(self,context) then
+                local r = {card = self}
+                for _,v in pairs(val) do r[v] = self.ability[v] end
+                return r
+            end
     end end
 
     -- conditions --
-
-    -- return true if card rank is in fibonacci sequence
-    local function fibonacci_cond() return function (self, context)
-        local valid_ranks = {14, 2, 3, 5, 8}
-        for _,rank in pairs(valid_ranks) do
-            if context.other_card:get_id() == rank then return true end
-        end
-    end end
 
     -- Specific Versions --
 
@@ -338,17 +330,48 @@ local function define_joker_functions()
         end
     end end
 
-    ---------------------------------------------------------
-    --                     BEFORE PLAY                     --
-    ---------------------------------------------------------
+    ----------------------------------------------------------
+    --                     BEFORE SCORE                     --
+    ----------------------------------------------------------
 
     local function trigger_set_lowest_for_raised_fist() return function(self, context)
-        if context.individual and context.cardarea == G.hand then
+        if context.before_score then
             -- defines which card should trigger the raised fist effect
             self.ability.trigger_card = G.hand.cards[1]
             for _,card in pairs(G.hand.cards) do
                 if card.base.nominal < self.ability.trigger_card.base.nominal then self.ability.trigger_card = card end
             end
+        end
+    end end
+
+    local function trigger_ride_the_bus() return function(self, context)
+        if context.before_score and not context.blueprint then
+            local faces = false
+            for i = 1, #context.scoring_hand do
+                if context.scoring_hand[i]:is_face() then faces = true end
+            end
+            if faces then
+                local last_mult = self.ability.mult
+                self.ability.mult = 0
+                if last_mult > 0 then 
+                    return {
+                        card = self,
+                        message = localize('k_reset')
+                    }
+                end
+            else
+                self.ability.mult = self.ability.mult + self.ability.extra
+            end
+        end
+    end end
+
+    local function trigger_space_joker() return function(self, context)
+        if context.before_score and pseudorandom('space') < G.GAME.probabilities.normal/self.ability.extra then
+            level_up_hand(self,context.scoring_name, false)
+            return {
+                card = self,
+                message = localize('k_level_up_ex')
+            }
         end
     end end
 
@@ -636,7 +659,7 @@ local function define_joker_functions()
         elseif k == 'j_dusk' then joker_functions[k] =                          {triggers={get_repitions(function(self,context) return G.GAME.current_round.hands_left == 0 and context.cardarea == G.play end)}}
         elseif k == 'j_raised_fist' then joker_functions[k] =                   {triggers={trigger_lowest_raised_fist(),trigger_set_lowest_for_raised_fist()}}
         elseif k == 'j_chaos' then joker_functions[k] =                         {add_deck=add_remove_chaos(1), remove_deck=add_remove_chaos(-1)}
-        elseif k == 'j_fibonacci' then joker_functions[k] =                     {triggers={trigger_card_buff(fibonacci_cond(), 'mult')}}
+        elseif k == 'j_fibonacci' then joker_functions[k] =                     {triggers={trigger_card_buff(other_card_rank_cond({14, 2, 3, 5, 8}), 'mult')}}
         elseif k == 'j_steel_joker' then joker_functions[k] =                   {score=score_value('x_mult'), update = update_steel_joker()} -- chance for optimization (update)
         elseif k == 'j_scary_face' then joker_functions[k] =                    {triggers={trigger_card_buff(function(self,context) return context.other_card:is_face() end, 'chips')}}
         elseif k == 'j_abstract' then joker_functions[k] =                      {score= function(self,context) return {mult=(G.jokers and G.jokers.cards and #G.jokers.cards or 0)*self.ability.extra} end}
@@ -644,6 +667,16 @@ local function define_joker_functions()
         elseif k == 'j_hack' then joker_functions[k] =                          {triggers={get_repitions(other_card_rank_cond({2,3,4,5}))}}
         elseif k == 'j_gros_michel' then joker_functions[k] =                   {score= score_value('mult'), triggers={trigger_extinct('gros_michel')}}
         elseif k == 'j_cavendish' then joker_functions[k] =                     {score= score_value('x_mult'), triggers={trigger_extinct('cavendish')}}
+        elseif k == 'j_even_steven' then joker_functions[k] =                   {triggers={trigger_card_buff(other_card_rank_cond({2,4,6,8,10}), 'mult')}}
+        elseif k == 'j_odd_todd' then joker_functions[k] =                      {triggers={trigger_card_buff(other_card_rank_cond({14,3,5,7,9}), 'chips')}}
+        elseif k == 'j_scholar' then joker_functions[k] =                       {triggers={trigger_card_buff(other_card_rank_cond({14}), {'chips','mult'})}}
+        elseif k == 'j_business' then joker_functions[k] =                      {triggers={trigger_card_buff(function(self,context) return context.other_card:is_face() and pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra.chance end, 'dollars')}}
+        elseif k == 'j_supernova' then joker_functions[k] =                     {score=function(self,context) return {mult = G.GAME.hands[context.scoring_name].played} end}
+        elseif k == 'j_ride_the_bus' then joker_functions[k] =                  {score= score_value('mult'), triggers={trigger_ride_the_bus()}}
+        elseif k == 'j_space' then joker_functions[k] =                         {triggers={trigger_space_joker()}}
+        --elseif k == 'j_' then joker_functions[k] =                         
+        --elseif k == 'j_' then joker_functions[k] =                         
+        --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         
         elseif v.effect then 
             if v.effect == "Suit Mult" then joker_functions[k] =                {triggers={trigger_card_buff(function(self,context) return context.other_card:is_suit(self.ability.extra.suit) end, 'mult')}}

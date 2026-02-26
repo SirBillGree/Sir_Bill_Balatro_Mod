@@ -841,10 +841,10 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Abstract Joker' then loc_vars = {self.ability.extra, (G.jokers and G.jokers.cards and #G.jokers.cards or 0)*self.ability.extra}
         elseif self.ability.name == 'Delayed Gratification' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}
-        elseif self.ability.name == 'Even Steven' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Odd Todd' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Scholar' then loc_vars = {self.ability.extra.mult, self.ability.extra.chips}
-        elseif self.ability.name == 'Business Card' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra}
+        elseif self.ability.name == 'Even Steven' then loc_vars = {self.ability.mult}
+        elseif self.ability.name == 'Odd Todd' then loc_vars = {self.ability.chips}
+        elseif self.ability.name == 'Scholar' then loc_vars = {self.ability.mult, self.ability.chips}
+        elseif self.ability.name == 'Business Card' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.chance, self.ability.dollars}
         elseif self.ability.name == 'Supernova' then
         elseif self.ability.name == 'Spare Trousers' then loc_vars = {self.ability.extra, localize('Two Pair', 'poker_hands'), self.ability.mult}
         elseif self.ability.name == 'Superposition' then loc_vars = {self.ability.extra}
@@ -4116,8 +4116,6 @@ function Card:move(dt)
     if self.children.h_popup then
         self.children.h_popup:set_alignment(self:align_h_popup())
     end
-    local card_funcs = get_card_functions(self.ability.id)
-    if card_funcs and card_funcs.move_card then card_funcs.move_card(self) end
 end
 
 -- All Card Function
