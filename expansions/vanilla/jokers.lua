@@ -23,7 +23,7 @@ Params all jokers will need:
 [ ] Unlock Conditions
 
 functions in other files that need edits or restructuring:
-[ ] card:calculate_joker()
+[x] card:calculate_joker()
 [ ] card:set_ability()                  -- Remove setting specific vars
 [ ] common_events:generate_card_ui()    -- arguments for all instances of a card
 [ ] common_events:get_current_pool()    -- import filter conditions as function
@@ -86,17 +86,17 @@ vanilla_jokers_set = {
         j_misprint=         {order = 27,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Misprint", pos = {x=6,y=2}, set = "Joker", effect = "Random Mult", cost_mult = 1.0, config = {extra = {max = 23, min = 0}}},
         j_dusk=             {order = 28,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Dusk", pos = {x=4,y=7}, set = "Joker", effect = "", config = {extra = {reps=1}}, unlock_condition = {type = '', extra = '', hidden = true}},
         j_raised_fist=      {order = 29,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Raised Fist", pos = {x=8,y=2}, set = "Joker", effect = "Socialized Mult", cost_mult = 1.0, config = {}},
-        -- ^ Implemented functionality ^ --
         j_chaos=            {order = 30,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Chaos the Clown", pos = {x=1,y=0}, set = "Joker", effect = "Bonus Rerolls", cost_mult = 1.0, config = {extra = 1}},
         
         j_fibonacci=        {order = 31,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 8, name = "Fibonacci", pos = {x=1,y=5}, set = "Joker", effect = "Card Mult", cost_mult = 1.0, config = {mult = 8}},
         j_steel_joker=      {order = 32,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Steel Joker", pos = {x=7,y=2}, set = "Joker", effect = "Steel Card Buff", cost_mult = 1.0, config = {x_mult = 1, extra = 0.2}, enhancement_gate = 'm_steel'},
-        -- j_scary_face=       {order = 33,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Scary Face", pos = {x=2,y=3}, set = "Joker", effect = "Scary Face Cards", cost_mult = 1.0, config = {extra = 30}},
-        -- j_abstract=         {order = 34,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Abstract Joker", pos = {x=3,y=3}, set = "Joker", effect = "Joker Mult", cost_mult = 1.0, config = {extra = 3}},
-        -- j_delayed_grat=     {order = 35,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Delayed Gratification", pos = {x=4,y=3}, set = "Joker", effect = "Discard dollars", cost_mult = 1.0, config = {extra = 2}},
-        -- j_hack=             {order = 36,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Hack", pos = {x=5,y=2}, set = "Joker", effect = "Low Card double", cost_mult = 1.0, config = {extra = {reps=1}}},
-        -- j_pareidolia=       {order = 37,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Pareidolia", pos = {x=6,y=3}, set = "Joker", effect = "All face cards", cost_mult = 1.0, config = {}},
-        -- j_gros_michel=      {order = 38,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 1, cost = 5, name = "Gros Michel", pos = {x=7,y=6}, set = "Joker", effect = "", config = {extra = {odds = 6, mult = 15}}, no_pool_flag = 'gros_michel_extinct'},
+        j_scary_face=       {order = 33,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Scary Face", pos = {x=2,y=3}, set = "Joker", effect = "Scary Face Cards", cost_mult = 1.0, config = {chips = 30}},
+        j_abstract=         {order = 34,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Abstract Joker", pos = {x=3,y=3}, set = "Joker", effect = "Joker Mult", cost_mult = 1.0, config = {extra = 3}},
+        j_delayed_grat=     {order = 35,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Delayed Gratification", pos = {x=4,y=3}, set = "Joker", effect = "Discard dollars", cost_mult = 1.0, config = {extra = 2}},
+        j_hack=             {order = 36,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Hack", pos = {x=5,y=2}, set = "Joker", effect = "Low Card double", cost_mult = 1.0, config = {extra = {reps=1}}},
+        j_pareidolia=       {order = 37,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Pareidolia", pos = {x=6,y=3}, set = "Joker", effect = "All face cards", cost_mult = 1.0, config = {}},
+        j_gros_michel=      {order = 38,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 1, cost = 5, name = "Gros Michel", pos = {x=7,y=6}, set = "Joker", effect = "", config = {mult = 15, extra = {odds = 6}}, no_pool_flag = 'gros_michel_extinct'},
+        -- ^ Implemented functionality ^ --
         -- j_even_steven=      {order = 39,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Even Steven", pos = {x=8,y=3}, set = "Joker", effect = "Even Card Buff", cost_mult = 1.0, config = {extra = 4}},
         -- j_odd_todd=         {order = 40,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Odd Todd", pos = {x=9,y=3}, set = "Joker", effect = "Odd Card Buff", cost_mult = 1.0, config = {extra = 31}},
         -- j_scholar=          {order = 41,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Scholar", pos = {x=0,y=4}, set = "Joker", effect = "Ace Buff", cost_mult = 1.0, config = {extra = {mult = 4, chips = 20}}},
@@ -121,7 +121,7 @@ vanilla_jokers_set = {
         -- j_superposition=    {order = 59,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = 'Superposition', pos = {x = 3, y = 11}, set = 'Joker', config = {}},
         -- j_todo_list=        {order = 60,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = 'To Do List', pos = {x = 4, y = 11}, set = 'Joker', config = {extra = {dollars = 4, poker_hand = 'High Card'}}},
 
-        -- j_cavendish=        {order = 61,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 1, cost = 4, name = "Cavendish", pos = {x=5,y=11}, set = "Joker", cost_mult = 1.0, config = {extra = {odds = 1000, x_mult = 3}}, yes_pool_flag = 'gros_michel_extinct'},
+        j_cavendish=        {order = 61,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 1, cost = 4, name = "Cavendish", pos = {x=5,y=11}, set = "Joker", cost_mult = 1.0, config = {x_mult = 3, extra = {odds = 1000}}, yes_pool_flag = 'gros_michel_extinct'},
         -- j_card_sharp=       {order = 62,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Card Sharp", pos = {x=6,y=11}, set = "Joker", cost_mult = 1.0, config = {extra = {x_mult = 3}}},
         -- j_red_card=         {order = 63,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 1, cost = 5, name = "Red Card", pos = {x=7,y=11}, set = "Joker", cost_mult = 1.0, config = {extra = 3}},
         -- j_madness=          {order = 64,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 7, name = "Madness", pos = {x=8,y=11}, set = "Joker", cost_mult = 1.0, config = {extra = 0.5}},
@@ -279,6 +279,7 @@ local function define_joker_functions()
     --                     BUFF CARDS                     --
     --------------------------------------------------------
 
+    -- Base Version --
     local function trigger_card_buff(cond, val) 
         cond = cond or function(x, xx) return true end
         return function(self, context)
@@ -289,14 +290,17 @@ local function define_joker_functions()
         end
     end end
 
-    local function trigger_suit_jokers() return function(self, context)
-        if context.individual and context.cardarea == G.play and context.other_card:is_suit(self.ability.extra.suit) then
-            return {
-                    mult = self.ability.mult,
-                    card = self
-                }
+    -- conditions --
+
+    -- return true if card rank is in fibonacci sequence
+    local function fibonacci_cond() return function (self, context)
+        local valid_ranks = {14, 2, 3, 5, 8}
+        for _,rank in pairs(valid_ranks) do
+            if context.other_card:get_id() == rank then return true end
         end
     end end
+
+    -- Specific Versions --
 
     local function trigger_lowest_raised_fist() return function(self, context)
         if context.individual and context.cardarea == G.hand then
@@ -399,6 +403,18 @@ local function define_joker_functions()
         end
     end end
 
+    -------------------------------------------------------------------
+    --                     END ROUND MONEY BONUS                     --
+    -------------------------------------------------------------------
+    
+    local function trigger_end_round_money_bonus(cond, calc) 
+        cond = cond or function(x, xx) return true end
+        return function(self, context)
+            if context.end_round_dollar_bonus and not self.debuff and not context.blueprint and cond(self, context) then
+                return calc(self)
+            end
+    end end
+
     local function trigger_loyalty_iter() return function(self, context)
         if context.cardarea == G.jokers and context.score then
             if not context.blueprint then
@@ -448,23 +464,18 @@ local function define_joker_functions()
         calculate_reroll_cost(true)
     end end
 
-    -------------------------------------------------------
-    -------------------------------------------------------
-    --                     CONDITIONS                    --
-    -------------------------------------------------------
-    -------------------------------------------------------
-
-    local function mime_cond() return function (self, context)
-        if context.cardarea == G.hand then
-            return true
-        end
-    end end
-
-    -- return true if card rank is in fibonacci sequence
-    local function fibonacci_cond() return function (self, context)
-        local valid_ranks = {14, 2, 3, 5, 8}
-        for _,rank in pairs(valid_ranks) do
-            if context.other_card:get_id() == rank then return true end
+    ---------------------------------------------------------------
+    ---------------------------------------------------------------
+    --                     COMMON CONDITIONS                     --
+    ---------------------------------------------------------------
+    ---------------------------------------------------------------
+    
+    -- ranks is a list of <int>
+    local function other_card_rank_cond(ranks) return function(self, context)
+        if context.other_card then
+            for _,r in pairs(ranks) do
+                if r == context.other_card:get_id() then return true end
+            end
         end
     end end
 
@@ -484,12 +495,50 @@ local function define_joker_functions()
         self.ability.x_mult = 1 + (self.ability.extra * self.ability.steel_tally)
     end end
 
+    ----------------------------------------------------
+    ----------------------------------------------------
+    --                     EXTINCT                    --
+    ----------------------------------------------------
+    ----------------------------------------------------
+
+    local function trigger_extinct(pseed) return function (self, context)
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            if pseudorandom(pseed) < G.GAME.probabilities.normal/self.ability.extra.odds then 
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        self.T.r = -0.2
+                        self:juice_up(0.3, 0.4)
+                        self.states.drag.is = true
+                        self.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(self)
+                                    self:remove()
+                                    self = nil
+                                return true; end})) 
+                        return true
+                    end
+                })) 
+                if self.ability.name == 'Gros Michel' then G.GAME.pool_flags.gros_michel_extinct = true end
+                return {
+                    message = localize('k_extinct_ex')
+                }
+            else
+                return {
+                    message = localize('k_safe_ex')
+                }
+            end
+        end
+    end end
 
     -------------------------------------------------------------
     -------------------------------------------------------------
     --                     GET REPETITIONS                     --
     -------------------------------------------------------------
     -------------------------------------------------------------
+
+    -- Base Version --
 
     local function get_repitions(cond)
         cond = cond or function(x, xx) return true end
@@ -503,6 +552,14 @@ local function define_joker_functions()
             end
         end
     end
+
+    -- conditions --
+
+    local function mime_cond() return function (self, context)
+        if context.cardarea == G.hand then
+            return true
+        end
+    end end
 
     --------------------------------------------------------------
     --------------------------------------------------------------
@@ -581,6 +638,12 @@ local function define_joker_functions()
         elseif k == 'j_chaos' then joker_functions[k] =                         {add_deck=add_remove_chaos(1), remove_deck=add_remove_chaos(-1)}
         elseif k == 'j_fibonacci' then joker_functions[k] =                     {triggers={trigger_card_buff(fibonacci_cond(), 'mult')}}
         elseif k == 'j_steel_joker' then joker_functions[k] =                   {score=score_value('x_mult'), update = update_steel_joker()} -- chance for optimization (update)
+        elseif k == 'j_scary_face' then joker_functions[k] =                    {triggers={trigger_card_buff(function(self,context) return context.other_card:is_face() end, 'chips')}}
+        elseif k == 'j_abstract' then joker_functions[k] =                      {score= function(self,context) return {mult=(G.jokers and G.jokers.cards and #G.jokers.cards or 0)*self.ability.extra} end}
+        elseif k == 'j_delayed_grat' then joker_functions[k] =                  {triggers={trigger_end_round_money_bonus(function(self, context) return G.GAME.current_round.discards_used == 0 and G.GAME.current_round.discards_left > 0 end, function(self) return G.GAME.current_round.discards_left*self.ability.extra end)}}
+        elseif k == 'j_hack' then joker_functions[k] =                          {triggers={get_repitions(other_card_rank_cond({2,3,4,5}))}}
+        elseif k == 'j_gros_michel' then joker_functions[k] =                   {score= score_value('mult'), triggers={trigger_extinct('gros_michel')}}
+        elseif k == 'j_cavendish' then joker_functions[k] =                     {score= score_value('x_mult'), triggers={trigger_extinct('cavendish')}}
         --elseif k == 'j_' then joker_functions[k] =                         
         elseif v.effect then 
             if v.effect == "Suit Mult" then joker_functions[k] =                {triggers={trigger_card_buff(function(self,context) return context.other_card:is_suit(self.ability.extra.suit) end, 'mult')}}

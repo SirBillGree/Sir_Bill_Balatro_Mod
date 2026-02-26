@@ -5,24 +5,24 @@ G.CHALLENGES = {
         rules = {
             custom = {
                 --{id = 'no_reward'},
-                {id = 'no_reward_specific', value = 'Big'},
-                {id = 'no_extra_hand_money'},
-                {id = 'no_interest'},
-                {id = 'daily'},
-                {id = 'set_seed', value = 'SEEDEEDS'},
+                -- {id = 'no_reward_specific', value = 'Big'},
+                -- {id = 'no_extra_hand_money'},
+                -- {id = 'no_interest'},
+                -- {id = 'daily'},
+                -- {id = 'set_seed', value = 'SEEDEEDS'},
             },
             modifiers = {
                 {id = 'dollars', value = 0},
-                {id = 'discards', value = 1},
+                {id = 'discards', value = 10},
                 {id = 'hands', value = 5},
-                {id = 'reroll_cost', value = 10},
+                {id = 'reroll_cost', value = 0},
                 {id = 'joker_slots', value = 8},
                 {id = 'consumable_slots', value = 3},
                 {id = 'hand_size', value = 10},
             }
         },
         jokers = {
-            {id = 'j_greedy_joker'},
+            {id = 'j_gros_michel'},
             {id = 'j_blueprint'},
         },
         consumeables = {

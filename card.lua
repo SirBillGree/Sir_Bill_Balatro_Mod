@@ -806,7 +806,7 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Blue Joker' then loc_vars = {self.ability.extra, self.ability.extra*((G.deck and G.deck.cards) and #G.deck.cards or 52)}
         elseif self.ability.name == 'Sixth Sense' then loc_vars = {}
         elseif self.ability.name == 'Mime' then
-        elseif self.ability.name == 'Hack' then loc_vars = {self.ability.extra+1}
+        elseif self.ability.name == 'Hack' then loc_vars = {self.ability.extra.reps+1}
         elseif self.ability.name == 'Pareidolia' then 
         elseif self.ability.name == 'Faceless Joker' then loc_vars = {self.ability.extra.dollars, self.ability.extra.faces}
         elseif self.ability.name == 'Oops! All 6s' then
@@ -837,10 +837,10 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Dusk' then loc_vars = {self.ability.extra.reps+1}
         elseif self.ability.name == 'Raised Fist' then
         elseif self.ability.name == 'Fibonacci' then loc_vars = {self.ability.mult}
-        elseif self.ability.name == 'Scary Face' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Scary Face' then loc_vars = {self.ability.chips}
         elseif self.ability.name == 'Abstract Joker' then loc_vars = {self.ability.extra, (G.jokers and G.jokers.cards and #G.jokers.cards or 0)*self.ability.extra}
         elseif self.ability.name == 'Delayed Gratification' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.extra.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}
+        elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}
         elseif self.ability.name == 'Even Steven' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Odd Todd' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Scholar' then loc_vars = {self.ability.extra.mult, self.ability.extra.chips}
@@ -897,7 +897,7 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'The Duo' or self.ability.name == 'The Trio'
             or self.ability.name == 'The Family' or self.ability.name == 'The Order' or self.ability.name == 'The Tribe' then loc_vars = {self.ability.x_mult, localize(self.ability.type, 'poker_hands')}
         
-        elseif self.ability.name == 'Cavendish' then loc_vars = {self.ability.extra.x_mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}
+        elseif self.ability.name == 'Cavendish' then loc_vars = {self.ability.x_mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}
         elseif self.ability.name == 'Card Sharp' then loc_vars = {self.ability.extra.x_mult}
         elseif self.ability.name == 'Red Card' then loc_vars = {self.ability.extra, self.ability.mult}
         elseif self.ability.name == 'Madness' then loc_vars = {self.ability.extra, self.ability.x_mult}
@@ -1017,11 +1017,25 @@ function Card:get_id()
 end
 
 -- PlayingCard Function
+-- if list function returns a true/false, return true/false.
+-- else, try next list function
+card_is_face_funcs = {
+    {name="base", func=function(self, loc_vals)
+        if self.debuff and not loc_vals.from_boss then return end
+        local id = self:get_id()
+        if id == 11 or id == 12 or id == 13 then
+            return true
+        end
+    end}, {name="pareidolia", func=function(self, loc_vals)
+        if next(find_joker("Pareidolia")) then return true end
+    end}
+}
 function Card:is_face(from_boss)
-    if self.debuff and not from_boss then return end
-    local id = self:get_id()
-    if id == 11 or id == 12 or id == 13 or next(find_joker("Pareidolia")) then
-        return true
+    local loc_vals = {from_boss = from_boss}
+    local out = nil
+    for i=1,#card_is_face_funcs do 
+        out = card_is_face_funcs[i].func(self, loc_vals)
+        if out then return out end
     end
 end
 
@@ -1039,14 +1053,12 @@ end
 -- append to add new repetition sources
 -- return: nothing, just append to loc_vals.reps
 repetition_sources = {
-    {name = 'seal',
-    func = function(self, loc_vals, context)
+    {name = 'seal', func = function(self, loc_vals, context)
         local seal = self:calculate_seal(context)
         if (seal and seal.repetitions) then loc_vals.reps[#loc_vals.reps+1] = seal end
-    end},
-    {name = 'jokers',
-    func = function(self, loc_vals, context)
+    end}, {name = 'jokers', func = function(self, loc_vals, context)
         context.repetitions = true
+        context.other_card = self
         for j=1, #G.jokers.cards do
             --calculate the joker effects
             local eval = G.jokers.cards[j]:calculate_joker(context)
@@ -1057,6 +1069,7 @@ repetition_sources = {
                 end
             end
         end
+        context.other_card = nil
         context.repetitions = nil
     end}
 }

@@ -2643,7 +2643,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         elseif _c.effect == 'Steel Card' then loc_vars = {_c.config.x_mult}
         elseif _c.effect == 'Stone Card' then loc_vars = {((specific_vars and specific_vars.bonus_chips) or _c.config.chips)}
         elseif _c.effect == 'Gold Card' then loc_vars = {_c.config.dollars}
-        elseif _c.effect == 'Lucky Card' then loc_vars = {G.GAME.probabilities.normal, _c.config.mult, _c.config.mult_chance, _c.config.dollars, _c.config.dollar_chance}
+        elseif _c.effect == 'Lucky Card' then loc_vars = {G.GAME.probabilities.normal, _c.config.mult, _c.config.extra.mult_chance, _c.config.dollars, _c.config.extra.dollar_chance}
         end
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
         if _c.name ~= 'Stone Card' and ((specific_vars and specific_vars.bonus_chips) or _c.config.bonus) then

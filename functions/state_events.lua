@@ -1363,7 +1363,7 @@ G.FUNCS.evaluate_round = function()
         dollars = dollars +  G.GAME.current_round.discards_left*(G.GAME.modifiers.money_per_discard)
     end
     for i = 1, #G.jokers.cards do
-        local ret = G.jokers.cards[i]:calculate_dollar_bonus()
+        local ret = G.jokers.cards[i]:calculate_joker({end_round_dollar_bonus=true})--calculate_dollar_bonus()
         if ret then
             add_round_eval_row({dollars = ret, bonus = true, name='joker'..i, pitch = pitch, card = G.jokers.cards[i]})
             pitch = pitch + 0.06

@@ -678,7 +678,7 @@ end
 
 -- these are values that trigger card_eval_status_text() and update internal values.
 -- Need to be in order that they'd execute
-score_types = {'debuff', 'repetitions', 'jokers', 'chips', 'mult', 'dollars', 'extra', 'x_mult'}
+score_types = {'debuff', 'repetitions', 'jokers', 'chips', 'mult', 'dollars', 'extra', 'x_mult'} -- add 'message'?
 
 -- addtional functions to evaluate during scoring
 additional_score_eval_functions = {
