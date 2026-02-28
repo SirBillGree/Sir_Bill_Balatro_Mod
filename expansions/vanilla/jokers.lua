@@ -103,19 +103,20 @@ vanilla_jokers_set = {
         j_supernova=        {order = 43,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Supernova", pos = {x=2,y=4}, set = "Joker", effect = "Hand played mult", cost_mult = 1.0, config = {extra = 1}},
         j_ride_the_bus=     {order = 44,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 1, cost = 6, name = "Ride the Bus", pos = {x=1,y=6}, set = "Joker", effect = "", config = {mult = 0, extra = 1}, unlock_condition = {type = 'discard_custom'}},
         j_space=            {order = 45,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Space Joker", pos = {x=3,y=5}, set = "Joker", effect = "Upgrade Hand chance", cost_mult = 1.0, config = {extra = 4}},
+        
+        j_egg=              {order = 46,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = 'Egg', pos = {x = 0, y = 10}, set = 'Joker', config = {extra = 3}},
+        j_burglar=          {order = 47,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Burglar', pos = {x = 1, y = 10}, set = 'Joker', config = {extra = 3}},
+        j_blackboard=       {order = 48,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Blackboard', pos = {x = 2, y = 10}, set = 'Joker', config = {x_mult = 3}},
+        j_runner=           {order = 49,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 1, cost = 5, name = 'Runner', pos = {x = 3, y = 10}, set = 'Joker', config = {extra = {chip_mod = 15}}},
+        j_ice_cream=        {order = 50,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 1, cost = 5, name = 'Ice Cream', pos = {x = 4, y = 10}, set = 'Joker', config = {chips = 100, extra = {chip_mod = 5}}},
+        j_dna=              {order = 51,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = 'DNA', pos = {x = 5, y = 10}, set = 'Joker', config = {}},
+        j_splash=           {order = 52,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 3, name = 'Splash', pos = {x = 6, y = 10}, set = 'Joker', config = {}},
+        j_blue_joker=       {order = 53,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = 'Blue Joker', pos = {x = 7, y = 10}, set = 'Joker', config = {extra = 2}},
+        j_sixth_sense=      {order = 54,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Sixth Sense', pos = {x = 8, y = 10}, set = 'Joker', config = {}},
         -- ^ Implemented functionality ^ --
-        -- j_egg=              {order = 46,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = 'Egg', pos = {x = 0, y = 10}, set = 'Joker', config = {extra = 3}},
-        -- j_burglar=          {order = 47,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Burglar', pos = {x = 1, y = 10}, set = 'Joker', config = {extra = 3}},
-        -- j_blackboard=       {order = 48,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Blackboard', pos = {x = 2, y = 10}, set = 'Joker', config = {extra = 3}},
-        -- j_runner=           {order = 49,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 1, cost = 5, name = 'Runner', pos = {x = 3, y = 10}, set = 'Joker', config = {extra = {chips = 0, chip_mod = 15}}},
-        -- j_ice_cream=        {order = 50,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 1, cost = 5, name = 'Ice Cream', pos = {x = 4, y = 10}, set = 'Joker', config = {extra = {chips = 100, chip_mod = 5}}},
-        -- j_dna=              {order = 51,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = 'DNA', pos = {x = 5, y = 10}, set = 'Joker', config = {}},
-        -- j_splash=           {order = 52,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 3, name = 'Splash', pos = {x = 6, y = 10}, set = 'Joker', config = {}},
-        -- j_blue_joker=       {order = 53,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = 'Blue Joker', pos = {x = 7, y = 10}, set = 'Joker', config = {extra = 2}},
-        -- j_sixth_sense=      {order = 54,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = 'Sixth Sense', pos = {x = 8, y = 10}, set = 'Joker', config = {}},
-        -- j_constellation=    {order = 55,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = 'Constellation', pos = {x = 9, y = 10}, set = 'Joker', config = {extra = 0.1, x_mult = 1}},
-        -- j_hiker=            {order = 56,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = 'Hiker', pos = {x = 0, y = 11}, set = 'Joker', config = {extra = 5}},
-        -- j_faceless=         {order = 57,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = 'Faceless Joker', pos = {x = 1, y = 11}, set = 'Joker', config = {extra = {dollars = 5, faces = 3}}},
+        j_constellation=    {order = 55,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = 'Constellation', pos = {x = 9, y = 10}, set = 'Joker', config = {x_mult = 1, extra = 0.1}},
+        j_hiker=            {order = 56,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = 'Hiker', pos = {x = 0, y = 11}, set = 'Joker', config = {extra = 5}},
+        j_faceless=         {order = 57,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = 'Faceless Joker', pos = {x = 1, y = 11}, set = 'Joker', config = {dollars = 5, extra = {faces = 3}}},
         -- j_green_joker=      {order = 58,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 1, cost = 4, name = 'Green Joker', pos = {x = 2, y = 11}, set = 'Joker', config = {extra = {hand_add = 1, discard_sub = 1}}},
         -- j_superposition=    {order = 59,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = 'Superposition', pos = {x = 3, y = 11}, set = 'Joker', config = {}},
         -- j_todo_list=        {order = 60,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = 'To Do List', pos = {x = 4, y = 11}, set = 'Joker', config = {extra = {dollars = 4, poker_hand = 'High Card'}}},
@@ -292,6 +293,13 @@ local function define_joker_functions()
 
     -- conditions --
 
+    local function blackboard_cond() return function(self, context)
+        for _,card in pairs(G.hand.cards) do 
+            if not(card:is_suit("Clubs") or card:is_suit("Spades")) then return end 
+        end
+        return true
+    end end
+
     -- Specific Versions --
 
     local function trigger_lowest_raised_fist() return function(self, context)
@@ -325,6 +333,53 @@ local function define_joker_functions()
                     end},
                     colour = G.C.SECONDARY_SET.Tarot,
                     card = self
+                }
+            end
+        end
+    end end
+
+    local function trigger_hiker() return function(self,context)
+        if context.individual and context.cardarea == G.play then
+            context.other_card.perma.chips = context.other_card.perma.chips + self.ability.extra
+            return {
+                extra = {message = localize('k_upgrade_ex'), colour = G.C.CHIPS},
+                card = self
+            }
+        end
+    end end
+
+    ---------------------------------------------------------
+    --                     AFTER SCORE                     --
+    ---------------------------------------------------------
+
+    local function trigger_ice_cream_iter() return function(self, context)
+        if context.after and not context.individual and not context.repetition and not context.blueprint then
+            if self.ability.chips - self.ability.extra.chip_mod <= 0 then 
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        self.T.r = -0.2
+                        self:juice_up(0.3, 0.4)
+                        self.states.drag.is = true
+                        self.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(self)
+                                    self:remove()
+                                    self = nil
+                                return true; end})) 
+                        return true
+                    end
+                })) 
+                return {
+                    message = localize('k_melted_ex'),
+                    colour = G.C.CHIPS
+                }
+            else
+                self.ability.chips = self.ability.chips - self.ability.extra.chip_mod
+                return {
+                    message = localize{type='variable',key='a_chips_minus',vars={self.ability.chips}},
+                    colour = G.C.CHIPS
                 }
             end
         end
@@ -373,6 +428,61 @@ local function define_joker_functions()
                 message = localize('k_level_up_ex')
             }
         end
+    end end
+
+    local function trigger_runner_upgrade() return function(self, context)
+        if context.before_score and not context.repetition and next(context.poker_hands['Straight']) and not context.blueprint then
+            self.ability.chips = self.ability.chips + self.ability.extra.chip_mod
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.CHIPS,
+                card = self
+            }
+        end
+    end end
+
+    local function trigger_DNA_make_copy() return function(self, context)
+        if context.before_score and not context.repetition and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 then
+            G.playing_card = (G.playing_card and G.playing_card + 1) or 1
+            local _card = copy_card(context.full_hand[1], nil, nil, G.playing_card)
+            _card:add_to_deck()
+            G.deck.config.card_limit = G.deck.config.card_limit + 1
+            table.insert(G.playing_cards, _card)
+            G.hand:emplace(_card)
+            _card.states.visible = nil
+
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    _card:start_materialize()
+                    return true
+                end
+            })) 
+            return {
+                message = localize('k_copied_ex'),
+                colour = G.C.CHIPS,
+                card = self,
+                playing_cards_created = {true}
+            }
+        end
+    end end
+
+    local function trigger_sixth_sense() return function(self, context)
+        if context.before_score and not context.repetition and G.GAME.current_round.hands_played == 0 and #context.full_hand == 1 and context.full_hand[1]:get_id() == 6 then
+            if #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    delay = 0.0,
+                    func = (function()
+                            local card = create_card('Spectral',G.consumeables, nil, nil, nil, nil, nil, 'sixth')
+                            card:add_to_deck()
+                            G.consumeables:emplace(card)
+                            G.GAME.consumeable_buffer = 0
+                        return true
+                    end)}))
+                card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('k_plus_spectral'), colour = G.C.SECONDARY_SET.Spectral})
+            end
+        end 
     end end
 
     ----------------------------------------------------------
@@ -426,6 +536,54 @@ local function define_joker_functions()
         end
     end end
 
+    local function trigger_burglar() return function(self, context)
+        if not context.blueprint and context.setting_blind and not (context.blueprint_card or self).getting_sliced then
+            G.E_MANAGER:add_event(Event({func = function()
+                ease_discard(-G.GAME.current_round.discards_left, nil, true)
+                ease_hands_played(self.ability.extra)
+                card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_hands', vars = {self.ability.extra}}})
+            return true end }))
+        end
+    end end
+
+    --------------------------------------------------------------
+    --                     USING CONSUMABLE                     --
+    --------------------------------------------------------------
+
+    local function trigger_constellation() return function(self, context)
+        if context.using_consumeable and not context.blueprint and context.consumeable.ability.set == 'Planet' then
+            self.ability.x_mult = self.ability.x_mult + self.ability.extra
+            G.E_MANAGER:add_event(Event({
+                func = function() card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_x_mult',vars={self.ability.x_mult}}}); return true
+                end}))
+            return
+        end
+    end end
+
+    -----------------------------------------------------
+    --                     DISCARD                     --
+    -----------------------------------------------------
+
+    local function trigger_faceless_joker() return function(self, context)
+                               -- only triggers on last card discarded                  --
+        if context.discard and context.other_card == context.full_hand[#context.full_hand] then
+            local face_cards = 0
+            for k, v in ipairs(context.full_hand) do
+                if v:is_face() then face_cards = face_cards + 1 end
+            end
+            if face_cards >= self.ability.extra.faces then
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        ease_dollars(self.ability.dollars)
+                        card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('$')..self.ability.dollars,colour = G.C.MONEY, delay = 0.45})
+                        return true
+                    end}))
+                return
+            end
+        end
+    end end
+    
+
     -------------------------------------------------------------------
     --                     END ROUND MONEY BONUS                     --
     -------------------------------------------------------------------
@@ -437,6 +595,17 @@ local function define_joker_functions()
                 return calc(self)
             end
     end end
+
+    --------------------------------------------------------------
+    --                     FIRST HAND DRAWN                     --
+    --------------------------------------------------------------
+    
+    local function trigger_first_hand_ability_jiggle() return function(self, context)
+        if context.first_hand_drawn and not context.blueprint then
+            juice_card_until(self, function() return G.GAME.current_round.hands_played == 0 end, true)
+        end 
+    end end
+
 
     local function trigger_loyalty_iter() return function(self, context)
         if context.cardarea == G.jokers and context.score then
@@ -518,11 +687,11 @@ local function define_joker_functions()
         self.ability.x_mult = 1 + (self.ability.extra * self.ability.steel_tally)
     end end
 
-    ----------------------------------------------------
-    ----------------------------------------------------
-    --                     EXTINCT                    --
-    ----------------------------------------------------
-    ----------------------------------------------------
+    ------------------------------------------------------
+    ------------------------------------------------------
+    --                     END ROUND                    --
+    ------------------------------------------------------
+    ------------------------------------------------------
 
     local function trigger_extinct(pseed) return function (self, context)
         if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
@@ -552,6 +721,17 @@ local function define_joker_functions()
                     message = localize('k_safe_ex')
                 }
             end
+        end
+    end end
+
+    local function trigger_egg() return function(self, context) 
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            self.ability.extra_value = self.ability.extra_value + self.ability.extra
+            self:set_cost()
+            return {
+                message = localize('k_val_up'),
+                colour = G.C.MONEY
+            }
         end
     end end
 
@@ -654,7 +834,7 @@ local function define_joker_functions()
         elseif k == 'j_marble' then joker_functions[k] =                        {triggers={trigger_marble()}}
         elseif k == 'j_loyalty_card' then joker_functions[k] =                  {score=score_value('x_mult', function (self,context) return self.ability.extra.loyalty_remaining == self.ability.extra.every end), triggers={trigger_loyalty_iter()}}  
         elseif k == 'j_8_ball' then joker_functions[k] =                        {triggers={trigger_8_ball()}}
-        elseif k == 'j_oops' then joker_functions[k] =                          {add_deck= function(self,context) for k,v in pairs(G.GAME.probabilities) do G.GAME.probabilities[k] = v*2 end end, remove_deck = function(self,context) for k,v in pairs(G.GAME.probabilities) do G.GAME.probabilities[k] = v/2 end end}
+        elseif k == 'j_oops' then joker_functions[k] =                          {add_deck=function(self,context) for k,v in pairs(G.GAME.probabilities) do G.GAME.probabilities[k] = v*2 end end, remove_deck = function(self,context) for k,v in pairs(G.GAME.probabilities) do G.GAME.probabilities[k] = v/2 end end}
         elseif k == 'j_misprint' then joker_functions[k] =                      {score=function(self,context) return {mult=pseudorandom('misprint', self.ability.extra.min, self.ability.extra.max)} end}
         elseif k == 'j_dusk' then joker_functions[k] =                          {triggers={get_repitions(function(self,context) return G.GAME.current_round.hands_left == 0 and context.cardarea == G.play end)}}
         elseif k == 'j_raised_fist' then joker_functions[k] =                   {triggers={trigger_lowest_raised_fist(),trigger_set_lowest_for_raised_fist()}}
@@ -672,8 +852,19 @@ local function define_joker_functions()
         elseif k == 'j_scholar' then joker_functions[k] =                       {triggers={trigger_card_buff(other_card_rank_cond({14}), {'chips','mult'})}}
         elseif k == 'j_business' then joker_functions[k] =                      {triggers={trigger_card_buff(function(self,context) return context.other_card:is_face() and pseudorandom('business') < G.GAME.probabilities.normal/self.ability.extra.chance end, 'dollars')}}
         elseif k == 'j_supernova' then joker_functions[k] =                     {score=function(self,context) return {mult = G.GAME.hands[context.scoring_name].played} end}
-        elseif k == 'j_ride_the_bus' then joker_functions[k] =                  {score= score_value('mult'), triggers={trigger_ride_the_bus()}}
+        elseif k == 'j_ride_the_bus' then joker_functions[k] =                  {score=score_value('mult'), triggers={trigger_ride_the_bus()}}
         elseif k == 'j_space' then joker_functions[k] =                         {triggers={trigger_space_joker()}}
+        elseif k == 'j_egg' then joker_functions[k] =                           {triggers={trigger_egg()}}
+        elseif k == 'j_burglar' then joker_functions[k] =                       {triggers={trigger_burglar()}}
+        elseif k == 'j_blackboard' then joker_functions[k] =                    {score=score_value("x_mult", blackboard_cond())}
+        elseif k == 'j_runner' then joker_functions[k] =                        {score=score_value('chips'), triggers={trigger_runner_upgrade()}}
+        elseif k == 'j_ice_cream' then joker_functions[k] =                     {score=score_value('chips'), triggers={trigger_ice_cream_iter()}}
+        elseif k == 'j_dna' then joker_functions[k] =                           {triggers={trigger_first_hand_ability_jiggle(), trigger_DNA_make_copy()}}
+        elseif k == 'j_blue_joker' then joker_functions[k] =                    {score=function(self,context) if #G.deck.cards > 0 then return {chips = #G.deck.cards*self.ability.extra} end end}
+        elseif k == 'j_sixth_sense' then joker_functions[k] =                   {triggers={trigger_first_hand_ability_jiggle(), trigger_sixth_sense()}}
+        elseif k == 'j_constellation' then joker_functions[k] =                 {score=score_value("x_mult", function(self,context) return self.ability.x_mult > 1 end), triggers={trigger_constellation()}}
+        elseif k == 'j_hiker' then joker_functions[k] =                         {triggers={trigger_hiker()}}
+        elseif k == 'j_faceless' then joker_functions[k] =                      {triggers={trigger_faceless_joker()}}
         --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         

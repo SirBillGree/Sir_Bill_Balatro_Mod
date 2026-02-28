@@ -808,7 +808,7 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Mime' then
         elseif self.ability.name == 'Hack' then loc_vars = {self.ability.extra.reps+1}
         elseif self.ability.name == 'Pareidolia' then 
-        elseif self.ability.name == 'Faceless Joker' then loc_vars = {self.ability.extra.dollars, self.ability.extra.faces}
+        elseif self.ability.name == 'Faceless Joker' then loc_vars = {self.ability.dollars, self.ability.extra.faces}
         elseif self.ability.name == 'Oops! All 6s' then
         elseif self.ability.name == 'Juggler' then loc_vars = {self.ability.h_size}
         elseif self.ability.name == 'Golden Joker' then loc_vars = {self.ability.extra}
@@ -851,9 +851,9 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Ride the Bus' then loc_vars = {self.ability.extra, self.ability.mult}
         elseif self.ability.name == 'Egg' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Burglar' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Blackboard' then loc_vars = {self.ability.extra, localize('Spades', 'suits_plural'), localize('Clubs', 'suits_plural')}
-        elseif self.ability.name == 'Runner' then loc_vars = {self.ability.extra.chips, self.ability.extra.chips}
-        elseif self.ability.name == 'Ice Cream' then loc_vars = {self.ability.extra.chips, self.ability.extra.chips}
+        elseif self.ability.name == 'Blackboard' then loc_vars = {self.ability.x_mult, localize('Spades', 'suits_plural'), localize('Clubs', 'suits_plural')}
+        elseif self.ability.name == 'Runner' then loc_vars = {self.ability.chips, self.ability.extra.chip_mod}
+        elseif self.ability.name == 'Ice Cream' then loc_vars = {self.ability.chips, self.ability.extra.chip_mod}
         elseif self.ability.name == 'DNA' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Splash' then
         elseif self.ability.name == 'Constellation' then loc_vars = {self.ability.extra, self.ability.x_mult}
@@ -2286,8 +2286,7 @@ end
     --             playing_card_joker_effects({true})
     --         end
     --         if self.ability.name == 'DNA' and not context.blueprint then
-    --             local eval = function() return G.GAME.current_round.hands_played == 0 end
-    --             juice_card_until(self, eval, true)
+    --             juice_card_until(self, function() return G.GAME.current_round.hands_played == 0 end, true)
     --         end
     --         if self.ability.name == 'Trading Card' and not context.blueprint then
     --             local eval = function() return G.GAME.current_round.discards_used == 0 and not G.RESET_JIGGLES end

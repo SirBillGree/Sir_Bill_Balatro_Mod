@@ -686,17 +686,18 @@ end
 ----------------------------------------------------
 
 add_other_scoring_cards_funcs={
-    {name = "faceless", -- temp: replace with "no face" cards
-    func = function(loc_vars)
+    {name = "faceless", func = function(loc_vars)
         for i=1,#loc_vars.playing do
             if loc_vars.playing[i].ability.faceless then
                 table.insert(loc_vars.scoring_hand, loc_vars.playing[i])
             end
         end
-    end},
-    {name = "splash",
-    func = function(loc_vars)
-        if next(find_joker('Splash')) then loc_vars.scoring_hand = loc_vars.playing end
+    end}, {name = "splash", func = function(loc_vars)
+        if next(find_joker('Splash')) then 
+            for i,card in pairs(loc_vars.playing) do
+                loc_vars.scoring_hand[i] = card
+            end
+        end
     end},
 }
 function add_other_scoring_cards(scoring_hand, playing)
@@ -1250,18 +1251,18 @@ G.FUNCS.evaluate_play = function(e)
     delay(0.3)
 
 
-    percent = G.jokers:score({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true}, 
-                    {}, 
-                    percent,
-                    percent_delta)
-    -- for i=1, #G.jokers.cards do
-    --     --calculate the joker after hand played effects
-    --     local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true})
-    --     if effects.jokers then
-    --         card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects.jokers)
-    --         percent = percent + percent_delta
-    --     end
-    -- end
+    -- percent = G.jokers:score({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true}, 
+    --                 {}, 
+    --                 percent,
+    --                 percent_delta)
+    for i=1, #G.jokers.cards do
+        --calculate the joker after hand played effects
+        local effects = G.jokers.cards[i]:calculate_joker({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true})
+        if effects then
+            card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects)
+            percent = percent + percent_delta
+        end
+    end
 
     -- If pillar, debuff cards played
     G.E_MANAGER:add_event(Event({
