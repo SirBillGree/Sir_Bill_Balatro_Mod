@@ -43,6 +43,7 @@ function Card:init(X, Y, W, H, card, center, params)
     self.unique_val = 1-self.ID/1603301
     self.edition = nil
     self.zoom = true
+    self.scale = center.scale or nil
     self:set_ability(center, true)
     self:set_base(card, true)
 
@@ -157,6 +158,10 @@ end
 -- Sets sprites of a given card --
 -- All Card function + subclass specific args
 function Card:set_sprites(_center, _front)
+    if _center and _center.scale and (_center.discovered or self.bypass_discovery_center) then
+        self.T.w = self.T.w * _center.scale.W
+        self.T.h = self.T.h * _center.scale.H
+    end
     if _front then 
         local _atlas, _pos = get_front_spriteinfo(_front)
         if self.children.front then
@@ -203,15 +208,19 @@ function Card:set_sprites(_center, _front)
                 self.children.center.states.collide.can = false
                 self.children.center:set_role({major = self, role_type = 'Glued', draw_major = self})
             end
-            if _center.name == 'Half Joker' and (_center.discovered or self.bypass_discovery_center) then 
-                self.children.center.scale.y = self.children.center.scale.y/1.7
+            if _center.scale and (_center.discovered or self.bypass_discovery_center) then
+                self.children.center.scale.x = self.children.center.scale.x * _center.scale.W
+                self.children.center.scale.y = self.children.center.scale.y * _center.scale.H
             end
-            if _center.name == 'Photograph' and (_center.discovered or self.bypass_discovery_center) then 
-                self.children.center.scale.y = self.children.center.scale.y/1.2
-            end
-            if _center.name == 'Square Joker' and (_center.discovered or self.bypass_discovery_center) then 
-                self.children.center.scale.y = self.children.center.scale.x
-            end
+            -- if _center.name == 'Half Joker' and (_center.discovered or self.bypass_discovery_center) then 
+            --     self.children.center.scale.y = self.children.center.scale.y/1.7
+            -- end
+            -- if _center.name == 'Photograph' and (_center.discovered or self.bypass_discovery_center) then 
+            --     self.children.center.scale.y = self.children.center.scale.y/1.2
+            -- end
+            -- if _center.name == 'Square Joker' and (_center.discovered or self.bypass_discovery_center) then 
+            --     self.children.center.scale.y = self.children.center.scale.x
+            -- end
         end
 
         if _center.soul_pos then 
@@ -253,27 +262,27 @@ function Card:set_ability(center, initial, delay_sprites)
     end
 
     -- This should be in set_sprite --
-    if center.name == "Half Joker" and (center.discovered or self.bypass_discovery_center) then 
-        H = H/1.7
-        self.T.h = H
-    end
+    -- if center.name == "Half Joker" and (center.discovered or self.bypass_discovery_center) then 
+    --     H = H/1.7
+    --     self.T.h = H
+    -- end
 
-    if center.name == "Photograph" and (center.discovered or self.bypass_discovery_center) then 
-        H = H/1.2
-        self.T.h = H
-    end
+    -- if center.name == "Photograph" and (center.discovered or self.bypass_discovery_center) then 
+    --     H = H/1.2
+    --     self.T.h = H
+    -- end
 
-    if center.name == "Square Joker" and (center.discovered or self.bypass_discovery_center) then 
-        H = W
-        self.T.h = H
-    end
+    -- if center.name == "Square Joker" and (center.discovered or self.bypass_discovery_center) then 
+    --     H = W
+    --     self.T.h = H
+    -- end
 
-    if center.name == "Wee Joker" and (center.discovered or self.bypass_discovery_center) then 
-        H = H*0.7
-        W = W*0.7
-        self.T.h = H
-        self.T.w = W
-    end
+    -- if center.name == "Wee Joker" and (center.discovered or self.bypass_discovery_center) then 
+    --     H = H*0.7
+    --     W = W*0.7
+    --     self.T.h = H
+    --     self.T.w = W
+    -- end
     -- ----------------------------- --
 
     if delay_sprites then 
@@ -858,7 +867,7 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Splash' then
         elseif self.ability.name == 'Constellation' then loc_vars = {self.ability.extra, self.ability.x_mult}
         elseif self.ability.name == 'Hiker' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'To Do List' then loc_vars = {self.ability.extra.dollars, localize(self.ability.to_do_poker_hand, 'poker_hands')}
+        elseif self.ability.name == 'To Do List' then loc_vars = {self.ability.dollars, localize(self.ability.extra.poker_hand, 'poker_hands')}
         elseif self.ability.name == 'Smeared Joker' then
         elseif self.ability.name == 'Blueprint' then
             self.ability.blueprint_compat_ui = self.ability.blueprint_compat_ui or ''; self.ability.blueprint_compat_check = nil
@@ -898,10 +907,10 @@ function Card:generate_UIBox_ability_table()
             or self.ability.name == 'The Family' or self.ability.name == 'The Order' or self.ability.name == 'The Tribe' then loc_vars = {self.ability.x_mult, localize(self.ability.type, 'poker_hands')}
         
         elseif self.ability.name == 'Cavendish' then loc_vars = {self.ability.x_mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}
-        elseif self.ability.name == 'Card Sharp' then loc_vars = {self.ability.extra.x_mult}
+        elseif self.ability.name == 'Card Sharp' then loc_vars = {self.ability.x_mult}
         elseif self.ability.name == 'Red Card' then loc_vars = {self.ability.extra, self.ability.mult}
         elseif self.ability.name == 'Madness' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Square Joker' then loc_vars = {self.ability.extra.chips, self.ability.extra.chips}
+        elseif self.ability.name == 'Square Joker' then loc_vars = {self.ability.chips, self.ability.extra.chip_mod}
         elseif self.ability.name == 'Seance' then loc_vars = {localize(self.ability.extra.poker_hand, 'poker_hands')}
         elseif self.ability.name == 'Riff-raff' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Vampire' then loc_vars = {self.ability.extra, self.ability.x_mult}
@@ -4523,19 +4532,22 @@ function Card:load(cardTable, other_card)
 
     local H = G.CARD_H
     local W = G.CARD_W
-    if self.config.center.name == "Half Joker" then 
-        self.T.h = H*scale/1.7*scale
-        self.T.w = W*scale
-    elseif self.config.center.name == "Wee Joker" then 
-        self.T.h = H*scale*0.7*scale
-        self.T.w = W*scale*0.7*scale
-    elseif self.config.center.name == "Photograph" then 
-        self.T.h = H*scale/1.2*scale
-        self.T.w = W*scale
-    elseif self.config.center.name == "Square Joker" then
-        H = W 
-        self.T.h = H*scale
-        self.T.w = W*scale
+    if self.scale then
+        self.T.w = W * self.scale.W
+        self.T.h = H * self.scale.H
+    -- if self.config.center.name == "Half Joker" then 
+    --     self.T.h = H*scale/1.7*scale
+    --     self.T.w = W*scale
+    -- elseif self.config.center.name == "Wee Joker" then 
+    --     self.T.h = H*scale*0.7*scale
+    --     self.T.w = W*scale*0.7*scale
+    -- elseif self.config.center.name == "Photograph" then 
+    --     self.T.h = H*scale/1.2*scale
+    --     self.T.w = W*scale
+    -- elseif self.config.center.name == "Square Joker" then
+    --     H = W 
+    --     self.T.h = H*scale
+    --     self.T.w = W*scale
     elseif self.config.center.set == 'Booster' then 
         self.T.h = H*1.27
         self.T.w = W*1.27

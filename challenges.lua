@@ -22,9 +22,9 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_constellation'},
-            {id = 'j_faceless'},
-            {id = 'j_hiker'},
+            {id = 'j_card_sharp'},
+            {id = 'j_red_card'},
+            {id = 'j_seance'},
             {id = 'j_blueprint'},
         },
         consumeables = {
@@ -34,7 +34,7 @@ G.CHALLENGES = {
             --{id = 'v_hieroglyph'},
         },
         deck = {
-            --cards = {{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',},{s='D',r='8',e='m_glass',}},
+            --cards = {{s='D',r='8',e='m_glass',},{s='D',r='9',e='m_glass',},{s='D',r='T',e='m_glass',},{s='D',r='7',e='m_glass',},{s='D',r='6',e='m_glass',}},
             --{{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},},
             type = 'Challenge Deck'
         },

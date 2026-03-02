@@ -678,7 +678,7 @@ end
 
 -- these are values that trigger card_eval_status_text() and update internal values.
 -- Need to be in order that they'd execute
-score_types = {'debuff', 'repetitions', 'jokers', 'chips', 'mult', 'dollars', 'extra', 'x_mult'} -- add 'message'?
+score_types = {'debuff', 'message', 'repetitions', 'jokers', 'chips', 'mult', 'dollars', 'extra', 'x_mult'} -- add 'message'?
 
 -- addtional functions to evaluate during scoring
 additional_score_eval_functions = {
@@ -717,11 +717,12 @@ function CardArea:score(context, total_score, percent, percent_delta, specific_c
             for v=1,#score_types do s=score_types[v]
                 if score_unit[s] then
                     if score_unit.card then juice_card(score_unit.card) end
+                    if score_unit.message then score_unit.extra = score_unit end
 
                     -- Base scoring conditions
-                    if total_score[s] then total_score[s] = total_score[s] + score_unit[s]
-                    elseif s == 'x_mult' then total_score.mult = total_score.mult * score_unit[s]
-                    elseif s == 'dollars' then ease_dollars(score_unit[s])
+                    if total_score[s] and score_unit[s] ~= 0 then total_score[s] = total_score[s] + score_unit[s]
+                    elseif s == 'x_mult' and score_unit[s] ~= 1 then total_score.mult = total_score.mult * score_unit[s]
+                    elseif s == 'dollars' and score_unit[s] ~= 0 then ease_dollars(score_unit[s])
                     else end
 
                     -- Modded scoring functions
