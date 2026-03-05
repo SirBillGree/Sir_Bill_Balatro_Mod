@@ -917,9 +917,9 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Shortcut' then
         elseif self.ability.name == 'Hologram' then loc_vars = {self.ability.extra, self.ability.x_mult}
         elseif self.ability.name == 'Vagabond' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Baron' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Baron' then loc_vars = {self.ability.x_mult}
         elseif self.ability.name == 'Cloud 9' then loc_vars = {self.ability.extra, self.ability.extra*(self.ability.nine_tally or 0)}
-        elseif self.ability.name == 'Rocket' then loc_vars = {self.ability.extra.dollars, self.ability.extra.increase}
+        elseif self.ability.name == 'Rocket' then loc_vars = {self.ability.dollars, self.ability.extra.increase}
         elseif self.ability.name == 'Obelisk' then loc_vars = {self.ability.extra, self.ability.x_mult}
         elseif self.ability.name == 'Midas Mask' then
         elseif self.ability.name == 'Luchador' then
@@ -934,7 +934,7 @@ function Card:generate_UIBox_ability_table()
                     }}
                 }
             end
-        elseif self.ability.name == 'Photograph' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Photograph' then loc_vars = {self.ability.x_mult}
         elseif self.ability.name == 'Gift Card' then  loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Turtle Bean' then loc_vars = {self.ability.extra.h_size, self.ability.extra.h_mod}
         elseif self.ability.name == 'Erosion' then loc_vars = {self.ability.extra, math.max(0,self.ability.extra*(G.playing_cards and (G.GAME.starting_deck_size - #G.playing_cards) or 0)), G.GAME.starting_deck_size}

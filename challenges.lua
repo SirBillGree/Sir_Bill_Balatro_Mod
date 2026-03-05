@@ -22,13 +22,15 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_card_sharp'},
-            {id = 'j_red_card'},
-            {id = 'j_seance'},
+            {id = 'j_obelisk'},
+            {id = 'j_luchador'},
+            {id = 'j_midas_mask'},
+            {id = 'j_photograph'},
             {id = 'j_blueprint'},
         },
         consumeables = {
-            {id = 'c_chariot'}
+            {id = 'c_chariot'},
+            {id = 'c_cryptid'},
         },
         vouchers = {
             --{id = 'v_hieroglyph'},

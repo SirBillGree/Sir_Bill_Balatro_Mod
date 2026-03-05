@@ -723,7 +723,7 @@ function CardArea:score(context, total_score, percent, percent_delta, specific_c
                     if total_score[s] and score_unit[s] ~= 0 then total_score[s] = total_score[s] + score_unit[s]
                     elseif s == 'x_mult' and score_unit[s] ~= 1 then total_score.mult = total_score.mult * score_unit[s]
                     elseif s == 'dollars' and score_unit[s] ~= 0 then ease_dollars(score_unit[s])
-                    else end
+                    else end                -- ^ this check is useless as it doesn't prevent card_eval_status_text
 
                     -- Modded scoring functions
                     for f=1,#additional_score_eval_functions do
