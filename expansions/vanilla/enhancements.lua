@@ -112,7 +112,11 @@ local function define_enhancement_functions()
                 local score = {}
                 if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/self.ability.extra.mult_chance then score.mult = self.ability.mult end
                 if pseudorandom('lucky_money') < G.GAME.probabilities.normal/self.ability.extra.dollar_chance then score.dollars = self.ability.dollars end
-                if score.mult or score.dollars then self.lucky_trigger = true end
+                if score.mult or score.dollars then -- lucky trigger
+                    for i=1,#G.jokers.cards do
+                        G.jokers.cards[i]:calculate_joker({lucky_trigger=true})
+                    end
+                end
                 return score
             else return {} end
         end

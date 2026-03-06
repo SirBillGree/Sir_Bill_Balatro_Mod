@@ -135,6 +135,10 @@ end_round_funcs = {
     ]]--
 }
 
+-- Used instead of hard-coding reset_idol, reset_mail_in, etc.
+-- in vanilla+, these functions are stored in jokers.lua and appended on launch
+global_joker_resets = {}
+
 function end_round()
     G.E_MANAGER:add_event(Event({
       trigger = 'after',
@@ -352,10 +356,11 @@ function end_round()
                     if G.GAME.round_resets.temp_reroll_cost then G.GAME.round_resets.temp_reroll_cost = nil; calculate_reroll_cost(true) end
 
                     -- reset specific jokers
-                    reset_idol_card()
-                    reset_mail_rank()
-                    reset_ancient_card()
-                    reset_castle_card()
+                    for i = 1,#global_joker_resets do global_joker_resets[i]() end
+                    -- reset_idol_card()
+                    -- reset_mail_rank()
+                    -- reset_ancient_card()
+                    -- reset_castle_card()
                     for k, v in ipairs(G.playing_cards) do
                         v.ability.discarded = nil
                         v.ability.forced_selection = nil

@@ -17,7 +17,7 @@ passed to the card object.
 Params all jokers will need:
 [ ] additonal Trigger -> Trigger effect dictionary (optional)
 [ ] Scoring function (optional)
-[ ] values specific to an instance of a joker (example: x_mult on lucky cat) (add to config)
+[ ] values specific to an instance of a joker (example: yorick_discards) (add to config)
 [ ] UI Functions
 [ ] Pool filters
 [ ] Unlock Conditions
@@ -140,25 +140,25 @@ vanilla_jokers_set = {
         j_midas_mask=       {order = 76,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Midas Mask",set = "Joker", config = {}, pos = {x=0,y=13}},
         j_luchador=         {order = 77,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 5, name = "Luchador",set = "Joker", config = {}, pos = {x=1,y=13}},
         j_photograph=       {order = 78,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Photograph",set = "Joker", config = {x_mult = 2}, pos = {x=2,y=13}, scale={W=1,H=1/1.2}},
-        -- ^ Implemented functionality ^ --
-        -- j_gift=             {order = 79,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Gift Card",set = "Joker", config = {extra = 1}, pos = {x=3,y=13}},
-        -- j_turtle_bean=      {order = 80,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 6, name = "Turtle Bean",set = "Joker", config = {extra = {h_size = 5, h_mod = 1}}, pos = {x=4,y=13}},
-        -- j_erosion=          {order = 81,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Erosion",set = "Joker", config = {extra = 4}, pos = {x=5,y=13}},
-        -- j_reserved_parking= {order = 82,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 6, name = "Reserved Parking",set = "Joker", config = {extra = {odds = 2, dollars = 1}}, pos = {x=6,y=13}},
-        -- j_mail=             {order = 83,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Mail-In Rebate",set = "Joker", config = {extra = 5}, pos = {x=7,y=13}},
-        -- j_to_the_moon=      {order = 84,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "To the Moon",set = "Joker", config = {extra = 1}, pos = {x=8,y=13}},
-        -- j_hallucination=    {order = 85,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Hallucination",set = "Joker", config = {extra = 2}, pos = {x=9,y=13}},
-        -- j_fortune_teller=   {order = 86,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 6, name = "Fortune Teller", pos = {x=7,y=5}, set = "Joker", effect = "", config = {extra = 1}},
-        -- j_juggler=          {order = 87,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Juggler", pos = {x=0,y=1}, set = "Joker", effect = "Hand Size", cost_mult = 1.0, config = {h_size = 1}},
-        -- j_drunkard=         {order = 88,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Drunkard", pos = {x=1,y=1}, set = "Joker", effect = "Discard Size", cost_mult = 1.0, config = {d_size = 1}},
-        -- j_stone=            {order = 89,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Stone Joker", pos = {x=9,y=0}, set = "Joker", effect = "Stone Card Buff", cost_mult = 1.0, config = {extra = 25}, enhancement_gate = 'm_stone'},
-        -- j_golden=           {order = 90,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 6, name = "Golden Joker", pos = {x=9,y=2}, set = "Joker", effect = "Bonus dollars", cost_mult = 1.0, config = {extra = 4}},
+        j_gift=             {order = 79,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Gift Card",set = "Joker", config = {extra = 1}, pos = {x=3,y=13}},
+        j_turtle_bean=      {order = 80,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 6, name = "Turtle Bean",set = "Joker", config = {extra = {h_size = 5, h_mod = 1}}, pos = {x=4,y=13}},
+        j_erosion=          {order = 81,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Erosion",set = "Joker", config = {extra = 4}, pos = {x=5,y=13}},
+        j_reserved_parking= {order = 82,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 6, name = "Reserved Parking",set = "Joker", config = {dollars = 1, extra = {odds = 2}}, pos = {x=6,y=13}},
+        j_mail=             {order = 83,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Mail-In Rebate",set = "Joker", config = {extra = 5}, pos = {x=7,y=13}},
+        j_to_the_moon=      {order = 84,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "To the Moon",set = "Joker", config = {extra = 1}, pos = {x=8,y=13}},
+        j_hallucination=    {order = 85,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Hallucination",set = "Joker", config = {extra = 2}, pos = {x=9,y=13}},
+        j_fortune_teller=   {order = 86,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 6, name = "Fortune Teller", pos = {x=7,y=5}, set = "Joker", effect = "", config = {extra = 1}},
+        j_juggler=          {order = 87,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Juggler", pos = {x=0,y=1}, set = "Joker", effect = "Hand Size", cost_mult = 1.0, config = {extra={h_size = 1}}},
+        j_drunkard=         {order = 88,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Drunkard", pos = {x=1,y=1}, set = "Joker", effect = "Discard Size", cost_mult = 1.0, config = {extra={d_size = 1}}},
+        j_stone=            {order = 89,  unlocked = true,  discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Stone Joker", pos = {x=9,y=0}, set = "Joker", effect = "Stone Card Buff", cost_mult = 1.0, config = {extra = 25}, enhancement_gate = 'm_stone'},
+        j_golden=           {order = 90,  unlocked = true,  discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 6, name = "Golden Joker", pos = {x=9,y=2}, set = "Joker", effect = "Bonus dollars", cost_mult = 1.0, config = {dollars = 4}},
 
-        -- j_lucky_cat=        {order = 91,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Lucky Cat",set = "Joker", config = {x_mult = 1, extra = 0.25}, pos = {x=5,y=14}, enhancement_gate = 'm_lucky'},
-        -- j_baseball=         {order = 92,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "Baseball Card",set = "Joker", config = {extra = 1.5}, pos = {x=6,y=14}},
-        -- j_bull=             {order = 93,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Bull",set = "Joker", config = {extra = 2}, pos = {x=7,y=14}},
-        -- j_diet_cola=        {order = 94,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 6, name = "Diet Cola",set = "Joker", config = {}, pos = {x=8,y=14}},
-        -- j_trading=          {order = 95,   unlocked = true, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Trading Card",set = "Joker", config = {extra = 3}, pos = {x=9,y=14}},
+        j_lucky_cat=        {order = 91,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Lucky Cat",set = "Joker", config = {x_mult = 1, extra = 0.25}, pos = {x=5,y=14}, enhancement_gate = 'm_lucky'},
+        j_baseball=         {order = 92,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "Baseball Card",set = "Joker", config = {x_mult= 1.5}, pos = {x=6,y=14}},
+        j_bull=             {order = 93,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Bull", set = "Joker", config = {extra = 2}, pos = {x=7,y=14}},
+        j_diet_cola=        {order = 94,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 6, name = "Diet Cola",set = "Joker", config = {}, pos = {x=8,y=14}},
+        j_trading=          {order = 95,   unlocked = true, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Trading Card",set = "Joker", config = {dollars = 3}, pos = {x=9,y=14}},
+        -- ^ Implemented functionality ^ --
         -- j_flash=            {order = 96,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 5, name = "Flash Card",set = "Joker", config = {extra = 2, mult = 0}, pos = {x=0,y=15}},
         -- j_popcorn=          {order = 97,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 1, cost = 5, name = "Popcorn",set = "Joker", config = {mult = 20, extra = 4}, pos = {x=1,y=15}},
         -- j_trousers=         {order = 98,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Spare Trousers",set = "Joker", config = {extra = 2}, pos = {x=4,y=15}},
@@ -235,7 +235,6 @@ local function define_joker_functions()
     --                     SCORE FUNCTIONS                     --
     -------------------------------------------------------------
     -------------------------------------------------------------
-    --- ALL MUST INCLUDE A CHECK FOR: context.cardarea == G.jokers and context.score
 
     -- val_name: string = 'chips', 'mult', 'x_mult', 'dollars'
     -- cond (condition): function, takes (self, context), returns true/false
@@ -243,7 +242,7 @@ local function define_joker_functions()
         cond = cond or function(x, xx) return true end
         return function(self, context)
             local ret = {}
-            if context.cardarea == G.jokers and context.score and cond(self, context) then ret[val_name] = self.ability[val_name] end
+            if cond(self, context) then ret[val_name] = self.ability[val_name] end -- removed: context.cardarea == G.jokers and context.score and 
             return ret
         end
     end
@@ -435,6 +434,16 @@ local function define_joker_functions()
                 extra = {message = localize('k_upgrade_ex'), colour = G.C.CHIPS},
                 card = self
             }
+        end
+    end end
+
+    ---------------------------------------------------------
+    --                     BUFF JOKERS                     --
+    ---------------------------------------------------------
+    
+    local function trigger_baseball() return function(self,context)
+        if context.individual and context.cardarea == G.jokers and context.other_card.config.center.rarity == 2 then
+            return {x_mult = self.ability.x_mult, card = self}
         end
     end end
 
@@ -691,7 +700,7 @@ local function define_joker_functions()
     ----------------------------------------------------------
 
     local function trigger_dagger() return function(self, context)
-        if not context.blueprint and context.setting_blind and not self.getting_sliced then
+        if context.setting_blind and not context.blueprint and not self.getting_sliced then
             local my_pos = nil
             for i = 1, #G.jokers.cards do
                 if G.jokers.cards[i] == self then my_pos = i; break end
@@ -805,6 +814,14 @@ local function define_joker_functions()
         end
     end end
 
+    local function trigger_fortune_teller_iter() return function(self, context)
+        if context.using_consumeable and not context.blueprint and (context.consumeable.ability.set == "Tarot") then
+            G.E_MANAGER:add_event(Event({
+                func = function() card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_mult',vars={G.GAME.consumeable_usage_total.tarot}}}); return true
+                end}))
+        end
+    end end
+
     -----------------------------------------------------
     --                     DISCARD                     --
     -----------------------------------------------------
@@ -839,6 +856,30 @@ local function define_joker_functions()
             }
         end
     end end
+
+    local function trigger_mail_in() return function(self, context)
+        if context.discard and not context.other_card.debuff and context.other_card:get_id() == G.GAME.current_round.mail_card.id then
+                ease_dollars(self.ability.extra)
+                return {
+                    message = localize('$')..self.ability.extra,
+                    colour = G.C.MONEY,
+                    card = self
+                }
+        end
+    end end
+
+    local function trigger_trading_card() return function(self, context)
+        if context.discard and not context.blueprint and G.GAME.current_round.discards_used <= 0 and #context.full_hand == 1 then
+            ease_dollars(self.ability.dollars)
+            return {
+                message = localize('$')..self.ability.dollars,
+                colour = G.C.MONEY,
+                delay = 0.45, 
+                remove = true,
+                card = self
+            }
+        end
+    end end
     
 
     -------------------------------------------------------------------
@@ -865,6 +906,37 @@ local function define_joker_functions()
         end 
     end end
 
+    local function trigger_first_discard_ability_jiggle() return function(self, context)
+        if context.first_hand_drawn and not context.blueprint then
+            local eval = function() return G.GAME.current_round.discards_used == 0 and not G.RESET_JIGGLES end
+            juice_card_until(self, eval, true)
+        end 
+    end end
+
+
+    -------------------------------------------------------
+    --                     OPEN PACK                     --
+    -------------------------------------------------------
+
+    local function trigger_hallucination() return function(self, context)
+        if context.open_booster and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            if pseudorandom('halu'..G.GAME.round_resets.ante) < G.GAME.probabilities.normal/self.ability.extra then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                G.E_MANAGER:add_event(Event({
+                    trigger = 'before',
+                    delay = 0.0,
+                    func = (function()
+                            local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, 'hal')
+                            card:add_to_deck()
+                            G.consumeables:emplace(card)
+                            G.GAME.consumeable_buffer = 0
+                        return true
+                    end)}))
+                card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})
+            end
+        end
+    end end
+
     -------------------------------------------------------
     --                     SELL SELF                     --
     -------------------------------------------------------
@@ -875,6 +947,19 @@ local function define_joker_functions()
                 card_eval_status_text(context.blueprint_card or self, 'extra', nil, nil, nil, {message = localize('ph_boss_disabled')})
                 G.GAME.blind:disable()
             end
+        end
+    end end
+
+    local function trigger_diet_cola() return function(self, context)
+        if context.selling_self then
+            G.E_MANAGER:add_event(Event({
+                func = (function()
+                    add_tag(Tag('tag_double'))
+                    play_sound('generic1', 0.9 + math.random()*0.1, 0.8)
+                    play_sound('holo1', 1.2 + math.random()*0.1, 0.4)
+                    return true
+                end)
+            }))
         end
     end end
 
@@ -936,6 +1021,21 @@ local function define_joker_functions()
         end
     end end
 
+    -----------------------------------------------------------
+    --                     LUCKY TRIGGER                     --
+    -----------------------------------------------------------
+
+    local function trigger_lucky_cat() return function(self, context)
+        if context.lucky_trigger and not context.blueprint then
+            self.ability.x_mult = self.ability.x_mult + self.ability.extra
+            card_eval_status_text(self,'extra',nil,nil,nil,{
+                focus = self, 
+                message = localize('k_upgrade_ex'), 
+                colour = G.C.MULT
+            })
+        end
+    end end
+
     ------------------------------------------------------------------
     ------------------------------------------------------------------
     --                     ADD/REMOVE FUNCTIONS                     --
@@ -943,9 +1043,20 @@ local function define_joker_functions()
     ------------------------------------------------------------------
     ---Required: function(self,context)
     
-    local function add_remove_chaos(mod_rerolls) return function(self)
-        G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls + mod_rerolls
+    local function add_remove_chaos(sign) return function(self)
+        G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls + (self.ability.extra*sign)
         calculate_reroll_cost(true)
+    end end
+
+    -- sign 1 to add, sign -1 to remove
+    local function add_remove_hand_size(sign) return function(self)
+        G.hand:change_size(self.ability.extra.h_size*sign)
+    end end
+
+    -- sign 1 to add, sign -1 to remove
+    local function add_remove_discards(sign) return function(self)
+        G.GAME.round_resets.discards = G.GAME.round_resets.discards + (self.ability.extra.d_size*sign)
+        ease_discard(self.ability.extra.d_size*sign)
     end end
 
     ---------------------------------------------------------------
@@ -973,12 +1084,12 @@ local function define_joker_functions()
     --- Effects triggered when the card is created
     
     -- calculate the amount of steel cards there are when this card is created
-    local function update_steel_joker() return function (self, context)
-        self.ability.steel_tally = 0
+    local function update_tally(card_type, func) return function (self, context)
+        self.ability.tally = 0
         for k, v in pairs(G.playing_cards) do
-            if v.config.center == G.P_CENTERS.m_steel then self.ability.steel_tally = self.ability.steel_tally+1 end
+            if v.config.center == G.P_CENTERS[card_type] then self.ability.tally = self.ability.tally+1 end
         end
-        self.ability.x_mult = 1 + (self.ability.extra * self.ability.steel_tally)
+        func(self)
     end end
 
     local function create_todo_list() return function (self, context)
@@ -1065,6 +1176,62 @@ local function define_joker_functions()
             }
         end
     end end
+
+    local function trigger_gift_card() return function(self, context)
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            for k, v in ipairs(G.jokers.cards) do
+                if v.set_cost then 
+                    v.ability.extra_value = (v.ability.extra_value or 0) + self.ability.extra
+                    v:set_cost()
+                end
+            end
+            for k, v in ipairs(G.consumeables.cards) do
+                if v.set_cost then 
+                    v.ability.extra_value = (v.ability.extra_value or 0) + self.ability.extra
+                    v:set_cost()
+                end
+            end
+            return {
+                message = localize('k_val_up'),
+                colour = G.C.MONEY
+            }
+        end
+    end end
+
+    local function trigger_turtle_bean_down() return function(self, context)
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            if self.ability.extra.h_size - self.ability.extra.h_mod <= 0 then 
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        self.T.r = -0.2
+                        self:juice_up(0.3, 0.4)
+                        self.states.drag.is = true
+                        self.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(self)
+                                    self:remove()
+                                    self = nil
+                                return true; end})) 
+                        return true
+                    end
+                })) 
+                return {
+                    message = localize('k_eaten_ex'),
+                    colour = G.C.FILTER
+                }
+            else
+                self.ability.extra.h_size = self.ability.extra.h_size - self.ability.extra.h_mod
+                G.hand:change_size(- self.ability.extra.h_mod)
+                return {
+                    message = localize{type='variable',key='a_handsize_minus',vars={self.ability.extra.h_mod}},
+                    colour = G.C.FILTER
+                }
+            end
+        end
+    end end
+
 
     -------------------------------------------------------------
     -------------------------------------------------------------
@@ -1171,7 +1338,7 @@ local function define_joker_functions()
         elseif k == 'j_raised_fist' then joker_functions[k] =                   {triggers={trigger_lowest_raised_fist(),trigger_set_lowest_for_raised_fist()}}
         elseif k == 'j_chaos' then joker_functions[k] =                         {add_deck=add_remove_chaos(1), remove_deck=add_remove_chaos(-1)}
         elseif k == 'j_fibonacci' then joker_functions[k] =                     {triggers={trigger_card_buff(other_card_rank_cond({14, 2, 3, 5, 8}, function(self,context) return context.cardarea == G.play end), 'mult')}}
-        elseif k == 'j_steel_joker' then joker_functions[k] =                   {score=score_value('x_mult'), update = update_steel_joker()} -- chance for optimization (update)
+        elseif k == 'j_steel_joker' then joker_functions[k] =                   {score=score_value('x_mult'), update = update_tally("m_steel",function(self) self.ability.x_mult = 1 + (self.ability.extra * self.ability.tally) end)} -- chance for optimization (update)
         elseif k == 'j_scary_face' then joker_functions[k] =                    {triggers={trigger_card_buff(function(self,context) return context.other_card:is_face() end, 'chips')}}
         elseif k == 'j_abstract' then joker_functions[k] =                      {score= function(self,context) return {mult=(G.jokers and G.jokers.cards and #G.jokers.cards or 0)*self.ability.extra} end}
 
@@ -1219,14 +1386,25 @@ local function define_joker_functions()
         elseif k == 'j_midas_mask' then joker_functions[k] =                    {triggers={trigger_midas_mask()}}
         elseif k == 'j_luchador' then joker_functions[k] =                      {triggers={trigger_luchador()}}
         elseif k == 'j_photograph' then joker_functions[k] =                    {triggers={trigger_set_first_for_photograph(), trigger_card_buff(function(self,context) return context.other_card == self.ability.trigger_card and context.cardarea == G.play end, "x_mult")}}
-        --elseif k == 'j_' then joker_functions[k] =                         
-        --elseif k == 'j_' then joker_functions[k] =                         
+        elseif k == 'j_gift' then joker_functions[k] =                          {triggers={trigger_gift_card()}}
+        elseif k == 'j_turtle_bean' then joker_functions[k] =                   {add_deck=function(self,context) G.hand:change_size(self.ability.extra.h_size) end, remove_deck=function(self,context) G.hand:change_size(-self.ability.extra.h_size) end, triggers={trigger_turtle_bean_down()}}
 
-        --elseif k == 'j_' then joker_functions[k] =                         
-        --elseif k == 'j_' then joker_functions[k] =                         
-        --elseif k == 'j_' then joker_functions[k] =                         
-        --elseif k == 'j_' then joker_functions[k] =                         
-        --elseif k == 'j_' then joker_functions[k] =                         
+        elseif k == 'j_erosion' then joker_functions[k] =                       {score=function(self,context) if (G.GAME.starting_deck_size-#G.playing_cards) > 0 then return {mult=(G.GAME.starting_deck_size-#G.playing_cards)*self.ability.extra} end end}
+        elseif k == 'j_reserved_parking' then joker_functions[k] =              {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.hand and context.other_card:is_face() and pseudorandom('parking') < G.GAME.probabilities.normal/self.ability.extra.odds end, "dollars")}}
+        elseif k == 'j_mail' then joker_functions[k] =                          {triggers={trigger_mail_in()}}
+        elseif k == 'j_to_the_moon' then joker_functions[k] =                   {add_deck=function(self,context) G.GAME.interest_amount = G.GAME.interest_amount+self.ability.extra end,remove_deck=function(self,context) G.GAME.interest_amount = G.GAME.interest_amount-self.ability.extra end}
+        elseif k == 'j_hallucination' then joker_functions[k] =                 {triggers={trigger_hallucination()}}
+        elseif k == 'j_fortune_teller' then joker_functions[k] =                {score=function(self,context) return {mult=G.GAME.consumeable_usage_total.tarot} end, triggers={trigger_fortune_teller_iter()}}
+        elseif k == 'j_juggler' then joker_functions[k] =                       {add_deck=add_remove_hand_size(1), remove_deck=add_remove_hand_size(-1)}
+        elseif k == 'j_drunkard' then joker_functions[k] =                      {add_deck=add_remove_discards(1), remove_deck=add_remove_discards(-1)}
+        elseif k == 'j_stone' then joker_functions[k] =                         {score=score_value('chips'), update = update_tally("m_stone", function(self) self.ability.chips = (self.ability.extra * self.ability.tally) end)} -- chance for optimization (update)
+        elseif k == 'j_golden' then joker_functions[k] =                        {triggers={trigger_end_round_money_bonus(function(self,context) return true end, function(self) return self.ability.dollars end)}}
+
+        elseif k == 'j_lucky_cat' then joker_functions[k] =                     {score=score_value('x_mult'), triggers={trigger_lucky_cat()}}
+        elseif k == 'j_baseball' then joker_functions[k] =                      {triggers={trigger_baseball()}}
+        elseif k == 'j_bull' then joker_functions[k] =                          {score=function(self,context) if G.GAME.dollars>0 then return {chips=self.ability.extra*math.max(0,G.GAME.dollars)} end end}
+        elseif k == 'j_diet_cola' then joker_functions[k] =                     {triggers={trigger_diet_cola()}}
+        elseif k == 'j_trading' then joker_functions[k] =                       {triggers={trigger_trading_card(), trigger_first_discard_ability_jiggle()}}
         --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         
@@ -1252,58 +1430,62 @@ end
 
 
 --------------------------------------------------------------------------
+local resets = {
+    function() --reset mail-in rebate
+        G.GAME.current_round.mail_card.rank = 'Ace'
+        local valid_mail_cards = {}
+        for k, v in ipairs(G.playing_cards) do
+            if not v.ability.faceless then
+                valid_mail_cards[#valid_mail_cards+1] = v
+            end
+        end
+        if valid_mail_cards[1] then 
+            local mail_card = pseudorandom_element(valid_mail_cards, pseudoseed('mail'..G.GAME.round_resets.ante))
+            G.GAME.current_round.mail_card.rank = mail_card.base.value
+            G.GAME.current_round.mail_card.id = mail_card.base.id
+        end
+    end,
 
-function reset_idol_card()
-    G.GAME.current_round.idol_card.rank = 'Ace'
-    G.GAME.current_round.idol_card.suit = 'Spades'
-    local valid_idol_cards = {}
-    for k, v in ipairs(G.playing_cards) do
-        if not v.ability.faceless then
-            valid_idol_cards[#valid_idol_cards+1] = v
+    function() -- reset idol
+        G.GAME.current_round.idol_card.rank = 'Ace'
+        G.GAME.current_round.idol_card.suit = 'Spades'
+        local valid_idol_cards = {}
+        for k, v in ipairs(G.playing_cards) do
+            if not v.ability.faceless then
+                valid_idol_cards[#valid_idol_cards+1] = v
+            end
+        end
+        if valid_idol_cards[1] then 
+            local idol_card = pseudorandom_element(valid_idol_cards, pseudoseed('idol'..G.GAME.round_resets.ante))
+            G.GAME.current_round.idol_card.rank = idol_card.base.value
+            G.GAME.current_round.idol_card.suit = idol_card.base.suit
+            G.GAME.current_round.idol_card.id = idol_card.base.id
+        end
+    end,
+
+    function() -- reset ancient
+        local ancient_suits = {}
+        for k, v in ipairs({'Spades','Hearts','Clubs','Diamonds'}) do
+            if v ~= G.GAME.current_round.ancient_card.suit then ancient_suits[#ancient_suits + 1] = v end
+        end
+        local ancient_card = pseudorandom_element(ancient_suits, pseudoseed('anc'..G.GAME.round_resets.ante))
+        G.GAME.current_round.ancient_card.suit = ancient_card
+    end,
+
+    function() -- reset castle
+        G.GAME.current_round.castle_card.suit = 'Spades'
+        local valid_castle_cards = {}
+        for k, v in ipairs(G.playing_cards) do
+            if not v.ability.faceless then
+                valid_castle_cards[#valid_castle_cards+1] = v
+            end
+        end
+        if valid_castle_cards[1] then 
+            local castle_card = pseudorandom_element(valid_castle_cards, pseudoseed('cas'..G.GAME.round_resets.ante))
+            G.GAME.current_round.castle_card.suit = castle_card.base.suit
         end
     end
-    if valid_idol_cards[1] then 
-        local idol_card = pseudorandom_element(valid_idol_cards, pseudoseed('idol'..G.GAME.round_resets.ante))
-        G.GAME.current_round.idol_card.rank = idol_card.base.value
-        G.GAME.current_round.idol_card.suit = idol_card.base.suit
-        G.GAME.current_round.idol_card.id = idol_card.base.id
-    end
-end
+}
 
-function reset_mail_rank()
-    G.GAME.current_round.mail_card.rank = 'Ace'
-    local valid_mail_cards = {}
-    for k, v in ipairs(G.playing_cards) do
-        if not v.ability.faceless then
-            valid_mail_cards[#valid_mail_cards+1] = v
-        end
-    end
-    if valid_mail_cards[1] then 
-        local mail_card = pseudorandom_element(valid_mail_cards, pseudoseed('mail'..G.GAME.round_resets.ante))
-        G.GAME.current_round.mail_card.rank = mail_card.base.value
-        G.GAME.current_round.mail_card.id = mail_card.base.id
-    end
-end
-
-function reset_ancient_card()
-    local ancient_suits = {}
-    for k, v in ipairs({'Spades','Hearts','Clubs','Diamonds'}) do
-        if v ~= G.GAME.current_round.ancient_card.suit then ancient_suits[#ancient_suits + 1] = v end
-    end
-    local ancient_card = pseudorandom_element(ancient_suits, pseudoseed('anc'..G.GAME.round_resets.ante))
-    G.GAME.current_round.ancient_card.suit = ancient_card
-end
-
-function reset_castle_card()
-    G.GAME.current_round.castle_card.suit = 'Spades'
-    local valid_castle_cards = {}
-    for k, v in ipairs(G.playing_cards) do
-        if not v.ability.faceless then
-            valid_castle_cards[#valid_castle_cards+1] = v
-        end
-    end
-    if valid_castle_cards[1] then 
-        local castle_card = pseudorandom_element(valid_castle_cards, pseudoseed('cas'..G.GAME.round_resets.ante))
-        G.GAME.current_round.castle_card.suit = castle_card.base.suit
-    end
-end
+concat_table(global_joker_resets,resets)
+--------------------------------------------------------------------------

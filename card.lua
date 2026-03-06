@@ -318,8 +318,8 @@ function Card:set_ability(center, initial, delay_sprites)
         -- t_chips = center.config.t_chips or 0,
         chips = center.config.chips or 0,
         x_mult = center.config.x_mult or 1,
-        h_size = center.config.h_size or 0,
-        d_size = center.config.d_size or 0,
+        -- h_size = center.config.h_size or 0,
+        -- d_size = center.config.d_size or 0,
         extra = copy_table(center.config.extra) or nil,
         extra_value = 0,
         type = center.config.type or '',
@@ -636,13 +636,13 @@ function Card:add_to_deck(from_debuff)
                 discover_card(G.P_CENTERS['e_base'])
             end
         end
-        if self.ability.h_size ~= 0 then
-            G.hand:change_size(self.ability.h_size)
-        end
-        if self.ability.d_size > 0 then
-            G.GAME.round_resets.discards = G.GAME.round_resets.discards + self.ability.d_size
-            ease_discard(self.ability.d_size)
-        end
+        -- if self.ability.h_size ~= 0 then
+        --     G.hand:change_size(self.ability.h_size)
+        -- end
+        -- if self.ability.d_size > 0 then
+        --     G.GAME.round_resets.discards = G.GAME.round_resets.discards + self.ability.d_size
+        --     ease_discard(self.ability.d_size)
+        -- end
         local card_funcs = get_card_functions(self.ability.id)
         if card_funcs and card_funcs.add_deck then card_funcs.add_deck(self) end
         -- if self.ability.name == 'Credit Card' then
@@ -701,13 +701,13 @@ end
 function Card:remove_from_deck(from_debuff)
     if self.added_to_deck then
         self.added_to_deck = false
-        if self.ability.h_size ~= 0 then
-            G.hand:change_size(-self.ability.h_size)
-        end
-        if self.ability.d_size > 0 then
-            G.GAME.round_resets.discards = G.GAME.round_resets.discards - self.ability.d_size
-            ease_discard(-self.ability.d_size)
-        end
+        -- if self.ability.h_size ~= 0 then
+        --     G.hand:change_size(-self.ability.h_size)
+        -- end
+        -- if self.ability.d_size > 0 then
+        --     G.GAME.round_resets.discards = G.GAME.round_resets.discards - self.ability.d_size
+        --     ease_discard(-self.ability.d_size)
+        -- end
         local card_funcs = get_card_functions(self.ability.id)
         if card_funcs and card_funcs.remove_deck then card_funcs.remove_deck(self) end
         -- if self.ability.name == 'Credit Card' then
@@ -803,11 +803,11 @@ function Card:generate_UIBox_ability_table()
             loc_vars = {self.ability.chips, localize(self.ability.type, 'poker_hands')}
         elseif self.ability.name == 'Half Joker' then loc_vars = {self.ability.mult, self.ability.extra.size}
         elseif self.ability.name == 'Fortune Teller' then loc_vars = {self.ability.extra, (G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.tarot or 0)}
-        elseif self.ability.name == 'Steel Joker' then loc_vars = {self.ability.extra, 1 + self.ability.extra*(self.ability.steel_tally or 0)}
+        elseif self.ability.name == 'Steel Joker' then loc_vars = {self.ability.extra, 1 + self.ability.extra*(self.ability.tally or 0)}
         elseif self.ability.name == 'Chaos the Clown' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Space Joker' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra}
-        elseif self.ability.name == 'Stone Joker' then loc_vars = {self.ability.extra, self.ability.extra*(self.ability.stone_tally or 0)}
-        elseif self.ability.name == 'Drunkard' then loc_vars = {self.ability.d_size}
+        elseif self.ability.name == 'Stone Joker' then loc_vars = {self.ability.extra, self.ability.extra*(self.ability.tally or 0)}
+        elseif self.ability.name == 'Drunkard' then loc_vars = {self.ability.extra.d_size}
         elseif self.ability.name == 'Green Joker' then loc_vars = {self.ability.extra.hand_add, self.ability.extra.discard_sub, self.ability.mult}
         elseif self.ability.name == 'Credit Card' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Greedy Joker' or self.ability.name == 'Lusty Joker' or
@@ -819,8 +819,8 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Pareidolia' then 
         elseif self.ability.name == 'Faceless Joker' then loc_vars = {self.ability.dollars, self.ability.extra.faces}
         elseif self.ability.name == 'Oops! All 6s' then
-        elseif self.ability.name == 'Juggler' then loc_vars = {self.ability.h_size}
-        elseif self.ability.name == 'Golden Joker' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Juggler' then loc_vars = {self.ability.extra.h_size}
+        elseif self.ability.name == 'Golden Joker' then loc_vars = {self.ability.dollars}
         elseif self.ability.name == 'Joker Stencil' then loc_vars = {self.ability.x_mult}
         elseif self.ability.name == 'Four Fingers' then
         elseif self.ability.name == 'Ceremonial Dagger' then loc_vars = {self.ability.mult}
@@ -938,15 +938,15 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Gift Card' then  loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Turtle Bean' then loc_vars = {self.ability.extra.h_size, self.ability.extra.h_mod}
         elseif self.ability.name == 'Erosion' then loc_vars = {self.ability.extra, math.max(0,self.ability.extra*(G.playing_cards and (G.GAME.starting_deck_size - #G.playing_cards) or 0)), G.GAME.starting_deck_size}
-        elseif self.ability.name == 'Reserved Parking' then loc_vars = {self.ability.extra.dollars, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}
+        elseif self.ability.name == 'Reserved Parking' then loc_vars = {self.ability.dollars, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}
         elseif self.ability.name == 'Mail-In Rebate' then loc_vars = {self.ability.extra, localize(G.GAME.current_round.mail_card.rank, 'ranks')}
         elseif self.ability.name == 'To the Moon' then loc_vars = {self.ability.extra}
         elseif self.ability.name == 'Hallucination' then loc_vars = {G.GAME.probabilities.normal, self.ability.extra}
         elseif self.ability.name == 'Lucky Cat' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Baseball Card' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Baseball Card' then loc_vars = {self.ability.x_mult}
         elseif self.ability.name == 'Bull' then loc_vars = {self.ability.extra, self.ability.extra*math.max(0,G.GAME.dollars) or 0}
         elseif self.ability.name == 'Diet Cola' then loc_vars = {localize{type = 'name_text', set = 'Tag', key = 'tag_double', nodes = {}}}
-        elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.dollars}
         elseif self.ability.name == 'Flash Card' then loc_vars = {self.ability.extra, self.ability.mult}
         elseif self.ability.name == 'Popcorn' then loc_vars = {self.ability.mult, self.ability.extra}
         elseif self.ability.name == 'Ramen' then loc_vars = {self.ability.x_mult, self.ability.extra}

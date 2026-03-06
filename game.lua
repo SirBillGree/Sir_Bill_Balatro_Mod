@@ -1874,7 +1874,10 @@ function Game:init_game_object()
     for k, v in pairs(G.P_BLINDS) do 
         if v.boss then bosses_used[k] = 0 end
     end
-    return {
+    -- This list is the inital state of G.GAME when a new run is selected. 
+    -- Alter this list to add additional game-specific vars like "idol_card" and "mail_card",
+    -- as well as to add new default rules like hand-balence changes.
+    local G_GAME = {
         won = false,
         round_scores = {
             furthest_ante = {label = 'Ante', amt = 0},
@@ -1956,7 +1959,7 @@ function Game:init_game_object()
             used_packs = {},
             cards_flipped = 0,
             round_text = 'Round ',
-            idol_card = {suit = 'Spades', rank = 'Ace'},
+            idol_card = {suit = 'Spades', rank = 'Ace'}, 
             mail_card = {rank = 'Ace'},
             ancient_card = {suit = 'Spades'},
             castle_card = {suit = 'Spades'},
@@ -2023,6 +2026,7 @@ function Game:init_game_object()
             ["High Card"] =         {visible = true,    order = 12,mult = 1,   chips = 5,   s_mult = 1,   s_chips = 5,   level = 1, l_mult = 1, l_chips = 10, played = 0, played_this_round = 0, example = {{'S_A', true},{'D_Q', false},{'D_9', false},{'C_4', false},{'D_3', false}}},
         }
     }
+    return G_GAME
 end
 
 function Game:start_run(args)

@@ -22,21 +22,21 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_obelisk'},
-            {id = 'j_luchador'},
-            {id = 'j_midas_mask'},
-            {id = 'j_photograph'},
+            {id = 'j_bull'},
+            {id = 'j_diet_cola'},
+            {id = 'j_trading'},
             {id = 'j_blueprint'},
         },
         consumeables = {
             {id = 'c_chariot'},
+            {id = 'c_tower'},
             {id = 'c_cryptid'},
         },
         vouchers = {
             --{id = 'v_hieroglyph'},
         },
         deck = {
-            --cards = {{s='D',r='8',e='m_glass',},{s='D',r='9',e='m_glass',},{s='D',r='T',e='m_glass',},{s='D',r='7',e='m_glass',},{s='D',r='6',e='m_glass',}},
+            --cards = {{s='D',r='8',e='m_lucky',},{s='D',r='9',e='m_lucky',},{s='D',r='T',e='m_lucky',},{s='D',r='7',e='m_lucky',},{s='D',r='6',e='m_lucky',}},
             --{{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},},
             type = 'Challenge Deck'
         },
