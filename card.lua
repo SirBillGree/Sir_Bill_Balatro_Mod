@@ -950,11 +950,11 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Flash Card' then loc_vars = {self.ability.extra, self.ability.mult}
         elseif self.ability.name == 'Popcorn' then loc_vars = {self.ability.mult, self.ability.extra}
         elseif self.ability.name == 'Ramen' then loc_vars = {self.ability.x_mult, self.ability.extra}
-        elseif self.ability.name == 'Ancient Joker' then loc_vars = {self.ability.extra, localize(G.GAME.current_round.ancient_card.suit, 'suits_singular'), colours = {G.C.SUITS[G.GAME.current_round.ancient_card.suit]}}
-        elseif self.ability.name == 'Walkie Talkie' then loc_vars = {self.ability.extra.chips, self.ability.extra.mult}
-        elseif self.ability.name == 'Seltzer' then loc_vars = {self.ability.extra} -- when moving to jokers.lua, change to {self.ability.extra.rounds}
-        elseif self.ability.name == 'Castle' then loc_vars = {self.ability.extra.chips, localize(G.GAME.current_round.castle_card.suit, 'suits_singular'), self.ability.extra.chips, colours = {G.C.SUITS[G.GAME.current_round.castle_card.suit]}}
-        elseif self.ability.name == 'Smiley Face' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Ancient Joker' then loc_vars = {self.ability.x_mult, localize(G.GAME.current_round.ancient_card.suit, 'suits_singular'), colours = {G.C.SUITS[G.GAME.current_round.ancient_card.suit]}}
+        elseif self.ability.name == 'Walkie Talkie' then loc_vars = {self.ability.chips, self.ability.mult}
+        elseif self.ability.name == 'Seltzer' then loc_vars = {self.ability.extra.hands}
+        elseif self.ability.name == 'Castle' then loc_vars = {self.ability.extra.chip_mod, localize(G.GAME.current_round.castle_card.suit, 'suits_singular'), self.ability.chips, colours = {G.C.SUITS[G.GAME.current_round.castle_card.suit]}}
+        elseif self.ability.name == 'Smiley Face' then loc_vars = {self.ability.mult}
         elseif self.ability.name == 'Campfire' then loc_vars = {self.ability.extra, self.ability.x_mult}
         elseif self.ability.name == 'Stuntman' then loc_vars = {self.ability.extra.chips, self.ability.extra.h_size}
         elseif self.ability.name == 'Invisible Joker' then loc_vars = {self.ability.extra, self.ability.invis_rounds}
@@ -1171,7 +1171,7 @@ function Card:score(context)
     loc_vals.final_table = {}
     for i = 1,#loc_vals.reps do
         -- add rep notification if there's an output to repeat
-        if (i~=1 or loc_vals.score_table == {}) then table.insert(loc_vals.final_table, {extra=loc_vals.reps[i]}) end
+        if (i~=1 or loc_vals.score_table == {}) then table.insert(loc_vals.final_table, loc_vals.reps[i]) end
         -- eval all score sources
         for ii = 1,#score_sources do
             score_sources[ii].func(self,loc_vals,context)

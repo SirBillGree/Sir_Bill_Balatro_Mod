@@ -158,17 +158,17 @@ vanilla_jokers_set = {
         j_bull=             {order = 93,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Bull", set = "Joker", config = {extra = 2}, pos = {x=7,y=14}},
         j_diet_cola=        {order = 94,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 6, name = "Diet Cola",set = "Joker", config = {}, pos = {x=8,y=14}},
         j_trading=          {order = 95,   unlocked = true, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Trading Card",set = "Joker", config = {dollars = 3}, pos = {x=9,y=14}},
+        j_flash=            {order = 96,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 5, name = "Flash Card",set = "Joker", config = {extra = 2, mult = 0}, pos = {x=0,y=15}},
+        j_popcorn=          {order = 97,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 1, cost = 5, name = "Popcorn",set = "Joker", config = {mult = 20, extra = 4}, pos = {x=1,y=15}},
+        j_trousers=         {order = 98,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Spare Trousers",set = "Joker", config = {extra = 2}, pos = {x=4,y=15}},
+        j_ancient=          {order = 99,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "Ancient Joker",set = "Joker", config = {x_mult = 1.5}, pos = {x=7,y=15}},
+        j_ramen=            {order = 100,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 6, name = "Ramen",set = "Joker", config = {x_mult = 2, extra = 0.01}, pos = {x=2,y=15}},
+        j_walkie_talkie=    {order = 101,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Walkie Talkie",set = "Joker", config = {chips = 10, mult = 4}, pos = {x=8,y=15}},
+        j_selzer=           {order = 102,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 6, name = "Seltzer",set = "Joker", config = {extra = {hands = 10, reps = 1}}, pos = {x=3,y=15}},
+        j_castle=           {order = 103,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Castle",set = "Joker", config = {chips = 0, extra = {chip_mod = 3}}, pos = {x=9,y=15}},
+        j_smiley=           {order = 104,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Smiley Face",set = "Joker", config = {mult = 5}, pos = {x=6,y=15}},
+        j_campfire=         {order = 105,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 9, name = "Campfire",set = "Joker", config = {extra = 0.25}, pos = {x=5,y=15}},
         -- ^ Implemented functionality ^ --
-        -- j_flash=            {order = 96,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 5, name = "Flash Card",set = "Joker", config = {extra = 2, mult = 0}, pos = {x=0,y=15}},
-        -- j_popcorn=          {order = 97,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 1, cost = 5, name = "Popcorn",set = "Joker", config = {mult = 20, extra = 4}, pos = {x=1,y=15}},
-        -- j_trousers=         {order = 98,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Spare Trousers",set = "Joker", config = {extra = 2}, pos = {x=4,y=15}},
-        -- j_ancient=          {order = 99,   unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "Ancient Joker",set = "Joker", config = {extra = 1.5}, pos = {x=7,y=15}},
-        -- j_ramen=            {order = 100,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 6, name = "Ramen",set = "Joker", config = {x_mult = 2, extra = 0.01}, pos = {x=2,y=15}},
-        -- j_walkie_talkie=    {order = 101,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Walkie Talkie",set = "Joker", config = {extra = {chips = 10, mult = 4}}, pos = {x=8,y=15}},
-        -- j_selzer=           {order = 102,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 6, name = "Seltzer",set = "Joker", config = {extra = {rounds = 10, reps = 1}}, pos = {x=3,y=15}},
-        -- j_castle=           {order = 103,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Castle",set = "Joker", config = {extra = {chips = 0, chip_mod = 3}}, pos = {x=9,y=15}},
-        -- j_smiley=           {order = 104,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Smiley Face",set = "Joker", config = {extra = 5}, pos = {x=6,y=15}},
-        -- j_campfire=         {order = 105,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 9, name = "Campfire",set = "Joker", config = {extra = 0.25}, pos = {x=5,y=15}},
 
         -- j_ticket=           {order = 106,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Golden Ticket", pos = {x=5,y=3}, set = "Joker", effect = "dollars for Gold cards", cost_mult = 1.0, config = {extra = 4},unlock_condition = {type = 'hand_contents', extra = 'Gold'}, enhancement_gate = 'm_gold'},
         -- j_mr_bones=         {order = 107,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 5, name = "Mr. Bones", pos = {x=3,y=4}, set = "Joker", effect = "Prevent Death", cost_mult = 1.0, config = {},unlock_condition = {type = 'c_losses', extra = 5}},
@@ -238,12 +238,24 @@ local function define_joker_functions()
 
     -- val_name: string = 'chips', 'mult', 'x_mult', 'dollars'
     -- cond (condition): function, takes (self, context), returns true/false
-    local function score_value(val_name, cond)
+    -- local function score_value(val_name, cond)
+    --     cond = cond or function(x, xx) return true end
+    --     return function(self, context)
+    --         local ret = {}
+    --         if cond(self, context) then ret[val_name] = self.ability[val_name] end -- removed: context.cardarea == G.jokers and context.score and 
+    --         return ret
+    --     end
+    -- end
+
+    local function score_value(val, cond) 
         cond = cond or function(x, xx) return true end
+        if type(val) == "string" then val = {val} end
         return function(self, context)
-            local ret = {}
-            if cond(self, context) then ret[val_name] = self.ability[val_name] end -- removed: context.cardarea == G.jokers and context.score and 
-            return ret
+            if cond(self,context) then
+                local r = {card = self}
+                for _,v in pairs(val) do r[v] = self.ability[v] end
+                return r
+            end
         end
     end
 
@@ -364,89 +376,6 @@ local function define_joker_functions()
         end
     end end
 
-    --------------------------------------------------------
-    --                     BUFF CARDS                     --
-    --------------------------------------------------------
-
-    -- Base Version --
-    local function trigger_card_buff(cond, val) 
-        cond = cond or function(x, xx) return true end
-        if type(val) == "string" then val = {val} end
-        return function(self, context)
-            if context.individual and cond(self,context) then
-                local r = {card = self}
-                for _,v in pairs(val) do r[v] = self.ability[v] end
-                return r
-            end
-    end end
-
-    -- conditions --
-
-    local function blackboard_cond() return function(self, context)
-        for _,card in pairs(G.hand.cards) do 
-            if not(card:is_suit("Clubs") or card:is_suit("Spades")) then return end 
-        end
-        return true
-    end end
-
-    -- Specific Versions --
-
-    local function trigger_lowest_raised_fist() return function(self, context)
-        if context.individual and context.cardarea == G.hand then
-            -- Trigger card if smallest (trigger card set in "trigger_set_lowest_for_raised_fist()")
-            if self.ability.trigger_card == context.other_card then
-                return {
-                    mult = 2*context.other_card.base.nominal,
-                    card = self
-                }
-            end
-        end
-    end end
-
-    local function trigger_8_ball() return function(self, context)
-        if context.individual and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
-            if (context.other_card:get_id() == 8) and (pseudorandom('8ball') < G.GAME.probabilities.normal/self.ability.extra) then
-                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
-                return {
-                    extra = {focus = self, message = localize('k_plus_tarot'), func = function()
-                        G.E_MANAGER:add_event(Event({
-                            trigger = 'before',
-                            delay = 0.0,
-                            func = (function()
-                                    local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, '8ba')
-                                    card:add_to_deck()
-                                    G.consumeables:emplace(card)
-                                    G.GAME.consumeable_buffer = 0
-                                return true
-                            end)}))
-                    end},
-                    colour = G.C.SECONDARY_SET.Tarot,
-                    card = self
-                }
-            end
-        end
-    end end
-
-    local function trigger_hiker() return function(self,context)
-        if context.individual and context.cardarea == G.play then
-            context.other_card.perma.chips = context.other_card.perma.chips + self.ability.extra
-            return {
-                extra = {message = localize('k_upgrade_ex'), colour = G.C.CHIPS},
-                card = self
-            }
-        end
-    end end
-
-    ---------------------------------------------------------
-    --                     BUFF JOKERS                     --
-    ---------------------------------------------------------
-    
-    local function trigger_baseball() return function(self,context)
-        if context.individual and context.cardarea == G.jokers and context.other_card.config.center.rarity == 2 then
-            return {x_mult = self.ability.x_mult, card = self}
-        end
-    end end
-
     ---------------------------------------------------------
     --                     AFTER SCORE                     --
     ---------------------------------------------------------
@@ -479,6 +408,39 @@ local function define_joker_functions()
                 return {
                     message = localize{type='variable',key='a_chips_minus',vars={self.ability.chips}},
                     colour = G.C.CHIPS
+                }
+            end
+        end
+    end end
+
+    local function trigger_seltzer_iter() return function(self, context)
+        if context.after and not context.individual and not context.repetition and not context.blueprint then
+            if self.ability.extra.hands - 1 <= 0 then 
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        self.T.r = -0.2
+                        self:juice_up(0.3, 0.4)
+                        self.states.drag.is = true
+                        self.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(self)
+                                    self:remove()
+                                    self = nil
+                                return true; end})) 
+                        return true
+                    end
+                })) 
+                return {
+                    message = localize('k_drank_ex'),
+                    colour = G.C.FILTER
+                }
+            else
+                self.ability.extra.hands = self.ability.extra.hands - 1
+                return {
+                    message = self.ability.extra.hands..'',
+                    colour = G.C.FILTER
                 }
             end
         end
@@ -695,6 +657,17 @@ local function define_joker_functions()
         end
     end end
 
+    local function trigger_trousers() return function(self, context)
+        if context.before_score and (next(context.poker_hands['Two Pair']) or next(context.poker_hands['Full House'])) and not context.blueprint then
+            self.ability.mult = self.ability.mult + self.ability.extra
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.RED,
+                card = self
+            }
+        end
+    end end
+
     ----------------------------------------------------------
     --                     BEFORE ROUND                     --
     ----------------------------------------------------------
@@ -800,9 +773,94 @@ local function define_joker_functions()
         end
     end end
 
-    --------------------------------------------------------------
-    --                     USING CONSUMABLE                     --
-    --------------------------------------------------------------
+    --------------------------------------------------------
+    --                     BUFF CARDS                     --
+    --------------------------------------------------------
+
+    -- Base Version --
+    local function trigger_card_buff(cond, val) 
+        cond = cond or function(x, xx) return true end
+        if type(val) == "string" then val = {val} end
+        return function(self, context)
+            if context.individual and cond(self,context) then
+                local r = {card = self}
+                for _,v in pairs(val) do r[v] = self.ability[v] end
+                return r
+            end
+        end
+    end
+
+    -- conditions --
+
+    local function blackboard_cond() return function(self, context)
+        for _,card in pairs(G.hand.cards) do 
+            if not(card:is_suit("Clubs") or card:is_suit("Spades")) then return end 
+        end
+        return true
+    end end
+
+    -- Specific Versions --
+
+    local function trigger_lowest_raised_fist() return function(self, context)
+        if context.individual and context.cardarea == G.hand then
+            -- Trigger card if smallest (trigger card set in "trigger_set_lowest_for_raised_fist()")
+            if self.ability.trigger_card == context.other_card then
+                return {
+                    mult = 2*context.other_card.base.nominal,
+                    card = self
+                }
+            end
+        end
+    end end
+
+    local function trigger_8_ball() return function(self, context)
+        if context.individual and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
+            if (context.other_card:get_id() == 8) and (pseudorandom('8ball') < G.GAME.probabilities.normal/self.ability.extra) then
+                G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
+                return {
+                    extra = {focus = self, message = localize('k_plus_tarot'), func = function()
+                        G.E_MANAGER:add_event(Event({
+                            trigger = 'before',
+                            delay = 0.0,
+                            func = (function()
+                                    local card = create_card('Tarot',G.consumeables, nil, nil, nil, nil, nil, '8ba')
+                                    card:add_to_deck()
+                                    G.consumeables:emplace(card)
+                                    G.GAME.consumeable_buffer = 0
+                                return true
+                            end)}))
+                    end},
+                    colour = G.C.SECONDARY_SET.Tarot,
+                    card = self
+                }
+            end
+        end
+    end end
+
+    local function trigger_hiker() return function(self,context)
+        if context.individual and context.cardarea == G.play then
+            context.other_card.perma.chips = context.other_card.perma.chips + self.ability.extra
+            return {
+                extra = {message = localize('k_upgrade_ex'), colour = G.C.CHIPS},
+                card = self
+            }
+        end
+    end end
+
+    ---------------------------------------------------------
+    --                     BUFF JOKERS                     --
+    ---------------------------------------------------------
+    
+    local function trigger_baseball() return function(self,context)
+        if context.individual and context.cardarea == G.jokers and context.other_card.config.center.rarity == 2 then
+            return {x_mult = self.ability.x_mult, card = self}
+        end
+    end end
+
+
+    -------------------------------------------------------------
+    --                     CONSUMABLE USED                     --
+    -------------------------------------------------------------
 
     local function trigger_constellation() return function(self, context)
         if context.using_consumeable and not context.blueprint and context.consumeable.ability.set == 'Planet' then
@@ -880,7 +938,218 @@ local function define_joker_functions()
             }
         end
     end end
-    
+
+    local function trigger_ramen_iter() return function(self, context)
+        if context.discard and not context.blueprint then
+            if self.ability.x_mult - self.ability.extra <= 1 then 
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        self.T.r = -0.2
+                        self:juice_up(0.3, 0.4)
+                        self.states.drag.is = true
+                        self.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(self)
+                                    self:remove()
+                                    self = nil
+                                return true; end})) 
+                        return true
+                    end
+                })) 
+                return {
+                    message = localize('k_eaten_ex'),
+                    colour = G.C.FILTER
+                }
+            else
+                self.ability.x_mult = self.ability.x_mult - self.ability.extra
+                return {
+                    delay = 0.2,
+                    message = localize{type='variable',key='a_x_mult_minus',vars={self.ability.extra}},
+                    colour = G.C.RED
+                }
+            end
+        end
+    end end
+
+    local function trigger_castle_upgrade() return function(self, context)
+        if context.discard and not context.blueprint and not context.other_card.debuff and context.other_card:is_suit(G.GAME.current_round.castle_card.suit) then
+            self.ability.chips = self.ability.chips + self.ability.extra.chip_mod
+            return {
+                message = localize('k_upgrade_ex'),
+                card = self,
+                colour = G.C.CHIPS
+            }
+        end
+    end end
+
+    ------------------------------------------------------
+    --                     END ROUND                    --
+    ------------------------------------------------------
+
+    local function trigger_extinct(pseed) return function (self, context)
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            if pseudorandom(pseed) < G.GAME.probabilities.normal/self.ability.extra.odds then 
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        self.T.r = -0.2
+                        self:juice_up(0.3, 0.4)
+                        self.states.drag.is = true
+                        self.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(self)
+                                    self:remove()
+                                    self = nil
+                                return true; end})) 
+                        return true
+                    end
+                })) 
+                if self.ability.name == 'Gros Michel' then G.GAME.pool_flags.gros_michel_extinct = true end
+                return {
+                    message = localize('k_extinct_ex')
+                }
+            else
+                return {
+                    message = localize('k_safe_ex')
+                }
+            end
+        end
+    end end
+
+    local function trigger_egg() return function(self, context) 
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            self.ability.extra_value = self.ability.extra_value + self.ability.extra
+            self:set_cost()
+            return {
+                message = localize('k_val_up'),
+                colour = G.C.MONEY
+            }
+        end
+    end end
+
+    local function trigger_reset_todo() return function(self, context) 
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            local _poker_hands = {}
+            for k, v in pairs(G.GAME.hands) do
+                if v.visible and k ~= self.ability.extra.poker_hand then _poker_hands[#_poker_hands+1] = k end
+            end
+            self.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed('to_do'))
+            return {
+                message = localize('k_reset')
+            }
+        end
+    end end
+
+    local function trigger_rocket_up() return function(self, context) 
+        if context.end_of_round and not context.individual and not context.repetition and not context.blueprint and G.GAME.blind.boss then
+            self.ability.dollars = self.ability.dollars + self.ability.extra.increase
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.MONEY
+            }
+        end
+    end end
+
+    local function trigger_gift_card() return function(self, context)
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            for k, v in ipairs(G.jokers.cards) do
+                if v.set_cost then 
+                    v.ability.extra_value = (v.ability.extra_value or 0) + self.ability.extra
+                    v:set_cost()
+                end
+            end
+            for k, v in ipairs(G.consumeables.cards) do
+                if v.set_cost then 
+                    v.ability.extra_value = (v.ability.extra_value or 0) + self.ability.extra
+                    v:set_cost()
+                end
+            end
+            return {
+                message = localize('k_val_up'),
+                colour = G.C.MONEY
+            }
+        end
+    end end
+
+    local function trigger_turtle_bean_down() return function(self, context)
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            if self.ability.extra.h_size - self.ability.extra.h_mod <= 0 then 
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        self.T.r = -0.2
+                        self:juice_up(0.3, 0.4)
+                        self.states.drag.is = true
+                        self.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(self)
+                                    self:remove()
+                                    self = nil
+                                return true; end})) 
+                        return true
+                    end
+                })) 
+                return {
+                    message = localize('k_eaten_ex'),
+                    colour = G.C.FILTER
+                }
+            else
+                self.ability.extra.h_size = self.ability.extra.h_size - self.ability.extra.h_mod
+                G.hand:change_size(- self.ability.extra.h_mod)
+                return {
+                    message = localize{type='variable',key='a_handsize_minus',vars={self.ability.extra.h_mod}},
+                    colour = G.C.FILTER
+                }
+            end
+        end
+    end end
+
+    local function trigger_popcorn_iter() return function(self, context)
+        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
+            if self.ability.mult - self.ability.extra <= 0 then 
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        play_sound('tarot1')
+                        self.T.r = -0.2
+                        self:juice_up(0.3, 0.4)
+                        self.states.drag.is = true
+                        self.children.center.pinch.x = true
+                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
+                            func = function()
+                                    G.jokers:remove_card(self)
+                                    self:remove()
+                                    self = nil
+                                return true; end})) 
+                        return true
+                    end
+                })) 
+                return {
+                    message = localize('k_eaten_ex'),
+                    colour = G.C.RED
+                }
+            else
+                self.ability.mult = self.ability.mult - self.ability.extra
+                return {
+                    message = localize{type='variable',key='a_mult_minus',vars={self.ability.extra}},
+                    colour = G.C.MULT
+                }
+            end
+        end
+    end end
+
+    local function trigger_campfire_reset() return function(self, context)
+        if context.end_of_round and not context.blueprint and G.GAME.blind.boss and self.ability.x_mult > 1 then
+            self.ability.x_mult = 1
+            return {
+                message = localize('k_reset'),
+                colour = G.C.RED
+            }
+        end
+    end end
 
     -------------------------------------------------------------------
     --                     END ROUND MONEY BONUS                     --
@@ -934,6 +1203,34 @@ local function define_joker_functions()
                     end)}))
                 card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_plus_tarot'), colour = G.C.PURPLE})
             end
+        end
+    end end
+
+    ----------------------------------------------------------
+    --                     RE-ROLL SHOP                     --
+    ----------------------------------------------------------
+
+    local function trigger_flash_card() return function(self, context)
+        if context.reroll_shop and not context.blueprint then
+            self.ability.mult = self.ability.mult + self.ability.extra
+            G.E_MANAGER:add_event(Event({
+                func = (function()
+                    card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_mult', vars = {self.ability.mult}}, colour = G.C.MULT})
+                return true
+            end)}))
+        end
+    end end
+
+    -------------------------------------------------------------
+    --                     SELL OTHER CARD                     --
+    -------------------------------------------------------------
+
+    local function trigger_campfire_upgrade() return function(self, context)
+        if context.selling_card and not context.blueprint then
+            self.ability.x_mult = self.ability.x_mult + self.ability.extra
+            G.E_MANAGER:add_event(Event({
+                func = function() card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_upgrade_ex')}); return true
+                end}))
         end
     end end
 
@@ -1106,132 +1403,6 @@ local function define_joker_functions()
         end
     end end
 
-    ------------------------------------------------------
-    ------------------------------------------------------
-    --                     END ROUND                    --
-    ------------------------------------------------------
-    ------------------------------------------------------
-
-    local function trigger_extinct(pseed) return function (self, context)
-        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            if pseudorandom(pseed) < G.GAME.probabilities.normal/self.ability.extra.odds then 
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        self.T.r = -0.2
-                        self:juice_up(0.3, 0.4)
-                        self.states.drag.is = true
-                        self.children.center.pinch.x = true
-                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-                            func = function()
-                                    G.jokers:remove_card(self)
-                                    self:remove()
-                                    self = nil
-                                return true; end})) 
-                        return true
-                    end
-                })) 
-                if self.ability.name == 'Gros Michel' then G.GAME.pool_flags.gros_michel_extinct = true end
-                return {
-                    message = localize('k_extinct_ex')
-                }
-            else
-                return {
-                    message = localize('k_safe_ex')
-                }
-            end
-        end
-    end end
-
-    local function trigger_egg() return function(self, context) 
-        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            self.ability.extra_value = self.ability.extra_value + self.ability.extra
-            self:set_cost()
-            return {
-                message = localize('k_val_up'),
-                colour = G.C.MONEY
-            }
-        end
-    end end
-
-    local function trigger_reset_todo() return function(self, context) 
-        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            local _poker_hands = {}
-            for k, v in pairs(G.GAME.hands) do
-                if v.visible and k ~= self.ability.extra.poker_hand then _poker_hands[#_poker_hands+1] = k end
-            end
-            self.ability.extra.poker_hand = pseudorandom_element(_poker_hands, pseudoseed('to_do'))
-            return {
-                message = localize('k_reset')
-            }
-        end
-    end end
-
-    local function trigger_rocket_up() return function(self, context) 
-        if context.end_of_round and not context.individual and not context.repetition and not context.blueprint and G.GAME.blind.boss then
-            self.ability.dollars = self.ability.dollars + self.ability.extra.increase
-            return {
-                message = localize('k_upgrade_ex'),
-                colour = G.C.MONEY
-            }
-        end
-    end end
-
-    local function trigger_gift_card() return function(self, context)
-        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            for k, v in ipairs(G.jokers.cards) do
-                if v.set_cost then 
-                    v.ability.extra_value = (v.ability.extra_value or 0) + self.ability.extra
-                    v:set_cost()
-                end
-            end
-            for k, v in ipairs(G.consumeables.cards) do
-                if v.set_cost then 
-                    v.ability.extra_value = (v.ability.extra_value or 0) + self.ability.extra
-                    v:set_cost()
-                end
-            end
-            return {
-                message = localize('k_val_up'),
-                colour = G.C.MONEY
-            }
-        end
-    end end
-
-    local function trigger_turtle_bean_down() return function(self, context)
-        if context.end_of_round and not context.blueprint and not context.repetition and not context.individual then
-            if self.ability.extra.h_size - self.ability.extra.h_mod <= 0 then 
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        play_sound('tarot1')
-                        self.T.r = -0.2
-                        self:juice_up(0.3, 0.4)
-                        self.states.drag.is = true
-                        self.children.center.pinch.x = true
-                        G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.3, blockable = false,
-                            func = function()
-                                    G.jokers:remove_card(self)
-                                    self:remove()
-                                    self = nil
-                                return true; end})) 
-                        return true
-                    end
-                })) 
-                return {
-                    message = localize('k_eaten_ex'),
-                    colour = G.C.FILTER
-                }
-            else
-                self.ability.extra.h_size = self.ability.extra.h_size - self.ability.extra.h_mod
-                G.hand:change_size(- self.ability.extra.h_mod)
-                return {
-                    message = localize{type='variable',key='a_handsize_minus',vars={self.ability.extra.h_mod}},
-                    colour = G.C.FILTER
-                }
-            end
-        end
-    end end
-
 
     -------------------------------------------------------------
     -------------------------------------------------------------
@@ -1246,10 +1417,9 @@ local function define_joker_functions()
         return function(self, context)
             if context.repetition and cond(self, context) then
                 return {
-                        message = localize('k_again_ex'),
                         repetitions = self.ability.extra.reps,
-                        card = self
-                    }
+                        card = self,
+                }
             end
         end
     end
@@ -1381,7 +1551,7 @@ local function define_joker_functions()
         elseif k == 'j_vagabond' then joker_functions[k] =                      {score=trigger_vagabond()}
         elseif k == 'j_baron' then joker_functions[k] =                         {triggers={trigger_card_buff(other_card_rank_cond({13}, function(self,context) return context.cardarea == G.hand and context.score end), 'x_mult')}}
         elseif k == 'j_cloud_9' then joker_functions[k] =                       {triggers={trigger_end_round_money_bonus(function(self,context) return self.ability.nine_tally > 0 end,function(self) return self.ability.nine_tally end)}, update=upd_cloud_9()}
-        elseif k == 'j_rocket' then joker_functions[k] =                        {triggers={trigger_rocket_up(), trigger_end_round_money_bonus(function(self,context) return true end, function(self) return self.ability.dollars end)}}
+        elseif k == 'j_rocket' then joker_functions[k] =                        {triggers={trigger_rocket_up(), trigger_end_round_money_bonus(nil, function(self) return self.ability.dollars end)}}
         elseif k == 'j_obelisk' then joker_functions[k] =                       {score=score_value('x_mult'), triggers={trigger_obelisk()}}
         elseif k == 'j_midas_mask' then joker_functions[k] =                    {triggers={trigger_midas_mask()}}
         elseif k == 'j_luchador' then joker_functions[k] =                      {triggers={trigger_luchador()}}
@@ -1398,13 +1568,24 @@ local function define_joker_functions()
         elseif k == 'j_juggler' then joker_functions[k] =                       {add_deck=add_remove_hand_size(1), remove_deck=add_remove_hand_size(-1)}
         elseif k == 'j_drunkard' then joker_functions[k] =                      {add_deck=add_remove_discards(1), remove_deck=add_remove_discards(-1)}
         elseif k == 'j_stone' then joker_functions[k] =                         {score=score_value('chips'), update = update_tally("m_stone", function(self) self.ability.chips = (self.ability.extra * self.ability.tally) end)} -- chance for optimization (update)
-        elseif k == 'j_golden' then joker_functions[k] =                        {triggers={trigger_end_round_money_bonus(function(self,context) return true end, function(self) return self.ability.dollars end)}}
+        elseif k == 'j_golden' then joker_functions[k] =                        {triggers={trigger_end_round_money_bonus(nil, function(self) return self.ability.dollars end)}}
 
         elseif k == 'j_lucky_cat' then joker_functions[k] =                     {score=score_value('x_mult'), triggers={trigger_lucky_cat()}}
         elseif k == 'j_baseball' then joker_functions[k] =                      {triggers={trigger_baseball()}}
         elseif k == 'j_bull' then joker_functions[k] =                          {score=function(self,context) if G.GAME.dollars>0 then return {chips=self.ability.extra*math.max(0,G.GAME.dollars)} end end}
         elseif k == 'j_diet_cola' then joker_functions[k] =                     {triggers={trigger_diet_cola()}}
         elseif k == 'j_trading' then joker_functions[k] =                       {triggers={trigger_trading_card(), trigger_first_discard_ability_jiggle()}}
+        elseif k == 'j_flash' then joker_functions[k] =                         {score=score_value('mult'), triggers={trigger_flash_card()}}
+        elseif k == 'j_popcorn' then joker_functions[k] =                       {score=score_value('mult'), triggers={trigger_popcorn_iter()}}
+        elseif k == 'j_trousers' then joker_functions[k] =                      {score=score_value('mult'), triggers={trigger_trousers()}}
+        elseif k == 'j_ancient' then joker_functions[k] =                       {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card:is_suit(G.GAME.current_round.ancient_card.suit) end, 'x_mult')}}
+        elseif k == 'j_ramen' then joker_functions[k] =                         {score=score_value('x_mult'), triggers={trigger_ramen_iter()}}
+
+        elseif k == 'j_walkie_talkie' then joker_functions[k] =                 {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and (context.other_card:get_id() == 10 or context.other_card:get_id() == 4) end, {'chips','mult'})}}
+        elseif k == 'j_selzer' then joker_functions[k] =                        {triggers={trigger_seltzer_iter(), get_repitions(function(self,context) return context.cardarea == G.play end)}}
+        elseif k == 'j_castle' then joker_functions[k] =                        {score=score_value('chips'), triggers={trigger_castle_upgrade()}}
+        elseif k == 'j_smiley' then joker_functions[k] =                        {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card:is_face() end, "mult")}}
+        elseif k == 'j_campfire' then joker_functions[k] =                      {score=score_value('x_mult'), triggers={trigger_campfire_upgrade(), trigger_campfire_reset()}}
         --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         
@@ -1431,7 +1612,7 @@ end
 
 --------------------------------------------------------------------------
 local resets = {
-    function() --reset mail-in rebate
+    function() --reset j_mail
         G.GAME.current_round.mail_card.rank = 'Ace'
         local valid_mail_cards = {}
         for k, v in ipairs(G.playing_cards) do
@@ -1446,7 +1627,7 @@ local resets = {
         end
     end,
 
-    function() -- reset idol
+    function() -- reset j_idol
         G.GAME.current_round.idol_card.rank = 'Ace'
         G.GAME.current_round.idol_card.suit = 'Spades'
         local valid_idol_cards = {}
@@ -1463,7 +1644,7 @@ local resets = {
         end
     end,
 
-    function() -- reset ancient
+    function() -- reset j_ancient
         local ancient_suits = {}
         for k, v in ipairs({'Spades','Hearts','Clubs','Diamonds'}) do
             if v ~= G.GAME.current_round.ancient_card.suit then ancient_suits[#ancient_suits + 1] = v end
@@ -1472,7 +1653,7 @@ local resets = {
         G.GAME.current_round.ancient_card.suit = ancient_card
     end,
 
-    function() -- reset castle
+    function() -- reset j_castle
         G.GAME.current_round.castle_card.suit = 'Spades'
         local valid_castle_cards = {}
         for k, v in ipairs(G.playing_cards) do

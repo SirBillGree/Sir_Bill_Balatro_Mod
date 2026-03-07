@@ -801,6 +801,9 @@ card_eval_status_text_type_settings = {
     debuff = function(amt, loc_vars) 
         loc_vars.sound = 'cancel'; loc_vars.colour = G.C.RED; loc_vars.scale = 0.6; loc_vars.text = localize('k_debuffed')
     end,
+    repetitions = function(amt, loc_vars) 
+        loc_vars.sound = 'generic1'; loc_vars.text = localize('k_again_ex');
+    end,
     chips = function(amt, loc_vars) 
         loc_vars.sound = 'chips1'; loc_vars.colour = G.C.CHIPS; loc_vars.delay = 0.6; loc_vars.text = localize{type='variable',key='a_chips',vars={amt}}
     end,
@@ -831,6 +834,7 @@ function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
         scale = extra.scale or 1,
         delay = extra.delay or 0.65,
         colour = (extra and extra.colour) or ( G.C.FILTER ),
+        func = extra.func or nil,
     }
 
     -- render text on top or bottom based on cardarea name
@@ -865,7 +869,7 @@ function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
                     G.ROOM.jiggle = G.ROOM.jiggle + 0.7
                 end
                 -- play functions associated with score_unit
-                if extra.func then extra.func() end
+                if loc_vars.func then loc_vars.func() end
                 return true
             end
     }))

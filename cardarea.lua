@@ -678,12 +678,11 @@ end
 
 -- these are values that trigger card_eval_status_text() and update internal values.
 -- Need to be in order that they'd execute
-score_types = {'debuff', 'message', 'repetitions', 'jokers', 'chips', 'mult', 'dollars', 'extra', 'x_mult'} -- add 'message'?
+score_types = {'debuff', 'message', 'repetitions', 'jokers', 'chips', 'mult', 'dollars', 'extra', 'x_mult'}
 
 -- addtional functions to evaluate during scoring
 additional_score_eval_functions = {
-    {name = 'challenge: chip dollar cap',
-    func = function(total_score, s)
+    {name = 'challenge: chip dollar cap', func = function(total_score, s)
         if (G.GAME.modifiers.chips_dollar_cap and s == 'chips') then
             total_score[s] = math.min(total_score[s], math.max(G.GAME.dollars, 0))
         end
@@ -717,13 +716,12 @@ function CardArea:score(context, total_score, percent, percent_delta, specific_c
             for v=1,#score_types do s=score_types[v]
                 if score_unit[s] then
                     if score_unit.card then juice_card(score_unit.card) end
-                    if score_unit.message then score_unit.extra = score_unit end
 
                     -- Base scoring conditions
-                    if total_score[s] and score_unit[s] ~= 0 then total_score[s] = total_score[s] + score_unit[s]
-                    elseif s == 'x_mult' and score_unit[s] ~= 1 then total_score.mult = total_score.mult * score_unit[s]
-                    elseif s == 'dollars' and score_unit[s] ~= 0 then ease_dollars(score_unit[s])
-                    else end                -- ^ this check is useless as it doesn't prevent card_eval_status_text
+                    if total_score[s] then total_score[s] = total_score[s] + score_unit[s]
+                    elseif s == 'x_mult' then total_score.mult = total_score.mult * score_unit[s]
+                    elseif s == 'dollars' then ease_dollars(score_unit[s])
+                    else end 
 
                     -- Modded scoring functions
                     for f=1,#additional_score_eval_functions do
@@ -731,7 +729,7 @@ function CardArea:score(context, total_score, percent, percent_delta, specific_c
                     end
 
                     update_hand_text({delay = 0},copy_table(total_score))
-                    card_eval_status_text(scoring_cards[i], s, score_unit[s], percent, nil, (score_unit.extra or score_unit.jokers or nil))
+                    card_eval_status_text(scoring_cards[i], s, score_unit[s], percent, nil, (score_unit.extra or score_unit))
                 end
             end
         end
