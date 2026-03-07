@@ -168,22 +168,22 @@ vanilla_jokers_set = {
         j_castle=           {order = 103,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Castle",set = "Joker", config = {chips = 0, extra = {chip_mod = 3}}, pos = {x=9,y=15}},
         j_smiley=           {order = 104,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Smiley Face",set = "Joker", config = {mult = 5}, pos = {x=6,y=15}},
         j_campfire=         {order = 105,  unlocked = true, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 9, name = "Campfire",set = "Joker", config = {extra = 0.25}, pos = {x=5,y=15}},
-        -- ^ Implemented functionality ^ --
 
-        -- j_ticket=           {order = 106,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Golden Ticket", pos = {x=5,y=3}, set = "Joker", effect = "dollars for Gold cards", cost_mult = 1.0, config = {extra = 4},unlock_condition = {type = 'hand_contents', extra = 'Gold'}, enhancement_gate = 'm_gold'},
-        -- j_mr_bones=         {order = 107,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 5, name = "Mr. Bones", pos = {x=3,y=4}, set = "Joker", effect = "Prevent Death", cost_mult = 1.0, config = {},unlock_condition = {type = 'c_losses', extra = 5}},
-        -- j_acrobat=          {order = 108,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Acrobat", pos = {x=2,y=1}, set = "Joker", effect = "Shop size", cost_mult = 1.0, config = {extra = 3},unlock_condition = {type = 'c_hands_played', extra = 200}},
-        -- j_sock_and_buskin=  {order = 109,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Sock and Buskin", pos = {x=3,y=1}, set = "Joker", effect = "Face card double", cost_mult = 1.0, config = {extra = {reps=1}},unlock_condition = {type = 'c_face_cards_played', extra = 300}},
-        -- j_swashbuckler=     {order = 110,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Swashbuckler", pos = {x=9,y=5}, set = "Joker", effect = "Set Mult", cost_mult = 1.0, config = {mult = 1},unlock_condition = {type = 'c_jokers_sold', extra = 20}},
-        -- j_troubadour=       {order = 111,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Troubadour", pos = {x=0,y=2}, set = "Joker", effect = "Hand Size, Plays", cost_mult = 1.0, config = {extra = {h_size = 2, h_plays = -1}}, unlock_condition = {type = 'round_win', extra = 5}},
-        -- j_certificate=      {order = 112,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Certificate", pos = {x=8,y=8}, set = "Joker", effect = "", config = {}, unlock_condition = {type = 'double_gold'}},
-        -- j_smeared=          {order = 113,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Smeared Joker", pos = {x=4,y=6}, set = "Joker", effect = "", config = {}, unlock_condition = {type = 'modify_deck', extra = {count = 3, enhancement = 'Wild Card', e_key = 'm_wild'}}},
-        -- j_throwback=        {order = 114,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Throwback", pos = {x=5,y=7}, set = "Joker", effect = "", config = {extra = 0.25}, unlock_condition = {type = 'continue_game'}},        
-        -- j_hanging_chad=     {order = 115,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Hanging Chad", pos = {x=9,y=6}, set = "Joker", effect = "", config = {extra = {reps=2}}, unlock_condition = {type = 'round_win', extra = 'High Card'}},
-        -- j_rough_gem=        {order = 116,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Rough Gem", pos = {x=9,y=7}, set = "Joker", effect = "", config = {extra = 1}, unlock_condition = {type = 'modify_deck', extra = {count = 30, suit = 'Diamonds'}}},
-        -- j_bloodstone=       {order = 117,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Bloodstone", pos = {x=0,y=8}, set = "Joker", effect = "", config = {extra = {odds = 2, x_mult = 1.5}}, unlock_condition = {type = 'modify_deck', extra = {count = 30, suit = 'Hearts'}}},
-        -- j_arrowhead=        {order = 118,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Arrowhead", pos = {x=1,y=8}, set = "Joker", effect = "", config = {extra = 50}, unlock_condition = {type = 'modify_deck', extra = {count = 30, suit = 'Spades'}}},
-        -- j_onyx_agate=       {order = 119,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Onyx Agate", pos = {x=2,y=8}, set = "Joker", effect = "", config = {extra = 7}, unlock_condition = {type = 'modify_deck', extra = {count = 30, suit = 'Clubs'}}},
+        j_ticket=           {order = 106,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 5, name = "Golden Ticket", pos = {x=5,y=3}, set = "Joker", effect = "dollars for Gold cards", cost_mult = 1.0, config = {dollars = 4},unlock_condition = {type = 'hand_contents', extra = 'Gold'}, enhancement_gate = 'm_gold'},
+        j_mr_bones=         {order = 107,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = false, rarity = 2, cost = 5, name = "Mr. Bones", pos = {x=3,y=4}, set = "Joker", effect = "Prevent Death", cost_mult = 1.0, config = {},unlock_condition = {type = 'c_losses', extra = 5}},
+        j_acrobat=          {order = 108,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Acrobat", pos = {x=2,y=1}, set = "Joker", effect = "Shop size", cost_mult = 1.0, config = {x_mult = 3},unlock_condition = {type = 'c_hands_played', extra = 200}},
+        j_sock_and_buskin=  {order = 109,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Sock and Buskin", pos = {x=3,y=1}, set = "Joker", effect = "Face card double", cost_mult = 1.0, config = {extra = {reps=1}},unlock_condition = {type = 'c_face_cards_played', extra = 300}},
+        j_swashbuckler=     {order = 110,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Swashbuckler", pos = {x=9,y=5}, set = "Joker", effect = "Set Mult", cost_mult = 1.0, config = {mult = 0},unlock_condition = {type = 'c_jokers_sold', extra = 20}},
+        j_troubadour=       {order = 111,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Troubadour", pos = {x=0,y=2}, set = "Joker", effect = "Hand Size, Plays", cost_mult = 1.0, config = {extra = {h_size = 2, h_plays = -1}}, unlock_condition = {type = 'round_win', extra = 5}},
+        j_certificate=      {order = 112,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Certificate", pos = {x=8,y=8}, set = "Joker", effect = "", config = {}, unlock_condition = {type = 'double_gold'}},
+        j_smeared=          {order = 113,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Smeared Joker", pos = {x=4,y=6}, set = "Joker", effect = "", config = {}, unlock_condition = {type = 'modify_deck', extra = {count = 3, enhancement = 'Wild Card', e_key = 'm_wild'}}},
+        j_throwback=        {order = 114,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Throwback", pos = {x=5,y=7}, set = "Joker", effect = "", config = {extra = 0.25}, unlock_condition = {type = 'continue_game'}},
+        j_hanging_chad=     {order = 115,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 1, cost = 4, name = "Hanging Chad", pos = {x=9,y=6}, set = "Joker", effect = "", config = {extra = {reps=2}}, unlock_condition = {type = 'round_win', extra = 'High Card'}},
+        j_rough_gem=        {order = 116,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Rough Gem", pos = {x=9,y=7}, set = "Joker", effect = "", config = {dollars = 1}, unlock_condition = {type = 'modify_deck', extra = {count = 30, suit = 'Diamonds'}}},
+        j_bloodstone=       {order = 117,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Bloodstone", pos = {x=0,y=8}, set = "Joker", effect = "", config = {x_mult = 1.5, extra = {odds = 2}}, unlock_condition = {type = 'modify_deck', extra = {count = 30, suit = 'Hearts'}}},
+        j_arrowhead=        {order = 118,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Arrowhead", pos = {x=1,y=8}, set = "Joker", effect = "", config = {chips = 50}, unlock_condition = {type = 'modify_deck', extra = {count = 30, suit = 'Spades'}}},
+        j_onyx_agate=       {order = 119,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Onyx Agate", pos = {x=2,y=8}, set = "Joker", effect = "", config = {mult = 7}, unlock_condition = {type = 'modify_deck', extra = {count = 30, suit = 'Clubs'}}},
+        -- ^ Implemented functionality ^ --
         -- j_glass=            {order = 120,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = false, eternal_compat = true, rarity = 2, cost = 6, name = "Glass Joker", pos = {x=1,y=3}, set = "Joker", effect = "Glass Card", cost_mult = 1.0, config = {extra = 0.75, x_mult = 1}, unlock_condition = {type = 'modify_deck', extra = {count = 5, enhancement = 'Glass Card', e_key = 'm_glass'}}, enhancement_gate = 'm_glass'},
 
         -- j_ring_master=      {order = 121,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 5, name = "Showman", pos = {x=6,y=5}, set = "Joker", effect = "", config = {}, unlock_condition = {type = 'ante_up', ante = 4}},
@@ -1182,6 +1182,51 @@ local function define_joker_functions()
         end 
     end end
 
+    local function trigger_certificate() return function(self, context)
+        if context.first_hand_drawn then
+            G.E_MANAGER:add_event(Event({
+                func = function() 
+                    local _card = create_playing_card({
+                        front = pseudorandom_element(G.P_CARDS, pseudoseed('cert_fr')), 
+                        center = G.P_CENTERS.c_base}, G.hand, nil, nil, {G.C.SECONDARY_SET.Enhanced})
+                    local seal_type = pseudorandom(pseudoseed('certsl'))
+                    if seal_type > 0.75 then _card:set_seal('Red', true)
+                    elseif seal_type > 0.5 then _card:set_seal('Blue', true)
+                    elseif seal_type > 0.25 then _card:set_seal('Gold', true)
+                    else _card:set_seal('Purple', true)
+                    end
+                    G.GAME.blind:debuff_card(_card)
+                    G.hand:sort()
+                    if context.blueprint_card then context.blueprint_card:juice_up() else self:juice_up() end
+                    return true
+                end}))
+
+            playing_card_joker_effects({true})
+        end
+    end end
+
+    -------------------------------------------------------
+    --                     GAME OVER                     --
+    -------------------------------------------------------
+
+    local function trigger_mr_bones() return function(self, context)
+        if context.game_over and G.GAME.chips/G.GAME.blind.chips >= 0.25 then
+            G.E_MANAGER:add_event(Event({
+                func = function()
+                    G.hand_text_area.blind_chips:juice_up()
+                    G.hand_text_area.game_chips:juice_up()
+                    play_sound('tarot1')
+                    self:start_dissolve()
+                    return true
+                end
+            })) 
+            return {
+                message = localize('k_saved_ex'),
+                saved = true,
+                colour = G.C.RED
+            }
+        end
+    end end
 
     -------------------------------------------------------
     --                     OPEN PACK                     --
@@ -1257,6 +1302,25 @@ local function define_joker_functions()
                     return true
                 end)
             }))
+        end
+    end end
+
+
+    --------------------------------------------------------
+    --                     SKIP BLIND                     --
+    --------------------------------------------------------
+
+    local function trigger_throwback() return function(self, context)
+        if context.skip_blind and not context.blueprint then
+            G.E_MANAGER:add_event(Event({
+                func = function() 
+                    card_eval_status_text(self, 'extra', nil, nil, nil, {
+                        message = localize{type = 'variable', key = 'a_x_mult', vars = {1 + G.GAME.skips*self.ability.extra}},
+                            colour = G.C.RED,
+                        card = self
+                    }) 
+                    return true
+                end}))
         end
     end end
 
@@ -1356,6 +1420,12 @@ local function define_joker_functions()
         ease_discard(self.ability.extra.d_size*sign)
     end end
 
+    -- sign 1 to add, sign -1 to remove
+    local function add_remove_troubadour(sign) return function(self)
+        G.hand:change_size(self.ability.extra.h_size*sign)
+        G.GAME.round_resets.hands = G.GAME.round_resets.hands + self.ability.extra.h_plays*sign
+    end end
+
     ---------------------------------------------------------------
     ---------------------------------------------------------------
     --                     COMMON CONDITIONS                     --
@@ -1444,6 +1514,16 @@ local function define_joker_functions()
         end
     end end
 
+    local function upd_swashbuckler() return function(self, context)
+        local sell_cost = 0
+        for i = 1, #G.jokers.cards do
+            if G.jokers.cards[i] ~= self and (G.jokers.cards[i].area and G.jokers.cards[i].area == G.jokers) then
+                sell_cost = sell_cost + G.jokers.cards[i].sell_cost
+            end
+        end
+        self.ability.mult = sell_cost
+    end end
+
     -- input: target_conf = {type="abs"|"rel", pos=<int>} | {custom=<function>}
     -- "abs" = absolute: copy joker in position <int>
     -- "rel" = relitive: copy joker at <this_card's_position> + <int>
@@ -1509,7 +1589,7 @@ local function define_joker_functions()
         elseif k == 'j_chaos' then joker_functions[k] =                         {add_deck=add_remove_chaos(1), remove_deck=add_remove_chaos(-1)}
         elseif k == 'j_fibonacci' then joker_functions[k] =                     {triggers={trigger_card_buff(other_card_rank_cond({14, 2, 3, 5, 8}, function(self,context) return context.cardarea == G.play end), 'mult')}}
         elseif k == 'j_steel_joker' then joker_functions[k] =                   {score=score_value('x_mult'), update = update_tally("m_steel",function(self) self.ability.x_mult = 1 + (self.ability.extra * self.ability.tally) end)} -- chance for optimization (update)
-        elseif k == 'j_scary_face' then joker_functions[k] =                    {triggers={trigger_card_buff(function(self,context) return context.other_card:is_face() end, 'chips')}}
+        elseif k == 'j_scary_face' then joker_functions[k] =                    {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card:is_face() end, 'chips')}}
         elseif k == 'j_abstract' then joker_functions[k] =                      {score= function(self,context) return {mult=(G.jokers and G.jokers.cards and #G.jokers.cards or 0)*self.ability.extra} end}
 
         elseif k == 'j_delayed_grat' then joker_functions[k] =                  {triggers={trigger_end_round_money_bonus(function(self, context) return G.GAME.current_round.discards_used == 0 and G.GAME.current_round.discards_left > 0 end, function(self) return G.GAME.current_round.discards_left*self.ability.extra end)}}
@@ -1586,6 +1666,28 @@ local function define_joker_functions()
         elseif k == 'j_castle' then joker_functions[k] =                        {score=score_value('chips'), triggers={trigger_castle_upgrade()}}
         elseif k == 'j_smiley' then joker_functions[k] =                        {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card:is_face() end, "mult")}}
         elseif k == 'j_campfire' then joker_functions[k] =                      {score=score_value('x_mult'), triggers={trigger_campfire_upgrade(), trigger_campfire_reset()}}
+        elseif k == 'j_ticket' then joker_functions[k] =                        {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card.ability.effect == "Gold Card" end, "dollars")}}
+        elseif k == 'j_mr_bones' then joker_functions[k] =                      {triggers={trigger_mr_bones()}}
+        elseif k == 'j_acrobat' then joker_functions[k] =                       {score=score_value("x_mult", function(self,context) return G.GAME.current_round.hands_left == 0 end)}
+        elseif k == 'j_sock_and_buskin' then joker_functions[k] =               {triggers={get_repitions(function(self,context) return context.other_card:is_face() end)}}
+        elseif k == 'j_swashbuckler' then joker_functions[k] =                  {score=score_value('mult'), update=upd_swashbuckler()}
+
+        elseif k == 'j_troubadour' then joker_functions[k] =                    {add_deck=add_remove_troubadour(1), remove_deck=add_remove_troubadour(-1)}
+        elseif k == 'j_certificate' then joker_functions[k] =                   {triggers={trigger_certificate()}}
+        elseif k == 'j_throwback' then joker_functions[k] =                     {score= function(self,context) return {x_mult = 1 + G.GAME.skips*self.ability.extra} end, triggers={trigger_throwback()}}
+        elseif k == 'j_hanging_chad' then joker_functions[k] =                  {triggers={get_repitions(function(self,context) return context.other_card == G.play.cards[1] end)}}
+        elseif k == 'j_rough_gem' then joker_functions[k] =                     {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card:is_suit("Diamonds") end, "dollars")}}
+        elseif k == 'j_bloodstone' then joker_functions[k] =                    {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card:is_suit("Hearts") and pseudorandom('bloodstone') < G.GAME.probabilities.normal/self.ability.extra.odds end, "x_mult")}}
+        elseif k == 'j_arrowhead' then joker_functions[k] =                     {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card:is_suit("Spades") end, "chips")}}
+        elseif k == 'j_onyx_agate' then joker_functions[k] =                    {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card:is_suit("Clubs") end, "mult")}}
+        --elseif k == 'j_' then joker_functions[k] =                         
+        --elseif k == 'j_' then joker_functions[k] =                         
+
+        --elseif k == 'j_' then joker_functions[k] =                         
+        --elseif k == 'j_' then joker_functions[k] =                         
+        --elseif k == 'j_' then joker_functions[k] =                         
+        --elseif k == 'j_' then joker_functions[k] =                         
+        --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         
@@ -1593,7 +1695,7 @@ local function define_joker_functions()
         --elseif k == 'j_' then joker_functions[k] =                         
 
         elseif v.effect then
-            if v.effect == "Suit Mult" then joker_functions[k] =                {triggers={trigger_card_buff(function(self,context) return context.other_card:is_suit(self.ability.extra.suit) end, 'mult')}}
+            if v.effect == "Suit Mult" then joker_functions[k] =                {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card:is_suit(self.ability.extra.suit) end, 'mult')}}
             elseif v.effect == "Type Mult" or
                    v.effect == "Type Chips" then joker_functions[k] =           {score=score_hand_jokers()}
             end

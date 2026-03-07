@@ -881,19 +881,19 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Cartomancer' then
         elseif self.ability.name == 'Astronomer' then loc_vars = {self.ability.extra}
         
-        elseif self.ability.name == 'Golden Ticket' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Golden Ticket' then loc_vars = {self.ability.dollars}
         elseif self.ability.name == 'Mr. Bones' then
-        elseif self.ability.name == 'Acrobat' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Sock and Buskin' then loc_vars = {self.ability.extra+1}
+        elseif self.ability.name == 'Acrobat' then loc_vars = {self.ability.x_mult}
+        elseif self.ability.name == 'Sock and Buskin' then loc_vars = {self.ability.extra.reps+1}
         elseif self.ability.name == 'Swashbuckler' then loc_vars = {self.ability.mult}
         elseif self.ability.name == 'Troubadour' then loc_vars = {self.ability.extra.h_size, -self.ability.extra.h_plays}
         elseif self.ability.name == 'Certificate' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Throwback' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Hanging Chad' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Rough Gem' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Bloodstone' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds, self.ability.extra.x_mult}
-        elseif self.ability.name == 'Arrowhead' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Onyx Agate' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Throwback' then loc_vars = {self.ability.extra, 1 + G.GAME.skips*self.ability.extra}
+        elseif self.ability.name == 'Hanging Chad' then loc_vars = {self.ability.extra.reps}
+        elseif self.ability.name == 'Rough Gem' then loc_vars = {self.ability.dollars}
+        elseif self.ability.name == 'Bloodstone' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds, self.ability.x_mult}
+        elseif self.ability.name == 'Arrowhead' then loc_vars = {self.ability.chips}
+        elseif self.ability.name == 'Onyx Agate' then loc_vars = {self.ability.mult}
         elseif self.ability.name == 'Glass Joker' then loc_vars = {self.ability.extra, self.ability.x_mult}
         elseif self.ability.name == 'Showman' then
         elseif self.ability.name == 'Flower Pot' then loc_vars = {self.ability.extra}
@@ -2014,7 +2014,6 @@ function Card:calculate_seal(context)
     if context.repetition then
         if self.seal == 'Red' then
                 return {
-                    message = localize('k_again_ex'),
                     repetitions = 1,
                     card = self
                 }
@@ -3875,32 +3874,38 @@ end
     -- end
 
 -- PlayingCard Function
-function Card:is_suit(suit, bypass_debuff, flush_calc)
-    if flush_calc then
-        if self.ability.faceless then
-            return false
-        end
-        if self.ability.name == "Wild Card" and not self.debuff then
-            return true
-        end
-        if next(find_joker('Smeared Joker')) and (self.base.suit == 'Hearts' or self.base.suit == 'Diamonds') == (suit == 'Hearts' or suit == 'Diamonds') then
-            return true
-        end
-        return self.base.suit == suit
-    else
-        if self.debuff and not bypass_debuff then return end
-        if self.ability.faceless then
-            return false
-        end
-        if self.ability.name == "Wild Card" then
-            return true
-        end
-        if next(find_joker('Smeared Joker')) and (self.base.suit == 'Hearts' or self.base.suit == 'Diamonds') == (suit == 'Hearts' or suit == 'Diamonds') then
-            return true
-        end
-        return self.base.suit == suit
+function Card:is_suit(suit, bypass_debuff)
+    local valids = self:get_suits(bypass_debuff)
+    for _,v in pairs(valids) do
+        if v == suit then return true end
     end
 end
+-- function Card:is_suit(suit, bypass_debuff, flush_calc)
+--     if flush_calc then
+--         if self.ability.faceless then
+--             return false
+--         end
+--         if self.ability.name == "Wild Card" and not self.debuff then
+--             return true
+--         end
+--         if next(find_joker('Smeared Joker')) and (self.base.suit == 'Hearts' or self.base.suit == 'Diamonds') == (suit == 'Hearts' or suit == 'Diamonds') then
+--             return true
+--         end
+--         return self.base.suit == suit
+--     else
+--         if self.debuff and not bypass_debuff then return end
+--         if self.ability.faceless then
+--             return false
+--         end
+--         if self.ability.name == "Wild Card" then
+--             return true
+--         end
+--         if next(find_joker('Smeared Joker')) and (self.base.suit == 'Hearts' or self.base.suit == 'Diamonds') == (suit == 'Hearts' or suit == 'Diamonds') then
+--             return true
+--         end
+--         return self.base.suit == suit
+--     end
+-- end
 
 -- added function
 -- PlayingCard Function

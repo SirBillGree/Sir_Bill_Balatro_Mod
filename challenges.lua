@@ -22,10 +22,11 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_selzer'},
-            {id = 'j_castle'},
-            {id = 'j_smiley'},
-            {id = 'j_campfire'},
+            -- {id = 'j_hanging_chad'},
+            -- {id = 'j_bloodstone'},
+            -- {id = 'j_arrowhead'},
+            -- {id = 'j_rough_gem'},
+            -- {id = 'j_onyx_agate'},
             {id = 'j_blueprint'},
         },
         consumeables = {
@@ -37,7 +38,7 @@ G.CHALLENGES = {
             --{id = 'v_hieroglyph'},
         },
         deck = {
-            --cards = {{s='D',r='8',e='m_lucky',},{s='D',r='9',e='m_lucky',},{s='D',r='T',e='m_lucky',},{s='D',r='7',e='m_lucky',},{s='D',r='6',e='m_lucky',}},
+            -- cards = {{s='D',r='8',e='m_gold',},{s='D',r='9',e='m_gold',},{s='D',r='T',e='m_gold',},{s='D',r='7',e='m_gold',},{s='D',r='6',e='m_gold',}},
             --{{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},},
             type = 'Challenge Deck'
         },
