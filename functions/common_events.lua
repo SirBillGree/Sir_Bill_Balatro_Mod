@@ -610,7 +610,7 @@ end
 --             ret.p_dollars = p_dollars
 --         end
 
---         local jokers = card:calculate_joker(context)
+--         local jokers = card:trigger_card(context)
 --         if jokers then 
 --             ret.jokers = jokers
 --         end
@@ -632,7 +632,7 @@ end
 --             ret.x_mult = h_x_mult
 --         end
 
---         local jokers = card:calculate_joker(context)
+--         local jokers = card:trigger_card(context)
 --         if jokers then 
 --             ret.jokers = jokers
 --         end
@@ -643,9 +643,9 @@ end
 --         if context.edition then
 --             jokers = card:get_edition(context)
 --         elseif context.other_joker then
---             jokers = context.other_joker:calculate_joker(context)
+--             jokers = context.other_joker:trigger_card(context)
 --         else
---             jokers = card:calculate_joker(context)
+--             jokers = card:trigger_card(context)
 --         end
 --         if jokers then 
 --             ret.jokers = jokers
@@ -2016,6 +2016,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
         G.ARGS.TEMP_POOL = EMPTY(G.ARGS.TEMP_POOL)
         local _pool, _starting_pool, _pool_key, _pool_size = G.ARGS.TEMP_POOL, nil, '', 0
     
+        -- choose joker rarity (if joker)
         if _type == 'Joker' then 
             local rarity = _rarity or pseudorandom('rarity'..G.GAME.round_resets.ante..(_append or '')) 
             rarity = (_legendary and 4) or (rarity > 0.95 and 3) or (rarity > 0.7 and 2) or 1
@@ -2026,16 +2027,16 @@ function get_current_pool(_type, _rarity, _legendary, _append)
         --cull the pool
         for k, v in ipairs(_starting_pool) do
             local add = nil
-            if _type == 'Enhanced' then
+            if _type == 'Enhanced' then -- no cull if enhanced
                 add = true
-            elseif _type == 'Demo' then
+            elseif _type == 'Demo' then -- unused in final version
                 if v.pos and v.config then add = true end
-            elseif _type == 'Tag' then
+            elseif _type == 'Tag' then  -- if tag, make sure player meets ante requirements
                 if (not v.requires or (G.P_CENTERS[v.requires] and G.P_CENTERS[v.requires].discovered)) and 
                 (not v.min_ante or v.min_ante <= G.GAME.round_resets.ante) then
                     add = true
                 end
-            elseif not (G.GAME.used_jokers[v.key] and not next(find_joker("Showman"))) and
+            elseif not (G.GAME.used_jokers[v.key] and not next(find_joker("Showman"))) and 
                 (v.unlocked ~= false or v.rarity == 4) then
                 if v.set == 'Voucher' then
                     if not G.GAME.used_vouchers[v.key] then 
@@ -2058,7 +2059,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
                     end
                 elseif v.set == 'Spectral' or v.set == "Tarot" or v.set == "Planet" then
                     add = get_card_functions(v.id).filter()
-                elseif v.enhancement_gate then
+                elseif v.enhancement_gate then -- remove if requires enhancement in hand
                     add = nil
                     for kk, vv in pairs(G.playing_cards) do
                         if vv.config.center.key == v.enhancement_gate then
@@ -2068,7 +2069,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
                 else
                     add = true
                 end
-                if v.hidden then
+                if v.hidden then -- if hidden, cull
                     add = false
                 end
             end
@@ -2076,6 +2077,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
             if v.no_pool_flag and G.GAME.pool_flags[v.no_pool_flag] then add = nil end
             if v.yes_pool_flag and not G.GAME.pool_flags[v.yes_pool_flag] then add = nil end
             
+            -- cull if banned
             if add and not G.GAME.banned_keys[v.key] then 
                 _pool[#_pool + 1] = v.key
                 _pool_size = _pool_size + 1
@@ -2084,7 +2086,7 @@ function get_current_pool(_type, _rarity, _legendary, _append)
             end
         end
 
-        --if pool is empty
+        -- if pool is empty, use default case
         if _pool_size == 0 then
             _pool = EMPTY(G.ARGS.TEMP_POOL)
             if _type == 'Tarot' or _type == 'Tarot_Planet' then _pool[#_pool + 1] = "c_strength"
@@ -2133,7 +2135,7 @@ function create_card(_type, area, legendary, _rarity, skip_materialize, soulable
     local center = G.P_CENTERS.b_red
         
 
-    --should pool be skipped with a forced key
+    --if pool is not skipped with a forced key
     if not forced_key and soulable and (not G.GAME.banned_keys['c_soul']) then
         if (_type == 'Tarot' or _type == 'Spectral' or _type == 'Tarot_Planet') and
         not (G.GAME.used_jokers['c_soul'] and not next(find_joker("Showman")))  then

@@ -156,7 +156,7 @@ function end_round()
         -- calculate all jokers end_of_round + game_over
         for i = 1, #G.jokers.cards do
             local eval = nil
-            eval = G.jokers.cards[i]:calculate_joker({end_of_round = true, game_over = game_over})
+            eval = G.jokers.cards[i]:trigger_card({end_of_round = true, game_over = game_over})
             if eval then
                 if eval.saved then
                     game_over = false
@@ -261,7 +261,7 @@ function end_round()
             --         local effects = {G.hand.cards[i]:get_end_of_round_effect()}
             --         for k=1, #G.jokers.cards do
             --             --calculate the joker individual card effects
-            --             local eval = G.jokers.cards[k]:calculate_joker({cardarea = G.hand, other_card = G.hand.cards[i], individual = true, end_of_round = true})
+            --             local eval = G.jokers.cards[k]:trigger_card({cardarea = G.hand, other_card = G.hand.cards[i], individual = true, end_of_round = true})
             --             if eval then 
             --                 table.insert(effects, eval)
             --             end
@@ -427,7 +427,7 @@ new_round_funcs = {
     {name = 'calc jokers',
         func = function(loc_vars)
             for i = 1, #G.jokers.cards do
-                G.jokers.cards[i]:calculate_joker({setting_blind = true, blind = G.GAME.round_resets.blind})
+                G.jokers.cards[i]:trigger_card({setting_blind = true, blind = G.GAME.round_resets.blind})
             end
             delay(0.4)
         end},
@@ -506,7 +506,7 @@ G.FUNCS.discard_cards_from_highlighted = function(e, hook)
         table.sort(G.hand.highlighted, function(a,b) return a.T.x < b.T.x end)
         inc_career_stat('c_cards_discarded', highlighted_count)
         for j = 1, #G.jokers.cards do
-            G.jokers.cards[j]:calculate_joker({pre_discard = true, full_hand = G.hand.highlighted, hook = hook})
+            G.jokers.cards[j]:trigger_card({pre_discard = true, full_hand = G.hand.highlighted, hook = hook})
         end
         local cards = {}
         local destroyed_cards = {}
@@ -515,7 +515,7 @@ G.FUNCS.discard_cards_from_highlighted = function(e, hook)
             local removed = false
             for j = 1, #G.jokers.cards do
                 local eval = nil
-                eval = G.jokers.cards[j]:calculate_joker({discard = true, other_card =  G.hand.highlighted[i], full_hand = G.hand.highlighted})
+                eval = G.jokers.cards[j]:trigger_card({discard = true, other_card =  G.hand.highlighted[i], full_hand = G.hand.highlighted})
                 if eval then
                     if eval.remove then removed = true end
                     card_eval_status_text(G.jokers.cards[j], 'jokers', nil, 1, nil, eval)
@@ -524,8 +524,15 @@ G.FUNCS.discard_cards_from_highlighted = function(e, hook)
             table.insert(cards, G.hand.highlighted[i])
             if removed then
                 destroyed_cards[#destroyed_cards + 1] = G.hand.highlighted[i]
-                if G.hand.highlighted[i].ability.name == 'Glass Card' then 
-                    G.hand.highlighted[i]:shatter()
+                -- if G.hand.highlighted[i].ability.name == 'Glass Card' then 
+                --     G.hand.highlighted[i]:shatter()
+                -- else
+                --     G.hand.highlighted[i]:start_dissolve()
+                -- end
+                local card = G.hand.highlighted[i]
+                local card_funcs = get_card_functions(card.ability.id)
+                if card_funcs and card_funcs.remove_func then 
+                    card_funcs.remove_func(card)
                 else
                     G.hand.highlighted[i]:start_dissolve()
                 end
@@ -538,8 +545,7 @@ G.FUNCS.discard_cards_from_highlighted = function(e, hook)
         -- if cards are destroyed, calculate jokers
         if destroyed_cards[1] then 
             for j=1, #G.jokers.cards do
-                G.jokers.cards[j]:calculate_joker({cardarea = G.jokers, remove_playing_cards = true, removed = destroyed_cards})
-                -- eval_card(G.jokers.cards[j], {cardarea = G.jokers, remove_playing_cards = true, removed = destroyed_cards})
+                G.jokers.cards[j]:trigger_card({cardarea = G.jokers, remove_playing_cards = true, removed = destroyed_cards})
             end
         end
 
@@ -728,29 +734,6 @@ G.FUNCS.evaluate_play = function(e)
 
     add_other_scoring_cards(scoring_hand)
 
-    -- -- Add additional cards to play (stone, splash)
-    -- local pures = {}
-    -- for i=1, #G.play.cards do
-    --     if next(find_joker('Splash')) then
-    --         scoring_hand[i] = G.play.cards[i]
-    --     else
-    --         if G.play.cards[i].ability.effect == 'Stone Card' then
-    --             local inside = false
-    --             for j=1, #scoring_hand do
-    --                 if scoring_hand[j] == G.play.cards[i] then
-    --                     inside = true
-    --                 end
-    --             end
-    --             if not inside then table.insert(pures, G.play.cards[i]) end
-    --         end
-    --     end
-    -- end
-    -- for i=1, #pures do
-    --     table.insert(scoring_hand, pures[i])
-    -- end
-    -- table.sort(scoring_hand, function (a, b) return a.T.x < b.T.x end )
-    -- -- End of add cards 
-
     delay(0.2)
     for i=1, #scoring_hand do
         --Highlight all the cards used in scoring and play a sound indicating highlight
@@ -781,7 +764,7 @@ G.FUNCS.evaluate_play = function(e)
         local hand_text_set = false
         for i=1, #G.jokers.cards do
             --calculate the joker effects
-            local effects = G.jokers.cards[i]:calculate_joker({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before_score = true})
+            local effects = G.jokers.cards[i]:trigger_card({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, before_score = true})
             if effects then
                 card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects)
                 percent = percent + percent_delta
@@ -856,7 +839,7 @@ G.FUNCS.evaluate_play = function(e)
         --             local effects = {eval_card(scoring_hand[i], {cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, poker_hand = text})}
         --             for k=1, #G.jokers.cards do
         --                 --calculate the joker individual card effects
-        --                 local eval = G.jokers.cards[k]:calculate_joker({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], individual = true})
+        --                 local eval = G.jokers.cards[k]:trigger_card({cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = scoring_hand[i], individual = true})
         --                 if eval then 
         --                     table.insert(effects, eval)
         --                 end
@@ -973,7 +956,7 @@ G.FUNCS.evaluate_play = function(e)
 
         --             for k=1, #G.jokers.cards do
         --                 --calculate the joker individual card effects
-        --                 local eval = G.jokers.cards[k]:calculate_joker({cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = G.hand.cards[i], individual = true})
+        --                 local eval = G.jokers.cards[k]:trigger_card({cardarea = G.hand, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_card = G.hand.cards[i], individual = true})
         --                 if eval then 
         --                     mod_percent = true
         --                     table.insert(effects, eval)
@@ -1102,7 +1085,7 @@ G.FUNCS.evaluate_play = function(e)
 
         --     --Joker on Joker effects
         --     for _, v in ipairs(G.jokers.cards) do
-        --         local effect = v:calculate_joker{full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_joker = _card}
+        --         local effect = v:trigger_card{full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, other_joker = _card}
         --         if effect then
         --             local extras = {mult = false, hand_chips = false}
         --             if effect.mult_mod then mult = mod_mult(mult + effect.mult_mod);extras.mult = true end
@@ -1135,21 +1118,25 @@ G.FUNCS.evaluate_play = function(e)
         mult = mod_mult(nu_mult or mult)
         hand_chips = mod_chips(nu_chip or hand_chips)
 
+        -- end play loop
         local cards_destroyed = {}
         for i=1, #scoring_hand do
             local destroyed = nil
             --un-highlight all cards
             highlight_card(scoring_hand[i],(i-0.999)/(#scoring_hand-0.998),'down')
 
+            -- trigger to CAUSE a card to be destroyed (exclusive to sixth sense)
             for j = 1, #G.jokers.cards do
-                destroyed = G.jokers.cards[j]:calculate_joker({destroying_card = scoring_hand[i], full_hand = G.play.cards})
+                destroyed = G.jokers.cards[j]:trigger_card({destroying_card = scoring_hand[i], full_hand = G.play.cards})
                 if destroyed then break end
             end
 
+            -- break glass cards
             if scoring_hand[i].ability.name == 'Glass Card' and not scoring_hand[i].debuff and pseudorandom('glass') < G.GAME.probabilities.normal/scoring_hand[i].ability.extra then 
                 destroyed = true
             end
 
+            -- check to see if destroyed card is glass
             if destroyed then 
                 if scoring_hand[i].ability.name == 'Glass Card' then 
                     scoring_hand[i].shattered = true
@@ -1159,23 +1146,32 @@ G.FUNCS.evaluate_play = function(e)
                 cards_destroyed[#cards_destroyed+1] = scoring_hand[i]
             end
         end
+        
+        -- trigger jokers for cards removed effects
         for j=1, #G.jokers.cards do
-            G.jokers.cards[j]:calculate_joker({cardarea = G.jokers, remove_playing_cards = true, removed = cards_destroyed})
-            -- eval_card(G.jokers.cards[j], {cardarea = G.jokers, remove_playing_cards = true, removed = cards_destroyed})
+            G.jokers.cards[j]:trigger_card({cardarea = G.jokers, remove_playing_cards = true, removed = cards_destroyed})
         end
 
+        -- check for an achievement
         local glass_shattered = {}
         for k, v in ipairs(cards_destroyed) do
             if v.shattered then glass_shattered[#glass_shattered+1] = v end
         end
-
         check_for_unlock{type = 'shatter', shattered = glass_shattered}
         
+        -- trigger card destoryed graphic
         for i=1, #cards_destroyed do
             G.E_MANAGER:add_event(Event({
                 func = function()
-                    if cards_destroyed[i].ability.name == 'Glass Card' then 
-                        cards_destroyed[i]:shatter()
+                    -- if cards_destroyed[i].ability.name == 'Glass Card' then 
+                    --     cards_destroyed[i]:shatter()
+                    -- else
+                    --     cards_destroyed[i]:start_dissolve()
+                    -- end
+                    local card = cards_destroyed[i]
+                    local card_funcs = get_card_functions(card.ability.id)
+                    if card_funcs and card_funcs.remove_func then 
+                        card_funcs.remove_func(card)
                     else
                         cards_destroyed[i]:start_dissolve()
                     end
@@ -1206,8 +1202,7 @@ G.FUNCS.evaluate_play = function(e)
         for i=1, #G.jokers.cards do
             
             --calculate the joker effects
-            local effects = G.jokers.cards[i]:calculate_joker({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, debuffed_hand = true})
-            -- local effects = eval_card(G.jokers.cards[i], {cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, debuffed_hand = true})
+            local effects = G.jokers.cards[i]:trigger_card({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, debuffed_hand = true})
 
             --Any Joker effects
             if effects and effects.jokers then
@@ -1255,14 +1250,9 @@ G.FUNCS.evaluate_play = function(e)
     }))
     delay(0.3)
 
-
-    -- percent = G.jokers:score({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true}, 
-    --                 {}, 
-    --                 percent,
-    --                 percent_delta)
     for i=1, #G.jokers.cards do
         --calculate the joker after hand played effects
-        local effects = G.jokers.cards[i]:calculate_joker({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true})
+        local effects = G.jokers.cards[i]:trigger_card({cardarea = G.jokers, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, after = true})
         if effects then
             card_eval_status_text(G.jokers.cards[i], 'jokers', nil, percent, nil, effects)
             percent = percent + percent_delta
@@ -1369,7 +1359,7 @@ G.FUNCS.evaluate_round = function()
         dollars = dollars +  G.GAME.current_round.discards_left*(G.GAME.modifiers.money_per_discard)
     end
     for i = 1, #G.jokers.cards do
-        local ret = G.jokers.cards[i]:calculate_joker({end_round_dollar_bonus=true})--calculate_dollar_bonus()
+        local ret = G.jokers.cards[i]:trigger_card({end_round_dollar_bonus=true})--calculate_dollar_bonus()
         if ret then
             add_round_eval_row({dollars = ret, bonus = true, name='joker'..i, pitch = pitch, card = G.jokers.cards[i]})
             pitch = pitch + 0.06

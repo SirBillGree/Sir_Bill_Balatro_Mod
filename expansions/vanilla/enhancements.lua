@@ -114,7 +114,7 @@ local function define_enhancement_functions()
                 if pseudorandom('lucky_money') < G.GAME.probabilities.normal/self.ability.extra.dollar_chance then score.dollars = self.ability.dollars end
                 if score.mult or score.dollars then -- lucky trigger
                     for i=1,#G.jokers.cards do
-                        G.jokers.cards[i]:calculate_joker({lucky_trigger=true})
+                        G.jokers.cards[i]:trigger_card({lucky_trigger=true})
                     end
                 end
                 return score
@@ -135,7 +135,7 @@ local function define_enhancement_functions()
         elseif k == 'm_bonus' then enhancement_functions[k] =   {score=score_chips()}
         elseif k == 'm_mult' then enhancement_functions[k] =    {score=score_mult()}
         elseif k == 'm_wild' then enhancement_functions[k] =    {score=score_none()}
-        elseif k == 'm_glass' then enhancement_functions[k] =   {score=score_glass()}
+        elseif k == 'm_glass' then enhancement_functions[k] =   {score=score_glass(), remove_graphic = function(self) self:shatter() end}
         elseif k == 'm_steel' then enhancement_functions[k] =   {score=score_steel()}
         elseif k == 'm_stone' then enhancement_functions[k] =   {score=score_chips()}
         elseif k == 'm_gold' then enhancement_functions[k] =    {score=score_gold()}
@@ -147,4 +147,56 @@ end
 function vanilla_enhancement_function_collector()
     define_enhancement_functions()
     return enhancement_functions
+end
+
+-- Playing Card Function
+function Card:shatter()
+    local dissolve_time = 0.7
+    self.shattered = true
+    self.dissolve = 0
+    self.dissolve_colours = {{1,1,1,0.8}}
+    self:juice_up()
+    local childParts = Particles(0, 0, 0,0, {
+        timer_type = 'TOTAL',
+        timer = 0.007*dissolve_time,
+        scale = 0.3,
+        speed = 4,
+        lifespan = 0.5*dissolve_time,
+        attach = self,
+        colours = self.dissolve_colours,
+        fill = true
+    })
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        blockable = false,
+        delay =  0.5*dissolve_time,
+        func = (function() childParts:fade(0.15*dissolve_time) return true end)
+    }))
+    G.E_MANAGER:add_event(Event({
+        blockable = false,
+        func = (function()
+                play_sound('glass'..math.random(1, 6), math.random()*0.2 + 0.9,0.5)
+                play_sound('generic1', math.random()*0.2 + 0.9,0.5)
+            return true end)
+    }))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'ease',
+        blockable = false,
+        ref_table = self,
+        ref_value = 'dissolve',
+        ease_to = 1,
+        delay =  0.5*dissolve_time,
+        func = (function(t) return t end)
+    }))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        blockable = false,
+        delay =  0.55*dissolve_time,
+        func = (function() self:remove() return true end)
+    }))
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        blockable = false,
+        delay =  0.51*dissolve_time,
+    }))
 end

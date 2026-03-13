@@ -158,10 +158,6 @@ end
 -- Sets sprites of a given card --
 -- All Card function + subclass specific args
 function Card:set_sprites(_center, _front)
-    if _center and _center.scale and (_center.discovered or self.bypass_discovery_center) then
-        self.T.w = self.T.w * _center.scale.W
-        self.T.h = self.T.h * _center.scale.H
-    end
     if _front then 
         local _atlas, _pos = get_front_spriteinfo(_front)
         if self.children.front then
@@ -208,7 +204,7 @@ function Card:set_sprites(_center, _front)
                 self.children.center.states.collide.can = false
                 self.children.center:set_role({major = self, role_type = 'Glued', draw_major = self})
             end
-            if _center.scale and (_center.discovered or self.bypass_discovery_center) then
+            if _center.scale and not _center.scale.not_children and (_center.discovered or self.bypass_discovery_center) then
                 self.children.center.scale.x = self.children.center.scale.x * _center.scale.W
                 self.children.center.scale.y = self.children.center.scale.y * _center.scale.H
             end
@@ -261,6 +257,11 @@ function Card:set_ability(center, initial, delay_sprites)
         discover_card(center)
     end
 
+    if center and center.scale and (center.discovered or self.bypass_discovery_center) then
+        self.T.w = W * center.scale.W
+        self.T.h = H * center.scale.H
+    end
+
     -- This should be in set_sprite --
     -- if center.name == "Half Joker" and (center.discovered or self.bypass_discovery_center) then 
     --     H = H/1.7
@@ -302,7 +303,7 @@ function Card:set_ability(center, initial, delay_sprites)
         self.ability.bonus = self.ability.bonus - old_center.config.bonus
     end
     
-    -- set ability
+    -- ABILITY DEFINITIONS
     self.ability = {
         id = center.id,
         name = center.name,
@@ -896,12 +897,12 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Onyx Agate' then loc_vars = {self.ability.mult}
         elseif self.ability.name == 'Glass Joker' then loc_vars = {self.ability.extra, self.ability.x_mult}
         elseif self.ability.name == 'Showman' then
-        elseif self.ability.name == 'Flower Pot' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Wee Joker' then loc_vars = {self.ability.extra.chips, self.ability.extra.chips}
-        elseif self.ability.name == 'Merry Andy' then loc_vars = {self.ability.d_size, self.ability.h_size}
-        elseif self.ability.name == 'The Idol' then loc_vars = {self.ability.extra, localize(G.GAME.current_round.idol_card.rank, 'ranks'), localize(G.GAME.current_round.idol_card.suit, 'suits_plural'), colours = {G.C.SUITS[G.GAME.current_round.idol_card.suit]}}
-        elseif self.ability.name == 'Seeing Double' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Matador' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Flower Pot' then loc_vars = {self.ability.x_mult}
+        elseif self.ability.name == 'Wee Joker' then loc_vars = {self.ability.chips, self.ability.extra}
+        elseif self.ability.name == 'Merry Andy' then loc_vars = {self.ability.extra.d_size, self.ability.extra.h_size}
+        elseif self.ability.name == 'The Idol' then loc_vars = {self.ability.x_mult, localize(G.GAME.current_round.idol_card.rank, 'ranks'), localize(G.GAME.current_round.idol_card.suit, 'suits_plural'), colours = {G.C.SUITS[G.GAME.current_round.idol_card.suit]}}
+        elseif self.ability.name == 'Seeing Double' then loc_vars = {self.ability.x_mult}
+        elseif self.ability.name == 'Matador' then loc_vars = {self.ability.dollars}
         elseif self.ability.name == 'Hit the Road' then loc_vars = {self.ability.extra, self.ability.x_mult}
         elseif self.ability.name == 'The Duo' or self.ability.name == 'The Trio'
             or self.ability.name == 'The Family' or self.ability.name == 'The Order' or self.ability.name == 'The Tribe' then loc_vars = {self.ability.x_mult, localize(self.ability.type, 'poker_hands')}
@@ -1070,7 +1071,7 @@ repetition_sources = {
         context.other_card = self
         for j=1, #G.jokers.cards do
             --calculate the joker effects
-            local eval = G.jokers.cards[j]:calculate_joker(context)
+            local eval = G.jokers.cards[j]:trigger_card(context)
             if type(eval) == "table" and eval.repetitions then
                 -- create <repetitions> rep tables
                 for h = 1, eval.repetitions do
@@ -1133,7 +1134,7 @@ score_sources = {
     -- {name = 'TEMP JOKER', func = function(self, loc_vals, context)
     --     -- edit context
     --     context.other_card = self
-    --     local score = self:calculate_joker(context)--{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
+    --     local score = self:trigger_card(context)--{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
     --     if score then loc_vals.score_table[#loc_vals.score_table+1] = score end
     --     -- revert context
     --     context.other_card = nil
@@ -1152,7 +1153,7 @@ score_sources = {
         context.other_card = self
         context.individual = true -- important
         for i=1,#G.jokers.cards do
-            local score = G.jokers.cards[i]:calculate_joker(context)--{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
+            local score = G.jokers.cards[i]:trigger_card(context)--{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
             if score then loc_vals.score_table[#loc_vals.score_table+1] = score end
         end
         -- revert context
@@ -1356,7 +1357,7 @@ function Card:sell_card()
     if self.children.use_button then self.children.use_button:remove(); self.children.use_button = nil end
     if self.children.sell_button then self.children.sell_button:remove(); self.children.sell_button = nil end
     
-    self:calculate_joker{selling_self = true}
+    self:trigger_card{selling_self = true}
 
     G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2,func = function()
         play_sound('coin2')
@@ -1557,7 +1558,7 @@ function Card:open()
             end}))
 
             for i = 1, #G.jokers.cards do
-                G.jokers.cards[i]:calculate_joker({open_booster = true, card = self})
+                G.jokers.cards[i]:trigger_card({open_booster = true, card = self})
             end
 
             if G.GAME.modifiers.inflation then 
@@ -1617,7 +1618,7 @@ function Card:redeem()
 
         delay(0.6)
         for i = 1, #G.jokers.cards do
-            G.jokers.cards[i]:calculate_joker({buying_card = true, card = self})
+            G.jokers.cards[i]:trigger_card({buying_card = true, card = self})
         end
         if G.GAME.modifiers.inflation then 
             G.GAME.inflation = G.GAME.inflation + 1
@@ -1842,58 +1843,6 @@ function Card:explode(dissolve_colours, explode_time_fac)
     }))
 end
 
--- Playing Card Function
-function Card:shatter()
-    local dissolve_time = 0.7
-    self.shattered = true
-    self.dissolve = 0
-    self.dissolve_colours = {{1,1,1,0.8}}
-    self:juice_up()
-    local childParts = Particles(0, 0, 0,0, {
-        timer_type = 'TOTAL',
-        timer = 0.007*dissolve_time,
-        scale = 0.3,
-        speed = 4,
-        lifespan = 0.5*dissolve_time,
-        attach = self,
-        colours = self.dissolve_colours,
-        fill = true
-    })
-    G.E_MANAGER:add_event(Event({
-        trigger = 'after',
-        blockable = false,
-        delay =  0.5*dissolve_time,
-        func = (function() childParts:fade(0.15*dissolve_time) return true end)
-    }))
-    G.E_MANAGER:add_event(Event({
-        blockable = false,
-        func = (function()
-                play_sound('glass'..math.random(1, 6), math.random()*0.2 + 0.9,0.5)
-                play_sound('generic1', math.random()*0.2 + 0.9,0.5)
-            return true end)
-    }))
-    G.E_MANAGER:add_event(Event({
-        trigger = 'ease',
-        blockable = false,
-        ref_table = self,
-        ref_value = 'dissolve',
-        ease_to = 1,
-        delay =  0.5*dissolve_time,
-        func = (function(t) return t end)
-    }))
-    G.E_MANAGER:add_event(Event({
-        trigger = 'after',
-        blockable = false,
-        delay =  0.55*dissolve_time,
-        func = (function() self:remove() return true end)
-    }))
-    G.E_MANAGER:add_event(Event({
-        trigger = 'after',
-        blockable = false,
-        delay =  0.51*dissolve_time,
-    }))
-end
-
 -- All Cards Function
 function Card:start_dissolve(dissolve_colours, silent, dissolve_time_fac, no_juice)
     local dissolve_time = 0.7*(dissolve_time_fac or 1)
@@ -2091,25 +2040,14 @@ function Card:calculate_perishable()
     end
 end
 
--- Joker Function
-function Card:calculate_joker(context)
+-- All-Card Function (was Card:calculate_joker)
+function Card:trigger_card(context)
     if self.debuff then return nil end
-    if self.ability.set == "Planet" and not self.debuff then
-        if context.joker_main then
-            if G.GAME.used_vouchers.v_observatory and self.ability.consumeable.hand_type == context.scoring_name then
-                return {
-                    message = localize{type = 'variable', key = 'a_x_mult', vars = {G.P_CENTERS.v_observatory.config.extra}},
-                    x_mult = G.P_CENTERS.v_observatory.config.extra
-                }
-            end
-        end
-    else
-        local card_funcs = get_card_functions(self.ability.id)
-        if card_funcs and card_funcs.triggers then
-            for i=1,#card_funcs.triggers do 
-                local o = card_funcs.triggers[i](self, context) 
-                if o then return o end
-            end
+    local card_funcs = get_card_functions(self.ability.id)
+    if card_funcs and card_funcs.triggers then
+        for i=1,#card_funcs.triggers do 
+            local o = card_funcs.triggers[i](self, context) 
+            if o then return o end
         end
     end
 end
@@ -2123,7 +2061,7 @@ end
     --             context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
     --             context.blueprint_card = context.blueprint_card or self
     --             if context.blueprint > #G.jokers.cards + 1 then return end
-    --             local other_joker_ret = other_joker:calculate_joker(context)
+    --             local other_joker_ret = other_joker:trigger_card(context)
     --             if other_joker_ret then 
     --                 other_joker_ret.card = context.blueprint_card or self
     --                 other_joker_ret.colour = G.C.BLUE
@@ -2137,7 +2075,7 @@ end
     --             context.blueprint = (context.blueprint and (context.blueprint + 1)) or 1
     --             context.blueprint_card = context.blueprint_card or self
     --             if context.blueprint > #G.jokers.cards + 1 then return end
-    --             local other_joker_ret = other_joker:calculate_joker(context)
+    --             local other_joker_ret = other_joker:trigger_card(context)
     --             if other_joker_ret then 
     --                 other_joker_ret.card = context.blueprint_card or self
     --                 other_joker_ret.colour = G.C.RED
@@ -2431,56 +2369,7 @@ end
     --            return true
     --         end
     --         return nil
-    --     elseif context.cards_destroyed then
-    --         if self.ability.name == 'Caino' and not context.blueprint then
-    --             local faces = 0
-    --             for k, v in ipairs(context.glass_shattered) do
-    --                 if v:is_face() then
-    --                     faces = faces + 1
-    --                 end
-    --             end
-    --             if faces > 0 then
-    --                 G.E_MANAGER:add_event(Event({
-    --                     func = function()
-    --                 G.E_MANAGER:add_event(Event({
-    --                     func = function()
-    --                         self.ability.caino_x_mult = self.ability.caino_x_mult + faces*self.ability.extra
-    --                       return true
-    --                     end
-    --                   }))
-    --                 card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_x_mult', vars = {self.ability.caino_x_mult + faces*self.ability.extra}}})
-    --                 return true
-    --             end
-    --           }))
-    --             end
 
-    --             return
-    --         end
-    --         if self.ability.name == 'Glass Joker' and not context.blueprint then
-    --             local glasses = 0
-    --             for k, v in ipairs(context.glass_shattered) do
-    --                 if v.shattered then
-    --                     glasses = glasses + 1
-    --                 end
-    --             end
-    --             if glasses > 0 then
-    --                 G.E_MANAGER:add_event(Event({
-    --                     func = function()
-    --                 G.E_MANAGER:add_event(Event({
-    --                     func = function()
-    --                         self.ability.x_mult = self.ability.x_mult + self.ability.extra*glasses
-    --                       return true
-    --                     end
-    --                   }))
-    --                 card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type = 'variable', key = 'a_x_mult', vars = {self.ability.x_mult + self.ability.extra*glasses}}})
-    --                 return true
-    --             end
-    --           }))
-    --             end
-
-    --             return
-    --         end
-            
     --     elseif context.remove_playing_cards then
     --         if self.ability.name == 'Caino' and not context.blueprint then
     --             local face_cards = 0
@@ -2518,19 +2407,6 @@ end
     --             return
     --         end
     --     elseif context.using_consumeable then
-    --         if self.ability.name == 'Glass Joker' and not context.blueprint and context.consumeable.ability.name == 'The Hanged Man'  then
-    --             local shattered_glass = 0
-    --             for k, val in ipairs(G.hand.highlighted) do
-    --                 if val.ability.name == 'Glass Card' then shattered_glass = shattered_glass + 1 end
-    --             end
-    --             if shattered_glass > 0 then
-    --                 self.ability.x_mult = self.ability.x_mult + self.ability.extra*shattered_glass
-    --                 G.E_MANAGER:add_event(Event({
-    --                     func = function() card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_x_mult',vars={self.ability.x_mult}}}); return true
-    --                     end}))
-    --             end
-    --             return
-    --         end
     --         if self.ability.name == 'Fortune Teller' and not context.blueprint and (context.consumeable.ability.set == "Tarot") then
     --             G.E_MANAGER:add_event(Event({
     --                 func = function() card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_mult',vars={G.GAME.consumeable_usage_total.tarot}}}); return true
@@ -4206,6 +4082,7 @@ function Card:draw(layer)
 
     self.hover_tilt = 1
     
+    -- Invisable check
     if not self.states.visible then return end
     
     if (layer == 'shadow' or layer == 'both') then
@@ -4537,9 +4414,9 @@ function Card:load(cardTable, other_card)
 
     local H = G.CARD_H
     local W = G.CARD_W
-    if self.scale then
-        self.T.w = W * self.scale.W
-        self.T.h = H * self.scale.H
+    if self.config.center.scale then
+        self.T.w = W * self.config.center.scale.W
+        self.T.h = H * self.config.center.scale.H
     -- if self.config.center.name == "Half Joker" then 
     --     self.T.h = H*scale/1.7*scale
     --     self.T.w = W*scale

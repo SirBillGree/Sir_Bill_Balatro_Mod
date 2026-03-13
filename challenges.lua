@@ -22,9 +22,9 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            -- {id = 'j_hanging_chad'},
-            -- {id = 'j_bloodstone'},
-            -- {id = 'j_arrowhead'},
+            {id = 'j_flower_pot'},
+            {id = 'j_seeing_double'},
+            {id = 'j_idol'},
             -- {id = 'j_rough_gem'},
             -- {id = 'j_onyx_agate'},
             {id = 'j_blueprint'},
@@ -33,12 +33,14 @@ G.CHALLENGES = {
             {id = 'c_chariot'},
             {id = 'c_tower'},
             {id = 'c_cryptid'},
+            {id = 'c_venus'}
         },
         vouchers = {
-            --{id = 'v_hieroglyph'},
+            {id = 'v_observatory'},
+            {id = 'v_telescope'},
         },
         deck = {
-            -- cards = {{s='D',r='8',e='m_gold',},{s='D',r='9',e='m_gold',},{s='D',r='T',e='m_gold',},{s='D',r='7',e='m_gold',},{s='D',r='6',e='m_gold',}},
+            -- cards = {{s='D',r='8',e='m_glass',},{s='D',r='9',e='m_glass',},{s='D',r='T',e='m_glass',},{s='D',r='7',e='m_glass',},{s='D',r='6',e='m_glass',}},
             --{{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},{s='D',r='2',e='m_gold',},{s='D',r='2',e='m_steel',},},
             type = 'Challenge Deck'
         },

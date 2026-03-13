@@ -3243,7 +3243,7 @@ function Game:update_draw_to_hand(dt)
                 if G.GAME.current_round.hands_played == 0 and
                     G.GAME.current_round.discards_used == 0 and G.GAME.facing_blind then
                     for i = 1, #G.jokers.cards do
-                        G.jokers.cards[i]:calculate_joker({first_hand_drawn = true})
+                        G.jokers.cards[i]:trigger_card({first_hand_drawn = true})
                     end
                 end
 

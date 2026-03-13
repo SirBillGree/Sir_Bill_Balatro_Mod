@@ -125,7 +125,7 @@ local function define_consumable_functions()
         elseif k == 'c_world' then consumables_functions[k] =           {can_use = selected_card_limit(c.max_highlighted), use = conversion(suit_conv(c.suit_conv)), ui = uidef_suit_tarot(c.max_highlighted, c.suit_conv), filter = always()}
         
         -- all planets share identical definition
-        elseif c.hand_type then consumables_functions[k] =              {can_use = always(), use = hand_level_up(c.hand_type), ui = uidef_planet(c.hand_type), filter = filter_planet(c.hand_type, (c.softlock or false))}
+        elseif c.hand_type then consumables_functions[k] =              {can_use = always(), use = hand_level_up(c.hand_type), ui = uidef_planet(c.hand_type), filter = filter_planet(c.hand_type, (c.softlock or false)), score=trigger_observitory_bonus()}
 
         -- Add seal spectrals
         elseif k == 'c_talisman' or k == 'c_deja_vu' or k == 'c_trance' or k == 'c_medium'
@@ -155,6 +155,20 @@ function vanilla_consumables_function_collector()
     define_consumable_functions()
     return consumables_functions
 end
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+--                        ADDITIONAL TRIGGERS                          --
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+function trigger_observitory_bonus() return function(self, context)
+    if not self.debuff and context.joker_main and G.GAME.used_vouchers.v_observatory and self.ability.consumeable.hand_type == context.scoring_name then
+        return {
+            x_mult = G.P_CENTERS.v_observatory.config.extra
+        }
+    end
+end end
 
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------
@@ -461,13 +475,22 @@ function remove_selected_cards()
             func = function() 
                 for i=#G.hand.highlighted, 1, -1 do
                     local card = G.hand.highlighted[i]
-                    if card.ability.name == 'Glass Card' then 
-                        card:shatter()
+                    -- if card.ability.name == 'Glass Card' then 
+                    --     card:shatter()
+                    -- else
+                    --     card:start_dissolve(nil, i == #G.hand.highlighted)
+                    -- end
+                    local card_funcs = get_card_functions(card.ability.id)
+                    if card_funcs and card_funcs.remove_func then 
+                        card_funcs.remove_func(card)
                     else
                         card:start_dissolve(nil, i == #G.hand.highlighted)
                     end
                 end
                 return true end }))
+        for i = 1, #G.jokers.cards do
+            G.jokers.cards[i]:trigger_card({remove_playing_cards = true, removed = destroyed_cards})
+        end
     end
 end
 
@@ -761,8 +784,11 @@ function destroy_cards_for_reward(amt, reward_function)
             func = function() 
                 for i=#destroyed_cards, 1, -1 do
                     local card = destroyed_cards[i]
-                    if card.ability.name == 'Glass Card' then 
-                        card:shatter()
+                    -- if card.ability.name == 'Glass Card' then 
+                    --     card:shatter()
+                    local card_funcs = get_card_functions(card.ability.id)
+                    if card_funcs and card_funcs.remove_func then 
+                        card_funcs.remove_func(card)
                     else
                         card:start_dissolve(nil, i ~= #destroyed_cards)
                     end
@@ -771,7 +797,7 @@ function destroy_cards_for_reward(amt, reward_function)
         reward_function()
         delay(0.3)
         for i = 1, #G.jokers.cards do
-            G.jokers.cards[i]:calculate_joker({remove_playing_cards = true, removed = destroyed_cards})
+            G.jokers.cards[i]:trigger_card({remove_playing_cards = true, removed = destroyed_cards})
         end
     end
 end

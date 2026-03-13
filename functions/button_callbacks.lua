@@ -2217,7 +2217,7 @@ end
       delay(0.2)
       e.config.ref_table:use_consumeable(area)
       for i = 1, #G.jokers.cards do
-        G.jokers.cards[i]:calculate_joker({using_consumeable = true, consumeable = card})
+        G.jokers.cards[i]:trigger_card({using_consumeable = true, consumeable = card})
       end
     elseif card.ability.set == 'Enhanced' or card.ability.set == 'Default' then 
       G.playing_card = (G.playing_card and G.playing_card + 1) or 1
@@ -2320,7 +2320,7 @@ end
     card:sell_card()
     for i = 1, #G.jokers.cards do
       if G.jokers.cards[i] ~= card then 
-        G.jokers.cards[i]:calculate_joker({selling_card = true, card = card})
+        G.jokers.cards[i]:trigger_card({selling_card = true, card = card})
       end
     end
   end
@@ -2434,7 +2434,7 @@ G.FUNCS.buy_from_shop = function(e)
             else
               G.jokers:emplace(c1)
             end
-            G.E_MANAGER:add_event(Event({func = function() c1:calculate_joker({buying_card = true, card = c1}) return true end}))
+            G.E_MANAGER:add_event(Event({func = function() c1:trigger_card({buying_card = true, card = c1}) return true end}))
           end
           --Tallies for unlocks
           G.GAME.round_scores.cards_purchased.amt = G.GAME.round_scores.cards_purchased.amt + 1
@@ -2449,7 +2449,7 @@ G.FUNCS.buy_from_shop = function(e)
           end
 
           for i = 1, #G.jokers.cards do
-            G.jokers.cards[i]:calculate_joker({buying_card = true, card = c1})
+            G.jokers.cards[i]:trigger_card({buying_card = true, card = c1})
           end
 
           if G.GAME.modifiers.inflation then 
@@ -2483,7 +2483,7 @@ end
     G.CONTROLLER.locks.toggle_shop = true
     if G.shop then 
       for i = 1, #G.jokers.cards do
-        G.jokers.cards[i]:calculate_joker({ending_shop = true})
+        G.jokers.cards[i]:trigger_card({ending_shop = true})
       end
       G.E_MANAGER:add_event(Event({
         trigger = 'immediate',
@@ -2557,7 +2557,7 @@ end
 
   G.FUNCS.skip_booster = function(e)
     for i = 1, #G.jokers.cards do
-      G.jokers.cards[i]:calculate_joker({skipping_booster = true})
+      G.jokers.cards[i]:trigger_card({skipping_booster = true})
     end
     G.FUNCS.end_consumeable(e)
   end
@@ -2766,7 +2766,7 @@ end
         func = function()
           delay(0.3)
           for i = 1, #G.jokers.cards do
-            G.jokers.cards[i]:calculate_joker({skip_blind = true})
+            G.jokers.cards[i]:trigger_card({skip_blind = true})
           end
           save_run()
           for i = 1, #G.GAME.tags do
@@ -2898,7 +2898,7 @@ end
             G.CONTROLLER.locks.shop_reroll = false
             G.CONTROLLER:recall_cardarea_focus('shop_jokers')
             for i = 1, #G.jokers.cards do
-              G.jokers.cards[i]:calculate_joker({reroll_shop = true})
+              G.jokers.cards[i]:trigger_card({reroll_shop = true})
             end
             return true
           end

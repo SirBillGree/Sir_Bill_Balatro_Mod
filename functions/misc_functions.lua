@@ -1719,7 +1719,7 @@ end
 
 function playing_card_joker_effects(cards)
   for i = 1, #G.jokers.cards do
-    G.jokers.cards[i]:calculate_joker({playing_card_added = true, cards = cards})
+    G.jokers.cards[i]:trigger_card({playing_card_added = true, cards = cards})
   end
 end
 
