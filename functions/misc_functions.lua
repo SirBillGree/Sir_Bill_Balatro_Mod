@@ -443,10 +443,10 @@ evaluate_poker_hand_funcs = {
                       str = max_straight, len_str = #max_straight}
 
     -- Functions used to identify the hand sub-type. All poker hands can be defined using 1 or more of these functions.
-    loc.x_kind = function(x, stats) if stats.len_rank1 == x then return true end end
+    loc.x_kind = function(x, stats) if stats.len_rank1 >= x then return true end end
     loc.straight = function(stats) if stats.len_str >= 5 then return true end end
     loc.c_flush = function(stats) if stats.len_suits >= 5 then return true end end
-    loc.two_rank = function(x, y, stats) if stats.len_rank1 == x and stats.len_rank2 == y then return true end end
+    loc.two_rank = function(x, y, stats) if stats.len_rank1 >= x and stats.len_rank2 >= y then return true end end
 
     -- List of hand names and functions placed in order of priority.
     -- Input: hand_stats list

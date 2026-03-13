@@ -195,12 +195,12 @@ vanilla_jokers_set = {
         j_seeing_double=    {order = 128,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 6, name = "Seeing Double", pos = {x=4,y=4}, set = "Joker", effect = "X1.5 Mult club 7", cost_mult = 1.0, config = {x_mult = 2},unlock_condition = {type = 'hand_contents', extra = 'four 7 of Clubs'}},
         j_matador=          {order = 129,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 2, cost = 7, name = "Matador", pos = {x=4,y=5}, set = "Joker", effect = "", config = {dollars = 8}, unlock_condition = {type = 'round_win'}},
         j_hit_the_road=     {order = 130,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "Hit the Road", pos = {x=8,y=5}, set = "Joker", effect = "Jack Discard Effect", cost_mult = 1.0, config = {extra = 0.5}, unlock_condition = {type = 'discard_custom'}},
+        j_duo=              {order = 131,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "The Duo", pos = {x=5,y=4}, set = "Joker", effect = "Type X_Mult", cost_mult = 1.0, config = {x_mult = 2, type = 'Pair'}, unlock_condition = {type = 'win_no_hand', extra = 'Pair'}},
+        j_trio=             {order = 132,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "The Trio", pos = {x=6,y=4}, set = "Joker", effect = "Type X_Mult", cost_mult = 1.0, config = {x_mult = 3, type = 'Three of a Kind'}, unlock_condition = {type = 'win_no_hand', extra = 'Three of a Kind'}},
+        j_family=           {order = 133,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "The Family", pos = {x=7,y=4}, set = "Joker", effect = "Type X_Mult", cost_mult = 1.0, config = {x_mult = 4, type = 'Four of a Kind'}, unlock_condition = {type = 'win_no_hand', extra = 'Four of a Kind'}},
+        j_order=            {order = 134,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "The Order", pos = {x=8,y=4}, set = "Joker", effect = "Type X_Mult", cost_mult = 1.0, config = {x_mult = 3, type = 'Straight'}, unlock_condition = {type = 'win_no_hand', extra = 'Straight'}},
+        j_tribe=            {order = 135,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "The Tribe", pos = {x=9,y=4}, set = "Joker", effect = "Type X_Mult", cost_mult = 1.0, config = {x_mult = 2, type = 'Flush'}, unlock_condition = {type = 'win_no_hand', extra = 'Flush'}},
         -- ^ Implemented functionality ^ --
-        -- j_duo=              {order = 131,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "The Duo", pos = {x=5,y=4}, set = "Joker", effect = "Hand x_mult", cost_mult = 1.0, config = {x_mult = 2, type = 'Pair'}, unlock_condition = {type = 'win_no_hand', extra = 'Pair'}},
-        -- j_trio=             {order = 132,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "The Trio", pos = {x=6,y=4}, set = "Joker", effect = "Hand x_mult", cost_mult = 1.0, config = {x_mult = 3, type = 'Three of a Kind'}, unlock_condition = {type = 'win_no_hand', extra = 'Three of a Kind'}},
-        -- j_family=           {order = 133,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "The Family", pos = {x=7,y=4}, set = "Joker", effect = "Hand x_mult", cost_mult = 1.0, config = {x_mult = 4, type = 'Four of a Kind'}, unlock_condition = {type = 'win_no_hand', extra = 'Four of a Kind'}},
-        -- j_order=            {order = 134,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "The Order", pos = {x=8,y=4}, set = "Joker", effect = "Hand x_mult", cost_mult = 1.0, config = {x_mult = 3, type = 'Straight'}, unlock_condition = {type = 'win_no_hand', extra = 'Straight'}},
-        -- j_tribe=            {order = 135,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 8, name = "The Tribe", pos = {x=9,y=4}, set = "Joker", effect = "Hand x_mult", cost_mult = 1.0, config = {x_mult = 2, type = 'Flush'}, unlock_condition = {type = 'win_no_hand', extra = 'Flush'}},
         
         -- j_stuntman=         {order = 136,  unlocked = false, discovered = false, blueprint_compat = true, perishable_compat = true, eternal_compat = true, rarity = 3, cost = 7, name = "Stuntman", pos = {x=8,y=6}, set = "Joker", effect = "", config = {extra = {h_size = 2, chip_mod = 250}}, unlock_condition = {type = 'chip_score', chips = 100000000}},
         -- j_invisible=        {order = 137,  unlocked = false, discovered = false, blueprint_compat = false, perishable_compat = true, eternal_compat = false, rarity = 3, cost = 8, name = "Invisible Joker", pos = {x=1,y=7}, set = "Joker", effect = "", config = {extra = 2}, unlock_condition = {type = 'win_custom'}},
@@ -251,8 +251,9 @@ local function define_joker_functions()
     end
 
     local function score_hand_jokers() return function(self, context)
-        if context.cardarea == G.jokers and context.score and #context.poker_hands[self.ability.type] > 0 then
+        if context.cardarea == G.jokers and context.score and next(context.poker_hands[self.ability.type]) then
             return {
+                    x_mult = (self.ability.x_mult > 1 and self.ability.x_mult) or nil,
                     mult = (self.ability.mult > 0 and self.ability.mult) or nil,
                     chips = (self.ability.chips > 0 and self.ability.chips) or nil,
                     card = self
@@ -937,13 +938,11 @@ local function define_joker_functions()
     
     local function trigger_matador() return function(self, context)
         if G.GAME.blind.triggered then 
-            ease_dollars(self.ability.extra)
-            G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.extra
+            --ease_dollars(self.ability.dollars)
+            G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + self.ability.dollars
             G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
             return {
-                message = localize('$')..self.ability.extra,
-                dollars = self.ability.extra,
-                colour = G.C.MONEY
+                dollars = self.ability.dollars,
             }
         end
     end end
@@ -1053,7 +1052,7 @@ local function define_joker_functions()
         end
     end end
 
-    local function trigger_castle_upgrade() return function(self, context)
+    local function trigger_hit_the_road_upgrade() return function(self, context)
         if context.discard and not context.blueprint and not context.other_card.debuff and context.other_card:get_id() == 11 and not context.blueprint then
             self.ability.x_mult = self.ability.x_mult + self.ability.extra
             return {
@@ -1224,6 +1223,16 @@ local function define_joker_functions()
 
     local function trigger_campfire_reset() return function(self, context)
         if context.end_of_round and not context.blueprint and G.GAME.blind.boss and self.ability.x_mult > 1 then
+            self.ability.x_mult = 1
+            return {
+                message = localize('k_reset'),
+                colour = G.C.RED
+            }
+        end
+    end end
+
+    local function trigger_hit_the_road_reset() return function(self, context)
+        if context.end_of_round and not context.blueprint and self.ability.x_mult > 1 then
             self.ability.x_mult = 1
             return {
                 message = localize('k_reset'),
@@ -1801,8 +1810,8 @@ local function define_joker_functions()
         elseif k == 'j_merry_andy' then joker_functions[k] =                    {add_deck=add_remove_merry_andy(1), remove_deck=add_remove_merry_andy(-1)}
         elseif k == 'j_idol' then joker_functions[k] =                          {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card:get_id() == G.GAME.current_round.idol_card.id and context.other_card:is_suit(G.GAME.current_round.idol_card.suit) end, "x_mult")}}
         elseif k == 'j_seeing_double' then joker_functions[k] =                 {score=score_value('x_mult', suit_count_cond(seeing_double_cond()))}
-        elseif k == 'j_matador' then joker_functions[k] =                       {triggers={trigger_matador()}}
-        elseif k == 'j_hit_the_road' then joker_functions[k] =                  {score=score_value('x_mult'),triggers={trigger_castle_upgrade()}}
+        elseif k == 'j_matador' then joker_functions[k] =                       {score=trigger_matador()}
+        elseif k == 'j_hit_the_road' then joker_functions[k] =                  {score=score_value('x_mult'),triggers={trigger_hit_the_road_upgrade(), trigger_hit_the_road_reset()}}
         --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         
         --elseif k == 'j_' then joker_functions[k] =                         
@@ -1811,7 +1820,8 @@ local function define_joker_functions()
         elseif v.effect then
             if v.effect == "Suit Mult" then joker_functions[k] =                {triggers={trigger_card_buff(function(self,context) return context.cardarea == G.play and context.other_card:is_suit(self.ability.extra.suit) end, 'mult')}}
             elseif v.effect == "Type Mult" or
-                   v.effect == "Type Chips" then joker_functions[k] =           {score=score_hand_jokers()}
+                   v.effect == "Type Chips" or 
+                   v.effect == "Type X_Mult" then joker_functions[k] =          {score=score_hand_jokers()}
             end
         end
 

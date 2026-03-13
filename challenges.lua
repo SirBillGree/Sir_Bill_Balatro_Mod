@@ -22,11 +22,11 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_flower_pot'},
-            {id = 'j_seeing_double'},
-            {id = 'j_idol'},
-            -- {id = 'j_rough_gem'},
-            -- {id = 'j_onyx_agate'},
+            {id = 'j_duo'},
+            {id = 'j_trio'},
+            {id = 'j_family'},
+            {id = 'j_order'},
+            {id = 'j_tribe'},
             {id = 'j_blueprint'},
         },
         consumeables = {
