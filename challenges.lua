@@ -22,15 +22,15 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_duo'},
-            {id = 'j_trio'},
-            {id = 'j_family'},
-            {id = 'j_order'},
-            {id = 'j_tribe'},
+            {id = 'j_caino'},
+            {id = 'j_triboulet'},
+            {id = 'j_perkeo'},
+            {id = 'j_yorick'},
+            {id = 'j_chicot'},
             {id = 'j_blueprint'},
         },
         consumeables = {
-            {id = 'c_chariot'},
+            {id = 'c_hanged_man'},
             {id = 'c_tower'},
             {id = 'c_cryptid'},
             {id = 'c_venus'}

@@ -406,23 +406,36 @@ function Card:set_ability(center, initial, delay_sprites)
 end
 
 -- Sets cost of a card --
--- should be different for each card type --
+card_set_cost_funcs = {
+    {name="buy cost", func = function(self)
+
+        self.extra_cost = 0 + G.GAME.inflation
+        if self.edition then
+            self.extra_cost = self.extra_cost + (self.edition.holo and 3 or 0) + (self.edition.foil and 2 or 0) + 
+            (self.edition.polychrome and 5 or 0) + (self.edition.negative and 5 or 0)
+        end
+        self.cost = math.max(1, math.floor((self.base_cost + self.extra_cost + 0.5)*(100-G.GAME.discount_percent)/100))
+        if self.ability.set == 'Booster' and G.GAME.modifiers.booster_ante_scaling then self.cost = self.cost + G.GAME.round_resets.ante - 1 end
+        if self.ability.set == 'Booster' and (not G.SETTINGS.tutorial_complete) and G.SETTINGS.tutorial_progress and (not G.SETTINGS.tutorial_progress.completed_parts['shop_1']) then
+            self.cost = self.cost + 3
+        end
+        if self.ability.rental then self.cost = 1 end
+
+    end}, {name="Astronomer", func = function(self)
+
+        if (self.ability.set == 'Planet' or (self.ability.set == 'Booster' and self.ability.name:find('Celestial'))) and #find_joker('Astronomer') > 0 then self.cost = 0 end
+
+    end}, {name="sell cost", func = function(self)
+
+        self.sell_cost = math.max(1, math.floor(self.cost/2)) + (self.ability.extra_value or 0)
+        if self.area and self.ability.couponed and (self.area == G.shop_jokers or self.area == G.shop_booster) then self.cost = 0 end
+        self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost
+
+    end},
+}
 function Card:set_cost()
-    self.extra_cost = 0 + G.GAME.inflation
-    if self.edition then
-        self.extra_cost = self.extra_cost + (self.edition.holo and 3 or 0) + (self.edition.foil and 2 or 0) + 
-        (self.edition.polychrome and 5 or 0) + (self.edition.negative and 5 or 0)
-    end
-    self.cost = math.max(1, math.floor((self.base_cost + self.extra_cost + 0.5)*(100-G.GAME.discount_percent)/100))
-    if self.ability.set == 'Booster' and G.GAME.modifiers.booster_ante_scaling then self.cost = self.cost + G.GAME.round_resets.ante - 1 end
-    if self.ability.set == 'Booster' and (not G.SETTINGS.tutorial_complete) and G.SETTINGS.tutorial_progress and (not G.SETTINGS.tutorial_progress.completed_parts['shop_1']) then
-        self.cost = self.cost + 3
-    end
-    if (self.ability.set == 'Planet' or (self.ability.set == 'Booster' and self.ability.name:find('Celestial'))) and #find_joker('Astronomer') > 0 then self.cost = 0 end
-    if self.ability.rental then self.cost = 1 end
-    self.sell_cost = math.max(1, math.floor(self.cost/2)) + (self.ability.extra_value or 0)
-    if self.area and self.ability.couponed and (self.area == G.shop_jokers or self.area == G.shop_booster) then self.cost = 0 end
-    self.sell_cost_label = self.facing == 'back' and '?' or self.sell_cost
+    -- iterate through functions above
+    for _,f in pairs(card_set_cost_funcs) do f.func(self) end
 end
 
 -- Add edition to a card --
@@ -880,7 +893,7 @@ function Card:generate_UIBox_ability_table()
                 }}
             } or nil
         elseif self.ability.name == 'Cartomancer' then
-        elseif self.ability.name == 'Astronomer' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Astronomer' then --loc_vars = {self.ability.extra}
         
         elseif self.ability.name == 'Golden Ticket' then loc_vars = {self.ability.dollars}
         elseif self.ability.name == 'Mr. Bones' then
@@ -957,8 +970,8 @@ function Card:generate_UIBox_ability_table()
         elseif self.ability.name == 'Castle' then loc_vars = {self.ability.extra.chip_mod, localize(G.GAME.current_round.castle_card.suit, 'suits_singular'), self.ability.chips, colours = {G.C.SUITS[G.GAME.current_round.castle_card.suit]}}
         elseif self.ability.name == 'Smiley Face' then loc_vars = {self.ability.mult}
         elseif self.ability.name == 'Campfire' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Stuntman' then loc_vars = {self.ability.extra.chips, self.ability.extra.h_size}
-        elseif self.ability.name == 'Invisible Joker' then loc_vars = {self.ability.extra, self.ability.invis_rounds}
+        elseif self.ability.name == 'Stuntman' then loc_vars = {self.ability.chips, self.ability.extra.h_size}
+        elseif self.ability.name == 'Invisible Joker' then loc_vars = {self.ability.extra.init_rounds, self.ability.extra.current_rounds}
         elseif self.ability.name == 'Brainstorm' then
             self.ability.blueprint_compat_ui = self.ability.blueprint_compat_ui or ''; self.ability.blueprint_compat_check = nil
             main_end = (self.area and self.area == G.jokers) and {
@@ -972,15 +985,15 @@ function Card:generate_UIBox_ability_table()
             local planets_used = 0
             for k, v in pairs(G.GAME.consumeable_usage) do if v.set == 'Planet' then planets_used = planets_used + 1 end end
             loc_vars = {self.ability.extra, planets_used*self.ability.extra}
-        elseif self.ability.name == 'Shoot the Moon' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == "Driver's License" then loc_vars = {self.ability.extra, self.ability.driver_tally or '0'}
+        elseif self.ability.name == 'Shoot the Moon' then loc_vars = {self.ability.mult}
+        elseif self.ability.name == "Driver's License" then loc_vars = {self.ability.x_mult, self.ability.driver_tally or '0'}
         elseif self.ability.name == 'Burnt Joker' then
         elseif self.ability.name == 'Bootstraps' then loc_vars = {self.ability.extra.mult, self.ability.extra.dollars, self.ability.extra.mult*math.floor((G.GAME.dollars + (G.GAME.dollar_buffer or 0))/self.ability.extra.dollars)}
-        elseif self.ability.name == 'Caino' then loc_vars = {self.ability.extra, self.ability.caino_x_mult}
-        elseif self.ability.name == 'Triboulet' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Yorick' then loc_vars = {self.ability.extra.x_mult, self.ability.extra.discards, self.ability.yorick_discards, self.ability.x_mult}
+        elseif self.ability.name == 'Caino' then loc_vars = {self.ability.extra, self.ability.x_mult}
+        elseif self.ability.name == 'Triboulet' then loc_vars = {self.ability.x_mult}
+        elseif self.ability.name == 'Yorick' then loc_vars = {self.ability.extra.x_mult, self.ability.extra.discards, self.ability.extra.current_discards, self.ability.x_mult}
         elseif self.ability.name == 'Chicot' then
-        elseif self.ability.name == 'Perkeo' then loc_vars = {self.ability.extra}
+        elseif self.ability.name == 'Perkeo' then 
         end
     end
     local badges = {}
