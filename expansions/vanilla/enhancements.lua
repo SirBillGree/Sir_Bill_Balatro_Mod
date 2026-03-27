@@ -48,9 +48,6 @@ for k, v in pairs(vanilla_enhancements_set) do
 end
 
 
-local enhancement_functions = {}
-
-
 -- functions passed exist in this function and are passed to game --
 local function define_enhancement_functions()
 
@@ -63,12 +60,6 @@ local function define_enhancement_functions()
     -- output external: interal function
     -- input: self, context
     -- output: <score_unit> => {} | {card, chips, mult, x_mult, dollars, extra}
-
-    local function score_none()
-        return function(self, context)
-            return {}
-        end
-    end
 
     -- both bonus and stone cards
     local function score_chips()
@@ -121,32 +112,34 @@ local function define_enhancement_functions()
             else return {} end
         end
     end
+    
+    local enhancement_functions = {
 
-    -- I chose to make a loop instead of define a table so that I could save time
-    -- and not have to write out "vanilla_enhancements_set.j_<enhancement>.config.<var>"
-    -- a billion times, which seems hard to maintain. "c.<var>" is much better.
-    -- Yes, it's slower (O(n) instead of O(1)), but this should only run once.
-    for k,v in pairs(vanilla_enhancements_set) do
-        local c = v.config
+        c_base =        {},
 
-        -- place function defs here --
-        if k == 'c_base' then enhancement_functions[k] =        {score=score_none()}
-        
-        elseif k == 'm_bonus' then enhancement_functions[k] =   {score=score_chips()}
-        elseif k == 'm_mult' then enhancement_functions[k] =    {score=score_mult()}
-        elseif k == 'm_wild' then enhancement_functions[k] =    {score=score_none()}
-        elseif k == 'm_glass' then enhancement_functions[k] =   {score=score_glass(), remove_graphic = function(self) self:shatter() end}
-        elseif k == 'm_steel' then enhancement_functions[k] =   {score=score_steel()}
-        elseif k == 'm_stone' then enhancement_functions[k] =   {score=score_chips()}
-        elseif k == 'm_gold' then enhancement_functions[k] =    {score=score_gold()}
-        elseif k == 'm_lucky' then enhancement_functions[k] =   {score=score_lucky()}
-        else end
-    end
+        m_bonus =       {score=score_chips()},
+
+        m_mult =        {score=score_mult()},
+
+        m_wild =        {},
+
+        m_glass =       {score=score_glass(),
+                            remove_graphic = function(self) self:shatter() end},
+
+        m_steel =       {score=score_steel()},
+
+        m_stone =       {score=score_chips()},
+
+        m_gold =        {score=score_gold()},
+
+        m_lucky =       {score=score_lucky()},
+
+    }
+    return enhancement_functions
 end
 
 function vanilla_enhancement_function_collector()
-    define_enhancement_functions()
-    return enhancement_functions
+    return define_enhancement_functions()
 end
 
 -- Playing Card Function

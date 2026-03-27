@@ -650,52 +650,11 @@ function Card:add_to_deck(from_debuff)
                 discover_card(G.P_CENTERS['e_base'])
             end
         end
-        -- if self.ability.h_size ~= 0 then
-        --     G.hand:change_size(self.ability.h_size)
-        -- end
-        -- if self.ability.d_size > 0 then
-        --     G.GAME.round_resets.discards = G.GAME.round_resets.discards + self.ability.d_size
-        --     ease_discard(self.ability.d_size)
-        -- end
+        
+        -- Card-type specifc fuctions run here
         local card_funcs = get_card_functions(self.ability.id)
         if card_funcs and card_funcs.add_deck then card_funcs.add_deck(self) end
-        -- if self.ability.name == 'Credit Card' then
-        --     G.GAME.bankrupt_at = G.GAME.bankrupt_at - self.ability.extra
-        -- end
-        -- if self.ability.name == 'Chicot' and G.GAME.blind and G.GAME.blind.boss and not G.GAME.blind.disabled then
-        --     G.GAME.blind:disable()
-        --     play_sound('timpani')
-        --     card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('ph_boss_disabled')})
-        -- end
-        -- if self.ability.name == 'Chaos the Clown' then
-        --     G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls + 1
-        --     calculate_reroll_cost(true)
-        -- end
-        -- if self.ability.name == 'Turtle Bean' then
-        --     G.hand:change_size(self.ability.extra.h_size)
-        -- end
-        -- if self.ability.name == 'Oops! All 6s' then
-        --     for k, v in pairs(G.GAME.probabilities) do 
-        --         G.GAME.probabilities[k] = v*2
-        --     end
-        -- end
-        -- if self.ability.name == 'To the Moon' then
-        --     G.GAME.interest_amount = G.GAME.interest_amount + self.ability.extra
-        -- end
-        -- if self.ability.name == 'Astronomer' then 
-        --     G.E_MANAGER:add_event(Event({func = function()
-        --         for k, v in pairs(G.I.CARD) do
-        --             if v.set_cost then v:set_cost() end
-        --         end
-        --         return true end }))
-        -- end
-        -- if self.ability.name == 'Troubadour' then
-        --     G.hand:change_size(self.ability.extra.h_size)
-        --     G.GAME.round_resets.hands = G.GAME.round_resets.hands + self.ability.extra.h_plays
-        -- end
-        -- if self.ability.name == 'Stuntman' then
-        --     G.hand:change_size(-self.ability.extra.h_size)
-        -- end
+        
         if self.edition and self.edition.negative then 
             if from_debuff then 
                 self.ability.queue_negative_removal = nil
@@ -715,47 +674,11 @@ end
 function Card:remove_from_deck(from_debuff)
     if self.added_to_deck then
         self.added_to_deck = false
-        -- if self.ability.h_size ~= 0 then
-        --     G.hand:change_size(-self.ability.h_size)
-        -- end
-        -- if self.ability.d_size > 0 then
-        --     G.GAME.round_resets.discards = G.GAME.round_resets.discards - self.ability.d_size
-        --     ease_discard(-self.ability.d_size)
-        -- end
+        
+        -- Card-type specifc fuctions run here
         local card_funcs = get_card_functions(self.ability.id)
         if card_funcs and card_funcs.remove_deck then card_funcs.remove_deck(self) end
-        -- if self.ability.name == 'Credit Card' then
-        --     G.GAME.bankrupt_at = G.GAME.bankrupt_at + self.ability.extra
-        -- end
-        -- if self.ability.name == 'Chaos the Clown' then
-        --     G.GAME.current_round.free_rerolls = G.GAME.current_round.free_rerolls - 1
-        --     calculate_reroll_cost(true)
-        -- end
-        -- if self.ability.name == 'Turtle Bean' then
-        --     G.hand:change_size(-self.ability.extra.h_size)
-        -- end
-        -- if self.ability.name == 'Oops! All 6s' then
-        --     for k, v in pairs(G.GAME.probabilities) do 
-        --         G.GAME.probabilities[k] = v/2
-        --     end
-        -- end
-        -- if self.ability.name == 'To the Moon' then
-        --     G.GAME.interest_amount = G.GAME.interest_amount - self.ability.extra
-        -- end
-        -- if self.ability.name == 'Astronomer' then 
-        --     G.E_MANAGER:add_event(Event({func = function()
-        --         for k, v in pairs(G.I.CARD) do
-        --             if v.set_cost then v:set_cost() end
-        --         end
-        --         return true end }))
-        -- end
-        -- if self.ability.name == 'Troubadour' then
-        --     G.hand:change_size(-self.ability.extra.h_size)
-        --     G.GAME.round_resets.hands = G.GAME.round_resets.hands - self.ability.extra.h_plays
-        -- end
-        -- if self.ability.name == 'Stuntman' then
-        --     G.hand:change_size(self.ability.extra.h_size)
-        -- end
+        
         if self.edition and self.edition.negative and G.jokers then
             if from_debuff then
                 self.ability.queue_negative_removal = true 
@@ -778,14 +701,33 @@ function Card:generate_UIBox_unlock_table(hidden)
     return generate_card_ui(self.config.center, nil, loc_vars, 'Locked')
 end
 
--- This is for arguments SPECIFIC TO THIS INSTANCE OF THE CARD
+--[[
+card_generate_UIBox_ability_table = {
+-- decide if locked, undiscovered, discovered, or info_node
+-- discovered (self):
+    -- card specific args
+    -- badges 
+    -- iterate info_queue
+-- undiscovered (c_):
+    -- print undiscovered text (varies depending on card type, like "undiscovered_tarot")
+-- locked (c_):
+    -- card specific args
+-- info_node (c_):
+    -- card-specifc args (generic)
+}
+]]--
+
 
 -- All Card Function + specific cards args
 function Card:generate_UIBox_ability_table()
+
     local card_type, hide_desc = self.ability.set or "None", nil
     local loc_vars = nil
     local main_start, main_end = nil,nil
     local no_badge = nil
+    --
+    local info_queue={}
+    --
     
     if not self.bypass_lock and self.config.center.unlocked ~= false and
     (self.ability.set == 'Joker' or self.ability.set == 'Edition' or self.ability.consumeable or self.ability.set == 'Voucher' or self.ability.set == 'Booster') and
@@ -805,195 +747,17 @@ function Card:generate_UIBox_ability_table()
                     nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,
                     bonus_chips = (self.ability.bonus + (self.perma.chips or 0)) > 0 and (self.ability.bonus + (self.perma.chips or 0)) or nil,
                 }
-    elseif self.ability.set == 'Joker' then -- all remaining jokers
-        if self.ability.name == 'Joker' then loc_vars = {self.ability.mult}
-        elseif self.ability.name == 'Jolly Joker' or self.ability.name == 'Zany Joker' or
-            self.ability.name == 'Mad Joker' or self.ability.name == 'Crazy Joker'  or 
-            self.ability.name == 'Droll Joker' then 
-            loc_vars = {self.ability.mult, localize(self.ability.type, 'poker_hands')}
-        elseif self.ability.name == 'Sly Joker' or self.ability.name == 'Wily Joker' or
-        self.ability.name == 'Clever Joker' or self.ability.name == 'Devious Joker'  or 
-        self.ability.name == 'Crafty Joker' then 
-            loc_vars = {self.ability.chips, localize(self.ability.type, 'poker_hands')}
-        elseif self.ability.name == 'Half Joker' then loc_vars = {self.ability.mult, self.ability.extra.size}
-        elseif self.ability.name == 'Fortune Teller' then loc_vars = {self.ability.extra, (G.GAME.consumeable_usage_total and G.GAME.consumeable_usage_total.tarot or 0)}
-        elseif self.ability.name == 'Steel Joker' then loc_vars = {self.ability.extra, 1 + self.ability.extra*(self.ability.tally or 0)}
-        elseif self.ability.name == 'Chaos the Clown' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Space Joker' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra}
-        elseif self.ability.name == 'Stone Joker' then loc_vars = {self.ability.extra, self.ability.extra*(self.ability.tally or 0)}
-        elseif self.ability.name == 'Drunkard' then loc_vars = {self.ability.extra.d_size}
-        elseif self.ability.name == 'Green Joker' then loc_vars = {self.ability.extra.hand_add, self.ability.extra.discard_sub, self.ability.mult}
-        elseif self.ability.name == 'Credit Card' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Greedy Joker' or self.ability.name == 'Lusty Joker' or
-            self.ability.name == 'Wrathful Joker' or self.ability.name == 'Gluttonous Joker' then loc_vars = {self.ability.mult, localize(self.ability.extra.suit, 'suits_singular')}
-        elseif self.ability.name == 'Blue Joker' then loc_vars = {self.ability.extra, self.ability.extra*((G.deck and G.deck.cards) and #G.deck.cards or 52)}
-        elseif self.ability.name == 'Sixth Sense' then loc_vars = {}
-        elseif self.ability.name == 'Mime' then
-        elseif self.ability.name == 'Hack' then loc_vars = {self.ability.extra.reps+1}
-        elseif self.ability.name == 'Pareidolia' then 
-        elseif self.ability.name == 'Faceless Joker' then loc_vars = {self.ability.dollars, self.ability.extra.faces}
-        elseif self.ability.name == 'Oops! All 6s' then
-        elseif self.ability.name == 'Juggler' then loc_vars = {self.ability.extra.h_size}
-        elseif self.ability.name == 'Golden Joker' then loc_vars = {self.ability.dollars}
-        elseif self.ability.name == 'Joker Stencil' then loc_vars = {self.ability.x_mult}
-        elseif self.ability.name == 'Four Fingers' then
-        elseif self.ability.name == 'Ceremonial Dagger' then loc_vars = {self.ability.mult}
-        elseif self.ability.name == 'Banner' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Misprint' then
-            local r_mults = {}
-            for i = self.ability.extra.min, self.ability.extra.max do
-                r_mults[#r_mults+1] = tostring(i)
-            end
-            local loc_mult = ' '..(localize('k_mult'))..' '
-            main_start = {
-                {n=G.UIT.T, config={text = '  +',colour = G.C.MULT, scale = 0.32}},
-                {n=G.UIT.O, config={object = DynaText({string = r_mults, colours = {G.C.RED},pop_in_rate = 9999999, silent = true, random_element = true, pop_delay = 0.5, scale = 0.32, min_cycle_time = 0})}},
-                {n=G.UIT.O, config={object = DynaText({string = {
-                    {string = 'rand()', colour = G.C.JOKER_GREY},{string = "#@"..(G.deck and G.deck.cards[1] and G.deck.cards[#G.deck.cards].base.id or 11)..(G.deck and G.deck.cards[1] and G.deck.cards[#G.deck.cards].base.suit:sub(1,1) or 'D'), colour = G.C.RED},
-                    loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult, loc_mult},
-                colours = {G.C.UI.TEXT_DARK},pop_in_rate = 9999999, silent = true, random_element = true, pop_delay = 0.2011, scale = 0.32, min_cycle_time = 0})}},
-            }
-        elseif self.ability.name == 'Mystic Summit' then loc_vars = {self.ability.mult, self.ability.extra.d_remaining}
-        elseif self.ability.name == 'Marble Joker' then
-        elseif self.ability.name == 'Loyalty Card' then loc_vars = {self.ability.x_mult, self.ability.extra.every + 1, localize{type = 'variable', key = (self.ability.extra.loyalty_remaining == 0 and 'loyalty_active' or 'loyalty_inactive'), vars = {self.ability.extra.loyalty_remaining}}}
-        elseif self.ability.name == '8 Ball' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1),self.ability.extra}
-        elseif self.ability.name == 'Dusk' then loc_vars = {self.ability.extra.reps+1}
-        elseif self.ability.name == 'Raised Fist' then
-        elseif self.ability.name == 'Fibonacci' then loc_vars = {self.ability.mult}
-        elseif self.ability.name == 'Scary Face' then loc_vars = {self.ability.chips}
-        elseif self.ability.name == 'Abstract Joker' then loc_vars = {self.ability.extra, (G.jokers and G.jokers.cards and #G.jokers.cards or 0)*self.ability.extra}
-        elseif self.ability.name == 'Delayed Gratification' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Gros Michel' then loc_vars = {self.ability.mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}
-        elseif self.ability.name == 'Even Steven' then loc_vars = {self.ability.mult}
-        elseif self.ability.name == 'Odd Todd' then loc_vars = {self.ability.chips}
-        elseif self.ability.name == 'Scholar' then loc_vars = {self.ability.mult, self.ability.chips}
-        elseif self.ability.name == 'Business Card' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.chance, self.ability.dollars}
-        elseif self.ability.name == 'Supernova' then
-        elseif self.ability.name == 'Spare Trousers' then loc_vars = {self.ability.extra, localize('Two Pair', 'poker_hands'), self.ability.mult}
-        elseif self.ability.name == 'Superposition' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Ride the Bus' then loc_vars = {self.ability.extra, self.ability.mult}
-        elseif self.ability.name == 'Egg' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Burglar' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Blackboard' then loc_vars = {self.ability.x_mult, localize('Spades', 'suits_plural'), localize('Clubs', 'suits_plural')}
-        elseif self.ability.name == 'Runner' then loc_vars = {self.ability.chips, self.ability.extra.chip_mod}
-        elseif self.ability.name == 'Ice Cream' then loc_vars = {self.ability.chips, self.ability.extra.chip_mod}
-        elseif self.ability.name == 'DNA' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Splash' then
-        elseif self.ability.name == 'Constellation' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Hiker' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'To Do List' then loc_vars = {self.ability.dollars, localize(self.ability.extra.poker_hand, 'poker_hands')}
-        elseif self.ability.name == 'Smeared Joker' then
-        elseif self.ability.name == 'Blueprint' then
-            self.ability.blueprint_compat_ui = self.ability.blueprint_compat_ui or ''; self.ability.blueprint_compat_check = nil
-            main_end = (self.area and self.area == G.jokers) and {
-                {n=G.UIT.C, config={align = "bm", minh = 0.4}, nodes={
-                    {n=G.UIT.C, config={ref_table = self, align = "m", colour = G.C.JOKER_GREY, r = 0.05, padding = 0.06, func = 'blueprint_compat'}, nodes={
-                        {n=G.UIT.T, config={ref_table = self.ability, ref_value = 'blueprint_compat_ui',colour = G.C.UI.TEXT_LIGHT, scale = 0.32*0.8}},
-                    }}
-                }}
-            } or nil
-        elseif self.ability.name == 'Cartomancer' then
-        elseif self.ability.name == 'Astronomer' then --loc_vars = {self.ability.extra}
-        
-        elseif self.ability.name == 'Golden Ticket' then loc_vars = {self.ability.dollars}
-        elseif self.ability.name == 'Mr. Bones' then
-        elseif self.ability.name == 'Acrobat' then loc_vars = {self.ability.x_mult}
-        elseif self.ability.name == 'Sock and Buskin' then loc_vars = {self.ability.extra.reps+1}
-        elseif self.ability.name == 'Swashbuckler' then loc_vars = {self.ability.mult}
-        elseif self.ability.name == 'Troubadour' then loc_vars = {self.ability.extra.h_size, -self.ability.extra.h_plays}
-        elseif self.ability.name == 'Certificate' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Throwback' then loc_vars = {self.ability.extra, 1 + G.GAME.skips*self.ability.extra}
-        elseif self.ability.name == 'Hanging Chad' then loc_vars = {self.ability.extra.reps}
-        elseif self.ability.name == 'Rough Gem' then loc_vars = {self.ability.dollars}
-        elseif self.ability.name == 'Bloodstone' then loc_vars = {''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds, self.ability.x_mult}
-        elseif self.ability.name == 'Arrowhead' then loc_vars = {self.ability.chips}
-        elseif self.ability.name == 'Onyx Agate' then loc_vars = {self.ability.mult}
-        elseif self.ability.name == 'Glass Joker' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Showman' then
-        elseif self.ability.name == 'Flower Pot' then loc_vars = {self.ability.x_mult}
-        elseif self.ability.name == 'Wee Joker' then loc_vars = {self.ability.chips, self.ability.extra}
-        elseif self.ability.name == 'Merry Andy' then loc_vars = {self.ability.extra.d_size, self.ability.extra.h_size}
-        elseif self.ability.name == 'The Idol' then loc_vars = {self.ability.x_mult, localize(G.GAME.current_round.idol_card.rank, 'ranks'), localize(G.GAME.current_round.idol_card.suit, 'suits_plural'), colours = {G.C.SUITS[G.GAME.current_round.idol_card.suit]}}
-        elseif self.ability.name == 'Seeing Double' then loc_vars = {self.ability.x_mult}
-        elseif self.ability.name == 'Matador' then loc_vars = {self.ability.dollars}
-        elseif self.ability.name == 'Hit the Road' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'The Duo' or self.ability.name == 'The Trio'
-            or self.ability.name == 'The Family' or self.ability.name == 'The Order' or self.ability.name == 'The Tribe' then loc_vars = {self.ability.x_mult, localize(self.ability.type, 'poker_hands')}
-        
-        elseif self.ability.name == 'Cavendish' then loc_vars = {self.ability.x_mult, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}
-        elseif self.ability.name == 'Card Sharp' then loc_vars = {self.ability.x_mult}
-        elseif self.ability.name == 'Red Card' then loc_vars = {self.ability.extra, self.ability.mult}
-        elseif self.ability.name == 'Madness' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Square Joker' then loc_vars = {self.ability.chips, self.ability.extra.chip_mod}
-        elseif self.ability.name == 'Seance' then loc_vars = {localize(self.ability.extra.poker_hand, 'poker_hands')}
-        elseif self.ability.name == 'Riff-raff' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Vampire' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Shortcut' then
-        elseif self.ability.name == 'Hologram' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Vagabond' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Baron' then loc_vars = {self.ability.x_mult}
-        elseif self.ability.name == 'Cloud 9' then loc_vars = {self.ability.extra, self.ability.extra*(self.ability.nine_tally or 0)}
-        elseif self.ability.name == 'Rocket' then loc_vars = {self.ability.dollars, self.ability.extra.increase}
-        elseif self.ability.name == 'Obelisk' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Midas Mask' then
-        elseif self.ability.name == 'Luchador' then
-            local has_message= (G.GAME and self.area and (self.area == G.jokers))
-            if has_message then
-                local disableable = G.GAME.blind and ((not G.GAME.blind.disabled) and (G.GAME.blind:get_type() == 'Boss'))
-                main_end = {
-                    {n=G.UIT.C, config={align = "bm", minh = 0.4}, nodes={
-                        {n=G.UIT.C, config={ref_table = self, align = "m", colour = disableable and G.C.GREEN or G.C.RED, r = 0.05, padding = 0.06}, nodes={
-                            {n=G.UIT.T, config={text = ' '..localize(disableable and 'k_active' or 'ph_no_boss_active')..' ',colour = G.C.UI.TEXT_LIGHT, scale = 0.32*0.9}},
-                        }}
-                    }}
-                }
-            end
-        elseif self.ability.name == 'Photograph' then loc_vars = {self.ability.x_mult}
-        elseif self.ability.name == 'Gift Card' then  loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Turtle Bean' then loc_vars = {self.ability.extra.h_size, self.ability.extra.h_mod}
-        elseif self.ability.name == 'Erosion' then loc_vars = {self.ability.extra, math.max(0,self.ability.extra*(G.playing_cards and (G.GAME.starting_deck_size - #G.playing_cards) or 0)), G.GAME.starting_deck_size}
-        elseif self.ability.name == 'Reserved Parking' then loc_vars = {self.ability.dollars, ''..(G.GAME and G.GAME.probabilities.normal or 1), self.ability.extra.odds}
-        elseif self.ability.name == 'Mail-In Rebate' then loc_vars = {self.ability.extra, localize(G.GAME.current_round.mail_card.rank, 'ranks')}
-        elseif self.ability.name == 'To the Moon' then loc_vars = {self.ability.extra}
-        elseif self.ability.name == 'Hallucination' then loc_vars = {G.GAME.probabilities.normal, self.ability.extra}
-        elseif self.ability.name == 'Lucky Cat' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Baseball Card' then loc_vars = {self.ability.x_mult}
-        elseif self.ability.name == 'Bull' then loc_vars = {self.ability.extra, self.ability.extra*math.max(0,G.GAME.dollars) or 0}
-        elseif self.ability.name == 'Diet Cola' then loc_vars = {localize{type = 'name_text', set = 'Tag', key = 'tag_double', nodes = {}}}
-        elseif self.ability.name == 'Trading Card' then loc_vars = {self.ability.dollars}
-        elseif self.ability.name == 'Flash Card' then loc_vars = {self.ability.extra, self.ability.mult}
-        elseif self.ability.name == 'Popcorn' then loc_vars = {self.ability.mult, self.ability.extra}
-        elseif self.ability.name == 'Ramen' then loc_vars = {self.ability.x_mult, self.ability.extra}
-        elseif self.ability.name == 'Ancient Joker' then loc_vars = {self.ability.x_mult, localize(G.GAME.current_round.ancient_card.suit, 'suits_singular'), colours = {G.C.SUITS[G.GAME.current_round.ancient_card.suit]}}
-        elseif self.ability.name == 'Walkie Talkie' then loc_vars = {self.ability.chips, self.ability.mult}
-        elseif self.ability.name == 'Seltzer' then loc_vars = {self.ability.extra.hands}
-        elseif self.ability.name == 'Castle' then loc_vars = {self.ability.extra.chip_mod, localize(G.GAME.current_round.castle_card.suit, 'suits_singular'), self.ability.chips, colours = {G.C.SUITS[G.GAME.current_round.castle_card.suit]}}
-        elseif self.ability.name == 'Smiley Face' then loc_vars = {self.ability.mult}
-        elseif self.ability.name == 'Campfire' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Stuntman' then loc_vars = {self.ability.chips, self.ability.extra.h_size}
-        elseif self.ability.name == 'Invisible Joker' then loc_vars = {self.ability.extra.init_rounds, self.ability.extra.current_rounds}
-        elseif self.ability.name == 'Brainstorm' then
-            self.ability.blueprint_compat_ui = self.ability.blueprint_compat_ui or ''; self.ability.blueprint_compat_check = nil
-            main_end = (self.area and self.area == G.jokers) and {
-                {n=G.UIT.C, config={align = "bm", minh = 0.4}, nodes={
-                    {n=G.UIT.C, config={ref_table = self, align = "m", colour = G.C.JOKER_GREY, r = 0.05, padding = 0.06, func = 'blueprint_compat'}, nodes={
-                        {n=G.UIT.T, config={ref_table = self.ability, ref_value = 'blueprint_compat_ui',colour = G.C.UI.TEXT_LIGHT, scale = 0.32*0.8}},
-                    }}
-                }}
-            } or nil
-        elseif self.ability.name == 'Satellite' then
-            local planets_used = 0
-            for k, v in pairs(G.GAME.consumeable_usage) do if v.set == 'Planet' then planets_used = planets_used + 1 end end
-            loc_vars = {self.ability.extra, planets_used*self.ability.extra}
-        elseif self.ability.name == 'Shoot the Moon' then loc_vars = {self.ability.mult}
-        elseif self.ability.name == "Driver's License" then loc_vars = {self.ability.x_mult, self.ability.driver_tally or '0'}
-        elseif self.ability.name == 'Burnt Joker' then
-        elseif self.ability.name == 'Bootstraps' then loc_vars = {self.ability.extra.mult, self.ability.extra.dollars, self.ability.extra.mult*math.floor((G.GAME.dollars + (G.GAME.dollar_buffer or 0))/self.ability.extra.dollars)}
-        elseif self.ability.name == 'Caino' then loc_vars = {self.ability.extra, self.ability.x_mult}
-        elseif self.ability.name == 'Triboulet' then loc_vars = {self.ability.x_mult}
-        elseif self.ability.name == 'Yorick' then loc_vars = {self.ability.extra.x_mult, self.ability.extra.discards, self.ability.extra.current_discards, self.ability.x_mult}
-        elseif self.ability.name == 'Chicot' then
-        elseif self.ability.name == 'Perkeo' then 
+    elseif self.ability.set == 'Joker' then 
+        -- get ui_args
+        local card_funcs = get_card_functions(self.ability.id)
+        local ui_args = {}
+        if card_funcs and card_funcs.ui_args then ui_args = card_funcs.ui_args(self) end
+        -- get arguments
+        if ui_args then 
+            if ui_args.vars then loc_vars = ui_args.vars end
+            if ui_args.main_end then main_end = ui_args.main_end end
+            if ui_args.main_start then main_start = ui_args.main_start end
+            if ui_args.info_queue then info_queue = ui_args.info_queue end
         end
     end
     local badges = {}
@@ -1020,7 +784,7 @@ function Card:generate_UIBox_ability_table()
     if self.pinned then badges[#badges + 1] = 'pinned_left' end
     if self.sticker or ((self.sticker_run and self.sticker_run~='NONE') and G.SETTINGS.run_stake_stickers)  then loc_vars = loc_vars or {}; loc_vars.sticker=(self.sticker or self.sticker_run) end
 
-    return generate_card_ui(self.config.center, nil, loc_vars, card_type, badges, hide_desc, main_start, main_end)
+    return generate_card_ui(self.config.center, nil, loc_vars, card_type, badges, hide_desc, main_start, main_end, info_queue)
 end
 
 -- PlayingCard Function
@@ -1099,8 +863,7 @@ repetition_sources = {
 -- append to add new score sources
 -- return: nothing, just append to loc_vals.score_table
 score_sources = {
-    {name = 'card',
-    func = function(self, loc_vals, context)
+    {name = 'card', func = function(self, loc_vals, context)
         local score = {}
         if context.cardarea == G.play then
             score = copy_table(self.perma)
@@ -1109,10 +872,7 @@ score_sources = {
             end
         end
         if score ~= {} then loc_vals.score_table[#loc_vals.score_table+1] = score end
-    end},
-    -- this should do both jokers and playing cards once jokers implemented
-    {name = 'score ability',
-    func = function(self, loc_vals, context)
+    end}, {name = 'score ability', func = function(self, loc_vals, context)
         if self.ability.id then
             local score = nil
             local re = get_card_functions(self.ability.id)
@@ -1121,15 +881,10 @@ score_sources = {
             end
             if score then loc_vals.score_table[#loc_vals.score_table+1] = score end
         end
-    end},
-    {name = 'seal',
-    func = function(self, loc_vals, context)
+    end}, {name = 'seal', func = function(self, loc_vals, context)
         local seal = self:calculate_seal(context)
         if (seal and not seal.repetitions) then loc_vals.score_table[#loc_vals.score_table+1] = seal end
-    end},
-    -- merge the output of all previous card functions
-    {name = 'merge all',
-    func = function(self, loc_vals, context)
+    end}, {name = 'merge all', func = function(self, loc_vals, context)
         local merged_table = {}
         if #loc_vals.score_table <= 1 then return end
         for i=1,#loc_vals.score_table do
@@ -1142,26 +897,13 @@ score_sources = {
             end
         end
         loc_vals.score_table = {merged_table}
-    end},
-    -- temp function for before joker implementation
-    -- {name = 'TEMP JOKER', func = function(self, loc_vals, context)
-    --     -- edit context
-    --     context.other_card = self
-    --     local score = self:trigger_card(context)--{cardarea = G.play, full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands})
-    --     if score then loc_vals.score_table[#loc_vals.score_table+1] = score end
-    --     -- revert context
-    --     context.other_card = nil
-    -- end},
-    {name = 'edition',
-    func = function(self, loc_vals, context)
+    end}, {name = 'edition', func = function(self, loc_vals, context)
         local score = {}
         if context.cardarea ~= G.hand and self.edition and self.edition.score then
             score = self.edition.score
             loc_vals.score_table[#loc_vals.score_table+1] = score
         end
-    end},
-    {name = 'joker bonus',
-    func = function(self, loc_vals, context)
+    end}, {name = 'joker bonus', func = function(self, loc_vals, context)
         -- edit context
         context.other_card = self
         context.individual = true -- important
@@ -1172,7 +914,7 @@ score_sources = {
         -- revert context
         context.other_card = nil
         context.individual = nil
-    end},
+    end}
 }
 function Card:score(context)
     local loc_vals = {reps = {1}, score_table={}}
@@ -1209,124 +951,6 @@ function Card:score(context)
     end
     return loc_vals.final_table
 end
-
-
-
-
--- function Card:get_chip_bonus()
---     if self.debuff then return 0 end
---     if self.ability.effect == 'Stone Card' then
---         return self.ability.bonus + (self.perma.chips or 0)
---     end
---     return self.base.nominal + self.ability.bonus + (self.perma.chips or 0)
--- end
-
--- function Card:get_chip_mult()
---     if self.debuff then return 0 end
---     if self.ability.set == 'Joker' then return 0 end
---     if self.ability.effect == "Lucky Card" then 
---         if pseudorandom('lucky_mult') < G.GAME.probabilities.normal/5 then
---             self.lucky_trigger = true
---             return self.ability.mult
---         else
---             return 0
---         end
---     else  
---         return self.ability.mult
---     end
--- end
-
--- function Card:get_chip_x_mult(context)
---     if self.debuff then return 0 end
---     if self.ability.set == 'Joker' then return 0 end
---     if self.ability.x_mult <= 1 then return 0 end
---     return self.ability.x_mult
--- end
-
--- function Card:get_chip_h_mult()
---     if self.debuff then return 0 end
---     return self.ability.h_mult
--- end
-
--- function Card:get_chip_h_x_mult()
---     if self.debuff then return 0 end
---     return self.ability.h_x_mult
--- end
-
--- function Card:get_edition()
---     if self.debuff then return end
---     if self.edition then
---         local ret = {card = self}
---         if self.edition.x_mult then 
---             ret.x_mult = self.edition.score.x_mult
---         end
---         if self.edition.mult then 
---             ret.mult = self.edition.score.mult
---         end
---         if self.edition.chips then 
---             ret.chips = self.edition.score.chips
---         end
---         return ret
---     end
--- end
-
--- function Card:get_end_of_round_effect(context)
---     if self.debuff then return {} end
---     local ret = {}
---     if self.ability.h_dollars > 0 then
---         ret.h_dollars = self.ability.h_dollars
---         ret.card = self
---     end
---     if self.seal == 'Blue' and #G.consumeables.cards + G.GAME.consumeable_buffer < G.consumeables.config.card_limit then
---         local card_type = 'Planet'
---         G.GAME.consumeable_buffer = G.GAME.consumeable_buffer + 1
---         G.E_MANAGER:add_event(Event({
---             trigger = 'before',
---             delay = 0.0,
---             func = (function()
---                 if G.GAME.last_hand_played then
---                     local _planet = 0
---                     for k, v in pairs(G.P_CENTER_POOLS.Planet) do
---                         if v.config.hand_type == G.GAME.last_hand_played then
---                             _planet = v.key
---                         end
---                     end
---                     local card = create_card(card_type,G.consumeables, nil, nil, nil, nil, _planet, 'blusl')
---                     card:add_to_deck()
---                     G.consumeables:emplace(card)
---                     G.GAME.consumeable_buffer = 0
---                 end
---                 return true
---             end)}))
---         card_eval_status_text(self, 'extra', nil, nil, nil, {message = localize('k_plus_planet'), colour = G.C.SECONDARY_SET.Planet})
---         ret.effect = true
---     end
---     return ret
--- end
-
-
--- function Card:get_p_dollars()
---     if self.debuff then return 0 end
---     local ret = 0
---     if self.seal == 'Gold' then
---         ret = ret +  3
---     end
---     if self.ability.p_dollars > 0 then
---         if self.ability.effect == "Lucky Card" then 
---             if pseudorandom('lucky_money') < G.GAME.probabilities.normal/15 then
---                 self.lucky_trigger = true
---                 ret = ret +  self.ability.p_dollars
---             end
---         else 
---             ret = ret + self.ability.p_dollars
---         end
---     end
---     if ret > 0 then 
---         G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + ret
---         G.E_MANAGER:add_event(Event({func = (function() G.GAME.dollar_buffer = 0; return true end)}))
---     end
---     return ret
--- end
 
 -- Consumable function
 function Card:use_consumeable(area, copier)

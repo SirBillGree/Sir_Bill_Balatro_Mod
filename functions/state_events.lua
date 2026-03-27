@@ -357,10 +357,7 @@ function end_round()
 
                     -- reset specific jokers
                     for i = 1,#global_joker_resets do global_joker_resets[i]() end
-                    -- reset_idol_card()
-                    -- reset_mail_rank()
-                    -- reset_ancient_card()
-                    -- reset_castle_card()
+
                     for k, v in ipairs(G.playing_cards) do
                         v.ability.discarded = nil
                         v.ability.forced_selection = nil

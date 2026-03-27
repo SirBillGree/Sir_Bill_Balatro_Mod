@@ -19,3 +19,17 @@ function concat_table(mainTable,appendedTable)
         mainTable[k] = v
     end
 end
+
+function print_table(t, name, tabs)
+  name = name or "table"
+  tabs = tabs or ""
+  print(tabs..name.." = {")
+  for k,v in pairs(t) do
+    if type(v) ~= "table" then
+      print("\t"..tabs..k.." = "..tostring(v)..",")
+    else
+      print_table(v,k,tabs.."\t")
+    end
+  end
+  print(tabs.."}")
+end

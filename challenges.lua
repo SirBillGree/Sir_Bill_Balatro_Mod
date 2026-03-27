@@ -22,11 +22,11 @@ G.CHALLENGES = {
             }
         },
         jokers = {
-            {id = 'j_caino'},
-            {id = 'j_triboulet'},
-            {id = 'j_perkeo'},
-            {id = 'j_yorick'},
-            {id = 'j_chicot'},
+            -- {id = 'j_jolly'},
+            -- {id = 'j_sly'},
+            -- {id = 'j_duo'},
+            -- {id = 'j_yorick'},
+            {id = 'j_idol'},
             {id = 'j_blueprint'},
         },
         consumeables = {

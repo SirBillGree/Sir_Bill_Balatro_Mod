@@ -2320,60 +2320,60 @@ function calculate_reroll_cost(skip_increment)
 end
 
 -- REMOVE --
-function reset_idol_card()
-    G.GAME.current_round.idol_card.rank = 'Ace'
-    G.GAME.current_round.idol_card.suit = 'Spades'
-    local valid_idol_cards = {}
-    for k, v in ipairs(G.playing_cards) do
-        if not v.ability.faceless then
-            valid_idol_cards[#valid_idol_cards+1] = v
-        end
-    end
-    if valid_idol_cards[1] then 
-        local idol_card = pseudorandom_element(valid_idol_cards, pseudoseed('idol'..G.GAME.round_resets.ante))
-        G.GAME.current_round.idol_card.rank = idol_card.base.value
-        G.GAME.current_round.idol_card.suit = idol_card.base.suit
-        G.GAME.current_round.idol_card.id = idol_card.base.id
-    end
-end
+-- function reset_idol_card()
+--     G.GAME.current_round.idol_card.rank = 'Ace'
+--     G.GAME.current_round.idol_card.suit = 'Spades'
+--     local valid_idol_cards = {}
+--     for k, v in ipairs(G.playing_cards) do
+--         if not v.ability.faceless then
+--             valid_idol_cards[#valid_idol_cards+1] = v
+--         end
+--     end
+--     if valid_idol_cards[1] then 
+--         local idol_card = pseudorandom_element(valid_idol_cards, pseudoseed('idol'..G.GAME.round_resets.ante))
+--         G.GAME.current_round.idol_card.rank = idol_card.base.value
+--         G.GAME.current_round.idol_card.suit = idol_card.base.suit
+--         G.GAME.current_round.idol_card.id = idol_card.base.id
+--     end
+-- end
 
-function reset_mail_rank()
-    G.GAME.current_round.mail_card.rank = 'Ace'
-    local valid_mail_cards = {}
-    for k, v in ipairs(G.playing_cards) do
-        if not v.ability.faceless then
-            valid_mail_cards[#valid_mail_cards+1] = v
-        end
-    end
-    if valid_mail_cards[1] then 
-        local mail_card = pseudorandom_element(valid_mail_cards, pseudoseed('mail'..G.GAME.round_resets.ante))
-        G.GAME.current_round.mail_card.rank = mail_card.base.value
-        G.GAME.current_round.mail_card.id = mail_card.base.id
-    end
-end
+-- function reset_mail_rank()
+--     G.GAME.current_round.mail_card.rank = 'Ace'
+--     local valid_mail_cards = {}
+--     for k, v in ipairs(G.playing_cards) do
+--         if not v.ability.faceless then
+--             valid_mail_cards[#valid_mail_cards+1] = v
+--         end
+--     end
+--     if valid_mail_cards[1] then 
+--         local mail_card = pseudorandom_element(valid_mail_cards, pseudoseed('mail'..G.GAME.round_resets.ante))
+--         G.GAME.current_round.mail_card.rank = mail_card.base.value
+--         G.GAME.current_round.mail_card.id = mail_card.base.id
+--     end
+-- end
 
-function reset_ancient_card()
-    local ancient_suits = {}
-    for k, v in ipairs({'Spades','Hearts','Clubs','Diamonds'}) do
-        if v ~= G.GAME.current_round.ancient_card.suit then ancient_suits[#ancient_suits + 1] = v end
-    end
-    local ancient_card = pseudorandom_element(ancient_suits, pseudoseed('anc'..G.GAME.round_resets.ante))
-    G.GAME.current_round.ancient_card.suit = ancient_card
-end
+-- function reset_ancient_card()
+--     local ancient_suits = {}
+--     for k, v in ipairs({'Spades','Hearts','Clubs','Diamonds'}) do
+--         if v ~= G.GAME.current_round.ancient_card.suit then ancient_suits[#ancient_suits + 1] = v end
+--     end
+--     local ancient_card = pseudorandom_element(ancient_suits, pseudoseed('anc'..G.GAME.round_resets.ante))
+--     G.GAME.current_round.ancient_card.suit = ancient_card
+-- end
 
-function reset_castle_card()
-    G.GAME.current_round.castle_card.suit = 'Spades'
-    local valid_castle_cards = {}
-    for k, v in ipairs(G.playing_cards) do
-        if not v.ability.faceless then
-            valid_castle_cards[#valid_castle_cards+1] = v
-        end
-    end
-    if valid_castle_cards[1] then 
-        local castle_card = pseudorandom_element(valid_castle_cards, pseudoseed('cas'..G.GAME.round_resets.ante))
-        G.GAME.current_round.castle_card.suit = castle_card.base.suit
-    end
-end
+-- function reset_castle_card()
+--     G.GAME.current_round.castle_card.suit = 'Spades'
+--     local valid_castle_cards = {}
+--     for k, v in ipairs(G.playing_cards) do
+--         if not v.ability.faceless then
+--             valid_castle_cards[#valid_castle_cards+1] = v
+--         end
+--     end
+--     if valid_castle_cards[1] then 
+--         local castle_card = pseudorandom_element(valid_castle_cards, pseudoseed('cas'..G.GAME.round_resets.ante))
+--         G.GAME.current_round.castle_card.suit = castle_card.base.suit
+--     end
+-- end
 
 -- REMOVE END --
 
@@ -2448,7 +2448,7 @@ function get_type_colour(_c, card)
     {0, 1, 1, 1}
 end
 
-function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end)
+function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end, info_queue)
     local first_pass = nil
     if not full_UI_table then 
         first_pass = true
@@ -2463,7 +2463,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
 
     local desc_nodes = (not full_UI_table.name and full_UI_table.main) or full_UI_table.info
     local name_override = nil
-    local info_queue = {}
+    local info_queue = info_queue or {}
 
     if full_UI_table.name then
         full_UI_table.info[#full_UI_table.info+1] = {}
@@ -2504,6 +2504,15 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         elseif _c.demo and specific_vars then localize{type = 'other', key = 'demo_shop_locked', nodes = desc_nodes, vars = loc_vars}  
         elseif _c.demo then localize{type = 'other', key = 'demo_locked', nodes = desc_nodes, vars = loc_vars}
         else
+            -- get ui_args
+            local card_funcs = get_card_functions(_c.id)
+            local ui_args = {}
+            if card_funcs and card_funcs.ui_unlock then ui_args = card_funcs.ui_unlock(_c) end
+            -- get arguments
+            if ui_args then 
+                if ui_args.vars then loc_vars = ui_args.vars end
+            end
+            --[[
             if _c.name == 'Golden Ticket' then
             elseif _c.name == 'Mr. Bones' then loc_vars = {_c.unlock_condition.extra, G.PROFILES[G.SETTINGS.profile].career_stats.c_losses}
             elseif _c.name == 'Acrobat' then loc_vars = {_c.unlock_condition.extra, G.PROFILES[G.SETTINGS.profile].career_stats.c_hands_played}
@@ -2544,7 +2553,9 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             elseif _c.name == 'Astronomer' then
             elseif _c.name == 'Burnt Joker' then loc_vars = {_c.unlock_condition.extra, G.PROFILES[G.SETTINGS.profile].career_stats.c_cards_sold}
             elseif _c.name == 'Bootstraps' then loc_vars = {_c.unlock_condition.extra.count}
+            ]]
                 --Vouchers
+            if true then
             elseif _c.name == 'Overstock Plus' then loc_vars = {_c.unlock_condition.extra, G.PROFILES[G.SETTINGS.profile].career_stats.c_shop_dollars_spent}
             elseif _c.name == 'Liquidation' then loc_vars = {_c.unlock_condition.extra}
             elseif _c.name == 'Tarot Tycoon' then loc_vars = {_c.unlock_condition.extra, G.PROFILES[G.SETTINGS.profile].career_stats.c_tarots_bought}
@@ -2575,26 +2586,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
     elseif specific_vars and specific_vars.debuffed then
         localize{type = 'other', key = 'debuffed_'..(specific_vars.playing_card and 'playing_card' or 'default'), nodes = desc_nodes}
     elseif _c.set == 'Joker' then
-        if _c.name == 'Stone Joker' or _c.name == 'Marble Joker' then info_queue[#info_queue+1] = G.P_CENTERS.m_stone
-        elseif _c.name == 'Steel Joker' then info_queue[#info_queue+1] = G.P_CENTERS.m_steel 
-        elseif _c.name == 'Glass Joker' then info_queue[#info_queue+1] = G.P_CENTERS.m_glass 
-        elseif _c.name == 'Golden Ticket' then info_queue[#info_queue+1] = G.P_CENTERS.m_gold 
-        elseif _c.name == 'Lucky Cat' then info_queue[#info_queue+1] = G.P_CENTERS.m_lucky 
-        elseif _c.name == 'Midas Mask' then info_queue[#info_queue+1] = G.P_CENTERS.m_gold
-        elseif _c.name == 'Invisible Joker' then 
-            if G.jokers and G.jokers.cards then
-                for k, v in ipairs(G.jokers.cards) do
-                    if (v.edition and v.edition.negative) and (G.localization.descriptions.Other.remove_negative)then 
-                        main_end = {}
-                        localize{type = 'other', key = 'remove_negative', nodes = main_end, vars = {}}
-                        main_end = main_end[1]
-                        break
-                    end
-                end
-            end 
-        elseif _c.name == 'Diet Cola' then info_queue[#info_queue+1] = {key = 'tag_double', set = 'Tag'}
-        elseif _c.name == 'Perkeo' then info_queue[#info_queue+1] = {key = 'e_negative_consumable', set = 'Edition', config = {extra = 1}}
-        end
+        -- joker-specific ifo_queues moved
         if specific_vars and specific_vars.pinned then info_queue[#info_queue+1] = {key = 'pinned_left', set = 'Other'} end
         if specific_vars and specific_vars.sticker then info_queue[#info_queue+1] = {key = string.lower(specific_vars.sticker)..'_sticker', set = 'Other'} end
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = specific_vars or {}}
@@ -2651,6 +2643,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         elseif _c.effect == 'Gold Card' then loc_vars = {_c.config.dollars}
         elseif _c.effect == 'Lucky Card' then loc_vars = {G.GAME.probabilities.normal, _c.config.mult, _c.config.extra.mult_chance, _c.config.dollars, _c.config.extra.dollar_chance}
         end
+
         localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
         if _c.name ~= 'Stone Card' and ((specific_vars and specific_vars.bonus_chips) or _c.config.bonus) then
             localize{type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = {((specific_vars and specific_vars.bonus_chips) or _c.config.bonus)}}
@@ -2721,3 +2714,4 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
 
     return full_UI_table
 end
+

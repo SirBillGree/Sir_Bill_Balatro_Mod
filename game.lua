@@ -2399,11 +2399,12 @@ function Game:start_run(args)
         G.GAME.current_round.hands_left = G.GAME.round_resets.hands
         self.deck:shuffle()
         self.deck:hard_set_T()
-        reset_idol_card()
-        reset_mail_rank()
+        -- reset_idol_card()
+        -- reset_mail_rank()
+        for i = 1,#global_joker_resets do global_joker_resets[i]() end
         self.GAME.current_round.ancient_card.suit = nil
-        reset_ancient_card()
-        reset_castle_card()
+        -- reset_ancient_card()
+        -- reset_castle_card()
     end
 
     G.GAME.blind = Blind(0,0,2, 1)

@@ -19,3 +19,5 @@ Note: if item prototype, put it in here (besides regular playing cards)
 
 Misc things that should also be done:
 [ ] - Remove 'order' and use a different metric to sort or change it
+
+Save Location: C:/Users/bills/AppData/Roaming/LOVE/Sir_Bill_Balatro_Mod
